@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Swiper demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="./css/swiper.css">
+
+    <!-- Demo styles -->
+    <style>
+        html, body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 10%;
+        }
+
+        .swiper-container-detail {
+            margin: 10px 0 0 0;
+            width: 100%;
+            height: 80%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .gallery-thumbs .swiper-slide {
+            width: 25%;
+            height: 100%;
+            opacity: 0.4;
+        }
+        .gallery-thumbs .swiper-slide-thumb-active {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+<!-- Swiper -->
+<div class="swiper-container business gallery-thumbs">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide" onclick="_navigate(1)"><img src="images/djfyw.png" style="width: 100%"></div>
+        <div class="swiper-slide"><img src="images/dzxjyw.png" style="width: 100%"></div>
+        <div class="swiper-slide"><img src="images/kkyw.png" style="width: 100%"></div>
+        <div class="swiper-slide"><img src="images/lcyw.png" style="width: 100%"></div>
+        <div class="swiper-slide"><img src="images/xykyw.png" style="width: 100%"></div>
+        <div class="swiper-slide"><img src="images/xykyy.png" style="width: 100%"></div>
+        <div class="swiper-slide"><img src="images/zhgl.png" style="width: 100%"></div>
+        <div class="swiper-slide"><img src="images/zhqy.png" style="width: 100%"></div>
+        <div class="swiper-slide"><img src="images/zz.png" style="width: 100%"></div>
+        <div class="swiper-slide"><img src="images/MoreThing.png" style="width: 100%"></div>
+    </div>
+    <!--&lt;!&ndash; Add Pagination &ndash;&gt;-->
+    <!--<div class="swiper-pagination swiper-p1">-->
+    <!--</div>-->
+    <!--&lt;!&ndash; Add Arrows &ndash;&gt;-->
+    <!--<div class="swiper-button-next"></div>-->
+    <!--<div class="swiper-button-prev"></div>-->
+</div>
+
+<div class="swiper-container-detail">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">Slide 1</div>
+        <div class="swiper-slide">Slide 2</div>
+        <div class="swiper-slide">Slide 3</div>
+        <div class="swiper-slide">Slide 4</div>
+        <div class="swiper-slide">Slide 5</div>
+        <div class="swiper-slide">Slide 6</div>
+        <div class="swiper-slide">Slide 7</div>
+        <div class="swiper-slide">Slide 8</div>
+        <div class="swiper-slide">Slide 9</div>
+        <div class="swiper-slide">Slide 10</div>
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
+
+<!-- Swiper JS -->
+<script src="./javascript/swiper.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+    let swiperNav = new Swiper('.swiper-container', {
+        // slidesPerView: 5,
+        // spaceBetween: 5,
+        // // slidesPerGroup: 5,
+        // loop: false,
+        // loopFillGroupWithBlank: true,
+        // pagination: {
+        //     el: '.swiper-pagination',
+        //     clickable: true,
+        // },
+        // navigation: {
+        //     nextEl: '.swiper-button-next',
+        //     prevEl: '.swiper-button-prev',
+        // },
+
+        spaceBetween: 10,
+        slidesPerView: 6,
+        freeMode: true,
+        watchSlidesVisibility: true,
+        watchSlidesProgress: true,
+        // slidesPerGroup: 6,
+    });
+
+
+    let swiperMenu = new Swiper('.swiper-container-detail', {
+        spaceBetween: 30,
+        loop: true,
+        // pagination: {
+        //     el: '.swiper-p2',
+        //     clickable: true,
+        // },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        thumbs: {
+            swiper: swiperNav
+        }
+
+    });
+
+    // swiperNav.on("slideChange", function () {
+    //     swiperMenu.slideTo(swiperNav.activeIndex + 1, 500);
+    // });
+    // swiperNav.on("click", function () {
+    //     // alert("click")
+    //     // alert(swiperNav.clickedIndex)
+    //     swiperMenu.slideTo(swiperNav.clickedIndex + 1, 200);
+    // });
+    // swiperMenu.on("slideChange", function () {
+    //     swiperNav.slideTo(swiperMenu.activeIndex - 1, 200);
+    // });
+
+</script>
+</body>
+</html>
