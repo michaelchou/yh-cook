@@ -1,0 +1,234 @@
+<script language="JavaScript" type="text/JavaScript"> 
+//document.getElementById("MUSIC1").src = "wav/请按指纹.wav";
+creatTree(0,"指纹授权");
+document.getElementById("Cardjpg").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+document.getElementById("FaceImgjpg").src ="D:/FaceImg.jpg"+"?"+Math.random();
+var isDisable = 0
+$.ajax({
+ 	     url: "/custom/document",
+ 	    cache: false,
+ 	    type: "get",
+ 	    data: "commandID=deleteSignImg",
+ 	    dataType: 'json',
+ 	    success: function(data) {
+ 	    }
+ 	});
+
+var lastUrl;
+function Show(type,nScreen,x,y)
+{
+	isDisable =0;
+	lastUrl= "d:/sign.bmp";
+	try{
+		HandWrite.Show(type,nScreen,x,y);
+		document.getElementById("saveS").style.display="block";
+		document.getElementById("clearS").style.display="block";
+	}catch (e) {
+		return;
+	 }
+}
+
+function SaveSignal()
+{
+   document.getElementById("saveS").style.display="none";
+   document.getElementById("clearS").style.display="none";
+   document.getElementById("notice").style.display="none";
+   var code=99;
+   code=HandWrite.SaveSignal("d:/sign.bmp");
+   if(0 == code)
+   {
+	   $.ajax({
+	 	     url: "/custom/document",
+	 	    cache: false,
+	 	    type: "get",
+	 	    data: "commandID=onlySignImg",
+	 	    dataType: 'json',
+	 	    success: function(data) {
+		     document.getElementById("img").src ="d:/sign.png"+"?"+Math.random();
+	 	    }
+	 	});
+		isDisable =1;
+		document.getElementById("showMsg").innerHTML ="";
+   }else{
+	   document.getElementById("saveS").style.display="block";
+	   document.getElementById("clearS").style.display="block";
+	   document.getElementById("notice").style.display="block";
+	   $("#notice").html("签名失败,请重签")
+	   return;
+	   //alert("打开失败")
+   }
+}
+
+function ClearSignal()
+{
+   HandWrite.ClearSignal();
+}
+
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+
+function signConfirm()
+{
+	var scope = angular.element(main).scope();
+	if(isDisable == "1"){
+		scope.action("confirm");
+	}else{
+		document.getElementById("showMsg").innerHTML ="提示:请先签名再确认";
+	}
+}
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div style="border:0px blue solid;" class="col-xs-offset-1 col-xs-10">
+ <div>
+ <p style="font-size:25px;color:#000000; text-align:center;">江苏农村商业银行个人签约业务申请书</p>
+ <table style="border-radius:10px 10px 10px 10px;border:0px blue solid;" border= 0 class="col-xs-offset-0 col-xs-12">
+ <tr style="height:25px">
+	  <td><span style="font-size:15px;color:#000000;font-weight:700">客户基本信息：</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;"></span></td>
+ </tr>
+ <tr>
+	  <td width="15%"><span style="font-size:15px;color:#000000">姓名:</span></td>
+	  <td width="37%"><span style="font-size:15px;color:#000000">{{pool.name}}</span></td>
+	  <td width="12%"><span style="font-size:15px;color:#000000">交易类型:</span></td>
+	  <td width="40%"><span style="font-size:15px;color:#000000">
+	  <span ng-if="pool.ST_CardSmsSign == '1' && pool.ST_SmsIsSign != '1'">短信签约</span>
+	  <span ng-if="pool.ST_CardAtmSign == '1' && pool.ST_TRFIsSign != '1'">转账签约</span>
+	  <span ng-if="pool.ST_CardTelSign == '1' && pool.ST_EBankIsSign != '1'">手机银行签约</span>
+	  <span ng-if="(pool.ST_CardSmsSign != '1' || pool.ST_SmsIsSign == '1') && (pool.ST_CardAtmSign != '1' || pool.ST_TRFIsSign == '1') && (pool.ST_CardTelSign != '1' || pool.ST_EBankIsSign == '1')">签约</span>
+	  </span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:15px;color:#000000;">证件类型:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">身份证</span></td>
+	  <td><span style="font-size:15px;color:#000000">证件号码:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.pid}}</span></td>
+ </tr>
+ <tr style="height:25px" ng-if="pool.ST_CardSmsSign == '1' && pool.ST_SmsIsSign != '1'">
+	  <td><span style="font-size:15px;color:#000000;font-weight:700">短信签约信息：</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;"></span></td>
+ </tr>
+ <tr ng-if="pool.ST_CardSmsSign == '1' && pool.ST_SmsIsSign != '1'">
+	  <td><span style="font-size:15px;color:#000000">套餐类型:</span></td>
+	  <td ng-if="pool.ST_QY_packId=='504'" style=""><span style="font-size:15px;color:#000000;">个人账户变动套餐</span></td>
+	  <td ng-if="pool.ST_QY_packId=='505'" style=""><span style="font-size:15px;color:#000000;">企业账户变动套餐</span></td>
+	  <td><span style="font-size:15px;color:#000000;">收费类型:</span></td>
+	  <td ng-if="pool.ST_QY_fee=='01'" style=""><span style="font-size:15px;color:#000000;">按年</span></td>
+	  <td ng-if="pool.ST_QY_fee=='02'" style=""><span style="font-size:15px;color:#000000;">按月</span></td>
+	  <td ng-if="pool.ST_QY_fee=='03'" style=""><span style="font-size:15px;color:#000000;">免费</span></td>
+ </tr>
+ <tr style="height:25px" ng-if="pool.ST_CardAtmSign == '1' && pool.ST_TRFIsSign != '1'">
+	  <td><span style="font-size:15px;color:#000000;font-weight:700">转账签约信息：</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;"></span></td>
+ </tr>
+ <tr ng-if="pool.ST_CardAtmSign == '1' && pool.ST_TRFIsSign != '1'">
+	  <td><span style="font-size:15px;color:#000000;">失效日期:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.ATS_enddate}}</span></td>
+	  <td><span style="font-size:15px;color:#000000">转账交易限额:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.transAmount}}</span></td>
+ </tr>
+ <tr ng-if="pool.ST_CardAtmSign == '1' && pool.ST_TRFIsSign != '1'">
+      <td><span style="font-size:15px;color:#000000">控制周期:</span></td>
+	  <td ng-if="pool.ATS_funCode == 0" style=""><span style="font-size:15px;color:#000000;">单笔</span></td>
+	  <td ng-if="pool.ATS_funCode == 1" style=""><span style="font-size:15px;color:#000000;">单日</span></td>
+	  <td><span style="font-size:15px;color:#000000;">受理行网络标识:</span></td>
+	  <td ng-if="pool.banktype == 0" style=""><span style="font-size:15px;color:#000000;">全部</span></td>
+	  <td ng-if="pool.banktype == 1" style=""><span style="font-size:15px;color:#000000;">本行</span></td>
+	  <td ng-if="pool.banktype == 2" style=""><span style="font-size:15px;color:#000000;">他行</span></td>
+</tr>
+<tr style="height:25px" ng-if="pool.ST_CardTelSign == '1' && pool.ST_EBankIsSign != '1'">
+	  <td><span style="font-size:15px;color:#000000;font-weight:700">手机银行签约信息：</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;"></span></td>
+ </tr>
+<tr ng-if="pool.ST_CardTelSign == '1' && pool.ST_EBankIsSign != '1'">
+      <td><span style="font-size:15px;color:#000000">短信单笔限额:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.ST_MessOneLimitAmount}}</span></td>
+	  <td><span style="font-size:15px;color:#000000;">短信单日限额:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.ST_MessDayLimitAmount}}</span></td>
+</tr>
+<tr ng-if="pool.ST_CardTelSign == '1' && pool.ST_EBankIsSign != '1'">
+      <td><span style="font-size:15px;color:#000000">是否开通行内转账:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.ST_BankInnerTransfer}}</span></td>
+	  <td><span style="font-size:15px;color:#000000;">是否开通跨行转账:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.ST_CrossBankTransfer}}</span></td>
+</tr>
+<tr ng-if="pool.ST_CardTelSign == '1' && pool.ST_EBankIsSign != '1'">
+      <td><span style="font-size:15px;color:#000000">手机银行登录用户名:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.ST_LoginId}}</span></td>
+</tr>
+</table>
+<table style="border-radius:10px 10px 10px 10px;border:0px blue solid;" border= 0 class="col-xs-offset-0 col-xs-12">
+    <tr>
+		<td width="10%">
+			<span style="font-size:15px;color:#000000;">身份证照片:</span>
+        </td>
+        <td width="6.5%">
+		 <span style="margin-left:-22%;font-size:15px;color:#000000;">现场审核照片:</span>
+        </td>
+   </tr>
+  <tr>
+		<td>
+			<img id="Cardjpg" src="" style="width:18%;">
+       </td>
+       <td>
+		   <img id="FaceImgjpg" src="" style="margin-left:-22%;width:40%;">
+       </td>
+ </tr>
+<table>
+<span style="font-size:15px;color:#000000;">审核结果:{{pool.PERresponseCode}}{{pool.PERerrorMessage}}</span>
+<div style="margin-top:2%;font-size:15px; ">
+	<p style="margin-left:2%;margin-top:-2%;color:#000000">
+	 本人保证所提供的个人资料信息真实、有效、完整。对信息失真或因违反规定而造成的损失和后果,本人愿意承担一切后果及法律
+	 </p>
+	 <p style="color:#000000">
+	 	责任。
+	</p>
+	 <p style="margin-left:2%;color:#000000">
+	  本人已详细阅读业务相关协议及须知,确认申请业务与打印栏记录相符。本人同意贵行有权依据国家有关规定及业务需要对服务内
+	 </p>
+	 <p style="color:#000000">
+	 容、收费项目等内容进行调整,并同意该项调整将于正式对外公告一定时期后执行,无需另行通知本人。
+	</p>
+	<div style="position:fixed;top:80%;left:23%">
+	 <span style="position:fixed;top:75%;left:54%;color:#000000" onclick="Show(5,1,280,400)">
+	 客户签名:_______________<span id="span">
+	</span>
+	<span id="notice"  style="position:fixed;width:9%; height:9%;top:75%;left:59%;color:red;">请点击此处签名</span>
+	<img id="img" src=""  style="position:fixed;width:8%; height:8%;top:70%;left:59%;"></span>
+	 <div id="saveS" style="display:none;position:fixed;top:55%;left:85%"><button type="button" class="button-confirm button-lg1 pull-right"  onclick="SaveSignal()">保存</button></div>
+	 <div id="clearS" style="display:none;position:fixed;top:65%;left:85%"><button type="button" class="button-confirm button-lg1 pull-right"  onclick="ClearSignal()">清除</button></div>
+</div>
+</div>
+ </div>
+ <div  id = "showMsg" style ="text-align:center;margin-top :8%; height :20px; font-size :20px;color:red" >
+ </div>
+ <div class="col-xs-offset-0 col-xs-10" style="margin-top:8%;border:0px red solid;">
+	<button id="confirm" type="button" class="col-xs-offset-6 col-xs-2 image-btgr"  onclick="signConfirm('')">确认</button>
+ </div>
+ <object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49
+id="HandWrite">
+</object>

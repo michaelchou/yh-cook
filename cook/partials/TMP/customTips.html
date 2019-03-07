@@ -1,0 +1,28 @@
+<div class="container indicates">
+	<span class="timeout pull-right">{{timeout}}</span>
+</div>
+<div class="container step">
+	<h1 class="text-center">温馨提示</h1>
+</div>
+<div class="step">
+<div class="row">
+<div class="col-md-10 col-md-offset-1">
+<div class="row">
+	<textarea rows="20" readonly="true" style="font-size:110%;">
+		1.办理业务前，请留意查看自助设备插卡口、出钞口、键盘及机器其它部位是否加装或粘贴异物，注意周围是否有可疑人员。
+		2.切勿轻信手机短信中银行卡交易或中奖等信息，切勿拨打粘贴在自助设备上除96008外的任何联系电话，警惕不法分子利用自助设备进行诈骗。
+		3.输入密码时应快速并尽量用手遮挡，以防不法分子窥视。请不要向他人透露您的密码。
+		4.在交易过程中请不要离开自助设备，尽量避免被他人吸引注意力。交易完成后，应及时退出系统并取回银行卡。
+		1. Before the transaction, please check the card slot, cash slot, keyboard and other parts of the ATM carefully to see if there is any unidentified object installed or taped on the machine, or any suspicious persons around you.
+		2. Please be vigilant against text messages on transactions or award wining and never call the contact numbers taped on the machine except for the Customer Service 96008 to avoid fraud . 
+		3. Please enter the password quickly, better to be covered by your hand, to avoid peeks of intentional lawbreakers.Please do not tell your password to the others . 
+		4. During the transaction, please do not leave the machine and avoid attracting attentions of other persons. After the transaction, please exit the system and withdraw your card as soon as possible .
+	</textarea>
+</div>
+</div>
+</div>
+<div>
+		<button type="button" class="col-xs-offset-3 col-xs-2 btn btn-primary btn-lg" ng-click="action('eject')">退卡</button>
+		<button id="confirm" type="button" class="col-xs-offset-2 col-xs-2 btn btn-primary btn-lg" ng-click="action('confirm')">确认</button>
+
+</div>

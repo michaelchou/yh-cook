@@ -1,0 +1,796 @@
+<link rel="stylesheet" href="css/swiper.min.css">
+<script src="javascript/swiper.min.js"></script>
+<style>
+    .swiper-pagination-bullet {
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+        border-radius: 100%;
+        box-sizing: border-box;
+        border: 1px solid #46A3FF;
+    }
+
+    .swiper-pagination-bullet-active {
+        color: #fff;
+        background: #46A3FF;
+    }
+</style>
+<SCRIPT language="javascript">
+    $(document).ready(function () {
+        //MediaInit();
+        Mousedown(document.getElementById("yhkMenu"));
+        document.getElementById("yhkMenu").click();
+
+    });
+
+    //BrowserCallback("loadCameraPhotoMode");
+    function BeforeMousedown(value) {
+        WaitingTimer = window.setInterval(function () {
+            if (document.getElementById(value) != null) {
+                clearInterval(WaitingTimer);
+                Mousedown(document.getElementById(value));
+                document.getElementById(value).click();
+            }
+        }, 10)
+    }
+
+    //加载完成以后执行
+    var scope = angular.element(main).scope();
+    scope.$watch('pool.terminalId', function () {
+        $('#terminalId').html("终端号:" + "&nbsp;&nbsp" + scope.pool["terminalId"]);
+
+    });
+    scope.$watch('pool.CameraPhotoMode', function () {
+        if ((scope.pool["CameraPhotoMode"]) != undefined) {
+            loadCameraPhotoMode(scope.pool["CameraPhotoMode"])
+        }
+
+    });
+
+    //    var galleryzhgl = new Swiper('.gallery-zhgl', {
+    //	    pagination: '.pagination-zhgl',
+    //        paginationClickable: true,
+    //
+    //        spaceBetween: 30
+    //       });
+
+
+    var gallerythumbs = new Swiper(".gallery-thumbs", {
+
+        loop: false,
+        slidesPerView: 5,
+        paginationClickable: true,
+        observeParents: true,
+        observer: true,
+        spaceBetween: 30,
+        prevButton: ".swiper-button-prev",
+        nextButton: ".swiper-button-next",
+
+
+    });
+    galleryzhgl = new Swiper('.gallery-zhgl', {
+        paginationClickable: true,
+        observeParents: true,
+        observer: true,
+        spaceBetween: 30
+    });
+
+    function showZhglDiv(image) {
+        document.getElementById("yhk").style.display = "none";
+        document.getElementById("zhgl").style.display = "block";
+        document.getElementById("djfyw").style.display = "none";
+        document.getElementById("czyw").style.display = "none";
+        document.getElementById("dkyw").style.display = "none";
+        document.getElementById("qyyw").style.display = "none";
+        document.getElementById("lcyw").style.display = "none";
+        document.getElementById("xyk").style.display = "none";
+        document.getElementById("ts").style.display = "none";
+
+
+        mouseDownMenu(image);
+
+
+    }
+
+    galleryts = new Swiper('.gallery-ts', {
+        pagination: '.pagination-ts',
+        paginationClickable: true,
+        observeParents: true,
+        observer: true,
+        Type: "fraction",
+        spaceBetween: 30
+    });
+
+    function showTSDiv(image) {
+        document.getElementById("zhgl").style.display = "none";
+        document.getElementById("djfyw").style.display = "none";
+        document.getElementById("yhk").style.display = "none";
+        document.getElementById("czyw").style.display = "none";
+        document.getElementById("dkyw").style.display = "none";
+        document.getElementById("qyyw").style.display = "none";
+        document.getElementById("lcyw").style.display = "none";
+        document.getElementById("xyk").style.display = "none";
+        document.getElementById("ts").style.display = "block";
+
+        mouseDownMenu(image);
+
+    }
+
+    galleryyhk = new Swiper('.gallery-yhk', {
+        pagination: '.pagination-yhk',
+        paginationClickable: true,
+        observeParents: true,
+        observer: true,
+        Type: "fraction",
+        spaceBetween: 30
+    });
+
+    function showYhkDiv(image) {
+        document.getElementById("zhgl").style.display = "none";
+        document.getElementById("djfyw").style.display = "none";
+        document.getElementById("yhk").style.display = "block";
+        document.getElementById("czyw").style.display = "none";
+        document.getElementById("dkyw").style.display = "none";
+        document.getElementById("qyyw").style.display = "none";
+        document.getElementById("lcyw").style.display = "none";
+        document.getElementById("xyk").style.display = "none";
+        document.getElementById("ts").style.display = "none";
+
+
+        mouseDownMenu(image);
+
+    }
+
+    gallerydjfyw = new Swiper('.gallery-djfyw', {
+        pagination: '.pagination-djfyw',
+        paginationClickable: true,
+        observeParents: true,
+        observer: true,
+        spaceBetween: 30
+    });
+
+    function showDjfywDiv(image) {
+
+        document.getElementById("zhgl").style.display = "none";
+        document.getElementById("yhk").style.display = "none";
+        document.getElementById("djfyw").style.display = "block";
+        document.getElementById("czyw").style.display = "none";
+        document.getElementById("dkyw").style.display = "none";
+        document.getElementById("qyyw").style.display = "none";
+        document.getElementById("lcyw").style.display = "none";
+        document.getElementById("xyk").style.display = "none";
+        document.getElementById("ts").style.display = "none";
+
+        mouseDownMenu(image);
+    }
+
+
+    gallerydkyw = new Swiper('.gallery-dkyw', {
+        pagination: '.pagination-dkyw',
+        paginationClickable: true,
+        observeParents: true,
+        observer: true,
+        Type: "fraction",
+        spaceBetween: 30
+    });
+
+    function showDkywDiv(image) {
+        document.getElementById("zhgl").style.display = "none";
+        document.getElementById("yhk").style.display = "none";
+        document.getElementById("djfyw").style.display = "none";
+        document.getElementById("czyw").style.display = "none";
+        document.getElementById("dkyw").style.display = "block";
+        document.getElementById("qyyw").style.display = "none";
+        document.getElementById("lcyw").style.display = "none";
+        document.getElementById("xyk").style.display = "none";
+        document.getElementById("ts").style.display = "none";
+
+        mouseDownMenu(image);
+    }
+
+
+    galleryqyyw = new Swiper('.gallery-qyyw', {
+        pagination: '.pagination-qyyw',
+        paginationClickable: true,
+        observeParents: true,
+        observer: true,
+        Type: "fraction",
+        spaceBetween: 30
+    });
+
+    function showQyywDiv(image) {
+        document.getElementById("zhgl").style.display = "none";
+        document.getElementById("yhk").style.display = "none";
+        document.getElementById("djfyw").style.display = "none";
+        document.getElementById("czyw").style.display = "none";
+        document.getElementById("dkyw").style.display = "none";
+        document.getElementById("qyyw").style.display = "block";
+        document.getElementById("lcyw").style.display = "none";
+        document.getElementById("xyk").style.display = "none";
+        document.getElementById("ts").style.display = "none";
+
+        mouseDownMenu(image);
+    }
+
+    //存折业务
+    galleryczyw = new Swiper('.gallery-czyw', {
+        pagination: '.pagination-czyw',
+        paginationClickable: true,
+        observeParents: true,
+        observer: true,
+        spaceBetween: 30
+    });
+
+    function showCZDiv(image) {
+
+
+        document.getElementById("zhgl").style.display = "none";
+        document.getElementById("yhk").style.display = "none";
+        document.getElementById("djfyw").style.display = "none";
+        document.getElementById("czyw").style.display = "block";
+        document.getElementById("dkyw").style.display = "none";
+        document.getElementById("qyyw").style.display = "none";
+        document.getElementById("lcyw").style.display = "none";
+        document.getElementById("xyk").style.display = "none";
+        document.getElementById("ts").style.display = "none";
+
+        mouseDownMenu(image);
+    }
+
+
+    //信用卡业务
+    galleryxyk = new Swiper('.gallery-xyk', {
+        pagination: '.pagination-xykyw',
+        paginationClickable: true,
+        observeParents: true,
+        observer: true,
+        spaceBetween: 30
+    });
+
+    function showXykDiv(image) {
+
+        document.getElementById("zhgl").style.display = "none";
+        document.getElementById("yhk").style.display = "none";
+        document.getElementById("djfyw").style.display = "none";
+        document.getElementById("czyw").style.display = "none";
+        document.getElementById("dkyw").style.display = "none";
+        document.getElementById("qyyw").style.display = "none";
+        document.getElementById("xyk").style.display = "block";
+        document.getElementById("lcyw").style.display = "none";
+        document.getElementById("ts").style.display = "none";
+        mouseDownMenu(image);
+    }
+
+
+    function mouseDownMenu(image) {
+        if ($("#" + image.id).attr("src").indexOf("2.png") > -1) {
+            return;
+        }
+        url = $("#" + image.id).attr("src").substr(0, $("#" + image.id).attr("src").length - 4) + "2.png";
+        if (lasturl != "") {
+            $("#" + lastImgid).attr("src", lasturl.substr(0, lasturl.length - 5) + ".png");
+        }
+        lastImgid = image.id;
+        lasturl = $("#" + image.id).attr("src").substr(0, $("#" + image.id).attr("src").length - 4) + "2.png";
+        $("#" + image.id).attr("src", url);
+    }
+
+    //理财业务
+    gallerylcyw = new Swiper('.gallery-lcyw', {
+        pagination: '.pagination-lcyw',
+        paginationClickable: true,
+        observeParents: true,
+        observer: true,
+        spaceBetween: 30
+    });
+
+    function showLCDiv(image) {
+
+
+        document.getElementById("zhgl").style.display = "none";
+        document.getElementById("yhk").style.display = "none";
+        document.getElementById("djfyw").style.display = "none";
+        document.getElementById("czyw").style.display = "none";
+        document.getElementById("dkyw").style.display = "none";
+        document.getElementById("qyyw").style.display = "none";
+        document.getElementById("lcyw").style.display = "block";
+        document.getElementById("xyk").style.display = "none";
+        document.getElementById("ts").style.display = "none";
+
+        mouseDownMenu(image);
+    }
+</script>
+<div class="container header">
+    <div style="position:absolute;width:400px;height:50px;top:25px;margin-left:-100px  !important;"
+         ng-dblclick="admin()">
+    </div>
+</div>
+<div class="col-xs-offset-0 col-xs-12 " style="border:0px blue solid;">
+
+    <div class="swiper-container gallery-zhgl" style="border:0px red solid;display:none;height:750px" id="zhgl">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="col-xs-offset-1 col-xs-12 ">
+                    <div class="col-md-3 card3" ng-if="pool.I_RemoveFreeze == 'active'">
+                        <img src="image/zhgl/关注类账户.png" ng-click="action('RemoveFreeze')">
+
+
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_STN == 'active'">
+                        <img src="image/zhgl/睡眠户转正常.png" ng-click="action('STN')">
+
+
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_ALL == 'active'">
+                        <img src="image/zhgl/账户升降级.png" ng-click="action('ALL')">
+
+
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_cusinfomodify == 'active'">
+                        <img src="image/zhgl/客户信息维护.png" ng-click="action('CusInfoModify')">
+                    </div>
+
+
+                    <div class="col-md-3 card3" ng-if="pool.I_ReceiptPrint == 'active'">
+                        <img src="image/zhgl/回单打印.png" ng-click="action('ReceiptPrint')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_ReceiptCheck == 'active'">
+                        <img src="image/zhgl/回单验证.png" ng-click="action('ReceiptCheck')">
+                    </div>
+
+                    <!-- 开发暂停
+
+            <div class="col-md-3 card3" ng-if="pool.Trans_AccountQuery == 'active'">
+               <img   src="image/zhgl/账户查询.png" ng-click="action('AccountQuery')">
+            </div>
+
+
+            <div class="col-md-3 card3" >
+               <img   src="image/zhgl/对公账户明细打印.png" ng-click="action('PrintDetailPublic')">
+            </div>
+            <div class="col-md-3 card3" >
+               <img   src="image/zhgl/个人账户明细打印.png" ng-click="action('PrintDetailPrivate')">
+            </div>
+            -->
+
+                </div>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <!--<div class="swiper-pagination pagination-zhgl" style="top:85%;"></div> -->
+        <!-- Add Arrows -->
+
+
+    </div>
+
+
+    <div class="swiper-container gallery-djfyw" style="border:0px red solid;display:none;height:750px" id="djfyw">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="col-xs-offset-1 col-xs-12 ">
+                    <div class="col-md-3 card3" id="AWF" ng-if="pool.Trans_Water == 'active'">
+                        <img src="image/水费.png" ng-click="action('AWF')">
+                    </div>
+
+                    <div class="col-md-3 card3" id="AEF" ng-if="pool.Trans_Electric == 'active'">
+                        <img src="image/agent/电费.png" ng-click="action('AEF')">
+                    </div>
+
+                    <div class="col-md-3 card3" id="AGF" ng-if="pool.Trans_Gas == 'active'">
+                        <img src="image/agent/燃气费.png" ng-click="action('AGF')">
+                    </div>
+
+
+                    <div class="col-md-3 card3" id="ADF" ng-if="pool.Trans_ADF == 'active'">
+                        <img src="image/agent/固定电话费.png" ng-click="action('ADF')">
+                    </div>
+
+                    <div class="col-md-3 card3" id="TVF" ng-if="pool.Trans_TVF == 'active'">
+                        <img src="image/agent/有线电视费.png" ng-click="action('TVF')">
+                    </div>
+
+                    <div class="col-md-3 card3" id="AYF" ng-if="pool.Trans_AYF == 'active'">
+                        <img src="image/agent/移动电话费.png" ng-click="action('AYF')">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Add Pagination -->
+        <!-- <div class="swiper-pagination pagination-djfyw" style="top:85%"></div>-->
+        <!-- Add Arrows -->
+
+    </div>
+
+    <div class="swiper-container gallery-yhk" style="border:0px red solid;height:750px" id="yhk">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="col-xs-offset-1 col-xs-12 ">
+                    <div class="col-md-3 card3" ng-if="pool.I_ISSUER == 'active'">
+                        <img src="image/开户.png" ng-click="action('apply')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_cardactive == 'active'">
+                        <img src="image/借记卡激活.png" ng-click="action('LocalCardActive')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_TRF == 'active'">
+                        <img src="image/转账.png" ng-click="action('TRF')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_TRFCANCEL == 'active'">
+                        <img src="image/转账撤销.png" ng-click="action('TRFCANCEL')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_DEP == 'active'">
+                        <img src="image/存款.png" ng-click="action('DEPMenu')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_CWD == 'active'">
+                        <img src="image/取款.png" ng-click="action('CWDMenu')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_FaceDEPAndCWD == 'active'">
+                        <img src="image/刷脸存取款.png" ng-click="action('FaceDEPAndCWD')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_Query == 'active'">
+                        <img src="image/xykyw/查询余额.png" ng-click="action('INQ')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_Detial == 'active'">
+                        <img src="image/xykyw/明细查询.png" ng-click="action('INQ_DETAIL')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_PIN == 'active'">
+                        <img src="image/密码修改.png" ng-click="action('PIN')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_cardpwdreset == 'active'">
+                        <img src="image/密码重置.png" ng-click="action('LocalCardPwdReset')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_ECash == 'active'">
+                        <img src="image/电子现金.png" ng-click="action('ECash')">
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="col-xs-offset-1 col-xs-12 ">
+                    <div class="col-md-3 card3" ng-if="pool.Trans_cardLoss == 'active'">
+                        <img src="image/挂失.png" ng-click="action('LocalCardLoss')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_cardhanging == 'active'">
+                        <img src="image/银行卡解挂.png" ng-click="action('LocalCardHanging')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_cardreplace == 'active'">
+                        <img src="image/挂失补卡.png" ng-click="action('CardReplace')">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination  pagination-yhk" style="top:80%;"></div>
+        <!-- Add Arrows -->
+
+    </div>
+    <!--信用卡业务-->
+    <div class="swiper-container gallery-xyk" style="border:0px red solid;display:none;height:750px" id="xyk">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="col-xs-offset-1 col-xs-12 ">
+                    <div class="col-md-3 card3" ng-if="pool.I_CredCardActive == 'active'">
+                        <img src="image/xykyw/卡片激活.png" ng-click="action('CreditCardActive')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_CreditBindAcc == 'active'">
+                        <img src="image/xykyw/信用卡还款账户绑定.png" ng-click="action('CreditBindAccount')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_CreditQueryDetial == 'active'">
+                        <img src="image/xykyw/账单查询.png" ng-click="action('CreditQueryBill')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_CredCardReset == 'active'">
+                        <img src="image/xykyw/密码重置.png" ng-click="action('CreditCardPwdReset')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_CredCardDeposit == 'active'">
+                        <img src="image/xykyw/信用卡还款.png" ng-click="action('CreditCardPayMenu')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_CredCardTransfer == 'active'">
+                        <img src="image/xykyw/信用卡转账.png" ng-click="action('CreditTransfer')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_CredCardDraw == 'active'">
+                        <img src="image/xykyw/信用卡取款.png" ng-click="action('CreditCardCWD')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_CredCardPIN == 'active'">
+                        <img src="image/xykyw/修改密码.png" ng-click="action('CreditchangePin')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_CredCardINQ == 'active'">
+                        <img src="image/xykyw/查询余额.png" ng-click="action('CreditCardINQ')">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <!--<div class="swiper-pagination  pagination-xyk" style="top:85%;"></div>-->
+        <!-- Add Arrows -->
+
+    </div>
+
+
+    <!--特色业务-->
+    <div class="swiper-container gallery-ts" style="border:0px red solid;display:none;height:750px" id="ts">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="col-xs-offset-1 col-xs-12 ">
+                    <div class="col-md-3 card3">
+                        <img src="image/tsyw/民生社保.png" ng-click="action('SocialCard')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_CitizenCardBusi != '0'">
+                        <img src="image/tsyw/市民卡.png" ng-click="action('Citizen')">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add Pagination -->
+        <!--<div class="swiper-pagination  pagination-ts" style="top:85%;"></div>-->
+        <!-- Add Arrows -->
+
+    </div>
+
+    <div class="swiper-container gallery-dkyw" style="border:0px red solid;display:none;height:750px" id="dkyw">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="col-xs-offset-1 col-xs-12 ">
+
+                    <div class="col-md-3 card3" ng-if="pool.I_LoansGrant == 'active'">
+                        <img src="image/loans/LoansGrant.png" ng-click="action('LoansGrant')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_LoansRevert == 'active'">
+                        <img src="image/loans/LoansRevert.png" ng-click="action('LoansRevert')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_LoansQuery == 'active'">
+                        <img src="image/loans/LoansQuery.png" ng-click="action('LoansQuery')">
+                    </div>
+
+
+                    <div class="col-md-3 card3" ng-if="pool.I_LoansSign == 'active'">
+                        <img src="image/loans/LoansSign.png" ng-click="action('LoansSign')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_LoansCounter == 'active'">
+                        <img src="image/loans/LoansCounter.png" ng-click="action('LoansCounter')">
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+        <!-- Add Pagination -->
+        <!--<div class="swiper-pagination pagination-dkyw" style="top:85%;"></div>-->
+        <!-- Add Arrows -->
+
+    </div>
+
+
+    <div class="swiper-container gallery-qyyw" style="border:0px red solid;display:none;height:750px" id="qyyw">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="col-xs-offset-1 col-xs-12 ">
+                    <div class="col-md-3 card3" ng-if="pool.Trans_SMS == 'active'">
+                        <img src="image/短信银行.png" ng-click="action('SMS')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_EBANK == 'active'">
+                        <img src="image/电子银行.png" ng-click="action('EBANK')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_UKEY == 'active'">
+                        <img src="image/安全介质.png" ng-click="action('UKEY')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.Trans_transfersign == 'active'">
+                        <img src="image/自助转账签约.png" ng-click="action('AtmTransSign')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_YNC == 'active'">
+                        <img src="image/financial/益农存签约.png" title="益农存签约" ng-click="action('YNC')">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Add Pagination -->
+        <!--<div class="swiper-pagination pagination-qyyw" style="top:85%;"></div>-->
+        <!-- Add Arrows -->
+    </div>
+
+
+    <div class="swiper-container gallery-czyw" style="border:0px red solid;display:none;height:750px" id="czyw">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="col-xs-offset-1 col-xs-12 ">
+                    <div class="col-md-3 card3" ng-if="pool.I_PassDraw == 'active'">
+                        <img src="image/PassDraw.png" ng-click="action('CWD_PBKTrans')">
+                    </div>
+
+                    <div class="col-md-3 card3" ng-if="pool.I_PassDeposit == 'active'">
+                        <img src="image/PassDeposit.png" ng-click="action('PassDeposit')">
+                    </div>
+
+                    <div class="col-md-3 card3" ng-if="pool.I_PassTransfer == 'active'">
+                        <img src="image/PassTrans.png" ng-click="action('TRF_PBKTrans')">
+                    </div>
+
+                    <div class="col-md-3 card3" ng-if="pool.I_PassTransferCancel == 'active'">
+                        <img src="image/PassTransCan.png" ng-click="action('TRANSFERCANCEL')">
+                    </div>
+                    <!--存折激活--->
+                    <div class="col-md-3 card3" ng-if="pool.I_PassActive == 'active'">
+                        <img src="image/PassActive.png" ng-click="action('PASSACTIVE')">
+                    </div>
+                    <!--密码挂失补设--->
+                    <div class="col-md-3 card3" ng-if="pool.I_PassReset == 'active'">
+                        <img src="image/PassReset.png" ng-click="action('PASSRESET')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_PassQuery == 'active'">
+                        <img src="image/xykyw/查询余额.png" ng-click="action('INQ_PBKTrans')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_PassDetial == 'active'">
+                        <img src="image/xykyw/明细查询.png" ng-click="action('DETAIL_PBKTrans')">
+                    </div>
+
+                    <div class="col-md-3 card3" ng-if="pool.I_PassPin == 'active'">
+                        <img src="image/PassChPin.png" ng-click="action('PIN_PBKTrans')">
+                    </div>
+
+                    <div class="col-md-3 card3" ng-if="pool.I_PassUnlock == 'active'">
+                        <img src="image/PassUnlock.png" ng-click="action('PASSUnlock')">
+                    </div>
+
+                    <div class="col-md-3 card3" ng-if="pool.I_PBKFill == 'active'">
+                        <img src="image/PassFill.png" ng-click="action('PBKFill')">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Add Pagination -->
+        <!--<div class="swiper-pagination pagination-czyw" style="top:85%;"></div> -->
+        <!-- Add Arrows -->
+
+    </div>
+
+    <div class="swiper-container gallery-lcyw" style="border:0px red solid;display:none;height:750px" id="lcyw">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="col-xs-offset-1 col-xs-12 ">
+
+                    <!--
+                        <div class="col-md-3 card3" ng-if="pool.I_FRA == 'active'">
+                            <img src="image/financial/风险评估.png"title="风险评估" ng-click="action('FRA')">
+                        </div>
+                    -->
+                    <div class="col-md-3 card3" ng-if="pool.I_FPS == 'active'">
+                        <img src="image/financial/理财签约.png" title="理财签约" ng-click="action('FPS')">
+                    </div>
+
+                    <div class="col-md-3 card3" ng-if="pool.I_FSC == 'active'">
+                        <img src="image/financial/理财认购.png" title="理财产品认购" ng-click="action('FSC')">
+                    </div>
+
+                    <div class="col-md-3 card3" ng-if="pool.I_FPSC == 'active'">
+                        <img src="image/financial/理财产品预约认购.png" title="理财产品预约认购" ng-click="action('FPSC')">
+                    </div>
+
+                    <div class="col-md-3 card3" ng-if="pool.I_FPR == 'active'">
+                        <img src="image/financial/理财赎回.png" title="理财赎回" ng-click="action('FPR')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_FCC == 'active'">
+                        <img src="image/financial/理财撤单.png" title="理财撤单" ng-click="action('FCC')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_FPD == 'active'">
+                        <img src="image/financial/理财查询.png" title="理财产品明细查询" ng-click="action('FPD')">
+                    </div>
+
+                    <div class="col-md-3 card3" ng-if="pool.I_CallDeposit == 'active'">
+                        <img src="image/financial/卡内通知存款.png" title="通知存款" ng-click="action('CallDeposit')">
+                    </div>
+                    <div class="col-md-3 card3" ng-if="pool.I_NomalFixed == 'active'">
+                        <img src="image/financial/定活互转.png" title="定活互转" ng-click="action('NomalFixed')">
+                    </div>
+
+
+                    <div class="col-md-3 card3" ng-if="pool.I_FCM == 'active'">
+                        <img src="image/financial/存款利息计算器.png" title="存款利息计算器" ng-click="action('FCM')">
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <!--Add Pagination-->
+        <!--<div class="swiper-pagination pagination-lcyw" style="top:85%;"></div> -->
+        <!-- Add Arrows -->
+
+    </div>
+
+
+</div>
+
+<div class="swiper-container gallery-thumbs" style="position: absolute;top:0px;border:0px red solid;width:100%;top:81%">
+
+    <div class="swiper-wrapper" style="margin-left:-30px">
+
+
+        <div class="swiper-slide">
+            <div>
+                <img id="yhkMenu" src="image/idlebottom/银行卡.png" style="width:80%;margin-top:18%;margin-left:25%"
+                     onClick="showYhkDiv(this)">
+
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div>
+                <img id="czMenu" src="image/idlebottom/存折.png" style="width:80%;margin-top:18%;margin-left:25%"
+                     onClick="showCZDiv(this)">
+
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div>
+                <img id="qyywMenu" src="image/idlebottom/签约业务.png" style="width:80%;margin-top:18%;margin-left:25%"
+                     onClick="showQyywDiv(this)">
+
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div>
+                <img id="zhglMenu" src="image/idlebottom/账户管理.png" style="width:80%;margin-top:18%;margin-left:25%"
+                     onClick="showZhglDiv(this)">
+
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div>
+                <img id="tsywMenu" src="image/idlebottom/特色业务.png" style="width:80%;margin-top:18%;margin-left:25%"
+                     onClick="showTSDiv(this)">
+
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div>
+                <img id="lcywMenu" src="image/idlebottom/理财业务.png" style="width:80%;margin-top:18%;margin-left:25%"
+                     onClick="showLCDiv(this)">
+
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div>
+                <img id="xykMenu" src="image/idlebottom/信用卡.png" style="width:80%;margin-top:18%;margin-left:25%"
+                     onClick="showXykDiv(this)">
+
+
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div>
+                <img id="djfywMenu" src="image/idlebottom/生活服务.png" style="width:80%;margin-top:18%;margin-left:25%"
+                     onClick="showDjfywDiv(this)">
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div>
+                <img id="dkywkMenu" src="image/idlebottom/贷款业务.png" style="width:80%;margin-top:18%;margin-left:25%"
+                     onClick="showDkywDiv(this)">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="swiper-button-prev" style="position: absolute;left:-10px;top:100px;width:50px"><img
+            src="image/idlebottom/左滑动.png"></div>
+    <div class="swiper-button-next" style="position: absolute;right:-10px;top:100px;width:50px"><img
+            src="image/idlebottom/右滑动.png"></div>
+    <!-- Add Pagination -->
+
+    <!-- Add Arrows -->
+
+</div>

@@ -1,0 +1,25 @@
+<script>
+document.getElementById("startDate").focus();
+</script>
+
+<div class="container indicates">
+	<span class="timeout pull-right">{{timeout}}</span>
+</div>
+<div class="container step">
+    <h1 class="text-center">请输入开始日期,例如:20150101</h1>
+</div>
+ <div class="step">
+    <form class="form-horizontal">
+      <div class="form-group">
+      <label for="startDate" class="col-sm-5 control-label">开始日期</label>
+		<div class="col-sm-4">
+		  <input type="text" class="form-control" id="startDate" name="startDate" value="" ng-model="pool.startDate" >
+		</div>
+	  </div>
+	  <div class="form-group">
+		<div class="col-sm-offset-5 col-sm-3">
+		  <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="action('submit')">确定</button>
+		</div>
+	  </div>
+	</form>
+</div>

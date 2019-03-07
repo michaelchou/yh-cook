@@ -1,0 +1,324 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#Houseselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#Carselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#ApplyCardTypeselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#Generalselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#Employmentselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+creatTree(0,"");
+
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//	alert(e);
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+
+function commit(){
+ Hide();
+ var scope = angular.element(main).scope();
+ var House = document.getElementById("House").value;
+ var Car = document.getElementById("Car").value;
+ var ApplyCardType = document.getElementById("ApplyCardType").value;
+ var General = document.getElementById("General").value;
+ var Employment = document.getElementById("Employment").value;
+  if(House.indexOf(",") > -1 || House.length <=0)
+  {
+	$("#Houseselect").attr("data-content", "非法字符，请重新输入");
+	$("#Houseselect").popover('show');
+  }else if(Car.indexOf(",") > -1 || Car.length <=0)
+  {
+	$("#Carselect").attr("data-content", "非法字符，请重新输入");
+	$("#Carselect").popover('show');
+  }else if(ApplyCardType.indexOf(",") > -1 || ApplyCardType.length <=0)
+  {
+	$("#ApplyCardTypeselect").attr("data-content", "非法字符，请重新输入");
+	$("#ApplyCardTypeselect").popover('show');
+  }else if((General.indexOf(",") > -1 || General.length <=0) && "金卡" == ApplyCardType)
+  {
+	$("#Generalselect").attr("data-content", "非法字符，请重新输入");
+	$("#Generalselect").popover('show');
+  }else if(Employment.indexOf(",") > -1 || Employment.length <=0)
+  {
+	$("#Employmentselect").attr("data-content", "非法字符，请重新输入");
+	$("#Employmentselect").popover('show');
+  }else{
+	if("全职" == Employment){
+		scope.pool["ST_EmploymentStatus"] = 1;
+	}else if("兼职" == Employment){
+		scope.pool["ST_EmploymentStatus"] = 2;
+	}else if("家庭主妇" == Employment){
+		scope.pool["ST_EmploymentStatus"] = 3;
+	}else if("退休人士" == Employment){
+		scope.pool["ST_EmploymentStatus"] = 4;
+	}else if("自雇人士" == Employment){
+		scope.pool["ST_EmploymentStatus"] = 5;
+	}else if("临时合同工" == Employment){
+		scope.pool["ST_EmploymentStatus"] = 6;
+	}else if("学生" == Employment){
+		scope.pool["ST_EmploymentStatus"] = 7;
+	}else if("失业人士" == Employment){
+		scope.pool["ST_EmploymentStatus"] = 8;
+	}else if("其他" == Employment){
+		scope.pool["ST_EmploymentStatus"] = 9;
+	}
+	if("是" == House){
+		scope.pool["ST_HavingHouse"] = 1;
+	}else if("否" == House){
+		scope.pool["ST_HavingHouse"] = 0;
+	}
+	if("是" == Car){
+		scope.pool["ST_HavingCar"] = 1;
+	}else if("否" == Car){
+		scope.pool["ST_HavingCar"] = 0;
+	}
+	if("金卡" == ApplyCardType){
+		scope.pool["ST_ApplyCardType"] = 1;
+	}else if("普卡" == ApplyCardType){
+		scope.pool["ST_ApplyCardType"] = 2;
+	}
+	if("是" == General){
+		scope.pool["ST_AgreeGeneral"] = 1;
+	}else if("否" == General){
+		scope.pool["ST_AgreeGeneral"] = 0;
+	}
+	scope.action("confirm");
+  }
+
+}
+
+
+function select7()
+{
+ if(document.getElementById("Houseselect").value != "--是否有房产--")
+ {
+     $("#House").popover('destroy');
+	 document.getElementById("House").value = document.getElementById("Houseselect").value;
+ }
+}
+
+function select8()
+{
+ if(document.getElementById("Carselect").value != "--是否有车辆--")
+ {
+     $("#Car").popover('destroy');
+	 document.getElementById("Car").value = document.getElementById("Carselect").value;
+ }
+}
+
+function select9()
+{
+ if(document.getElementById("ApplyCardTypeselect").value != "--可选择申请卡种--")
+ {	
+	 if(document.getElementById("ApplyCardTypeselect").value == "金卡"){
+		document.getElementById("dtName").style.visibility="visible"
+	 }
+	 if(document.getElementById("ApplyCardTypeselect").value == "普卡"){
+		document.getElementById("dtName").style.visibility="hidden"
+	 }
+     $("#ApplyCardType").popover('destroy');
+	 document.getElementById("ApplyCardType").value = document.getElementById("ApplyCardTypeselect").value;
+ }
+}
+
+function select10()
+{
+ if(document.getElementById("Generalselect").value != "--是否同意办理普卡--")
+ {
+     $("#General").popover('destroy');
+	 document.getElementById("General").value = document.getElementById("Generalselect").value;
+ }
+}
+</script>
+<div class="container indicates"> 
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px red solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px red">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写基本信息</h3>
+
+  <form class="form-horizontal" style="margin-top:0%;margin-left:3%">
+    <div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:17px;margin-left:-18px;color:#000000">是否有房产
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="是否有房产"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>输入有误 </sp>" data-content=""    data-html="true" id="House"   >
+        <select class="form-control selectpicker" onchange="select7()"  id="Houseselect" style="margin-top:15px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--是否有房产--</option>
+          <option>是</option>
+          <option>否</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+	  <label for="telephone" class="col-sm-2 control-label" style="margin-top:17px;margin-left:-18px;color:#000000">是否有车辆
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="是否有车辆"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>输入有误 </sp>" data-content=""    data-html="true" id="Car"   >
+        <select class="form-control selectpicker" onchange="select8()"  id="Carselect" style="margin-top:15px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--是否有车辆--</option>
+          <option>是</option>
+          <option>否</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+   </div>
+   <div class="form-group">
+   <label for="telephone" class="col-sm-2 control-label" style="margin-top:17px;margin-left:-18px;color:#000000">就业状态
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="请选择或输入就业状态"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>就业状态输入有误 </sp>" data-content=""    data-html="true" id="Employment"   >
+        <select class="form-control selectpicker" onchange="select2()"  id="Employmentselect" style="margin-top:15px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--可选择就业状态--</option>
+          <option>全职</option>
+          <option>兼职</option>
+          <option>家庭主妇</option>
+		  <option>退休人士</option>
+		  <option>自雇人士</option>
+		  <option>临时合同工</option>
+		  <option>学生</option>
+		  <option>失业人士</option>
+		  <option>其他</option>
+        </select>
+      </div>
+         <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+		 <label for="telephone" class="col-sm-2 control-label" style="margin-top:17px;margin-left:-18px;color:#000000">申请卡种
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="申请卡种"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>输入有误 </sp>" data-content=""    data-html="true" id="ApplyCardType"   >
+        <select class="form-control selectpicker" onchange="select9()"  id="ApplyCardTypeselect" style="margin-top:15px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--可选择申请卡种--</option>
+          <option>金卡</option>
+          <option>普卡</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+   </div>
+   <div class="form-group">
+	<div id="dtName" style="visibility:hidden;">
+	  <label for="telephone" class="col-sm-2 control-label" style="margin-top:17px;margin-left:-18px;color:#000000">是否办理普卡
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="是否同意办理普卡"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>输入有误 </sp>" data-content=""    data-html="true" id="General"   >
+        <select class="form-control selectpicker" onchange="select10()"  id="Generalselect" style="margin-top:15px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--是否同意办理普卡--</option>
+          <option>是</option>
+          <option>否</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+	</div>
+   </div>
+  </form>
+</div>
+</br>
+</br>
+</br>
+      <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+      <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('return')">退出</button>
+      
+          <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">确定</button>
+		 
+    </div>
+	<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

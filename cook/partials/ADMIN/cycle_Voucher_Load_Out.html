@@ -1,0 +1,864 @@
+  <script src="js/admin/base.js"></script>
+  <object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>
+
+<script>
+var data = "/admin/NewAdminCycleServlet";
+var isRunning = false;
+var test = true;
+
+
+$(document).ready(function() {
+	cardSurplusVoucherQuery();
+});
+ $(function(){   
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+       var tabID = $(e.target).attr("id"); 
+         $("#commit").attr("disabled",false);
+       if(tabID=="cash"){
+       	 destory();
+       	 $('#cash').css("background","#afcdff");
+         $('#card').css("background","");
+      	$('#ukey').css("background","");
+         $('#head').text("现金清机");            
+        $("#confirm").html("确认清机");
+        $("#confirm").attr("onclick","cycle()");
+	
+       cashSurplusVoucherQuery();
+       }else if(tabID=="card"){
+       	 destory();
+       	 $('#card').css("background","#afcdff");
+       	  $('#cash').css("background","");
+      	$('#ukey').css("background","");
+         $('#head').text("卡片清机");
+         $("#confirm").html("");
+         $("#confirm").html("卡片清机");     
+         $("#confirm").attr("onclick","cycle()");
+          cardSurplusVoucherQuery()
+       }else{
+       	 destory();
+       	 $('#ukey').css("background","#afcdff");
+       	  $('#card').css("background","");
+       	  $('#cash').css("background","");
+          $('#head').text("U盾清机");
+          $("#confirm").html("");
+          $("#confirm").html("U盾清机");      
+          $("#confirm").attr("onclick","cycle()");
+			 ukSurplusVoucherQuery()
+       }
+   });
+});
+
+function cardSurplusVoucherQuery(){
+
+	 $("#myModalLabel1").html("正在查询凭证信息<br>请稍后...")
+	$('#myModal1').modal('show');
+	$("#wait1").css("display","block");
+	$("#cancelbutton").css("display","none");
+ 	fillTable(30,"card")
+ 	$.ajax({
+	     url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-Voucher-stock-Query",
+	    dataType: 'json',
+	    success: function(data) {
+	     $("#myModalLabel1").html(data.msg)
+	       $("#wait1").css("display","none");
+	       $("#cancelbutton").css("display","block");
+	  
+    		if ("ok"==data.messageText&&data.dataList.length>=0) {
+    		var tablebody = $("#vouchertable>tbody");
+    		tablebody.empty();
+			tablebody.append(
+	        $('<tr width="100%"  align="center" style="height:25px;font-size:16px;background:#afcdff;color:#000;display:" >').append(
+		        $("<td width='5%' style='display:none'>").html("编号"),
+		       // $('<td width="10%">').html("调入日期"),
+		         $('<td width="5%">').html("类型"),
+		        $('<td width="15%">').html("名称"),
+		        $('<td width="12%">').html("起始号"),
+		        $('<td width="5%">').html("数量"),
+		        $('<td width="5%">').html("调出")
+		    ));
+		for (var i = 0; i < data.dataList.length; i++) {
+			
+			for(var k in data.VoucherCardType){//必须在配置文件中
+			 if(data.VoucherCardType[k].voucherId==data.dataList[i].voucherType){
+			var button = "<button type='button'  style='height:25px;padding-top:0px;padding-bottom:15px' name='enter' class='btn btn-success ' onclick='cardVoucherOut("+i+")'>调出</button>"
+	
+			tablebody.append(
+		        $('<tr id="rows'+i+'" width="100%" align="center" style="background:#e7f0ff;color:#000">').append(
+		       // $('<td >').html(data.dataList[i].voucherType),
+		        $("<td id='cardType"+i+"'>").html(data.dataList[i].voucherType),
+		        $("<td id='cardName"+i+"'>").html(data.dataList[i].docName),
+		        $("<td id='cardbegin"+i+"'>").html(data.dataList[i].voucherNoBegin),
+		        $("<td id='cardNumber"+i+"'>").html(data.dataList[i].voucherNumber*1),
+		        $("<td id=''>").html(button)
+
+		    ));
+		}
+		}
+		 }
+		for (var i = 0; i < 30-data.dataList.length; i++) {
+			tablebody.append(
+		        $('<tr width="100%" align="center" style="background:#e7f0ff;color:#000">').append(
+		     
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp")
+		    ));
+	}
+	
+	    		
+	    		}
+    		}
+    		});
+
+
+		 
+
+}
+function inputfocus(){
+	$('#myModal1').modal('hide');
+	document.getElementById("drTellerNo").focus();
+}
+
+
+
+function cardVoucherOut(id){
+	var type	
+	if( $("#confirm").html()== "确认清机") 		type="现金调出";
+	else if ( $("#confirm").html()== "卡片清机")	type="卡片调出";
+	else if ( $("#confirm").html()== "U盾清机")	type="U盾调出";
+	
+	var drTellerNo = document.getElementById("drTellerNo").value;//柜员号
+	destory();
+	if(drTellerNo==''){
+		$("#drTellerNo").attr("title","<sp class='fg-red'>柜员号输入有误 </sp>");
+		$("#drTellerNo").attr("data-content","柜员号不能为空");
+		$("#drTellerNo").popover('show');
+     	document.getElementById("drTellerNo").focus();
+		return;
+	}
+		if(drTellerNo.length!=12){
+		$("#drTellerNo").attr("title","<sp class='fg-red'>柜员号输入有误 </sp>");
+		$("#drTellerNo").attr("data-content","请输入12位柜员号");
+		$("#drTellerNo").popover('show');
+     	document.getElementById("drTellerNo").focus();
+		return;
+	}
+	
+	  // Hide();//关闭键盘
+	$("#myModalLabel1").html("正在进行凭证调出<br>请稍后...")
+	$('#myModal1').modal('show');
+	$("#wait1").css("display","block");
+	$("#cancelbutton").css("display","none");
+	
+		var cardType =  $("#cardType"+id).html().trim();//类型
+		var cardName =  $("#cardName"+id).html().trim();//名称
+		var cardbegin =  $("#cardbegin"+id).html().trim();//起始号
+		var cardNumber =  $("#cardNumber"+id).html().trim();//数量
+
+	var voucherlist = drTellerNo+","+cardType+","+cardName+","+cardbegin+","+cardNumber+","+type+","
+	// $("#myModalLabel1").html(voucherlist)
+	   $.ajax({
+		url: data,
+		cache: false,
+		type: "post",
+		data: "commandID=device-voucher-out&funCode=7&voucherlist="+voucherlist,
+		dataType: 'json',
+		success: function(data) {
+	  	  $("#myModalLabel1").html(data.messageText)	
+      	$("#wait1").css("display","none");
+       $("#cancelbutton").css("display","block");
+      	if("OK"==data.msg){
+ 		$("#rows"+id).css("display","none");
+      	
+		}else{
+		}
+	
+		}
+	});
+
+}
+function cashVoucher(id){
+	var drTellerNo = document.getElementById("drTellerNo").value;//柜员号
+		var ysdAmt =  $("#ysdAmt"+id).html().replace("元","")*100;//昨天合计
+		var amt =  $("#amt"+id).html().replace("元","")*100;//今天合计
+		 $("#button5").attr("onclick","cashVoucherOut("+id+")");
+		 if(amt<=0){
+		$("#myModalLabel1").html("当前核心金额为0</br>无需进行调出</br>可直接进行清机操作")
+		$('#myModal1').modal('show');
+		return;
+		 }
+		if(drTellerNo==''){
+		$("#drTellerNo").attr("title","<sp class='fg-red'>柜员号输入有误 </sp>");
+		$("#drTellerNo").attr("data-content","柜员号不能为空");
+		$("#drTellerNo").popover('show');
+     	document.getElementById("drTellerNo").focus();
+		return;
+	}
+		if(drTellerNo.length!=12){
+		$("#drTellerNo").attr("title","<sp class='fg-red'>柜员号输入有误 </sp>");
+		$("#drTellerNo").attr("data-content","请输入12位柜员号");
+		$("#drTellerNo").popover('show');
+     	document.getElementById("drTellerNo").focus();
+		return;
+	}
+	
+	else if(ysdAmt!=amt){
+		$("#myModalLabel1").html("当前尾箱金额和核心金额不符</br>是否执行清机？")
+		$('#myModal1').modal('show');
+		$('#cancelbutton').css("display","none");
+		$('#cashdrTeller').css("display","block");
+	
+	}else{
+		cashVoucherOut(id)
+	}
+	
+	
+}
+
+function cashVoucherOut(id){
+	var drTellerNo = document.getElementById("drTellerNo").value;//柜员号
+	destory();
+	
+		var ysdAmt =  $("#ysdAmt"+id).html().replace("元","")*100;//昨天合计
+		var inAmt =  $("#inAmt"+id).html().replace("元","")*100;//今天入
+		var outAmt =  $("#outAmt"+id).html().replace("元","")*100;//今天出
+		var amt =  $("#amt"+id).html().replace("元","")*100;//今天合计
+		
+	
+	  // Hide();//关闭键盘
+	 $('#myModal1').modal('show');
+	$("#myModalLabel1").html("正在进行现金凭证调出<br>请稍后...")
+	
+	$("#wait1").css("display","block");
+	$('#cashdrTeller').css("display","none");
+	$("#cancelbutton").css("display","none");
+	
+	 
+	
+	
+
+	var voucherlist = drTellerNo+","+ysdAmt+","+inAmt+","+outAmt+","+amt+",现金调出,"
+
+	// $("#myModalLabel1").html(voucherlist)
+	   $.ajax({
+		url: data,
+		cache: false,
+		type: "post",
+		data: "commandID=device-cash-voucher-out&funCode=1&voucherlist="+voucherlist,
+		dataType: 'json',
+		success: function(data) {
+	  	  $("#myModalLabel1").html(data.messageText)	
+      	$("#wait1").css("display","none");
+       $("#cancelbutton").css("display","block");
+      	if("OK"==data.msg){
+ 		$("#rows"+id).css("display","none");
+      	
+		}else{
+		}
+	
+		}
+	});
+isRunning = false;
+}
+
+
+function cashSurplusVoucherQuery(){
+
+	
+	 $("#myModalLabel1").html("正在查询凭证信息<br>请稍后...")
+	$('#myModal1').modal('show');
+	$("#wait1").css("display","block");
+	$("#cancelbutton").css("display","none");
+ 	fillTable(30,"card")
+ 	$.ajax({
+	     url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-Voucher-cash-stock-Query",
+	    dataType: 'json',
+	    success: function(data) {
+	     $("#myModalLabel1").html(data.msg)
+	       $("#wait1").css("display","none");
+	       $("#cancelbutton").css("display","block");
+	     
+    		if ("ok"==data.messageText&&data.dataList.length>=0) {
+    	
+    		var tablebody = $("#vouchertable>tbody");
+    		tablebody.empty();
+			tablebody.append(
+	        $('<tr width="100%"  align="center" style="height:25px;font-size:16px;background:#afcdff;color:#000;display:" >').append(
+		        $("<td width='5%' style='display:none'>").html("编号"),
+		         $('<td width="10%">').html("本机剩余金额"),
+		        $('<td width="10%">').html("今日入箱金额"),
+		        $('<td width="10%">').html("今日出箱金额"),
+		        $('<td width="10%">').html("核心剩余金额"),
+		        $('<td width="5%">').html("调出")
+		    ));
+		for (var i = 0; i < data.dataList.length; i++) {
+			
+		//	for(var k in data.VoucherCardType){//必须在配置文件中
+			// if(data.dataList[i].amt>0){
+			var button = "<button type='button'  style='height:25px;padding-top:0px;padding-bottom:15px' name='enter' class='btn btn-success ' onclick='cashVoucher("+i+")'>调出</button>"
+	
+			tablebody.append(
+		        $('<tr id="rows'+i+'" width="100%" align="center" style="background:#e7f0ff;color:#000">').append(
+		        $("<td id='ysdAmt"+i+"'>").html(data.boxesAllAmount+".00元"),
+		        $("<td id='inAmt"+i+"'>").html(data.dataList[i].inAmt/100+".00元"),
+		        $("<td id='outAmt"+i+"'>").html(data.dataList[i].outAmt/100+".00元"),
+		        $("<td id='amt"+i+"'>").html(data.dataList[i].amt/100+".00元"),
+		        $("<td id=''>").html(button)
+
+		    ));
+		//}
+	//	}
+		 }
+		for (var i = 0; i < 30-data.dataList.length; i++) {
+			tablebody.append(
+		        $('<tr width="100%" align="center" style="background:#e7f0ff;color:#000">').append(
+		     
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp")
+		    ));
+	}
+	
+	    		
+	    		}
+    		}
+    		});
+
+	
+}
+function ukSurplusVoucherQuery(){
+ $("#myModalLabel1").html("正在查询凭证信息<br>请稍后...")
+ $('#myModal1').modal('show');
+	$("#wait1").css("display","block");
+   $("#cancelbutton").css("display","none");
+ 	fillTable(30,"card")
+ 	$.ajax({
+	     url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-Voucher-stock-Query",
+	    dataType: 'json',
+	    success: function(data) {
+	     $("#myModalLabel1").html(data.msg)
+	     
+           $("#wait1").css("display","none");
+  		   $("#cancelbutton").css("display","block");
+	  
+    		if ("ok"==data.messageText&&data.dataList.length>=0) {
+    		var tablebody = $("#vouchertable>tbody");
+    		tablebody.empty();
+			tablebody.append(
+	        $('<tr width="100%"  align="center" style="height:25px;font-size:16px;background:#afcdff;color:#000;display:" >').append(
+		        $("<td width='5%' style='display:none'>").html("编号"),
+		       // $('<td width="10%">').html("调入日期"),
+		        $('<td width="5%">').html("类型"),
+		        $('<td width="15%">').html("名称"),
+		        $('<td width="12%">').html("起始号"),
+		        $('<td width="5%">').html("数量"),
+		        $('<td width="5%">').html("调出")
+		    ));
+		for (var i = 0; i < data.dataList.length; i++) {
+			
+			for(var k in data.VoucherUkeyType){//必须在配置文件中
+			 if(data.VoucherUkeyType[k].name==data.dataList[i].voucherType){
+			var button = "<button type='button'  style='height:25px;padding-top:0px;padding-bottom:15px' name='enter' class='btn btn-success ' onclick='cardVoucherOut("+i+")'>调出</button>"
+	
+			tablebody.append(
+		        $('<tr id="rows'+i+'" width="100%" align="center" style="background:#e7f0ff;color:#000">').append(
+		       // $('<td >').html(data.dataList[i].voucherType),
+		        $("<td id='cardType"+i+"'>").html(data.dataList[i].voucherType),
+		        $("<td id='cardName"+i+"'>").html(data.dataList[i].docName),
+		        $("<td id='cardbegin"+i+"'>").html(data.dataList[i].voucherNoBegin),
+		        $("<td id='cardNumber"+i+"'>").html(data.dataList[i].voucherNumber*1),
+		        $("<td id=''>").html(button)
+
+		    ));
+		}
+		}
+		 }
+		for (var i = 0; i < 30-data.dataList.length; i++) {
+			tablebody.append(
+		        $('<tr width="100%" align="center" style="background:#e7f0ff;color:#000">').append(
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp"),
+		        $('<td >').html("&nbsp")
+		    ));
+	}
+	
+	    		
+	    		}
+    		}
+    		});
+
+
+		 
+}
+//表格初始化
+  function fillTable(rows,type) {
+  
+	var tablebody = $("#vouchertable>tbody");
+	tablebody.empty();
+	if(type=="card"){
+	tablebody.append(
+        $('<tr width="100%"  align="center" style="height:25px;font-size:16px;background:#afcdff;color:#000;display:" >').append(
+	    $("<td width='5%' style='display:none'>").html("编号"),
+	        //$('<td width="10%">').html("调入日期"),
+	        $('<td width="10%">').html("类型"),
+	        $('<td width="15%">').html("名称"),
+	        $('<td width="12%">').html("起始号"),
+	        $('<td width="10%">').html("数量"),
+	        $('<td width="10%">').html("调出")
+	    ));
+	for (var i = 0; i < rows; i++) {
+		tablebody.append(
+	          $('<tr width="100%" align="center" style="background:#e7f0ff;color:#000">').append(
+	       // $('<td >').html("&nbsp"),
+	        $('<td>').html("&nbsp"),
+	        $('<td >').html("&nbsp"),
+	        $('<td>').html("&nbsp"),
+	        $('<td >').html("&nbsp"),
+	        $('<td >').html("&nbsp")
+	        
+	        
+	    ));
+	}
+	}
+}  
+
+
+function cycle(){
+isRunning = false;
+   if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+		
+	}
+
+	var id	
+	if( $("#confirm").html()== "确认清机") 		id="cash";
+	else if ( $("#confirm").html()== "卡片清机")	id="card";
+	else if ( $("#confirm").html()== "U盾清机")	id="ukey";
+	
+
+	var table = document.getElementById("vouchertable");
+	
+	if(("card"==id||"ukey"==id)&&test){
+	 isRunning = false;
+	var rowslength = table.rows.length;
+		for(var i=0;i<rowslength;i++){
+		 if(table.rows[i].id!=''&&document.getElementById(table.rows[i].id).style.display!='none'){
+	
+		$("#myModalLabel1").html("请先执行调出操作"); 
+		$('#myModal1').modal('show');
+		$("#wait1").css("display","none");
+		$("#drTeller").css("display","none");
+		$("#cashdrTeller").css("display","none");
+		$("#cancelbutton").css("display","block");
+			return;
+			}
+		}
+		
+	}
+	if("cash"==id&&test){
+	 isRunning = false;
+	var rowslength = table.rows.length;
+	var amt = table.rows[1].cells[3].innerHTML;
+		 if(amt!='0.00元' && document.getElementById(table.rows[1].id).style.display!='none'){
+			$("#myModalLabel1").html("请先执行调出操作"); 
+		    $('#myModal1').modal('show');
+		    $("#drTeller").css("display","none");
+		    $("#cashdrTeller").css("display","none");
+		    $("#wait1").css("display","none");
+		    $("#cancelbutton").css("display","block");
+			return;
+			}
+	}
+		
+	lock();//事务锁
+    var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-cycle-manage&time="+time+"&cycleType="+id,
+	    dataType: 'json',
+	    success: function(data) {
+	    
+	    if ((data.messageText).length >= 1) {
+          $("#"+id+"listview").html(data.messageText);
+       	 var msg= document.getElementById(id+"listview").value;
+          $("#"+id+"listview").css("display","block");
+        if(!data.settleReport&&"cash"==id){
+  
+        $("#"+id+"listview").html(data.messageText);
+      		  unlock();//事务锁
+            return;
+        }else if (!data.valiHardware&&"cash"==id) {
+	       $("#"+id+"listview").val(msg+">>现金模块发生故障,无法完成清机。");
+	       $("#myModalLabel").html("现金模块发生故障!<br>是否确认复位现金模块?")
+	       $("#commit").attr("onclick","checkHardware()");
+	        $('#myModal').modal('show');
+	        unlock();//事务锁
+	        // if(confirm("现金模块发生故障\r是否确认复位现金模块?")){
+	        // checkHardware();
+	        // }
+	     }else {
+	         $('#myModal').modal('show')
+	         $("#myModalLabel").html("是否确认执行 '"+$("#confirm").html()+"' 操作")
+	         unlock();//事务锁
+	        //if(confirm("是否确执认行清机操作?")){
+	        //cycleReceiptPrint();
+	       //  }
+	    	}
+	    }else {
+	    		 $("#"+id+"listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>清机对账失败");
+	    		 isRunning = false;
+	        }
+
+	    }
+	});
+}
+
+function cycleReceiptPrint(){
+
+	var id	
+	if( $("#confirm").html()== "确认清机") 		id="cash";
+	else if ( $("#confirm").html()== "卡片清机")	id="card";
+	else if ( $("#confirm").html()== "U盾清机")	id="ukey";
+
+   if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+		cycleFlag = false;
+	}
+	$("#return").button('loading');
+    var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+	 $("#"+id+"listview").css("display","block");
+    var msg= document.getElementById( id+"listview").value;
+ 
+    $("#"+id+"listview").html(msg+"\r>>正在进行"+$("#confirm").html() +"对账请稍候...");
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-cycle-receipt-print&time="+time+"&cycleType="+id,
+	    dataType: 'json',
+	    success: function(data) {
+	    unlock();
+	    if(data.result == 'ok'){
+	         $("#"+id+"listview").html(msg+data.message+">>正在备份清机单和日志文件请稍候...");
+	   	  	isRunning = false;
+	   		cycleBizLog();
+	    }else{
+			$("#"+id+"listview").html(msg+data.message);
+	   		isRunning = false;
+	        $("#return").button('reset');
+	   	
+	    }
+	    }
+	});
+
+
+}
+var cycleFlag = false;
+function cycleBizLog(){
+	var id	
+	if( $("#confirm").html()== "确认清机") 		id="cash";
+	else if ( $("#confirm").html()== "卡片清机")	id="card";
+	else if ( $("#confirm").html()== "U盾清机")	id="ukey";
+   if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+	 lock();
+	$("#"+id+"listview").css("display","block");
+	var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-cycle-biz-log&time="+time+"&id="+id,
+	    dataType: 'json',
+	    success: function(data) {
+	        unlock();
+	        var msg= document.getElementById(id+"listview").value;
+	    	if ((data.messageText).length >= 1) {
+	    		$("#"+id+"listview").html(data.messageText);
+
+		if((data.messageText).indexOf("清机完成") >= 0){ cycleFlag = true;}
+		
+	    	}
+	    	else {
+	    		$("#"+id+"listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>打印失败");
+	        }
+	        isRunning = false;
+	        $("#return").button('reset')
+	    }
+	
+	});
+isRunning = false;
+}
+
+
+function checkHardware(){
+	var id	
+	if( $("#confirm").html()== "确认清机") 		id="cash";
+	else if ( $("#confirm").html()== "卡片清机")	id="card";
+	else if ( $("#confirm").html()== "U盾清机")	id="ukey";
+   if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+	$("#"+id+"listview").css("display","block");
+	var now = new Date();
+	var msg= document.getElementById(id+"listview").value;
+	$("#"+id+"listview").val(msg+"\r\r"+">>现金模块正在复位,请稍后...");
+	var time = now.getMinutes() +now.getSeconds();
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-check-hardware&time="+time+"&Modal="+id,
+	    dataType: 'json',
+	    success: function(data) {
+	   
+	    	if ((data.messageText).length >= 1) {
+	    	var msg= document.getElementById(id+"listview").value;
+	    		$("#"+id+"listview").val(msg+"\r\r"+data.messageText);
+	    		if(data.valiHardware){
+	    		 $("#myModalLabel").html(data.messageText.substr(2));
+	    		  $("#commit").attr("onclick","cycleReceiptPrint()")
+	    		  $('#myModalLabel').html("复位成功<br>是否继续进行清机?")
+	    		  
+	    	  window.setTimeout( "$('#myModal').modal('show')",1000);
+	    		 
+	    	
+  			//if(confirm(data.messageText.substr(2))){
+  			
+  			 isRunning = false;
+  			//	cycleReceiptPrint();
+  			
+  		//	}
+	    		}
+
+	    	}
+	    	else {
+	    		$("#"+id+"listview").text(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+
+	    }
+	});
+
+}
+function  exit(){
+	var name
+	if( $("#confirm").html()== "确认清机") 		name="钞";
+	else if ( $("#confirm").html()== "卡片清机")	name="卡";
+	else if ( $("#confirm").html()== "U盾清机")	name="U盾";
+if(cycleFlag){
+       $("#myModalLabel5").html($("#confirm").html()+"完成<br>是否进行加"+name+"操作?")
+ 		$('#myModal5').modal('show');
+ 		$("#commit2").html("我要加"+name) ;
+ 		
+ }else{
+ 	$('#return2').click()
+ 	
+ }		
+}
+
+function  quit(){
+  window.setTimeout( "$('#return2').click()",200);
+}
+
+function addcard(){
+  window.setTimeout( "$('#addcard').click()",200);
+}
+function lock(){
+  		$("#card").attr("disabled",true);
+	  $("#cash").attr("disabled",true);
+	  $("#ukey").attr("disabled",true);
+}
+
+function unlock(){
+  	  $("#card").attr("disabled",false);
+	  $("#cash").attr("disabled",false);
+	  $("#ukey").attr("disabled",false);
+}
+</script>
+
+</head>
+
+        
+<h2 id="head" class="text-center">卡片清机</h2>
+<div id="content">
+    <div class="col-xs-offset-1 col-xs-4"style="border:0px #FFFFFF solid;">
+      <ul id="myTab" class="nav nav-tabs">
+      
+      <li class="active"><a href=".htm#tabcard" data-toggle="tab" id="card" style="background:#afcdff">卡片调出</a></li>
+     <li > <a href=".htm#tabcash" 	data-toggle="tab" id="cash">现金清机</a></li>  
+      <li><a href=".htm#tabukey" data-toggle="tab" id="ukey">U盾调出</a></li>
+      </li>
+    </ul>
+    
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade in active" id="tabcard" style="">
+	     <div  >
+			<textarea class=" form-control  col-xs-12" rows="24" 
+				style="font-family: verdana; color: black; ont-size: 12px;" readonly
+				id="cardlistview"  style="display:block">
+			</textarea>
+	  	</div>
+      </div>
+      
+    
+      <div class="tab-pane fade " id="tabcash">     
+	     	<div  >
+				<textarea class=" form-control  col-xs-12" rows="24" 
+					style="font-family: verdana; color: black; ont-size: 12px;" readonly
+					id="cashlistview"  style="display:block">
+				</textarea>
+		  	</div>
+      </div>
+    
+       <div class="tab-pane fade" id="tabukey">
+		   	<div  >
+				<textarea class=" form-control  col-xs-12" rows="24" 
+					style="font-family: verdana; color: black; ont-size: 12px;" readonly
+					id="ukeylistview"  style="display:block">
+				</textarea>
+			 </div>
+  		</div>
+  		
+  		
+      
+   </div>  </div>
+   
+<div	 style="border:0px #FFFFFF solid; top:35px;height:25px;" class="col-xs-6 " >
+      <div class="input-group input-group-lg " style="width:93%"> <span class="input-group-addon">接收柜员号：</span>
+        <input type="text" id="drTellerNo" maxlength="12" onclick="openkeysetAdmin(1,1100,500)"  class="form-control" data-container="body"  data-placement="right" 
+      title="" data-content="" class="form-control"  data-html="true"></div>
+     <div	 style="border:0px #FFFFFF solid; left:-13px;height:380px;overflow-y: auto;" class="col-xs-12 " >
+       <table id="vouchertable" border="1" class="col-xs-offset-0 col-xs-12  fg-black table table-striped"    style="border:1px #FFFFFF solid;height:100%">
+          <tr></tr>
+        </table>
+ </div>
+  
+  <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class=" col-xs-offset-2 col-xs-8 alert alert-danger fade in" style="top:300px">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title text-center" id="myModalLabel">是否确认执行清机操作？</h4>
+      </div>
+  
+       <p>
+        <button type="button" class="btn btn-primary col-xs-offset-2 col-xs-3" data-dismiss="modal" onclick="unlock()">取消</button>
+        <button  type="button" class="btn btn-danger col-xs-offset-2 col-xs-3" id="commit"  data-dismiss="modal" onclick="cycleReceiptPrint()">确认</button>
+      </p>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal ng-click="action('return')" -->	
+
+<!-- Modal5 -->
+<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class=" col-xs-offset-3 col-xs-6 alert alert-danger fade in" style="top:300px">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title text-center" id="myModalLabel5"></h4>
+      </div>
+  
+       <p>
+        <button type="button" class="btn btn-primary col-xs-offset-1 col-xs-4" data-dismiss="modal"  onclick="quit()">返回菜单</button>
+        <button  type="button" class="btn btn-danger col-xs-offset-2 col-xs-4" id="commit2"  data-dismiss="modal" onclick="addcard()">我要加卡</button>
+      </p>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal ng-click="action('return')" -->		
+
+
+<!-- Modal1 -->
+<div class="modal fade" id="myModal1"  data-backdrop="static"  data-keyboard="false"  onkeyup="checkInput(this)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class=" col-xs-offset-3 col-xs-6 alert alert-danger fade in" style="top:300px">
+      
+      <div class="modal-header text-center">
+        <h4 class="modal-title" id="myModalLabel1"></h4>
+        <i  id="wait1" style="color:blue;display:block"  class="fa fa-spinner fa-spin fa-5x text-primary " ></i>
+      </div>
+        <div class=" text-center" id="cancelbutton" style="display:none"> 
+             <button id="button1" type="button" class="btn btn-primary col-xs-offset-4 col-xs-4" data-dismiss="modal">确认</button>
+     	</div>
+    
+     
+        <div class=" text-center" id="drTeller" style="display:none"> 
+       		<br/>
+    		<button id="button2" type="button" class="btn btn-danger col-xs-offset-1 col-xs-3"   onclick="unlock(),$('#').modal('hide')" >取消</button>
+    		<button id="button3" type="button" class="btn btn-primary col-xs-offset-4 col-xs-3" onclick="cardVoucherOut()">确认</button>
+     </div>
+     
+       <div class=" text-center" id="cashdrTeller" style="display:none"> 
+       		<br/>
+    		<button id="button4" type="button" class="btn btn-danger col-xs-offset-1 col-xs-3"   data-dismiss="modal">取消</button>
+    		<button id="button5" type="button" class="btn btn-primary col-xs-offset-4 col-xs-3" onclick="cashVoucherOut()">确认</button>
+     </div>
+     <div class=" text-center" id="cycle" style="display:none">
+        <button id="button6" type="button" class="btn btn-danger col-xs-offset-1 col-xs-3"   data-dismiss="modal">取消</button>
+        <button id="cycle" type="button" class="btn btn-primary col-xs-offset-4 col-xs-3"  data-dismiss="modal" onclick="cycle()">清机</button>
+     </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+  
+
+ </div>
+</div>
+ 
+ <div id="foot" class="col-xs-offset-4 col-xs-4">
+    <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+        <button type="button" data-loading-text="正在处理..." id="return" class="btn btn-primary btn-lg"  onclick = "exit()">返回主页面</button>
+      	<button style="display:none" id="return2" ng-click="action('return')">返回</button>
+      	<button style="display:none" id="addcard" ng-click="action('accountsCredenceIn')">加卡</button>
+    </div>
+    <div class="btn-group">
+        <button id="confirm" type="button"  class="btn btn-success btn-lg" onclick="cycle()">卡片清机</button>
+    </div>
+    </div>
+</div>
+
+ 
+ 
+
+</body>
+</html>

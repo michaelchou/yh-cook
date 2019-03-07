@@ -1,0 +1,38 @@
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+ <div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请选择服务项目</h1>
+    <h3 class="text-center">Please select services</h3>
+</div>
+</br>
+</br>
+ 
+ <div class="col-xs-offset-0 col-xs-12">
+	<div class="col-xs-offset-1 col-xs-4 " style="margin-top:2%;border:0px blue solid;">
+		<img id="CurrentPass" src="image/pass/CurrentPass.png" ng-if="pool.I_DEP == 'active'" ng-click="action('CurrentPass')" />
+		<img id="CurrentPass" src="image/pass/CurrentPass.png" ng-if="pool.I_DEP == 'disabled'" />
+	</div>
+	<div class="col-xs-offset-2 col-xs-4 " style="margin-top:2%;border:0px blue solid;">
+		<img id="FixedPass" src="image/pass/FixedPass.png" ng-click="action('FixedPass')" />
+	</div>
+</div>
+
+<div class="col-xs-offset-0 col-xs-12">
+	<div class="col-xs-offset-1 col-xs-4 " style="margin-top:2%;border:0px blue solid;">
+		<img id="UspPass" src="image/pass/UspPass.png" ng-if="pool.I_DEP == 'active'" ng-click="action('UspPass')" />
+		<img id="UspPass" src="image/pass/UspPass.png"  ng-if="pool.I_DEP == 'disabled'" />	
+	</div>
+	<div class="col-xs-offset-2 col-xs-4 " style="margin-top:2%;border:0px blue solid;">
+	</div>
+</div>
+
+</div>
+
+
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+	<button id="cancel" type="button" class="  image-bt" ng-click="action('return')">结束交易</button>
+</div>

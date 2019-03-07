@@ -1,0 +1,48 @@
+<script>
+creatTree(0,"");
+</script>
+<style type="text/css">
+h1	{font:bold 1.2em/1.6em arial;margin:4px 0;padding:4px 0;}
+h2	{font:normal 1.1em/1.5em arial;margin:14px 0 0 0;padding:4px 0;}
+.ment {font: normal 1em/1.3em arial;}
+
+div.terms p { 
+	font-family:'微软雅黑';
+    font-size: 18px;
+    color:#000;
+    text-align:left;
+    }
+
+
+</style>
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+   	<div class=" col-xs-offset-1 col-xs-10" style="margin-top:0%;border:0px blue solid; background: url(image/texteara_Trans.png) ">
+     
+ 	<h3  style="font-size:34px;margin-top:0px;text-align: center;">警方安全提示</h3>
+    <h4 style="font-size:18px; font-weight:600; text-align:center;color:#000000;">客户转账/汇款承诺书</h4>
+ 
+        <div class=" terms step ">  
+                     
+    	<p class="ment">
+      　　尊敬的客户：<br/>	
+	  　　　目前，电信诈骗花样繁多，为了确保您的资金安全，请您在转账汇款时与银行工作人员认真<br/>	
+      　　核实、查证。如有疑问，请与本地警方110联系咨询。<br/>		  	  
+	  　　　安全提示如下：<br/>
+	  　　　1、不要轻信陌生人的电话，应立即与家人、朋友联系、沟通、核实。<br/>	
+	  　　　2、不要轻信所谓的”安全账户“电话通知，因为公检法机关没有此项目办案业务。<br/>	
+	  　　　3、不要轻信所谓”你的熟人“提出的各种借款要求及承诺。<br/>		  
+      　　<br/><br/>
+	  　　本人已认真阅读《警方安全提示》的内容，并认真核实、查证过。本人承诺本次转账/汇款安全。
+    		</p></div>
+			
+		</div>
+	
+		
+	    <div class="cook-foot col-xs-offset-0 col-xs-12">
+    	    <button  type="button" class="col-xs-offset-4 col-xs-2 image-bt"  ng-click="action('no')">我 不 同 意</button>
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">阅读并同意</button>
+	    </div>

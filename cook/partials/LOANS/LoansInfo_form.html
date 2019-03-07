@@ -1,0 +1,201 @@
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+ .ui-datepicker{
+	 width: 16em; padding: .5em .5em 0; display: none; font-size: 2em;
+}
+ .ui-datepicker-month{
+		color:blue;
+	}
+	.ui-datepicker-year{
+		color:blue;
+	}
+</style>
+<script language="JavaScript" type="text/JavaScript">
+$(function() {
+    $( "#ST_loansGrantDate" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+    });
+    $.datepicker.setDefaults($.datepicker.regional['zh-CN']); //中文
+    $( "#ST_loansGrantDate" ).datepicker( "option", "showAnim", "clip" );//日期控件出现和消失的效果
+  });
+
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//	alert(e);
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+//清除提示信息
+function destory(obj){
+$("#" + obj.id).popover('destroy');
+}
+
+function commit(){
+ Hide();
+ var scope = angular.element(main).scope();
+ var LoansTimeLimit = scope.pool["ST_LoansTimeLimit"];
+ var LoansBalance = scope.pool["ST_LoansBalance"];
+ var LoansMinAmount = scope.pool["ST_LoansMinAmount"];
+ var loansAmount = document.getElementById("loansGrantAmount").value;
+ 
+ var inputs = document.getElementsByTagName("input");
+ var startDateobj = inputs.item(4);
+ var startDate = startDateobj.value.replace('年','').replace('月','').replace('日','').replace(/\s+/g,'');
+ var reg = "yyyyMMdd";
+ reg = reg.replace(/yyyy/, "[0-9]{4}");
+ reg = reg.replace(/MM/, "((0[1-9])|1[0-2])");
+ reg = reg.replace(/dd/, "((0[1-9])|([1-2][0-9])|30|31)");
+ reg = new RegExp("^" + reg + "$");
+ var dtVal = new Date();
+ var strYear = dtVal.getFullYear();
+ var strMonth = (dtVal.getMonth()+1).toString();
+ for (var i=strMonth.length; i<2; i++)
+     {
+    	 strMonth = '0' + strMonth;
+     }
+     var strDate = dtVal.getDate().toString();
+     for (var i=strDate.length; i<2; i++)
+     {
+    	 strDate = '0' + strDate;
+     }
+  var currentDate=strYear + strMonth +strDate;
+  
+  var strYear1 = dtVal.getFullYear()+1; 
+  var currentDate1=strYear1 + strMonth +strDate;
+  
+ 
+  if(startDate.length<=0){
+	$("#"+startDateobj.id).attr("data-content", "借款到期日不能为空");
+	$("#"+startDateobj.id).popover('show');
+  }else if(!reg.test(startDate)){
+	$("#"+startDateobj.id).attr("data-content", "借款到期日格式错误");
+	$("#"+startDateobj.id).popover('show');
+  }else if(startDate.toString() <= currentDate){
+	$("#"+startDateobj.id).attr("data-content", "借款到期日不能小于等于当前日期");
+	$("#"+startDateobj.id).popover('show');
+  }else if(startDate.toString() > LoansTimeLimit){
+	$("#"+startDateobj.id).attr("data-content", "借款到期日不能大于贷款合同期限");
+	$("#"+startDateobj.id).popover('show');
+  }else if(startDate.toString() > currentDate1.toString()){
+	$("#"+startDateobj.id).attr("data-content", "借款到期日不能超过一年");
+	$("#"+startDateobj.id).popover('show');
+  }else if(loansAmount==0){
+	$("#loansGrantAmount").attr("data-content","借款金额不能为零");
+	$("#loansGrantAmount").popover('show');
+  }else if(loansAmount.length<=0){
+	$("#loansGrantAmount").attr("data-content","不能为空");
+	$("#loansGrantAmount").popover('show');
+  }else if(parseFloat(loansAmount)>parseFloat(LoansBalance)){
+	$("#loansGrantAmount").attr("data-content","借款金额不能超过贷款余额");
+	$("#loansGrantAmount").popover('show');
+  }else if(parseFloat(loansAmount)<parseFloat(LoansMinAmount)){
+	$("#loansGrantAmount").attr("data-content","借款金额不能低于"+LoansMinAmount+"元");
+	$("#loansGrantAmount").popover('show');
+  }else{
+  
+   
+  scope.pool["ST_loansGrantBeBalance"] = (parseFloat(LoansBalance)-parseFloat(loansAmount)).toFixed(2);
+  scope.pool["ST_loansGrantAmount"] = parseFloat(loansAmount).toFixed(2);
+  scope.pool["ST_loansGrantDate"] = startDate;
+  scope.action("submit");
+  
+  }
+  
+  
+
+}
+
+
+</script>
+  <div class="container indicates">
+	  <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}<span>
+		</div>
+    </div>
+
+<div class="container  col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写放款信息表单</h3>
+</br></br>
+  <form class="form-horizontal" style="margin-top:1%;margin-left:5%">
+    
+	      <div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:0px;margin-left:-18px;color:#000000">客户名称</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.accountName}}" disabled="disabled" readonly>
+      </div>
+	  <label for="pid" class="col-sm-2 control-label" style="margin-top:0px;margin-left:-18px;color:#000000;">授信额度</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="pid"  value="{{pool.ST_LoansLimit}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	
+		<div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:25px;margin-left:-18px;color:#000000">可用余额</label>
+      <div class="col-sm-3" style="margin-top:25px;margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.ST_LoansBalance}}" disabled="disabled" readonly>
+      </div>
+	  <label for="pid" class="col-sm-2 control-label" style="margin-top:25px;margin-left:-18px;color:#000000;">贷款合同期限</label>
+      <div class="col-sm-3" style="margin-top:25px;margin-left:18px">
+        <input type="text" style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="pid"  value="{{pool.ST_LoansTimeLimit}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	
+		<div class="form-group">
+		<label for="date" class="col-sm-2 control-label" style="margin-top:25px;margin-left:-18px;color:#000000;">贷款到期日</label>
+      <div class="col-sm-3" style="margin-left:18px;margin-top:25px">
+      <input type="text" class="form-control" placeholder="请选择日期" style="border:1px blue solid;box-shadow:0 0px 0px #000 inset"  id="ST_loansGrantDate" name="ST_loansGrantDate" value="" ng-model="pool.ST_loansGrantDate" 
+	  data-container="body"  data-placement="left"  title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""   class="form-control"  data-html="true" maxlength="8" />
+      </div>
+      <label for="name" class="col-sm-2 control-label" style="margin-top:25px;margin-left:-18px;color:#000000">贷款金额</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text"  style="margin-top:25px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"  onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')"  
+				onclick="openkeyset(1,900,500)" class="form-control" id="loansGrantAmount" value=""  placeholder="请输入放款金额，单位：元"
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-blue'>金额输入有误 </sp>" data-content=""  data-html="true" maxlength="10" >
+      </div>
+	  
+    </div>
+	
+	
+   
+	
+  </form>
+</div>
+</br>
+</br>
+</div>
+   <div class="cook-foot col-xs-offset-0 col-xs-12">
+          <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+          <button type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交</button>
+          
+		        
+    </div>
+    <object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>

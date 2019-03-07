@@ -1,0 +1,55 @@
+
+	<div class="container center">
+		<div class="timeout pull-right"><span>{{timeout}}</span></div>
+		<h1>请选择服务项目</h1>
+		<h3>Please select services</h3>
+		<div class="menu row">
+			<div class="col-md-3">
+				<a href="" class="thumbnail" ng-click="action('query')">
+					<h2>查询余额</h2>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a href="" class="thumbnail" ng-click="action('withdraw')">
+					<h2>现金取款</h2>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a href="" class="thumbnail" ng-click="action('deposit')">
+					<h2>现金存款</h2>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a href="" class="thumbnail" ng-click="action('pin')">
+					<h2>密码修改</h2>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a href="" class="thumbnail" ng-click="action('transfer')">
+					<h2>账户转账</h2>
+				</a>
+			</div>
+			<div class="col-md-3">
+				<a href="" class="thumbnail" ng-click="action('detail')">
+					<h2>查询明细</h2>
+				</a>
+			</div>
+			<!--
+			<div class="col-md-3">
+				<a href="" class="thumbnail" ng-click="action('return')">
+					<h2>返回</h2>
+				</a>
+			</div>
+			-->
+			<div class="col-md-3">
+				<a href="" class="thumbnail" ng-click="action('eject')">
+					<h2>取卡</h2>
+				</a>
+			</div>
+		</div>
+	</div>
+	<script>
+	var menu_keyActionTable = {
+		CANCEL: 'cancel'
+	};
+	</script>

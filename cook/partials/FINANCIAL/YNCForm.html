@@ -1,0 +1,37 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<div class="container indicates"> 
+      <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}</span>
+    </div>
+	</div>
+
+
+ <p style="font-size:35px;text-align: center;color:#000000;">请确认益农存签约信息</p></br>
+ 
+ <div class="cook-content">
+	<table class="col-xs-12 balance">
+		<tr> <th class="col-xs-6"><h3>客户姓名：</h3></th><td> <h3>{{pool.name}} &nbsp;</h3></td> </tr>
+		<tr> <th class="col-xs-6"><h3>身份证号：</h3></th><td> <h3>{{pool.pid}} &nbsp;</h3></td> </tr>
+		<tr> <th class="col-xs-6"><h3>民族：</h3></th><td> <h3>{{pool.nationality}} &nbsp;</h3></td> </tr>
+		<tr> <th class="col-xs-6"><h3>性别：</h3></th><td> <h3>{{pool.genderC}} &nbsp;</h3></td> </tr>
+		<tr> <th class="col-xs-6"><h3>出生日期：</h3></th><td> <h3>{{pool.brithday}} &nbsp;</h3></td> </tr>
+		<tr> <th class="col-xs-6"><h3>地址：</h3></th><td> <h3>{{pool.address}} &nbsp;</h3></td> </tr>
+		<tr> <th class="col-xs-6"><h3>身份证有效期开始：</h3></th><td> <h3>{{pool.issuedate}} &nbsp;</h3></td> </tr>
+		<tr> <th class="col-xs-6"><h3>身份证有效期结束：</h3></th><td> <h3>{{pool.abatedate}} &nbsp;</h3></td> </tr>
+		
+	</table>
+</div>
+
+</br>
+</br>
+
+      <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+      <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('return')">退出</button>
+      
+      <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+		 
+    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>

@@ -1,0 +1,99 @@
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+<div class="" style="margin-left:10px;border:0px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue;height:600px;width:1260px">
+<h1  style="font-size:34px;margin-top:0px;text-align: center;">交易成功</h1>
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">Transaction succeed</h3>
+
+    <div  style="margin-left:300px;margin-top:10px">
+		<table border="0" cellpadding="0" cellspacing="0" class="col-xs-offset-1 col-xs-12" style="height:175px;"> 
+			 <tr>
+			    <td  width="75px" height="35px"><span style="font-size:30px;">交易账号：</span></td>
+			    <td  width="100px" height="35px"><span style="font-size:30px;color:#0B7DF2">{{pool.page_CardNo}}</span></td>
+			 </tr>
+			 <tr>
+			    <td height="35px"><span style="font-size:30px;">设备终端号：</span></td>
+			    <td height="35px"><span style="font-size:30px;color:#0B7DF2">{{pool.terminalId}}</span></td>
+			 </tr>
+			 <tr>
+			    <td height="35px"><span style="font-size:30px;">交易时间：</span></td>
+			    <td height="35px" ><span style="font-size:30px;color:#0B7DF2">{{pool.page_TransTime}}</span></td>
+			 </tr>
+			 <tr>
+			    <td height="35px"><span style="font-size:30px;">交易日期：</span></td>
+			    <td  height="35px"><span style="font-size:30px;color:#0B7DF2">{{pool.page_TransDate}}</span></td>
+			 </tr>
+			 <tr>
+			    <td height="35px"> <span style="font-size:30px;">交易金额：</span></td>
+			    <td  height="35px"><span style="font-size:30px;color:#0B7DF2">{{pool.page_transAmount}}</span></td>
+			 </tr>
+			 <tr>
+			    <td height="35px"><span style="font-size:30px;">交易类型：</span></td>
+			    <td height="35px" ><span style="font-size:30px;color:#0B7DF2">{{pool.page_TransKeyPrint}}</span></td>
+			 </tr>
+			 
+		 </table>
+	</div>
+<div style="margin-top:30%;">
+	<div ng-if="pool.receipt == 'active'">
+		<div ng-if="pool.crown == 'active'" style="margin-left:0%;">
+			   <div ng-if="pool.NCCWDContinue == 'active'" style="margin-left:-115px;">
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr "  ng-click="action('receipt')">打印凭条</button>
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('crown')" >打印冠字号</button>
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('eject')" >{{pool.page_Eject}}</button>
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('NCCWDContinue')">继续取款</button>
+		            <button type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('NCCWDEnd')">结束预约</button>
+		       </div>
+		       <div ng-if="pool.NCCWDContinue != 'active'" style="margin-left:17%;">
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr "  ng-click="action('receipt')">打印凭条</button>
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('crown')" >打印冠字号</button>
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('eject')" >{{pool.page_Eject}}</button>
+	           </div>
+	   </div>
+	   <div ng-if="pool.crown != 'active'" style="margin-left:5%;">
+			  <div ng-if="pool.NCCWDContinue == 'active'" style="margin-left:0%;">
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr "  ng-click="action('receipt')">打印凭条</button>
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('eject')" >{{pool.page_Eject}}</button>
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('NCCWDContinue')">继续取款</button>
+			       <button type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('NCCWDEnd')">结束预约</button>
+			  </div>
+			  <div ng-if="pool.NCCWDContinue != 'active'" style="margin-left:23%;">
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr "  ng-click="action('receipt')">打印凭条</button>
+				    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('eject')" >{{pool.page_Eject}}</button>
+			  </div>
+	   </div>
+  </div>
+
+  <div ng-if="pool.receipt != 'active'">
+	 <div ng-if="pool.crown == 'active'" style="margin-left:0%;">
+		   <div ng-if="pool.NCCWDContinue == 'active'" style="margin-left:6%;">	
+			    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('crown')" >打印冠字号</button>
+			    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('eject')" >{{pool.page_Eject}}</button>
+			    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('NCCWDContinue')">继续取款</button>
+	            <button type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('NCCWDEnd')">结束预约</button>
+	       </div>
+	       <div ng-if="pool.NCCWDContinue != 'active'" style="margin-left:30%;">
+			    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('crown')" >打印冠字号</button>
+			    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('eject')" >{{pool.page_Eject}}</button>
+           </div>
+     </div>
+     <div ng-if="pool.crown != 'active'" style="margin-left:15%;">
+		  <div ng-if="pool.NCCWDContinue == 'active'" style="margin-left:4%;">
+			    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('eject')" >{{pool.page_Eject}}</button>
+			    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('NCCWDContinue')">继续取款</button>
+		        <button type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('NCCWDEnd')">结束预约</button>
+		  </div>
+		  <div ng-if="pool.NCCWDContinue != 'active'" style="margin-left:25%;">
+			    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('eject')" >{{pool.page_Eject}}</button>
+		  </div>
+    </div>
+ </div>
+
+
+</div>
+
+
+
+

@@ -1,0 +1,75 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript">
+document.getElementById("MUSIC1").src = "wav/输入取款错误.wav";
+document.getElementById("amount").focus();
+</script>
+<div class="container indicates">
+	<span class="timeout pull-right">{{timeout}}</span>
+</div>
+<div class="container step col-xs-offset-0 col-xs-12" style="margin-top:-50px">
+	<h1 class="text-center">该金额无法提供,请重新输入</h1>
+	<h3 class="text-center">The amount is unavailable,Please enter a new amount</h3>
+</div>
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12">
+        <div class="input-group input-group-lg button-navbor1">
+            <input type="text" class="form-control" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" id="amount" value="" 
+                onblur="this.focus()" ng-model="pool.transAmount" maxlength="4" data-container="body"  data-placement="left"  
+                title="<sp class='fg-red'>金额输入有误 </sp>" data-content=""     data-html="true">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="button" ng-click="clear()">清  除</button>
+            </span>
+            
+        </div>
+        </div>
+    </form>
+</div>
+</br>
+<div style="margin-top:100px">
+<div>
+	<button type="button" class="col-xs-offset-2 col-xs-2 button-cash button-lg1" 
+    	ng-if="pool.page_CWDMaxAmount >= 100" ng-click="action('100')" >100</button>
+	<button type="button" class="col-xs-offset-1 col-xs-2 button-cash button-lg1" 
+    	ng-if="pool.page_CWDMaxAmount >= 200" ng-click="action('200')" >200</button>
+    <button type="button" class="col-xs-offset-1 col-xs-2 button-cash button-lg1" 
+    	ng-if="pool.page_CWDMaxAmount >= 500" ng-click="action('500')" >500</button>
+</div>
+</br>
+</br>
+</br>
+</br>
+<div>
+	<button type="button" class="col-xs-offset-2 col-xs-2 button-cash button-lg1" 
+    	ng-if="pool.page_CWDMaxAmount >= 700" ng-click="action('700')" >700</button>
+	<button type="button" class="col-xs-offset-1 col-xs-2 button-cash button-lg1" 
+    	ng-if="pool.page_CWDMaxAmount >= 1000" ng-click="action('1000')" >1000</button>
+    <button type="button" class="col-xs-offset-1 col-xs-2 button-cash button-lg1" 
+    	ng-if="pool.page_CWDMaxAmount >= 1500" ng-click="action('1500')" >1500</button>
+</div>
+</br>
+</br>
+</br>
+</br>
+<div>
+	<button type="button" class="col-xs-offset-2 col-xs-2 button-cash button-lg1" 
+    	ng-if="pool.page_CWDMaxAmount >= 2000" ng-click="action('2000')" >2000</button>
+	<button type="button" class="col-xs-offset-1 col-xs-2 button-cash button-lg1" 
+    	ng-if="pool.page_CWDMaxAmount > 2000" ng-click="action(pool.page_CWDMaxAmount)" >{{pool.page_CWDMaxAmount}}</button>
+
+</div></div>
+</br>
+</br>
+</br>
+<div>
+	<h1 class="text-center" style="font-size: 140%;color:#FFF;">
+		本机只提供面额 {{pool.page_CWDValue}} 元人民币</br>且单笔最多取 {{pool. page_CWDMaxAmount}} 元, 剩余预约额度 {{pool. orderAmount}} 元</br>涉及异地或跨行交易可能收费，详询发卡行
+	</h1>
+</div>
+<br>
+<div>
+	<button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 button-eject button-lg1" ng-click="action('cancel')" >取消</button>
+
+ 	<button id="confirm" type="button" class="col-xs-offset-2 col-xs-2 button-confirm button-lg1" 
+    	onclick="checkCWDAmount('page_CWDMaxAmount', 'page_CWDValue');">确认</button>
+</div>

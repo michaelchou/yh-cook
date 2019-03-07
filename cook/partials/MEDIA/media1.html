@@ -1,0 +1,48 @@
+	
+
+
+	<div class="container center" >
+		<div class="timeout pull-right" ><span>{{timeout}}</span></div>
+		<div class="title">
+			<h1 >远程视频测试Media1</h1>
+			<p >Please select services<p>
+		</div>
+
+			<div class="menu row" style="width:80%;margin:4% auto;" >
+				<div class="col-md-3 card">
+					<a class="thumbnail thumbnail-mianMenu button-hide-{{buttons.INQ}}" onclick="TellerLogin()">
+						<p>登陆</p>
+					</a>
+				</div>
+				<div class="col-md-3 card">
+					<a href="" class="thumbnail thumbnail-mianMenu button-hide-{{buttons.INQ}}" ng-click="action('next')">
+						<p>下一步</p>
+					</a>
+				</div>
+				<div class="col-md-3 card">
+					<a class="thumbnail thumbnail-mianMenu " ng-click="action('eject')">
+						<p>退出</p>
+					</a>
+				</div>
+			</div>
+		
+	</div>
+<script>
+	var menu_keyActionTable = {
+		CANCEL: 'cancel'
+	};
+	
+</script>	
+<script>
+	function TellerLogin()
+	{ 	  
+		var ret = MyActiveX.mediaTerminalLogin("VTM101","YH_Terminal101");
+	}
+	function onLoginSuccess(eventInfo)
+	{
+		alert(eventInfo);
+	}
+</script>
+	
+
+	

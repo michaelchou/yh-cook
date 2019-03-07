@@ -1,0 +1,36 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript">
+	document.getElementById("input").focus();
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+<div class="container step col-xs-offset-o col-xs-12">
+    <h1 class="text-center">请输入6位预约码,并按[确认]键</h1>
+    <h3 class="text-center">Please enter the account number and press enter</h3>
+    
+</div>
+
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12" style="margin-left:10%">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" class="form-control" id="input" onkeyup="checkInput(id, '^[0-9]{1,6}$')" 
+                    value="" onblur="this.focus()" ng-model="pool.input_NCCWDVerifyCodeNumber" maxlength="6"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>验证码输入有误</sp>" data-content="" data-html="true" >
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="clear()" >清  除</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+<br>
+<br>
+
+<div style="margin-top:25%;margin-left:7%">
+  	<button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt"  ng-click="action('cancel')">取消</button>
+    <button id="confirm" type="button" class="col-xs-offset-2 col-xs-2 image-btgr"  onclick="checkRandomCode2()">确认</button>
+  </div>

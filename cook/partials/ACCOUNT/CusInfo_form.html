@@ -1,0 +1,629 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#jobselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#economyselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#hyselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#ttlselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#residentselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#regselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+var scope = angular.element(main).scope();
+creatTree(0,"填写表单");
+	
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+
+
+scope.$watch('pool.name', function(){
+if(undefined!=scope.pool["name"]){
+	if(scope.pool["ST_EconTyp"] == "41"){
+		document.getElementById("economyselect").value="个人-个体户";
+	}else if(scope.pool["ST_EconTyp"] == "42"){
+		document.getElementById("economyselect").value="个人-个体合作";
+	}else if(scope.pool["ST_EconTyp"] == "43"){
+		document.getElementById("economyselect").value="个人-个人消费";
+	}else if(scope.pool["ST_EconTyp"] == "44"){
+		document.getElementById("economyselect").value="个人-农民";
+	}
+	
+	if(scope.pool["job"] == "01"){
+		document.getElementById("jobselect").value="各类专业，技术人员";
+	}else if(scope.pool["job"] == "02"){
+		document.getElementById("jobselect").value="国家机关，党组织，企事业单位负责人";
+	}else if(scope.pool["job"] == "03"){
+		document.getElementById("jobselect").value="办事人员和有关人员";
+	}else if(scope.pool["job"] == "04"){
+		document.getElementById("jobselect").value="商业工作人员";
+	}else if(scope.pool["job"] == "05"){
+		document.getElementById("jobselect").value="服务性工作人员";
+	}else if(scope.pool["job"] == "06"){
+		document.getElementById("jobselect").value="农林牧渔劳动者";
+	}else if(scope.pool["job"] == "07"){
+		document.getElementById("jobselect").value="生产工作，运输工作和部分体力劳动者";
+	}else if(scope.pool["job"] == "08"){
+		document.getElementById("jobselect").value="不便分类的其它劳动者";
+	}
+
+
+	if(scope.pool["ST_MrgFlag"] == "1"){
+		document.getElementById("hyselect").value="未婚";
+	}else if(scope.pool["ST_MrgFlag"] == "2"){
+		document.getElementById("hyselect").value="已婚";
+	}else if(scope.pool["ST_MrgFlag"] == "3"){
+		document.getElementById("hyselect").value="初婚";
+	}else if(scope.pool["ST_MrgFlag"] == "4"){
+		document.getElementById("hyselect").value="再婚";
+	}
+	
+	if(scope.pool["ST_CustTtl"] == "MR"){
+		document.getElementById("ttlselect").value="先生";
+	}else if(scope.pool["ST_CustTtl"] == "MS"){
+		document.getElementById("ttlselect").value="女士";
+	}else if(scope.pool["ST_CustTtl"] == "MISS"){
+		document.getElementById("ttlselect").value="小姐";
+	}else if(scope.pool["ST_CustTtl"] == "MRS"){
+		document.getElementById("ttlselect").value="夫人";
+	}
+	
+	if(scope.pool["ST_Register"] == "1"){
+		document.getElementById("regselect").value="本省";
+	}else if(scope.pool["ST_Register"] == "2"){
+		document.getElementById("regselect").value="外省市";
+	}else if(scope.pool["ST_Register"] == "3"){
+		document.getElementById("regselect").value="外籍";
+	}else if(scope.pool["ST_Register"] == "4"){
+		document.getElementById("regselect").value="其它";
+	}
+  
+	
+	
+	
+}
+});
+
+function commit(){
+ Hide();
+ var scope = angular.element(main).scope();
+ var mobile = document.getElementById("mobile").value;
+ var telephone = document.getElementById("telephone").value;
+ var postcode = document.getElementById("postcode").value;
+ var address = document.getElementById("address").value;
+ var economyselect = document.getElementById("economyselect").value;
+ var jobselect = document.getElementById("jobselect").value;
+ var hyselect = document.getElementById("hyselect").value;
+ var engname = document.getElementById("engname").value;
+ var ttlselect = document.getElementById("ttlselect").value;
+ var regselect = document.getElementById("regselect").value;
+ var residentselect = document.getElementById("residentselect").value;
+ 
+ var genderC = scope.pool["genderC"];
+ var reg = /^[1-9]\d{10}$/; //11位号码必须非0开头
+  if(ttlselect != '--可选择称谓--' && ((genderC == '男' && ttlselect != '先生') || (genderC == '女' && ttlselect == '先生'))){
+	$("#ttlselect").attr("data-content","请输入正确的称谓类型");
+   $("#ttlselect").popover('show');
+  }else if(mobile.length<11){
+   	$("#mobile").attr("data-content","请输入11位手机号");
+   $("#mobile").popover('show');
+  }else if(!reg.test(mobile)){
+  	$("#mobile").attr("data-content","请输入正确的手机号");
+   $("#mobile").popover('show');
+  }else if(null != telephone && telephone.length > 0 && telephone.length < 7){
+	$("#telephone").attr("data-content","请输入正确的家庭电话");
+   $("#telephone").popover('show');
+  }else if(address.length<=0){
+   $("#address").attr("data-content", "地址不能为空");
+   $("#address").popover('show');
+  }else if(address.indexOf(",") > -1){
+	$("#address").attr("data-content", "非法字符，请重新输入");
+	$("#address").popover('show');
+  }else{
+	scope.pool["mobile"] = document.getElementById("mobile").value;
+	scope.pool["address"] = document.getElementById("address").value;
+	
+    if(!ischina(document.getElementById("address").value)){
+		alert("家庭地址不小于6个汉字");
+		document.getElementById("address").focus();
+		return false;  
+	
+	  }
+	
+	
+	if(null != postcode && postcode.length > 0){
+		scope.pool["ST_StayPostcode"] = postcode;
+	}else{
+		scope.pool["ST_StayPostcode"] = '';
+	}
+	
+	if(null != telephone && telephone.length > 0){
+		scope.pool["telephone"] = telephone;
+	}else{
+		scope.pool["telephone"] = '';
+	}
+	
+	if(null != engname && engname.length > 0){
+		scope.pool["ST_EngName"] = engname;
+	}else{
+		scope.pool["ST_EngName"] = '';
+	}
+	
+	if(economyselect == "个人-个体户"){
+		scope.pool["ST_EconTyp"] = "41";
+	}else if(economyselect == "个人-个体合作"){
+		scope.pool["ST_EconTyp"] = "42";
+	}else if(economyselect == "个人-个人消费"){
+		scope.pool["ST_EconTyp"] = "43";
+	}else if(economyselect == "个人-农民"){
+		scope.pool["ST_EconTyp"] = "44";
+	}else{
+		scope.pool["ST_EconTyp"] = "";
+	}
+	
+	if(jobselect == "各类专业，技术人员"){
+		scope.pool["job"] = "01";
+	}else if(jobselect == "国家机关，党组织，企事业单位负责人"){
+		scope.pool["job"] = "02";
+	}else if(jobselect == "办事人员和有关人员"){
+		scope.pool["job"] = "03";
+	}else if(jobselect == "商业工作人员"){
+		scope.pool["job"] = "04";
+	}else if(jobselect == "服务性工作人员"){
+		scope.pool["job"] = "05";
+	}else if(jobselect == "农林牧渔劳动者"){
+		scope.pool["job"] = "06";
+	}else if(jobselect == "生产工作，运输工作和部分体力劳动者"){
+		scope.pool["job"] = "07";
+	}else if(jobselect == "不便分类的其它劳动者"){
+		scope.pool["job"] = "08";
+	}else{
+		scope.pool["job"] = "";
+	}
+	
+	if(hyselect == "未婚"){
+		scope.pool["ST_MrgFlag"] = "1";
+	}else if(hyselect == "已婚"){
+		scope.pool["ST_MrgFlag"] = "2";
+	}else if(hyselect == "初婚"){
+		scope.pool["ST_MrgFlag"] = "3";
+	}else if(hyselect == "再婚"){
+		scope.pool["ST_MrgFlag"] = "4";
+	}else{
+		scope.pool["ST_MrgFlag"] = "";
+	}
+	
+	if(ttlselect == "先生"){
+		scope.pool["ST_CustTtl"] = "MR";
+	}else if(ttlselect == "女士"){
+		scope.pool["ST_CustTtl"] = "MS";
+	}else if(ttlselect == "小姐"){
+		scope.pool["ST_CustTtl"] = "MISS";
+	}else if(ttlselect == "夫人"){
+		scope.pool["ST_CustTtl"] = "MRS";
+	}else{
+		scope.pool["ST_CustTtl"] = "";
+	}
+	
+
+	
+	if(scope.pool["ST_ResidentFlag"] == "2"){
+		if(residentselect == "居民"){
+			scope.pool["ST_ResidentFlag"] = "1";
+			scope.pool["IsTax"] = "1";
+		}else if(residentselect == "非居民"){
+			scope.pool["ST_ResidentFlag"] = "2";
+		    scope.pool["IsTax"] = "0";
+		}else{
+			scope.pool["ST_ResidentFlag"] = "";
+			scope.pool["IsTax"] = "0";
+		}
+	
+	}else{
+	   scope.pool["ST_ResidentFlag"] = "1";
+	   scope.pool["IsTax"] = "0";
+	}
+	
+	
+	
+	
+	if(regselect == "本省"){
+		scope.pool["ST_Register"] = "1";
+	}else if(regselect == "外省市"){
+		scope.pool["ST_Register"] = "2";
+	}else if(regselect == "外籍"){
+		scope.pool["ST_Register"] = "3";
+	}else if(regselect == "其它"){
+		scope.pool["ST_Register"] = "4";
+	}else{
+		scope.pool["ST_Register"] = "";
+	}
+	scope.action("submit");
+  }
+
+}
+
+
+function select2()
+{
+ if(document.getElementById("economyselect").value != "--可选择经济性质--")
+ {
+     $("#economyselect").popover('destroy');
+	 document.getElementById("economy").value = document.getElementById("economyselect").value;
+ }
+}
+
+function select3()
+{
+ if(document.getElementById("jobselect").value != "--可选择职业类型--")
+ {
+     $("#jobselect").popover('destroy');
+	 document.getElementById("job").value = document.getElementById("jobselect").value;
+ }
+}
+
+function select5()
+{
+ if(document.getElementById("hyselect").value != "--可选择婚姻状况--")
+ {
+     $("#hyselect").popover('destroy');
+	 document.getElementById("hunyin").value = document.getElementById("hyselect").value;
+ }
+}
+
+function select6()
+{
+ if(document.getElementById("ttlselect").value != "--可选择称谓--")
+ {
+     $("#ttlselect").popover('destroy');
+	 document.getElementById("custname").value = document.getElementById("ttlselect").value;
+ }
+}
+
+function select7()
+{
+ if(document.getElementById("regselect").value != "--可选择户籍类型--")
+ {
+     $("#regselect").popover('destroy');
+	 document.getElementById("register").value = document.getElementById("regselect").value;
+ }
+}
+
+function select8()
+{
+ if(document.getElementById("residentselect").value != "--可选择居民标志--")
+ {
+     $("#residentselect").popover('destroy');
+	 document.getElementById("resident").value = document.getElementById("residentselect").value;
+ }
+}
+  	/*校验是否中文名称组成 */
+    function ischina(str) {
+	var reg=/(.*[\u4E00-\u9FA5].*){6,}/;   /*定义验证表达式*/
+	return reg.test(str);     /*进行验证*/
+	
+    }
+/*	function check_address(){
+//	alert(ischina(document.getElementById("address").value))
+	   if(!ischina(document.getElementById("address").value)){
+		alert("家庭地址不小于6个汉字");
+		document.getElementById("address").focus();
+		return false;  
+	   }
+	}
+ */
+</script>
+<div class="container indicates"> 
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写客户信息修改表单</h3>
+
+  <form class="form-horizontal" style="margin-top:0%;margin-left:0%">
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">客户姓名</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="text" class='form-control' style='margin-top:18px;background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.name}}" disabled="disabled" readonly>
+      </div>
+	  <label for="pid" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000;">身份证号</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='margin-top:18px;background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="pid"  value="{{pool.pid}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">证件有效期</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="text" class='form-control' style='margin-top:18px;background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="abatedate" value="{{pool.abatedate}}" disabled="disabled" readonly>
+      </div>
+	  <label for="postcode" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000;">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;编</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="postcode" value="{{pool.ST_StayPostcode}}" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>邮编输入有误 </sp>" data-content=""  data-html="true" maxlength="6" >
+        
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="mobile" class="col-sm-2 control-label" style="margin-top:18px;color:#000000;margin-left:-18px;">英文名称
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/[^a-zA-Z. ]/g,'')"  onclick="openkeyset(3,900,500)" class="form-control" id="engname" value="{{pool.ST_EngName}}" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>英文名称输入有误 </sp>" data-content=""  data-html="true" maxlength="20" >
+        
+      </div>
+	  <label for="telephone" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;籍
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,350)" placeholder="请选择或输入户籍"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>户籍输入有误 </sp>" data-content=""    data-html="true" id="register"   >
+        <select class="form-control selectpicker" onchange="select7()"  id="regselect" style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset">
+          <option  disabled selected >--可选择户籍类型--</option>
+          <option>本省</option>
+          <option>外省市</option>
+          <option>外籍</option>
+          <option>其它</option>
+        </select>
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;谓</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择您的称谓"  class="form-control" data-container="body" id="custname">
+        <select class="form-control selectpicker" onchange="select6()"  id="ttlselect" style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>称谓选择有误 </sp>" data-content="" data-html="true" data-placement="right">
+          <option  disabled selected >--可选择称谓--</option>
+          <option>先生</option>
+          <option>女士</option>
+          <option>小姐</option>
+          <option>夫人</option>
+        </select>
+      </div>
+	  <label for="name" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">婚姻状况</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择您的婚姻状况"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>婚姻状况选择有误 </sp>" data-content=""    data-html="true" id="hunyin"   >
+        <select class="form-control selectpicker" onchange="select5()"  id="hyselect" style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset">
+          <option  disabled selected >--可选择婚姻状况--</option>
+          <option>未婚</option>
+          <option>已婚</option>
+          <option>初婚</option>
+          <option>再婚</option>
+        </select>
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="mobile" class="col-sm-2 control-label" style="margin-top:18px;color:#000000;margin-left:-18px;">手机号码
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="mobile" value="{{pool.mobile}}" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>手机号输入有误 </sp>" data-content=""  data-html="true" maxlength="11" >
+        
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+	  <label for="tel" class="col-sm-2 control-label" style="margin-top:18px;color:#000000;margin-left:-32px;">家庭电话
+   
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="telephone" value="{{pool.telephone}}" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>家庭电话输入有误 </sp>" data-content=""  data-html="true" maxlength="12" >
+        
+      </div>
+    </div>
+	<div class="form-group">
+	  <label for="job" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000;">经济性质</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入职业"  class="form-control" data-container="body" data-placement="right" 
+    			  title="<sp class='fg-red'>职业输入有误 </sp>" data-content=""    data-html="true" id="economy"   >
+        <select class="form-control selectpicker" onchange="select2()"  id="economyselect" style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>经济性质输入有误 </sp>" data-content=""    data-html="true" data-placement="right">
+          <option  disabled selected >--可选择经济性质--</option>
+          <option>个人-个体户</option>
+          <option>个人-个体合作</option>
+          <option>个人-个人消费</option>
+          <option>个人-农民</option>
+        </select>
+      </div>
+	  <label for="job" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000;">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入职业"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>职业输入有误 </sp>" data-content=""    data-html="true" id="job"   >
+        <select class="form-control selectpicker" onchange="select3()"  id="jobselect" style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset">
+          <option  disabled selected >--可选择职业类型--</option>
+          <option>各类专业，技术人员</option>
+          <option>国家机关，党组织，企事业单位负责人</option>
+          <option>办事人员和有关人员</option>
+          <option>商业工作人员</option>
+		  <option>服务性工作人员</option>
+		  <option>农林牧渔劳动者</option>
+		  <option>生产工作，运输工作和部分体力劳动者</option>
+		  <option>不便分类的其它劳动者</option>
+        </select>
+      </div>
+    </div>
+	<div class="form-group">
+	  <label for="address" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">居民标志
+      </label>
+	  	  <!-- 核心返回居民 -->
+       <div class="col-sm-3" style="margin-left:18px;" ng-if="pool.ST_ResidentFlag != 2" >
+        <input type="text" class='form-control' style='margin-top:18px;background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset' 
+		 id="residentselect" value="居民" disabled="disabled" readonly>		
+	  <label  style="margin-top:15px;margin-left:-15px;font-size:13px;color:#FF0000">本人确认税收居民信息的真实、准确和完整
+      </label>
+	
+      </div> 
+	  <!-- 核心返回非居民  -->
+	    <div class="col-sm-3" style="margin-left:18px;"  ng-if="pool.ST_ResidentFlag == 2">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择您的居民标志"  class="form-control" data-container="body" id="resident">
+        <select class="form-control selectpicker" onchange="select8()"  id="residentselect" style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>居民标志选择有误 </sp>" data-content="" data-html="true" data-placement="right">
+          <option  disabled selected >--可选择居民标志--</option>
+          <option>居民</option>
+          <option selected = "selected">非居民</option>    
+          
+        </select>
+		
+		<label  style="margin-top:15px;margin-left:0px;font-size:12px;color:#FF0000">本人确认税收居民信息的真实、准确和完整
+        </label>
+      </div> 
+	  <!-- /核心返回非居民 ng-model="pool.address" -->
+	  
+	  
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+	  
+	  
+	  <label for="address" class="col-sm-2 control-label" style="margin-top:18px;color:#000000;margin-left:-32px;">家庭地址
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <textarea style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset" class="form-control" rows="2" 
+		onkeyup="checkInput(id)" onclick="openkeyset(2,900,260)" id="address"   class="form-control" data-container="body"  data-placement="right" 
+    	title="<sp class='fg-red'>地址输入有误 </sp>" data-content="请输入您的地址"    data-html="true"  maxlength="60"/>{{pool.ST_CIMAddress}}</textarea>
+      </div>
+	  <div style="margin-top:-40px;margin-left:3px;">
+	 	 <span class="input-group-btn">
+			<button class="image-btfr" style="font-size:15px;"  type="button" id="button" onclick="update()" >更新为身份证地址</button>
+		</span>	 	
+         <span class="input-group-btn">
+			<button class="image-btfr" style="font-size:15px;display:none"  type="button" id="button1"  onclick="update1()" >撤销更新身份证地址</button>
+		</span>	 		
+	 </div>
+      <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:35px"></sp>
+    </div>
+    
+  </form>
+  
+</div>
+</br>
+</br>
+
+      <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;margin-top:45%">
+      <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('return')">退出</button>
+      
+          <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>
+		 
+    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>
+
+<script>
+var  address_temp;
+function update(){
+  
+         var  address =   scope.pool["address"];
+		
+	    address_temp = document.getElementById("address").value ;
+		document.getElementById("button1").style.display="block";
+		document.getElementById("button").style.display="none";
+		document.getElementById("address").value = address ;
+		
+	}
+	function update1(){
+	   	document.getElementById("address").value = address_temp;
+	    document.getElementById("button").style.display="block";
+		document.getElementById("button1").style.display="none";
+	}
+</script>

@@ -1,0 +1,151 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script language="JavaScript" type="text/JavaScript">
+
+  var scope = angular.element(main).scope();
+  
+  creatTree(0,"填写表单");
+
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+Show(type,x,y)
+  
+}
+
+function commit(){
+ Hide();
+ 
+ var scope = angular.element(main).scope();
+ var mobile = document.getElementById("mobile").value.trim();
+ var telephone = document.getElementById("telephone").value.trim();
+ var address = document.getElementById("address").value.trim();
+ var reg = /^[1-9]\d{10}$/; //11位号码必须非0开头
+  if(mobile.length<11){
+   	$("#mobile").attr("data-content","请输入11位手机号");
+   $("#mobile").popover('show');
+  }else if(!reg.test(mobile)){
+  	$("#mobile").attr("data-content","请输入正确的手机号");
+   $("#mobile").popover('show');
+  }else if(null != telephone && telephone.length > 12 ){
+	$("#telephone").attr("data-content","请输入正确的联系电话");
+   $("#telephone").popover('show');
+  }else if(address.length<=0){
+   $("#address").popover('show');
+  }else if(address.indexOf(",") > -1)
+  {
+	$("#address").attr("data-content", "非法字符，请重新输入");
+	$("#address").popover('show');
+  }else{
+	
+	scope.action("submit");
+  }
+
+}
+</script>
+
+<div class="container indicates"> <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}</span>
+    </div> </div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写理财签约表单</h3>
+
+  <form class="form-horizontal" style="margin-top:5%;margin-left:0%">
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  
+			id="name" value="{{pool.name}}" disabled="disabled" readonly>
+      </div>
+	  <label for="pid" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">身份证号</label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text" style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" 
+			id="pid"  value="{{pool.pid}}" disabled="disabled" readonly>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="cardNo" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">卡号</label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text" style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" 
+			id="cardNo"  value="{{pool.cardNo}}" disabled="disabled" readonly>
+      </div>
+	  <label for="address" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">通讯地址</label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="tel"  style="border:1px blue solid;box-shadow:0 0px 0px #000 inset"  onclick="openkeyset(2,900,500)" class="form-control" 
+					id="address" value="{{pool.address}}" ng-model="pool.address" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-blue'>通讯地址输入有误 </sp>" data-content=""  data-html="true" maxlength="60" >
+        
+      </div>
+    </div>
+    <div class="form-group" style="border:0px blue solid;">
+	
+		<label for="custmanage" class="col-sm-2 control-label" style="margin-top:20px;color:#000000;margin-left:-18px;">经理代码 </label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(1,900,500)" 
+				id="custmanage" value="{{pool.custmanage}}" ng-model="pool.custmanage" class="form-control" data-container="body"  data-placement="right" 
+    			  title="<sp class='fg-blue'>经理代码输入有误 </sp>" data-content="请输入经理代码"    data-html="true"  maxlength="12"/>
+      </div>
+      
+         
+		<label for="mobile" class="col-sm-2 control-label" style="margin-top:20px;color:#000000;margin-left:-18px;">联系电话
+   
+      </label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="tel"  style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" 
+				id="telephone" value="{{pool.telephone}}" ng-model="pool.telephone" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-blue'>联系电话输入有误 </sp>" data-content=""  data-html="true" maxlength="11" >
+        
+      </div>
+    </div>
+   
+    <div class="form-group" style="border:0px blue solid;">
+     <label for="mobile" class="col-sm-2 control-label" style="margin-top:20px;color:#000000;margin-left:-18px;">手机号码
+      </label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="tel"  style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" 
+				id="mobile" value="{{pool.mobile}}" ng-model="pool.mobile" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-blue'>手机号输入有误 </sp>" data-content=""  data-html="true" maxlength="11" >
+        
+      </div>
+	  <sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:30px"></sp>
+	  
+    </div>
+   </br>
+   </br>
+   </br>
+   </br>
+   </br>
+   
+  </form>
+  
+  
+</div>
+       </div>
+      
+         <div class="cook-foot col-xs-offset-0 col-xs-12">
+             	    <button  type="button" class="col-xs-offset-4 col-xs-2 image-bt"  ng-click="action('return')">返回</button>
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"   onclick="resetModel('telephone','telephone');commit()">提交审核</button>
+
+	    </div>	
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

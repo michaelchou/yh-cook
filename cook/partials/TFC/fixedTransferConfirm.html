@@ -1,0 +1,62 @@
+<script>
+
+
+
+
+</script>
+
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+
+
+ <div class="col-xs-offset-1 col-xs-10" style= "border:0px red solid;">
+ <div class="cook-head">
+  	<h1 class="text-center">请确认您的交易信息</h1>
+    <h3 class="text-center">Please confirm your transaction information</h3>
+</div>
+
+<div class="cook-content">
+    <table class="col-xs-12 balance" border="1">
+        <tr>
+            <td><th class="col-xs-3"><h3>交易类型:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.CurrentTransType}}</h3></td>
+            <td><th class="col-xs-3"><h3>交易金额:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.transamount_show}}</h3></td>
+        </tr>
+        <tr>
+			<td><th class="col-xs-3"><h3>存期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.page_Term}}</h3></td>
+			<td><th class="col-xs-3"><h3>是否自动转存:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.autoTransfer}}</h3></td>
+        </tr>
+		<tr>
+			<td><th class="col-xs-3"><h3>利率:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.intersetRate1}}</h3></td>
+			<td><th class="col-xs-3"><h3></h3></th></td>
+            <td class="col-xs-3"><h3></h3></td>
+        </tr>
+		
+
+    </table>
+</div>
+
+
+
+
+
+</br>
+
+<div>
+  <h1 class="text-center" style="font-size: 180%;color:#000">请核对上述信息是否正确</br>按[确认]键继续</br></h1>
+</div>
+</div>
+
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+	<button id="cancel" type="button"  class="col-xs-offset-3 col-xs-2 image-bt"   ng-click="action('return')">取消</button>
+    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('modify')">返回修改</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+</div>

@@ -1,0 +1,228 @@
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="application/javascript" language="javascript" >
+    var scope = angular.element(main).scope();
+	function Show(type,x,y){
+	  try {
+			HandWrite.Show(type,1,x,y);
+		  } catch (e) {
+			//alert(e);
+			scope.closeHandWriter();
+			location.reload();
+			return;
+		}
+	}
+
+	function openkeyset(type,x,y){
+		Show(type,x,y)
+	}
+	
+	function signReturn()
+	{
+		scope.closeHandWriter();
+		scope.action("return");
+	}
+	
+    function subscription() {
+        var checkbox = document.getElementById("checkbox");
+        var error = "";
+       if(checkbox.checked==false)
+    	{
+        	error = "请先阅读相关协议";
+        	$("#" + checkbox.id).attr("data-content", error);
+            $("#" + checkbox.id).popover('show');
+            scope.timeout = scope._timeout;
+    	}else {
+    		$("#" + checkbox.id).popover('destroy');
+			scope.closeHandWriter();
+            scope.action("confirm");
+        }
+    }
+    scope.lookover = function (type) {
+        scope.timeout = 60;
+        var docdata = scope.pool["FinancialProductSubscription"].split("@")[0]+"@"+type;
+      	 //document.getElementById("slideShow3").style.display="block";
+        $('#myModal').modal('show');
+        $.ajax({
+   	     url: "/custom/document",
+   	    cache: false,
+   	    type: "get",
+   	    data: "commandID="+docdata,
+   	    dataType: 'json',
+   	    success: function(data) {
+        	showSWF(data.messageText);
+   	    		
+   	    }
+   	});
+//      	 setTimeout(function(){
+//      		 BrowserCallback("key.FinancialProduct#"+scope.pool["FinancialProductSubscription"].split('@')[0]+"#"+type);
+//      	 },1000)
+      	
+      }
+      var pageNo = 1;
+      var pageSize = 0;
+      var jpglist;
+      function showSWF(data)
+      {
+   	scope.timeout = scope._timeout;
+       if(data=="")
+       {
+      	 document.getElementById("slideShow").innerHTML="<span    style='position:fixed;left:30%;top:40%;font-size:100px;' >打开文档失败</span>";
+      	 document.getElementById("slideShow").style.display="block";
+      	 document.getElementById("slideShow2").style.display="block";
+      	 document.getElementById("NewTime").style.display="block";
+   	     //document.getElementById("slideShow3").style.display="none";
+      	$('#myModal').modal('hide');
+   	     document.getElementById("Flex").style.display="block";
+      	 return;
+       }
+       pageNo = 1;
+       jpglist=data.split("#");
+       pageSize = jpglist.length;
+       var li="";
+       if(pageSize >0)
+       {
+   	     li="<img id='imgDOC' src=''  style='width;150%;height:200%;' />";
+   	     document.getElementById("slideShow").innerHTML=li;
+   	     document.getElementById("slideShow").style.display="block";
+   	     document.getElementById("slideShow2").style.display="block";
+   	     document.getElementById("NewTime").style.display="block";
+   	  document.getElementById("imgDOC").src=jpglist[pageNo-1]+"?"+Math.random();
+   	     //document.getElementById("slideShow3").style.display="none";
+   	     $('#myModal').modal('hide');
+   	     document.getElementById("Flex").style.display="block";
+   	     //document.getElementById("showDOCbtn").style.display="block";
+   	     if(pageSize>1)
+   	     {
+   	    	 document.getElementById("nextDOC").style.display="block";
+   	     }
+       }
+      }
+      function Flexhidden()
+      {
+      	document.getElementById("slideShow").style.display="none";
+          document.getElementById("Flex").style.display="none";
+          document.getElementById("NewTime").style.display="none";
+          document.getElementById("nextDOC").style.display="none";
+          document.getElementById("preDOC").style.display="none";
+          document.getElementById("slideShow2").style.display="none";
+      }
+      function nextDOC(num)
+      {
+      	pageNo = pageNo + num;
+      	document.getElementById("imgDOC").src=jpglist[pageNo-1]+"?"+Math.random();
+      	if(pageNo ==1)
+      	{
+      	  document.getElementById("preDOC").style.display="none";
+      	  document.getElementById("nextDOC").style.display="block";
+      	}else if(pageNo ==pageSize)
+      	{
+      		document.getElementById("preDOC").style.display="block";
+      		document.getElementById("nextDOC").style.display="none";
+      	}else{
+      		document.getElementById("preDOC").style.display="block";
+      		document.getElementById("nextDOC").style.display="block";
+      	}
+      }
+      
+	  
+</script>
+<div class="slideShow" id="slideShow" style="overflow:auto;display:none;position:fixed;top:0%;left:10%;width:80%;height:100%;z-index:999">
+</div>
+<div id="slideShow2" style="display:none;background-size:100% 100%;background-image:url(1280/image/11.jpg);position:fixed;top:0%;left:0%;width:100%;height:100%;z-index:99">
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal"  data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" backdrop="static">
+  <div class="modal-dialog ">
+    <div class=" col-xs-offset-3 col-lg-6 alert alert-danger fade in" style="top:300px">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">下载中,请稍后...<br>
+      </div>
+      <img id="lcyws" src="image/process.gif" class="center" />
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div id="Flex"  style="display:none;width:30px;height:30px;position:fixed;left:88%;top:0%;background-image:url(image/red.png);background-size:100%;z-index:9999;"  onclick="Flexhidden()">
+</div>
+<div id="NewTime"   style="display:none;position:fixed;left:91%;top:2%;z-index:99999;font-family:'黑体';font-size: 300%;color:#F90;" >
+<span>{{timeout}}</span>
+</div>
+<div class="jiantou fg-black" id="preDOC" style="display:none;position:fixed;left:8%;top:30%;z-index:9999" onclick="nextDOC(-1)"> < </div>
+<div class="jiantou fg-black" id="nextDOC" style="display:none;position:fixed;left:89.6%;top:30%;z-index:9999" onclick="nextDOC(1)"> > </div>
+     <div class="container indicates">
+    <div class="timeout pull-right"><span>{{timeout}}</span></div>
+</div>
+    <div class="col-xs-offset-1 col-xs-10" style= "border:0px red solid;">
+<div class="cook-head">
+   <h1 class="text-center">请阅读撤单申请承诺书</h1>
+    <h3 class="text-center">Please input your subscription number</h3>
+
+</div>
+
+<div class="cook-content">
+<div class="col-xs-offset-0 col-xs-12" style= " height: 80px;border:0px red solid;">
+                <div class="col-md-3 card">
+				  <img id="ProductAgreement" src="image/tfc/ProductAgreement.png" onmousedown="Mousedown(this)" class="center" ng-click="lookover(0)" />
+				</div>
+				
+				<div class="col-md-3 card">
+				  <img id="ProductRisk" src="image/tfc/ProductRisk.png" onmousedown="Mousedown(this)" class="center" ng-click="lookover(1)"/>
+				</div>
+				
+				<div class="col-md-3 card">
+				  <img id="ProductEquity" src="image/tfc/ProductEquity.png" onmousedown="Mousedown(this)" class="center" ng-click="lookover(2)"/>
+				</div>
+	
+</div>
+<input style="margin-left:43%;margin-top:-1%;width: 30px;height: 20px;" type="checkbox" value="" name=""  id="checkbox"
+		data-container="body"  data-placement="left"  title="<sp class='fg-red'>错误提示</sp>" data-content="" data-html="true" onclick="" /><span style="font-size:25px;">我已阅读并同意</span>
+    <table class="col-xs-12 balance " border="1">
+        <tr>
+            <td ><th class="col-xs-3"><h3>产品名称:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[1]}}</h3></td>
+            <td><th class="col-xs-3"><h3>产品级别:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[4]}}</h3></td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"><h3>发售期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[16]}}~{{pool.FinancialProductSubscription.split('@')[17]}}</h3></td>
+            <td><th class="col-xs-3"><h3>投资期限:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[2]}}~{{pool.FinancialProductSubscription.split('@')[3]}}</h3></td>
+        </tr>
+
+        <tr>
+            <td><th class="col-xs-3"><h3>最低认购份额:</h3></th></td>
+            <td class="col-xs-3"> <h3>{{pool.FinancialProductSubscription.split('@')[10]}}</h3></td>
+            <td><th class="col-xs-3"><h3>最高认购份额:</h3></th></td>
+            <td class="col-xs-3"> <h3>{{pool.FinancialProductSubscription.split('@')[11]}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>每份金额:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[7]}}</h3></td>
+            <td><th class="col-xs-3"><h3>产品状态:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[8]}}</h3></td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"><h3>预期收益率:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[5]}}</h3></td>
+			<td><th class="col-xs-3"><h3>申购金额:</h3></th></td>
+            <td class="col-xs-3"><h3 id="changeAmt">0.00</h3></td>
+        </tr>
+    </table>
+</div>
+</br>
+</br>
+
+<div style="margin-top:5%">
+    <h1 class="text-center" style="font-size: 180%;color:#fff"></h1>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="margin-top:50%">
+    <button type="button" class="col-xs-offset-4 col-xs-2 image-btor"   onclick="signReturn()">返回</button>
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="subscription()">确认撤单</button>
+</div>		
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

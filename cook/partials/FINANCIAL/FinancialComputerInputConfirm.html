@@ -1,0 +1,44 @@
+
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+	</div>
+ <p style="font-size:35px;text-align: center;color:#000000;">请确认存款利息计算输入</p></br>
+<table class="col-xs-12 balance " style="margin-bottom:8px;color:#000000;height:220px;">
+      <tr>
+            <td><th class="col-xs-3"><h3>币别:</h3></th></td>
+            <td class="col-xs-3"><h3>人民币</h3></td>
+			<td><th class="col-xs-3"><h3>金额:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FComputer_amount}}</h3></td>
+        </tr>
+		
+		<tr>
+            <td><th class="col-xs-3"><h3>产品类型:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FComputer_productCode_show}}</h3></td>
+			<td><th class="col-xs-3"><h3>存期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FComputer_term_show}}</h3></td>
+        </tr>
+		
+		<tr>
+            <td><th class="col-xs-3"><h3>存入日期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FComputer_startDate_show}}</h3></td>
+			<td><th class="col-xs-3"><h3>结清日期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FComputer_endDate_show}}</h3></td>
+        </tr>
+		
+		
+    </table>
+
+
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+    <button id="cancel" type="button"  class="col-xs-offset-3 col-xs-2 image-bt"   ng-click="action('return')">取消</button>
+    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('modify')">返回修改</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+</div>

@@ -1,0 +1,19 @@
+
+<div class="container apply">
+<div class="row">
+    <div class="div_left col-md-3">
+        <ng-include src="'partials/card_left.html'"></ng-include>
+    </div>
+    <div class="div_right col-md-9">
+        <div class="indicates">
+    		<span class="timeout pull-right">{{timeout}}</span>
+            <h1>请激活卡片</h1>
+    	</div>
+
+    	<div class="step">
+            <h2 class="text-center">您的卡尚未激活，请点击激活按钮进行激活</h2>
+            <button type="button" class="button button-primary button-lg" ng-click="action('active')">激活</button>
+    	</div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,61 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+
+	var scope = angular.element(main).scope();
+	scope.selectSignType = function (pid) {	
+		var _detail = scope.pool["detail"].split('#');
+        for (var i = 0; i < _detail.length; i ++) {
+            if (pid == _detail[i].split('@')[0]) {
+                scope.pool["PBankSignDetail"] = _detail[i];
+				scope.pool["ST_CifCertNo"] = _detail[i].split('@')[10];
+				scope.pool["ST_CifSeq"] = _detail[i].split('@')[0];
+				scope.pool["ST_CifType"] = _detail[i].split('@')[9];
+				scope.pool["ST_CifNo"] = _detail[i].split('@')[13];
+                break;
+            }
+        }
+		scope.action("confirm");
+	}
+	
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+    <div class="cook-head">
+		<h1 class="text-center">客户手机银行签约记录</h1>
+    </div>
+    
+    <table class=" table-striped  table-bordered" width="100%" style="text-align:center;">
+        <tr style="font-weight:bold;font-size:18px;">
+            <td height="33px">手机银行客户号</td>
+            <td height="33px">证件类型</td>
+            <td height="33px">证件号码</td>
+            <td height="33px">客户姓名</td>
+            <td height="33px">客户性别</td>
+            <td height="33px">签约状态</td>
+            <td height="33px">操作</td>
+        </tr>
+        <tr ng-repeat="x in detail" >
+            <td height="33px">{{ x.key0}}</td>
+            <td ng-if="x.key9 == 'A'" height="33px">身份证</td>
+			<td ng-if="x.key9 == 'B'" height="33px">军官证</td>
+			<td ng-if="x.key9 != 'A' && x.key9 != 'B'" height="33px">{{x.key9}}</td>
+            <td height="33px">{{ x.key10}}</td>
+            <td height="33px">{{ x.key2}}</td>
+            <td height="33px">{{ x.key3}}</td>
+            <td height="33px">{{ x.key14}}</td>
+            <td height="33px">
+                <span class="input-group-btn" ng-if="!(x.key1 == 'N' || x.key1 == 'L')">
+                    <button class="btn btn-primary" type="button" ng-click="selectSignType(x.key0)">签约</button>
+                </span>
+            </td>
+        </tr>
+	</table>
+</div> 	   
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+    <button type="button" class="col-xs-offset-5 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+</div>
+ 

@@ -1,0 +1,94 @@
+<!-- 社保欠费明细页面 -->
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../bower_components/icheck/icheck.min.js"></script>
+
+<link rel="stylesheet" href="../../../bower_components/icheck/skins/square/_all.css">
+
+<script language="javascript" type="text/javascript">
+	
+	function inputFixedSubAccount() {
+		var scope = angular.element(main).scope();
+		var radio=document.getElementsByTagName("input");
+		var result = false;
+		for (var i = 0; i < scope.detail.length; i ++) {
+			if (radio.item(i).checked && radio.item(i).type == "radio") {
+				
+					scope.pool["instype"] = scope.detail[i].key1;
+					scope.pool["bustype"] = scope.detail[i].key2;
+					scope.pool["ksny"] = scope.detail[i].key3;
+					scope.pool["zzny"] = scope.detail[i].key4;
+					scope.pool["amount"] = scope.detail[i].key9;
+					scope.pool["payno"] = scope.detail[i].key5;
+				
+				result = true;
+				break;
+			}
+		}
+		if (result) {
+			scope.action("confirm");
+		}
+	}
+</script>
+<style>
+   .cssinput{
+      height:20px;
+	  width:20px;
+   }
+</style>
+<div style="height:420px">
+<div class="container indicates">
+	<span class="timeout pull-right">{{timeout}}</span>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+
+<div class="cook-head">
+    <h1 class="text-center">欠费信息如下</h1>
+    <h3 class="text-center">Account detail</h3>
+</div>
+<table class="table table-striped  table-bordered" width="96%" style="text-align:center">
+  <tr style="font-weight:bold;font-size:18px">
+     <td >保险种类</td>
+     <td >开始年月</td>
+     <td >终止年月</td>
+     <td >缴费单据号</td>
+     <td >缴费金额</td>
+  <tr ng-repeat="x in detail" >
+	  <td>{{ x.key1}}</td>
+      <td>{{ x.key3}}</td>
+      <td>{{ x.key4}}</td>
+      <td>{{ x.key5}}</td>
+      <td>{{ x.key9}}</td>
+  </tr>
+</table>
+
+</div>
+
+<div class="cook-foot col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+ <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+ 	<h1 class="text-center" style="font-size: 140%;">第{{pageNo}}页,共{{pageSize}}页</h1>	
+ </div>
+ <div ng-if="pageSize > 1">
+	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+		<button  id="cancel" type="button" class="col-xs-offset-2 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+		<button  id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt"  ng-click="action('eject')" >{{pool.page_Eject}}</button>		
+	</div>
+
+	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+		<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;">
+			<button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-hide="Prev"ng-click="next(-1)">上一页</button>
+		</div>
+		<div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+			<button  type="button"  class="col-xs-offset-1 col-xs-2 image-btgr"   ng-hide="Next"    ng-click="next(1)">下一页</button>
+		</div>
+	</div>
+ </div>
+ <div ng-if="pageSize <= 1">	
+    <div class=" col-xs-offset-0 col-xs-12 "style="border:0px blue solid;">
+ 		<button  id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+ 		<button  id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt"  ng-click="action('eject')" >{{pool.page_Eject}}</button>
+    </div>  
+ </div> 
+ 
+</div>

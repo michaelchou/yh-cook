@@ -1,0 +1,33 @@
+<script language="javascript" type="text/javascript">
+document.getElementById("MUSIC1").src = "wav/选择服务项目.wav";
+</script>
+<div class="container center" style="margin-top:-4%">
+    <div class="timeout pull-right" ><span>{{timeout}}</span></div>
+    <div class="title">
+        <h1 class="text-center">请选择存款账户类型</h1>
+        <h3 class="text-center">Please select services</h3>
+    </div>
+	</br>
+    </br>
+	<div>
+        <div>
+            <a href="" class="thumbnail thumbnail-mianMenu btn btn-primary btn-lg active" ng-click="action('DEFAULT')">
+                <p>无卡存款</p>
+            </a>
+        </div>
+		</br>
+        <div>
+            <a href="" class="thumbnail thumbnail-mianMenu btn btn-primary btn-lg active" ng-click="action('PASSBOOK')">
+                <p>无折存款</p>
+            </a>
+        </div>
+	</div>
+    </br>
+    </br>
+    </br>
+    </br>
+    <div>
+        <button type="button" class="col-sm-offset-3 col-xs-2 button-confirm button-lg1" ng-click="action('return')">返回</button>
+        <button id="cancel" type="button" class="col-sm-offset-2  col-xs-2 button-eject button-lg1" ng-click="action('cancel')">取消</button>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<script src="js/admin/base.js"></script>
+<script>
+
+        
+var data = "/admin/NewAdminCycleServlet";
+var isRunning = false;
+$(document).ready(function() {
+
+	settledinspect();
+
+});
+
+function settledinspect(){
+   if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+
+	}
+
+    // $("#listview").text("******* "+getTime()+" ******* ");
+    
+	//$("#listview").css("display","block");
+	$("#listview").html("******* "+getTime()+" *******" +"\r动作：列清机核查单\r过程：正在列清机核查单...\r>>正在列清机核查单请稍候...");
+
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-settled-inspect&time="+getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText);
+
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>打印失败");
+	        }
+	        isRunning = false;
+	    }
+	});
+}
+    </script>
+</head>
+
+<h2 id="head" class="text-center">列清机核查单</h2>
+<div id="content">
+  <div class="col-xs-offset-4 col-xs-4"style="border:0px #FFFFFF solid;">
+    <div  >
+      <textarea class="form-control col-xs-12" rows="22" 
+				style="font-family: verdana; color: black; ont-size: 12px;" readonly
+				id="listview"  style="display:block">
+      </textarea>
+    </div>
+  </div>
+</div>
+<div id="foot" class="col-xs-offset-5 col-xs-2">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group">
+      <button type="button" id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+  </div>
+</div>
+</body></html>

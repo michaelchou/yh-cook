@@ -1,0 +1,53 @@
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}</span>
+	</div>
+</div>
+
+<div>
+ <p style="font-size:35px;text-align: center;color:#000000;">请您选择指纹或签名进行信息确认</p></br>
+ <table class="col-xs-12 balance " style="margin-bottom:8px;color:#000000;height:250px;">
+        <tr>
+            <td ><th class="col-xs-3" style="font-size:25px">姓名:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.accountName}}</td>
+            <td><th class="col-xs-3"style="font-size:25px">账号:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.cardNo}}</td>			
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"style="font-size:25px">性别:</th></td>
+            <td><span style="font-size:25px;color:#000000;">&nbsp;&nbsp;{{pool.genderC}}</span></td>
+			<td><th class="col-xs-3"style="font-size:25px">交易金额:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.transAmount}}</td>			
+        </tr>
+		<tr>
+			<td><th class="col-xs-3"style="font-size:25px">终端号:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.Apply_terminalId}}</td>
+            <td><th class="col-xs-3"style="font-size:25px">手机号码:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.mobile}}</td>			
+        </tr>
+        <tr>
+			<td><th class="col-xs-3"style="font-size:25px">证件类型:</th></td>
+            <td class="col-xs-3"style="font-size:25px">身份证</td>
+            <td><th class="col-xs-3"style="font-size:25px">证件号码:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.pid}}</td>
+        </tr>
+		 <tr>
+			<td><th class="col-xs-3"style="font-size:25px">联系地址:</th></td>
+            <td colspan = 3 ><span style="font-size:25px">&nbsp;&nbsp;{{pool.address}}</span></td>
+        </tr>	
+    </table>
+</div>
+
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+	<div> 
+		<button type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">结束交易</button>   
+		<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('Finger')">指纹确认</button>
+		<button type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('Sign')">签名确认</button>
+	</div>   
+</div>

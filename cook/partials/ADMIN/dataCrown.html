@@ -1,0 +1,287 @@
+<script src="js/admin/base.js"></script>
+<script>
+var data = "/admin/NewAdminDataServlet";
+var tablerows = 16;
+var isRunning = false;
+var validateYear="";
+$(document).ready(function() {
+	var date = new Date();
+	document.getElementById("enddate").value = formatdate(date);
+	validateYear = parseInt(formatdate(date).substring(0, 4)-1);
+	date.setDate(date.getDate() - 6);
+	document.getElementById("begindate").value = formatdate(date);
+	fillTable(tablerows);
+
+});
+
+function checkInput(id) { //清除提示框
+	$("#comment").text("");
+	$("#"+id).popover('destroy');
+}       
+        
+function fillTable(rows) {
+	var tablebody = $("#crowntable>tbody");
+	for (var i = 0; i < rows; i++) {
+		tablebody.append(
+	        $('<tr>').append(
+	        $('<td>').html("&nbsp"),
+	        $('<td>').html("&nbsp"),
+	        $('<td>').html("&nbsp"),
+	        $('<td>').html("&nbsp"),
+	        $('<td>').html("&nbsp"),
+	        $('<td>').html("&nbsp"),
+	        $('<td>').html("&nbsp")
+	    ));
+	}
+}
+
+function confirm() {
+
+	var serial = document.getElementById("serial").value;
+	var crown = document.getElementById("crown").value;
+	var cardno = document.getElementById("cardno").value;
+	var begindate = document.getElementById("begindate").value;
+	var enddate = document.getElementById("enddate").value;
+	$('#comment').text("");
+	if ((cardno.length > 0) && (cardno.length < 5)) {
+	$("#cardno").attr("data-content","卡号输入长度最少为5位");
+	$("#cardno").popover('show');
+		document.getElementById("cardno").value = "";
+		document.getElementById("cardno").focus();
+		isRunning = false;
+		return;
+	}
+	if (begindate.length >=0) {
+		if (begindate.length <= 0) {
+		$("#begindate").attr("data-content","起始日期必须输入");
+		$("#begindate").popover('show');
+			document.getElementById("begindate").value = "";
+			document.getElementById("begindate").focus();
+			isRunning = false;
+			return;
+		}
+		if (begindate.length < 8) {
+			$("#begindate").attr("data-content","起始日期输入长度为8位");
+			$("#begindate").popover('show');
+			document.getElementById("begindate").value = "";
+			document.getElementById("begindate").focus();
+			isRunning = false;
+			return;
+		}
+		if (parseInt(begindate.substring(0, 4)) < validateYear) {
+			$("#begindate").attr("data-content","起始日期过早");
+			$("#begindate").popover('show');
+			document.getElementById("begindate").value = "";
+			document.getElementById("begindate").focus();
+			isRunning = false;
+			return;
+		}
+		if (parseInt(begindate) > parseInt(formatdate(new Date()))) {
+			$("#begindate").attr("data-content","起始日期不能大于今天");
+			$("#begindate").popover('show');
+			document.getElementById("begindate").value = "";
+			document.getElementById("begindate").focus();
+			isRunning = false;
+			return;
+		}
+	}
+	if (enddate.length >= 0) {
+		if (enddate.length <= 0) {
+			$("#enddate").attr("data-content","结束日期必须输入");
+			$("#enddate").popover('show');
+			document.getElementById("enddate").value = "";
+			document.getElementById("enddate").focus();
+			currentfocus = 5;
+			isRunning = false;
+			return;
+		}
+		if (enddate.length < 8) {
+			$("#enddate").attr("data-content","结束日期输入长度为8位");
+			$("#enddate").popover('show');
+			document.getElementById("enddate").value = "";
+			document.getElementById("enddate").focus();
+			currentfocus = 5;
+			isRunning = false;
+			return;
+		}
+		if (parseInt(enddate) > parseInt(formatdate(new Date()))) {
+			$("#enddate").attr("data-content","结束日期不能大于今天");
+			$("#enddate").popover('show');
+			document.getElementById("enddate").value = "";
+			document.getElementById("enddate").focus();
+			currentfocus = 5;
+			isRunning = false;
+			return;
+		}
+	}
+	if ((begindate.length > 0) && (enddate.length > 0)) {
+		if (parseInt(begindate) > parseInt(enddate)) {
+			$("#enddate").attr("data-content","起始日期不能大于结束日期");
+			$("#enddate").popover('show');
+		    document.getElementById("enddate").value = "";
+			document.getElementById("enddate").focus();
+			currentfocus = 4;
+			isRunning = false;
+			return;
+		}
+	}
+	if (serial.length == 0) {
+		serial = "0";
+	}
+	$.ajax({
+		url: data,
+		cache: false,
+		type: "post",
+		data: "commandID=data-query-crown&page=1" +  "&serial=" + serial + "&crown=" + crown +
+			  						    "&cardno=" + cardno + "&startdate=" + begindate + "&enddate=" + enddate,
+		dataType: 'json',
+		success: function(data) {
+		    if (data.Result == 0) {
+		      destory();
+		       Hide();
+		    	var crownlist = data.CrownAll;
+		    	
+		    	if (crownlist[0] == null) {
+		    	
+		    		$('#comment').text("没有符合查询条件的记录");
+		    	
+		    		isRunning = false;
+		    		//清空
+		    		var table = document.getElementById("crowntable");
+		    		var rows = table.rows.length;
+		    		for(r=1;r<=rows;r++){
+                    var cells = table.rows[r].cells.length;
+		    			for(c=0;c<cells;c++){
+		    				table.rows[r].cells[c].innerHTML="&nbsp";
+		    		     	}
+		    			}
+
+		    		return;
+		    	}
+		    	totalpage = data.PageSize;
+			
+		    	var tablebody = $("#crowntable>tbody");
+				tablebody.empty();
+				var image;
+				for (var i in crownlist) {
+				    if (screen.width >= 1024) {
+				        image = "<img style='width:140px;height:20px' src='" + crownlist[i].textimg + "'/>";
+				    }
+				   if(crownlist[i].serial!=null){
+					tablebody.append(
+	                	$('<tr>').append(
+	                		$('<td>').text(i),
+	                		$('<td>').text(crownlist[i].serial),
+	                    	$('<td>').text(crownlist[i].time),
+	                        $('<td>').text(crownlist[i].cardno),
+	                        $('<td>').text(crownlist[i].edition),
+	                        $('<td>').text(crownlist[i].transtype),
+	                        $('<td>').html(image)
+	                ));
+		    	}
+		    	}
+		    	// 补齐表格的行数
+		    	var rows = document.getElementById("crowntable").rows.length - 1;
+		    	if (pagecount > rows) {
+		    		fillTable(pagecount - rows);
+		    	}
+		    }
+		    else if (data.Result == 1) {
+		      $("#begindate").attr("data-content","起始日期格式不符合 yyyymmdd");
+				$("#begindate").popover('show');
+				document.getElementById("begindate").value = "";
+				document.getElementById("begindate").focus();
+		    }
+		    else if (data.Result == 2) {
+			    $("#enddate").attr("data-content","结束日期格式不符合 yyyymmdd");
+				$("#enddate").popover('show');
+				document.getElementById("enddate").value = "";
+				document.getElementById("enddate").focus();
+		    }
+		    else {
+		        $("#begindate").attr("data-content","查询天数最多为十天");
+				$("#begindate").popover('show');
+				document.getElementById("begindate").value = "";
+				document.getElementById("begindate").focus();
+		    }
+		    isRunning = false;
+		}
+	});
+}
+    </script>
+</head>
+
+<h2 id="head" class="text-center">冠字号查询</h2>
+<div id="content">
+  <div class="col-xs-offset-1 col-xs-10"style="border:0px #FFFFFF solid;">
+    <div class="row ">
+      <div class="col-xs-4 col-xs-offset-2">
+        <div class="input-group input-group"> <span class="input-group-addon">起始日期</span>
+          <input type="date" id="begindate"  onclick="openkeysetAdmin(1,1100,500)"   maxlength="8"  onclick="openkeyset(1,1100,500)"  onkeyup="if(event.keyCode == 13)return;checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""  class="form-control"  data-html="true"/>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="input-group input-group"> <span class="input-group-addon ">结束日期</span>
+          <input type="date" id="enddate"  onclick="openkeysetAdmin(1,1100,500)"  maxlength="8" onkeyup="if(event.keyCode == 13)return;checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""  class="form-control"  data-html="true">
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row ">
+      <div class="col-xs-4">
+        <div class="input-group input-group"> <span class="input-group-addon">流水号</span>
+          <input type="text" id="serial"  onclick="openkeysetAdmin(1,1100,500)"  maxlength="6" onkeyup="if(event.keyCode == 13)return;checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>流水号输入有误 </sp>" data-content=""  class="form-control"  data-html="true">
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="input-group input-group"> <span class="input-group-addon ">冠字号</span>
+          <input type="text" id="crown"  onclick="openkeysetAdmin(3,350,350)"  maxlength="10" onkeyup="if(event.keyCode == 13)return;checkInput(id)" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>冠字号输入有误 </sp>" data-content=""  class="form-control"  data-html="true">
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="input-group input-group"> <span class="input-group-addon ">卡号</span>
+          <input type="text" id="cardno"  onclick="openkeysetAdmin(1,1100,500)"  maxlength="19" onkeyup="if(event.keyCode == 13)return;checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>卡号输入有误 </sp>" data-content=""  class="form-control"  data-html="true" />
+        </div>
+      </div>
+    </div>
+    <div  class="tab-content" style="height:306px;overflow-x: hidden; overflow-y: auto;">
+      <table id="crowntable"  class="table table-bordered " >
+        <thead>
+          <tr >
+          	 <td width="5%" align="center" class="fg-white">序号</td>
+            <td width="10%" align="center" class="fg-white">流水号</td>
+            <td width="25%" align="center" class="fg-white">时间</td>
+            <td width="20%" align="center" class="fg-white">卡号</td>
+            <td width="7%" 	align="center" class="fg-white">版别</td>
+            <td width="10%" align="center" class="fg-white">交易类型</td>
+            <td width="23%" align="center" class="fg-white">图片</td>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <div  class="col-xs-offset-3 col-xs-6" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+      <label  class="fg-red"  style="color:black" id="comment">&nbsp;</label>
+    </div>
+  </div>
+</div>
+<div id="foot" class="col-xs-offset-4 col-xs-4" >
+  <div class=" btn-group btn-group-justified" style="margin-top:-30px;">
+    <div class="btn-group" >
+      <button type="button" id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" id="confirm" name="enter" class="btn btn-success btn-lg" onclick="confirm()">查询</button>
+    </div>
+  </div>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49
+ id="HandWrite">
+</object>
+</body></html>

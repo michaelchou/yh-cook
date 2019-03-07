@@ -1,0 +1,211 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#PackSelect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#FeeSelect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+creatTree(0,"");
+document.getElementById("idcard").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+
+
+
+function commit(){
+ Hide();
+ var scope = angular.element(main).scope();
+ var PackSelect = document.getElementById("PackSelect").value;
+ var FeeSelect = document.getElementById("FeeSelect").value;
+ var pid = PackSelect.split('-')[0]
+  if(PackSelect.length <= 0 || "--请选择套餐类型--" ==PackSelect )
+  {
+	$("#PackSelect").attr("data-content", "套餐类型不能为空");
+	$("#PackSelect").popover('show');
+  }else if(FeeSelect.length <= 0 ||  "--请选择收费类型--"==FeeSelect ){
+	$("#FeeSelect").attr("data-content", "收费类型不能为空");
+	$("#FeeSelect").popover('show');
+  }else{
+	if(null != pid){
+		scope.pool["ST_QY_packId"] = pid;
+	}
+	if("01-按年" == FeeSelect){
+		scope.pool["ST_QY_fee"] = "01";
+	}else if("02-按月" == FeeSelect){
+		scope.pool["ST_QY_fee"] = "02";
+	}else if("03-免费" == FeeSelect){
+		scope.pool["ST_QY_fee"] = "03";
+	}
+	scope.action("confirm");
+  }
+}
+
+function selectPack()
+{
+		$("#FeeSelect").html("<option disabled selected>--请选择收费类型--</option>");
+		var pd = document.getElementById("PackSelect").value.split('-')[0]
+		var demo = $("#detail").html();
+		var _detail = demo.split('#');
+        for (var i = 0; i < _detail.length; i ++) {
+            if (pd == _detail[i].split('@')[0]) {
+				if(_detail[i].split('@')[2]==1){
+					$("#FeeSelect").html( "<option>01-按年</option><option>02-按月</option>");
+				}else if(_detail[i].split('@')[2]==0){
+					$("#FeeSelect").html("<option>03-免费</option>");
+				}
+                break;
+            }
+        }
+	 if(document.getElementById("PackSelect").value != "--请选择套餐类型--")
+	 {
+		$("#PackSelect").popover('destroy');
+		 document.getElementById("Pack").value = document.getElementById("PackSelect").value;
+	 }
+}
+
+function selectFee()
+{
+ if(document.getElementById("FeeSelect").value != "--请选择收费类型--")
+ {
+	$("#FeeSelect").popover('destroy');
+	 document.getElementById("Fee").value = document.getElementById("FeeSelect").value;
+ }
+}
+</script>
+<div class="container indicates"> 
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写短信签约表单</h3>
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px red solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px red">
+
+
+  <form class="form-horizontal" style="margin-top:3%;margin-left:15%">
+	<div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.name}}" disabled="disabled" readonly>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="pid" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">身份证号</label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text" style='background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="pid"  value="{{pool.pid}}" disabled="disabled" readonly>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="pack" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000">套餐类型
+      </label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="请选择套餐类型"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>套餐类型有误 </sp>" data-content=""    data-html="true" id="Pack"   >
+        <select class="form-control selectpicker"  onchange="selectPack()"  id="PackSelect" style="margin-top:20px;border:1px red solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>套餐类型有误 </sp>" data-content=""    data-html="true" data-placement="right">		  
+		   <!-- <option disabled selected>--请选择套餐类型--</option> -->
+		   <option ng-if="pool.ST_QY_packId == null" ng-repeat="x in detail">{{ x.key0}}-{{ x.key1}}</option>
+		   <option ng-if="pool.ST_QY_packId == x.key0" ng-repeat="x in detail">{{ x.key0}}-{{ x.key1}}</option>
+		   <option ng-if="pool.ST_QY_packId != x.key0" ng-repeat="x in detail">{{ x.key0}}-{{ x.key1}}</option>
+		</select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+    </div>
+	
+    <div  class="form-group">
+      <label  for="fee" class="col-sm-2 control-label" style="margin-top:35px;margin-left:-18px;color:#000000">收费类型</label>
+	  <div  style="visibility:hidden;">
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="请选择收费类型"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>收费类型有误 </sp>" data-content=""    data-html="true" id="Fee"   >
+    	<div id="dtName" style="visibility:visible;">
+        <select class="form-control selectpicker" onchange="selectFee()" id="FeeSelect" style="margin-top:35px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+		  <option ng-if="pool.ST_QY_fee == null && $index == 0 && x.key2=='1'" ng-repeat="x in detail">01-按年</option>
+		  <option ng-if="pool.ST_QY_fee == null && $index == 0 && x.key2=='1'" ng-repeat="x in detail">02-按月</option>
+		  <option ng-if="pool.ST_QY_fee == null && $index == 0 && x.key2=='0'" ng-repeat="x in detail">03-免费</option>
+		  <option ng-if="pool.ST_QY_fee =='01'">01-按年</option>
+		  <option ng-if="pool.ST_QY_fee =='01'">02-按月</option>
+		  <option ng-if="pool.ST_QY_fee =='02'">02-按月</option>
+		  <option ng-if="pool.ST_QY_fee =='02'">01-按年</option>
+		  <option ng-if="pool.ST_QY_fee =='03'" >03-免费</option>
+		</select>
+		</div>
+	  </div>
+	  </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:43px"></sp>
+    </div>
+	<div style="top:8%;left:68%;width:102px; height:126px;outline:none;visibility:visible;position:absolute;">
+      <label >身份证照片</label >
+      <img id="idcard" align="left" style="width:100%; height:100%;margin-top:20px;border:1px red solid;border-radius:10px 10px 10px 10px;" />
+    </div>
+	<div id="detail" style="display:none">{{pool.detail}}</div>
+  </form>
+</div>
+
+<div ng-if="pool.ST_CardAtmSign == 1 || pool.ST_CardTelSign == 1" class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+    <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">下一页</button>
+</div>
+<div ng-if="pool.ST_CardAtmSign != 1 && pool.ST_CardTelSign != 1" class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+    <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

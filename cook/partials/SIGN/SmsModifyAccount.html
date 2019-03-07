@@ -1,0 +1,117 @@
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../bower_components/icheck/icheck.min.js"></script>
+<script language="javascript" type="text/javascript">
+	creatTree(0,"");
+	var scope = angular.element(main).scope();
+	
+	scope.delAcc = function (pid) {
+		var _detail = scope.pool["ST_SmsSignAcDetail"].split('#');
+		for (var i = 0; i < _detail.length; i ++) {
+			if (pid == _detail[i].split('@')[1]) {
+				scope.pool["ST_SmsModifyDelAcc"] = pid;
+				break;
+			}
+		}
+		scope.action("submit");
+	}
+	
+	function SmsModifyConfirm(){
+		var ST_SmsSignAcDetail = scope.pool["ST_SmsSignAcDetail"]
+		if(null != ST_SmsSignAcDetail && ST_SmsSignAcDetail.length > 0){
+			var _SmsSignAcDetail = ST_SmsSignAcDetail.split('#');
+			if(_SmsSignAcDetail.length > 4){
+				document.getElementById("showMsg").innerHTML ="提示:最多存在四个账户";
+			}else{
+				scope.pool["ST_SmsModifyAcDetail"] = ST_SmsSignAcDetail;
+				scope.action("confirm");
+			}
+		}else{
+			document.getElementById("showMsg").innerHTML ="提示:至少存在一个账户";
+		}
+	}
+	
+	function SmsModifyAdd(){
+		var ST_SmsSignAcDetail = scope.pool["ST_SmsSignAcDetail"]
+		if(null != ST_SmsSignAcDetail && ST_SmsSignAcDetail.length > 0){
+			var _SmsSignAcDetail = ST_SmsSignAcDetail.split('#');
+			if(_SmsSignAcDetail.length > 3){
+				document.getElementById("showMsg").innerHTML ="提示:最多存在四个账户";
+			}else{
+				scope.action("submit2");
+			}
+		}else{
+			scope.action("submit2");
+		}
+	}
+</script>
+<style>
+   .cssinput{
+      height:20px;
+	  width:20px;
+   }
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+	<h1 ng-if="pool.menuAction == 'SmsModify'" class="text-center">请添加或删除签约的借记账户</h1>
+	<h1 ng-if="pool.menuAction == 'SmsSign'" class="text-center">请添加签约的借记账户</h1>
+</div>
+<div style="overflow:auto;">
+<table class="table-striped  table-bordered" width="100%" style="text-align:center;">
+      <tr style="font-weight:bold;font-size:16px;">
+		 <td>序号</td>
+         <td height="33px">账户</td>
+		 <td height="33px">操作</td>
+      </tr>
+      <tr ng-repeat="x in detail" >
+		  <td>{{$index+(pageNo-1)*8}}</td>
+	      <td height="33px">{{ x.key1}}</td>
+		  <td height="33px">
+			<span class="input-group-btn">
+                <button class="btn btn-primary" type="button" ng-click="delAcc(x.key1)">删除</button>
+            </span>
+		  </td>
+      </tr>
+	  <tr style="font-weight:bold;font-size:16px;">
+		 <td></td>
+         <td height="33px"></td>
+		 <td height="33px">
+		   <span class="input-group-btn">
+			  <button class="btn btn-danger" type="button" onclick="SmsModifyAdd()">添加</button>
+		   </span>
+		 </td>
+      </tr>
+ </table>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+ <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+	<div  id = "showMsg" style ="text-align:center;margin-bottom:18px;height :20px; font-size :20px;color:red" >
+	</div>
+ 	<h1 ng-if="pool.ST_SmsSignAcDetail != null && pool.ST_SmsSignAcDetail != ''" class="text-center" style="font-size: 140%;">第{{pageNo}}页,共{{pageSize}}页</h1>	
+	<h1 ng-if="pool.ST_SmsSignAcDetail == null || pool.ST_SmsSignAcDetail == ''" class="text-center" style="font-size: 140%;">第1页,共1页</h1>	
+ </div>
+ <div ng-if="pageSize > 1">
+    <div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+		<button  id="cancel" type="button" class="col-xs-offset-2 col-xs-2 image-bt" ng-click="action('eject')">结束</button>
+		<button  id="confirm" type="button" class="col-xs-offset-3 col-xs-2 image-btgr" onclick="SmsModifyConfirm()">继续</button>
+	</div>
+	<div class=" col-xs-offset-0 col-xs-6"style="border:0px blue solid;">
+		<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;">
+			<button  type="button" class="col-xs-offset-1 col-xs-2 image-btor"  ng-hide="Prev" ng-click="next(-1)">上一页</button>
+		</div>
+		<div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+			<button  type="button"  class="col-xs-offset-1 col-xs-2 image-btor" ng-hide="Next" ng-click="next(1)">下一页</button>
+		</div>
+	</div>
+ </div>
+ <div ng-if="pageSize == null || pageSize <= 1">
+	<button  id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">结束</button>
+	<button  id="confirm" type="button" class="col-xs-offset-2 col-xs-2 image-btgr" onclick="SmsModifyConfirm()">继续</button>
+ </div>
+</div>

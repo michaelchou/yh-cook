@@ -1,0 +1,175 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  background-image: url("../image/11.jpg");
+  background-size:100% 100%;
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+}
+	.footer .container {
+		padding-top: 20px;
+	}
+	.footer a {
+		text-decoration:none;
+		margin-right: 20px;
+	}
+
+.header {
+	font-family: "黑体";
+	font-size: 200%;
+    <!--background-color: white;-->
+}
+	.header .contact {
+		text-align: right;
+	}
+
+	.header .logo {
+		text-align: left;
+	}
+	.header .logo img {
+		height: 48px;
+	}
+
+.home {
+    background: url(../image/shuimo.jpg) no-repeat;
+    height: 400px;
+}
+
+.bg-card {
+    height: 100%;
+     width: 120%;
+     	margin-left: 0px;
+}
+.no-card {
+    background: url(../image/no_card.png) no-repeat;
+    height: 370px;
+}
+.apply {
+	margin-top: 0px;
+	margin-left: 55px;
+    width:1170px;
+     height: 80%;
+    background-attachment:fixed;
+}
+
+.business, .step {
+	text-align: center;
+}
+	.business a , .step a{
+		text-decoration:none;
+	}
+    .step h1 {
+        margin-top: 20px;
+    }
+    .step img {
+        margin-top: 50px;
+    }
+    .step button {
+        margin-top: 50px;
+    }
+    .step form {
+        margin-top: 80px;
+    }
+
+textarea {
+	width: 100%;
+}
+.read {
+    margin-top: 10px;
+}
+
+.command {
+	margin: 20px;
+}
+	.command a {
+		margin: 0 20px;
+	}
+
+.jumbotron {
+	text-align: center;
+}
+	.jumbotron .center {
+		margin: 100px 0;
+	}
+.div_center{
+	border:0px red solid;
+	width:106.5%;
+	height:570px;
+	/*margin-left:40px;
+	margin-top:-50px;
+	*/
+	background:transparent;
+	border-radius:8px;
+}
+
+.div_center_index{
+	border:0px red solid;
+	width:106.5%;
+	height:100%;
+	/*margin-left:40px;*/
+	margin-top:-100px;
+	background:transparent;
+	border-radius:8px;
+}
+
+.line_split{
+	height:1px;
+	width:820px;
+	border:0px;
+	background:#8f8f8f;
+	margin-left:25px;
+}
+
+.btn_return{
+    font-family:方正粗倩简体;
+	background:#FE9A12;
+	height:60px;
+	width:100%;
+    margin-top:100px;
+	text-align:center;
+	line-height:60px;
+	font-size:24px;
+	color:#ffffff;
+}
+
+.jiantou{font-size:50px;color:#FFFFFF; font-weight:bold; float:left;margin-top:180px; cursor:pointer}
+.v_content { border:0px green solid; position:relative; width:100%; height:100%;margin-left:-0px; overflow:hidden;float:left;}
+.v_content_list {border:0px red solid; position:absolute; width:1400px;top:0px; left:-95px;margin-top:-30px; }
+.v_content ul {float:left;padding:0 0; margin:0 0;}
+.v_content ul li { display:inline; float:left; margin-top:40px;padding-left:23px;}
+.active_card{text-decoration: none;display:block; width:330px; height:220px; background-image:url("../image/55_03.png");text-align:center}
+.active_card:hover {text-decoration: none;display:block; width:330px; height:220px; background-image:url("../image/55_033.png");text-align:center}
+.noactive_card{text-decoration: none;display:block; width:330px; height:220px; background-image:url("../image/55_04.png"); text-align:center}
+.noactive_card:hover{text-decoration: none;display:block; width:330px; height:220px; background-image:url("../image/55_044.png"); text-align:center}
+.v_content ul li img {  width:194px; height:141px;margin-top:20px; border:0px; }
+.v_content ul li h4 { margin-top:-5px;overflow:hidden;font-weight:600;color:#28317c}
+
+.div_left {
+    border-right-width: 10px;
+    border-right-color: green;
+    border-right-style: solid;
+}
+.div_right .indicates h1 {
+    text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding: 10px 10px;
+    border-botton-width: thin;
+    border-bottom-style: double;
+    border-bottom-color: gray;
+}
+
+
+
+

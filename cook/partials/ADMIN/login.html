@@ -1,0 +1,202 @@
+<script src="js/admin/base.js"></script>
+<script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<body>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49
+ id="HandWrite">
+</object>
+<h2 id="head" class="text-center">用户登录</h2>
+<div id="content" style="border:0px #FFFFFF solid;">
+</br>
+  </br>
+  </br>
+  </br>
+  </br>
+  <form class="form col-xs-offset-4 col-xs-4" style="border:0px #FFFFFF solid;" >
+    <div class="col-xs-offset-1 col-lg-10" style="border:0px #FFFFFF solid;" >
+      <div class="input-group input-group-lg"> <span class="input-group-addon">用户名：</span>
+        <input type="text" id="username" maxlength="8" onclick="openkeysetAdmin(1,1100,500)"  onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-placement="right" 
+      title="" data-content="" class="form-control"  data-html="true">
+      </div>
+    </div>
+    </br>
+    </br>
+    </br>
+    </br>
+  
+    <div class="col-lg-10 col-xs-offset-1" style="border:0px red solid;">
+      <div class="input-group input-group-lg">
+       <span class="input-group-addon ">密 &nbsp;&nbsp;码：</span>
+        <input type="password" id="password" maxlength="6" onclick="openkeysetAdmin(1,1100,500)"  onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-placement="right" 
+      title="" data-content=""   class="form-control"  data-html="true">
+      </div>
+      
+       </div>
+    
+  </form>
+  
+  </br> </br></br></br> </br></br></br> </br></br></br></br>
+    <div  class="col-xs-offset-0 col-lg-12" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+      <label  class="fg-red"  style="color:black" id="comment"></label>
+    </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class=" col-xs-offset-3 col-lg-6 alert alert-danger fade in" style="top:300px">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">首次登录需要修改密码<br>
+            现在是否进行修改？</h4>
+        </div>
+        <p>
+          <button type="button" class="btn btn-primary col-xs-offset-2 col-lg-3" data-dismiss="modal">取消</button>
+          <button id="confirm" type="button" class="btn btn-danger col-xs-offset-2 col-lg-3"   onclick="first()" data-dismiss="modal">确认</button>
+        </p>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+</div>
+</div>
+<div id="foot" class="col-xs-offset-4 col-xs-4">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group">
+      <button type="button" id="return" class="btn btn-primary btn-lg" onClick="exit()">退出</button>
+    </div>
+    <div class="btn-group">
+      <button type="button"  id="button2" name="enter" class="btn btn-success btn-lg" onClick="login()">登录</button>
+    </div>
+  </div>
+  <button style="display:none" id="commit" ng-click="action('next')">登录</button>
+  <button style="display:none" id="quit"  ng-click="action('quit')">退出</button>
+  <button style="display:none" id="first"  ng-click="action('first')">改密</button>
+</div>
+
+</body>
+</html><script>
+var isRunning = false;
+var common = "/admin/NewAdminCommonServlet";
+document.getElementById("username").focus();
+
+var sys = "/admin/NewAdminSystemServlet";
+function checkInput(id) { //清除提示框
+if(id=="username"&&document.getElementById("username").value.length==8){
+	document.getElementById("password").focus();
+	}
+	var ev = window.event;
+if(ev.keyCode==65){
+	document.getElementById(id).value = "";
+}
+if(ev.keyCode!= 13){
+	$("#comment").text("");
+	$("#"+id).popover('destroy');
+}
+	
+}
+
+
+function login() {
+	Hide();//关闭键盘
+	var username = document.getElementById("username").value;
+	var password = document.getElementById("password").value;
+	
+	if ('' == username) {
+		$("#username").attr("title","<sp class='fg-red'>用户名输入有误 </sp>");
+		$("#username").attr("data-content","登录名称不能为空");
+		$("#username").popover('show');
+     	isRunning = false;
+     	document.getElementById("username").focus();
+		return;
+	}
+	if (username.length != 8&&username !="11") {
+	$("#username").attr("title","<sp class='fg-red'>用户名输入有误 </sp>");
+	$("#username").attr("data-content","登录名称应该为8位数字");
+		$("#username").popover('show');
+		document.getElementById("username").focus();
+     	isRunning = false;
+		return;
+	}
+	if ('' == password) {
+	$("#password").attr("title","<sp class='fg-red'>密码输入有误 </sp>");
+		$("#password").attr("data-content","登录密码不能为空");
+		$("#password").popover('show');
+		document.getElementById("password").focus();
+		isRunning = false;
+		return;
+	}
+	if (password.length != 6) {
+	$("#password").attr("title","<sp class='fg-red'>密码输入有误 </sp>");
+		$("#password").attr("data-content","登录密码应该为6位数字");
+		$("#password").popover('show');
+		document.getElementById("password").focus();
+     	isRunning = false;
+		return;
+	}
+	
+	
+	$.ajax({
+
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=common-login&user=" + username + "&password=" + password,
+	    dataType: 'json',
+	    success: function(data) {
+	    	if (data.Result == 0) {
+	        	$('#comment').text("客户正在服务，请稍后登录");
+	    	}
+	    	else if (data.Result == 1) {
+	    	 $('#myModal').modal('show');
+	    	
+	    	//alert("首次登录需要修改密码")
+	    	
+	    	//$('#first').click();
+	        }
+	    	else if (data.Result == 2) {
+	    		$('#commit').click();
+	     	
+	        }
+	        else {
+	        
+	        	$('#comment').text("登录名称或密码输入错误，请重新输入");
+	        	document.getElementById("username").value = "";
+	        	document.getElementById("password").value = "";
+	        	document.getElementById("username").focus();
+	        }
+	        isRunning = false;
+	    }
+	});
+}
+
+function exit() {
+ if(isRunning){
+	  return;
+	  }else{
+	  isRunning = true;
+	  }
+ $('#quitadmin').modal('show');
+	Hide();//关闭键盘
+	
+$.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=common-user-exit",
+	    dataType: 'json',
+	    success: function(data) {
+	    	if (data.Result == 0) {
+	      
+	        	$('#quit').click();
+	    	}
+	        isRunning = false;
+	    }
+	});
+
+}
+function first(){
+ $('#myModal').modal('hide');
+  window.setTimeout( "$('#first').click()",1000);
+
+}
+</script>

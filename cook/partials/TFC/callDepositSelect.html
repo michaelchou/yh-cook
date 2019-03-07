@@ -1,0 +1,35 @@
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+
+<div class="cook-head">
+    <h1 class="text-center">请选择定期存款存期</h1>
+    <h3 class="text-center">Please select term</h3>
+	</br>
+</div>
+
+ <div class="col-xs-offset-0 col-xs-12" style= "margin-top:0%;height:100px;border:0px blue solid;">
+			<div class="col-xs-offset-4 col-xs-4">
+			  <img id="Day1" src="image/tfc/一天.png" style= " margin-top:5%;height:90px;"  class="center" ng-click="action('D1')" />
+	        </div>
+    </div>	
+	<div class="col-xs-offset-0 col-xs-12" style= " margin-top:5%;height:500px;border:0px blue solid;">
+			<div class="col-xs-offset-4 col-xs-4">
+			  <img id="Day7" src="image/tfc/七天.png" style= " margin-top:5%;height:90px;" class="center" ng-click="action('D7')" />
+			</div>
+	</div>
+
+
+</div>
+
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+		<button id="cancel" type="button" class="col-sm-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+		<button type="button" class="col-sm-offset-1  col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+</div>
+	
+

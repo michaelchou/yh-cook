@@ -1,0 +1,86 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+
+</script>
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+</div>
+
+<div style="height:450px" class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;"  ng-if="pool.ST_LoansRevertWay != '利随本清'">
+  <div class="cook-head" >
+		
+		<table  width="100%"  style="font-weight:bold;font-size:18px ;text-align:center" >
+		<td >贷款总额：{{pool.ST_LoansAmount}}</td>
+		<td >贷款方式：{{pool.ST_LoansRevertWay}}</td>
+		<td >贷款期数：{{pool.ST_LoansPeriods}}</td>
+		<td >利息总计：{{pool.ST_RateSum}}</td>
+		<td >本息总计：{{pool.ST_AmountSum}}</td>
+		</table>
+  </div>
+
+<table class="table table-striped  table-bordered" width="96%" style="text-align:center" >
+      <tr style="font-weight:bold;font-size:18px">
+         <td >期数</td>
+         <td >期初余额</td>
+         <td >每期还款金额</td>
+		 <td >期末余额</td>
+	  </tr>
+	  <tr ng-repeat="x in detail" >
+	      <td>{{ x.key0}}</td>
+	      <td>{{ x.key1}}</td>
+		  <td>{{ x.key2}}</td>
+		  <td>{{ x.key3}}</td>
+      </tr>
+ </table>
+ </div>
+ 
+ <div  style="margin-left:350px;margin-top:10px" ng-if="pool.ST_LoansRevertWay == '利随本清'">
+		<table border="0" cellpadding="0" cellspacing="0" class="col-xs-offset-1 col-xs-12" style="height:175px;"> 
+			<tr>
+			    <td height="50px" width="20%"> <span style="font-size:25px;">贷款总额：</span></td>
+			    <td height="50px" width="80%"><span style="font-size:25px;color:#0B7DF2">{{pool.ST_LoansAmount}}元</span></td>
+			 </tr>
+			 <tr>
+			    <td height="50px"> <span style="font-size:25px;">贷款方式：</span></td>
+			    <td  height="50px"><span style="font-size:25px;color:#0B7DF2">{{pool.ST_LoansRevertWay}}</span></td>
+			 </tr>
+			 <tr>
+			    <td height="50px"> <span style="font-size:25px;">贷款期数：</span></td>
+			    <td  height="50px"><span style="font-size:25px;color:#0B7DF2">{{pool.ST_LoansPeriods}}期</span></td>
+			 </tr>
+			 <tr>
+			    <td height="50px"> <span style="font-size:25px;">利息总计：</span></td>
+			    <td  height="50px"><span style="font-size:25px;color:#0B7DF2">{{pool.ST_RateSum}}元</span></td>
+			 </tr>
+			 <tr>
+			    <td height="50px"> <span style="font-size:25px;">本息总计：</span></td>
+			    <td  height="50px"><span style="font-size:25px;color:#0B7DF2">{{pool.ST_AmountSum}}元</span></td>
+			 </tr>
+		</table>
+	</div>  
+ 
+ 
+ <h1 class="text-center" style="font-size: 140%;" ng-if="pool.ST_LoansRevertWay != '利随本清'">第{{pageNo}}页,共{{pageSize}}页</h1>
+
+ <div ng-if="pool.ST_LoansRevertWay != '利随本清'"> 
+<button class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+<button class="col-xs-offset-1 col-xs-2 image-bt"  ng-click="action('eject')">结束</button>
+</div> 
+
+ <div style="margin-top:30%" ng-if="pool.ST_LoansRevertWay == '利随本清'"> 
+<button class="col-xs-offset-4 col-xs-4 image-btor" ng-click="action('return')">返回</button>
+<button class="col-xs-offset-1 col-xs-2 image-bt"  ng-click="action('eject')">结束</button>
+</div> 
+
+<table width="45%">
+    <tr>
+        <td width="20%"> <button  class="col-md-offset-5 col-md-9 image-btgr"  ng-if="pool.ST_LoansRevertWay != '利随本清'" ng-hide="Prev" ng-click="next(-1)" >上一页</button></td>
+        <td width="20%"><button   class="col-md-offset-7 col-md-9 image-btgr" ng-if="pool.ST_LoansRevertWay != '利随本清'" ng-hide="Next" ng-click="next(1)" >下一页</button> </td> 
+    </tr>
+</table>

@@ -1,0 +1,69 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+	var scope = angular.element(main).scope();
+	
+	function checkTransferTime() {
+		var radios = document.getElementsByTagName("input");
+		if(!radios.item(0).checked && !radios.item(1).checked && !radios.item(2).checked){
+			document.getElementById("showMsg").innerHTML ="提示：请至少选择一种到账类型";
+		}else{
+			if(radios.item(0).checked){
+				scope.pool["ST_TRFTimeType"] = "01";
+			}
+			if(radios.item(1).checked){
+				scope.pool["ST_TRFTimeType"] = "03";
+			}
+			if(radios.item(2).checked){
+				scope.pool["ST_TRFTimeType"] = "02";
+			}
+			scope.action("confirm");
+		}
+	}
+</script>
+<style>
+     .button {
+	 background:white;
+	 width:110px;
+	 height:40px;
+	 color:#000000;
+	 font-size:15px;
+	 font-weight:bold;
+	 border:1px gray solid;
+	 border-radius:6px;
+	 padding:0px 0px 0px 0px
+}
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div> 
+ <div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">   
+	<div class="cook-head">
+           <h1 class="text-center">请选择转账金额到账时间</h1>
+	</div>
+   <div class = "row border-special " style = "margin-top:5%;margin-left: 45%">
+   <div  class = "checkbox" style = "font-size:30px;color :black;position:relative !important;bottom:-5%; float :left;  height: 20px; line-height: 25px;font-weight:bold;">
+		<label>
+			<input style="height:28px;width:28px;margin-top:0%;margin-left:-30px" checked="true" type="radio" name="radio1">&nbsp;&nbsp;实时到帐	
+		</label>
+		<br/>
+		<label style="margin-top:15%">
+			<input style="height:28px;width:28px;margin-top:0%;margin-left:-30px" type="radio" name="radio1">&nbsp;&nbsp;普通到账（2小时）
+		</label>
+		<br/>
+		<label style="margin-top:15%">
+			<input style="height:28px;width:28px;margin-top:0%;margin-left:-30px" type="radio" name="radio1">&nbsp;&nbsp;次日到账（24小时）
+		</label>
+	</div>
+	</div>
+	<div  id = "showMsg" style ="text-align:center;margin-top :20%; height :20px; font-size :25px;color:red" >
+	</div>
+ </div> 
+ 
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+	<button id="cancel" type="button"  class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+	<button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">{{pool.page_Eject}}</button>
+	<button id="confirm" type="button"class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkTransferTime()">确认</button>
+</div>	
+    

@@ -1,0 +1,107 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript">
+	document.getElementById("pinOne").focus();
+	
+	function checkInput(id) { 
+		var ev = window.event;
+		var input = document.getElementsByTagName("input");
+		if(ev.keyCode==12){
+			for (var j = 0; j < input.length; j ++ ) {
+				input.item(j).value = "";
+			}
+		}
+		if(event.keyCode == 13) return;
+		$("#" + id).popover('destroy');
+	}
+	
+	function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function openkeyset(type,x,y){
+	Show(type,x,y)
+}
+	function checkSignPin(){
+		var scope = angular.element(main).scope();
+		var pinOne = document.getElementById("pinOne").value;
+		var pinTwo = document.getElementById("pinTwo").value;
+		var reg1 = /^[0-9]*$/; //纯数字
+		var reg2 = /^[A-Za-z]+$/; //纯字母
+		if(pinOne.length<6){
+			$("#pinOne").attr("data-content","密码不能低于六位");
+			$("#pinOne").popover('show');
+		}else if(pinTwo.length<6){
+			$("#pinTwo").attr("data-content","密码不能低于六位");
+			$("#pinTwo").popover('show');
+		}else if(pinOne != pinTwo){
+			$("#pinOne").attr("data-content","两次密码输入不一致");
+			$("#pinOne").popover('show');
+			document.getElementById("pinOne").value="";
+			document.getElementById("pinTwo").value="";
+		}else if(reg1.test(pinOne)){
+			$("#pinOne").attr("data-content","密码不能纯数字组合");
+			$("#pinOne").popover('show');
+		}else if(reg2.test(pinOne)){
+			$("#pinOne").attr("data-content","密码不能为纯字母组合");
+			$("#pinOne").popover('show');
+		}else{
+			scope.pool["input_PINNew2"] = document.getElementById("pinOne").value;
+			scope.action("confirm");
+		}
+	}
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+
+<div class="cook-head">
+    <h1 class="text-center">请设置手机银行登录密码</h1>	
+</div>
+<div class="step1">
+	</br></br></br></br></br>
+	  <form class="form col-xs-offset-3 col-xs-6" style="border:0px #FFFFFF solid;">
+        <div class="col-xs-offset-2 col-lg-8" style="border:0px #FFFFFF solid;">
+      <div class="input-group input-group-lg"> <span class="input-group-addon">登录密码设置：</span>
+        <input type="password" id="pinOne" maxlength="18" onclick="openkeyset(3,900,500)"  onkeyup="checkInput(id),this.value=this.value.replace(/[\W]/g,'')" class="form-control" data-container="body"  data-placement="right" 
+      title="<sp class='fg-red'>密码输入有误 </sp>" data-content="" class="form-control"  data-html="true">
+      </div>
+    </div>
+	<sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:15px"></sp>
+	<div style ="margin-right:-20%;margin-top :13px; height :20%; font-size :18px;color:red" >
+		&nbsp;&nbsp;限6-18位字母+数字
+	</div>
+	</br></br></br></br></br>
+	
+		  <div class="col-xs-offset-2 col-lg-8" style="border:0px #FFFFFF solid;">
+      <div class="input-group input-group-lg"> <span class="input-group-addon">登录密码确认：</span>
+        <input type="password" id="pinTwo" maxlength="18" onclick="openkeyset(3,900,500)" onkeyup="checkInput(id),this.value=this.value.replace(/[\W]/g,'')"  class="form-control" data-container="body"  data-placement="right" 
+      title="<sp class='fg-red'>密码输入有误 </sp>" data-content="" class="form-control"  data-html="true">
+      </div>
+    </div>
+	<sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:15px"></sp>
+	</form>
+</div>
+</div>
+
+<div ng-if="pool.menuAction != 'apply'" class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+    <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>	
+	<button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkSignPin();">确认</button>
+</div>
+<div ng-if="pool.menuAction == 'apply'" class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+    <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>	
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkSignPin();">确认</button>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

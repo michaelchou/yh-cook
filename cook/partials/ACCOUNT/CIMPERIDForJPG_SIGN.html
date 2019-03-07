@@ -1,0 +1,167 @@
+<script language="JavaScript" type="text/JavaScript"> 
+document.getElementById("time").style.display="none";
+document.getElementById("Cardjpg").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+document.getElementById("FaceImgjpg").src ="D:/FaceImg.jpg"+"?"+Math.random();
+
+//参数为 每隔多少字符插入进行一次断行
+self.setTimeout("formatAddress(40)", 100);
+function formatAddress(flag){
+var address = $("#address").html();
+    var newstr="";
+    for(var i=0;i<address.length;i+=flag){
+        var tmp=address.substring(i, i+flag);
+        newstr+=tmp+"</br>";
+    }
+     $("#useraddress").html(newstr);
+}
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+
+<div style="margin-left:10%;margin-top:-40%">
+ <div>
+ <p style="font-size:25px;text-align: center;color:#000000;">江苏农村商业银行客户信息修改申请单</p>
+ <table height="100px" style="border-radius:10px 10px 10px 10px;">
+ <tr>
+	  <td  width="100px"><span style="font-size:20px;color:#000000">姓名:</span></td>
+	  <td  width="500px"><span style="font-size:20px;color:#000000">{{pool.name}}</span></td>
+	  <td  width="100px"><span style="font-size:20px;color:#000000">性别:</span></td>
+	  <td  width="200px"><span style="font-size:20px;color:#000000">{{pool.genderC}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000">证件类型:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">身份证</span></td>
+	  <td><span style="font-size:20px;color:#000000">证件号码:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.pid}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000">签发机关:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.issueoffice}}</span></td>
+	  <td><span style="font-size:20px;color:#000000">有效日期:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.abatedate}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000;">终端号:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.Apply_terminalId}}</span></td>
+      <td><span style="font-size:20px;color:#000000;">受理柜员:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.Apply_tellerno}}</span></td>
+ </tr>
+ <tr>
+    <td><span style="font-size:20px;color:#000000">申请日期:</span></td>
+	<td style=""><span style="font-size:20px;color:#000000;">{{pool.transDate.substring(0,4)+"/"+pool.transDate.substring(4,6)+"/"+pool.transDate.substring(6,8)}}</span></td>
+	<td><span style="font-size:20px;color:#000000;">申请时间:</span></td>
+	<td style=""><span style="font-size:20px;color:#000000;">{{pool.transTime.substring(0,2)+":"+pool.transTime.substring(2,4)+":"+pool.transTime.substring(4,6)}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000">交易类型:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">客户信息修改</span></td>
+	  <td><span style="font-size:20px;color:#000000;">户籍:</span></td>
+	  <td ng-if="pool.ST_Register == '1'" style=""><span style="font-size:20px;color:#000000;">本省</span></td>
+	  <td ng-if="pool.ST_Register == '2'" style=""><span style="font-size:20px;color:#000000;">外省市</span></td>
+	  <td ng-if="pool.ST_Register == '3'" style=""><span style="font-size:20px;color:#000000;">外籍</span></td>
+	  <td ng-if="pool.ST_Register == '4'" style=""><span style="font-size:20px;color:#000000;">其它</span></td>
+	  <td ng-if="pool.ST_Register != '1' && pool.ST_Register != '2' && pool.ST_Register != '3' && pool.ST_Register != '4'" style=""><span style="font-size:20px;color:#000000;"></span></td>
+ </tr>
+ <tr>
+	   <td><span style="font-size:20px;color:#000000;">经济性质:</span></td>
+	  <td ng-if="pool.ST_EconTyp == '41'" style=""><span style="font-size:20px;color:#000000;">个人-个体户</span></td>
+	  <td ng-if="pool.ST_EconTyp == '42'" style=""><span style="font-size:20px;color:#000000;">个人-个体合作</span></td>
+	  <td ng-if="pool.ST_EconTyp == '43'" style=""><span style="font-size:20px;color:#000000;">个人-个人消费</span></td>
+	  <td ng-if="pool.ST_EconTyp == '44'" style=""><span style="font-size:20px;color:#000000;">个人-农民</span></td>
+	  <td ng-if="pool.ST_EconTyp != '41' && pool.ST_EconTyp != '42' && pool.ST_EconTyp != '43' && pool.ST_EconTyp != '44'" style=""><span style="font-size:20px;color:#000000;"></span></td>
+	  <td><span style="font-size:20px;color:#000000;">职业:</span></td>
+	  <td ng-if="pool.job == '01'" style=""><span style="font-size:20px;color:#000000;">各类专业，技术人员</span></td>
+	  <td ng-if="pool.job == '02'" style=""><span style="font-size:20px;color:#000000;">国家机关，党组织，企事业单位负责人</span></td>
+	  <td ng-if="pool.job == '03'" style=""><span style="font-size:20px;color:#000000;">办事人员和有关人员</span></td>
+	  <td ng-if="pool.job == '04'" style=""><span style="font-size:20px;color:#000000;">商业工作人员</span></td>
+	  <td ng-if="pool.job == '05'" style=""><span style="font-size:20px;color:#000000;">服务性工作人员</span></td>
+	  <td ng-if="pool.job == '06'" style=""><span style="font-size:20px;color:#000000;">农林牧渔劳动者</span></td>
+	  <td ng-if="pool.job == '07'" style=""><span style="font-size:20px;color:#000000;">生产工作，运输工作和部分体力劳动者</span></td>
+	  <td ng-if="pool.job == '08'" style=""><span style="font-size:20px;color:#000000;">不便分类的其它劳动者</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000;">手机号码:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.mobile}}</span></td>
+      <td><span style="font-size:20px;color:#000000;">家庭电话:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.telephone}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000;">称谓:</span></td>
+	  <td ng-if="pool.ST_CustTtl == 'MR'" style=""><span style="font-size:20px;color:#000000;">先生</span></td>
+	  <td ng-if="pool.ST_CustTtl == 'MS'" style=""><span style="font-size:20px;color:#000000;">女士</span></td>
+	  <td ng-if="pool.ST_CustTtl == 'MISS'" style=""><span style="font-size:20px;color:#000000;">小姐</span></td>
+	  <td ng-if="pool.ST_CustTtl == 'MRS'" style=""><span style="font-size:20px;color:#000000;">夫人</span></td>
+	  <td ng-if="pool.ST_CustTtl != 'MR' && pool.ST_CustTtl != 'MS' && pool.ST_CustTtl != 'MISS' && pool.ST_CustTtl != 'MRS'" style=""><span style="font-size:20px;color:#000000;"></span></td>
+	  <td><span style="font-size:20px;color:#000000">英文名称:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.ST_EngName}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000;">婚姻状况:</span></td>
+	  <td ng-if="pool.ST_MrgFlag == '1'" style=""><span style="font-size:20px;color:#000000;">未婚</span></td>
+	  <td ng-if="pool.ST_MrgFlag == '2'" style=""><span style="font-size:20px;color:#000000;">已婚</span></td>
+	  <td ng-if="pool.ST_MrgFlag == '3'" style=""><span style="font-size:20px;color:#000000;">初婚</span></td>
+	  <td ng-if="pool.ST_MrgFlag == '4'" style=""><span style="font-size:20px;color:#000000;">再婚</span></td>
+	  <td ng-if="pool.ST_MrgFlag != '1' && pool.ST_MrgFlag != '2' && pool.ST_MrgFlag != '3' && pool.ST_MrgFlag != '4'" style=""><span style="font-size:20px;color:#000000;"></span></td>
+	  <td><span style="font-size:20px;color:#000000">邮编:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.ST_StayPostcode}}</span></td>
+ </tr>
+<tr>
+	  <td><span style="font-size:20px;color:#000000;">审核柜员:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.adminUserName}}</span></td>
+	  <td><span style="font-size:20px;color:#000000;">居民标志:</span></td>
+	  <td style="" ng-if="pool.ST_ResidentFlag == '1'"><span style="font-size:20px;color:#000000;">居民</span></td>
+	   <td style="" ng-if="pool.ST_ResidentFlag == '2'"><span style="font-size:20px;color:#000000;">非居民</span></td>
+ </tr>
+ <tr >
+    <td ><span style="font-size:20px;color:#000000">联系地址:</span></td>
+	<td colspan = 3 ><span style="font-size:20px;color:#000000;" id="useraddress"></span></td>
+</tr>
+<tr style="display:none">
+	<td colspan = 4 ><span id="address">{{pool.address}}</span></td>
+</tr>
+</table>
+<table style="margin-top:0%">
+    <tr>
+		<td width="10%">
+			<span style="font-size:15px;color:#000000;">身份证照片:</span>
+        </td>
+        <td width="7%">
+		 <span style="font-size:15px;color:#000000;">现场审核照片:</span>
+        </td>
+   </tr>
+  <tr>
+		<td>
+			<img id="Cardjpg" src="" style="width:18%;">
+       </td>
+       <td>
+		   <img id="FaceImgjpg" src="" style="width:40%;">
+       </td>
+ </tr>
+<table>
+<span style="font-size:15px;color:#000000;">审核结果:{{pool.PERresponseCode}}{{pool.PERerrorMessage}}</span>
+<div style="margin-top:2%;font-size:15px; ">
+	<p style="margin-left:2%;margin-top:-2%;color:#000000">
+	 本人保证所提供的个人资料信息真实、有效、完整。对信息失真或因违反规定而造成的损失和后果,本人愿意承担一切后果及法律
+	 </p>
+	 <p style="color:#000000">
+	 	责任。
+	</p>
+	 <p style="margin-left:2%;color:#000000">
+	  本人已详细阅读业务相关协议及须知,确认申请业务与打印栏记录相符。本人同意贵行有权依据国家有关规定及业务需要对服务内
+	 </p>
+	 <p style="color:#000000">
+	 容、收费项目等内容进行调整,并同意该项调整将于正式对外公告一定时期后执行,无需另行通知本人。
+	</p>
+	<div style="margin-top:2%;">
+	 <span style="margin-left:60%;color:#000000">
+	 客户签名:_______________<span id="span"><img id="img" src="d:/sign.png"  style="width:8%; height:2%;margin-left:-10%"></span>
+	</span>
+</div>
+</div>
+ </div>
+ 
+ 

@@ -1,0 +1,26 @@
+
+
+<div class="container indicates">
+	<span class="timeout pull-right">{{timeout}}</span>
+</div>
+
+<div class="container step">
+	<h1 class="text-center">交易密码错误,请重新输入您的密码,并按[确认]键</h1>
+	<h1 class="text-center">Password error,Please enter your password and press[Ok]</h1>
+	<div class="step">
+            <div>
+    			<input type="password" class="input-lg" readonly>
+    		</div>
+    		<img src="image/pin.gif">
+    </div>
+</div>
+<br>
+<br>
+<div>
+	<button type="button" class="col-xs-offset-3 col-xs-2 btn btn-primary btn-lg" ng-click="action('cancel')">取消</button>
+
+    <button id="confirm" type="button" class="col-xs-offset-2 col-xs-2 btn btn-primary btn-lg" ng-click="action('confirm')">确认</button>
+</div>
+<script>
+document.getElementById("MUSIC1").src = "wav/密码输错请重输.wav";
+</script>

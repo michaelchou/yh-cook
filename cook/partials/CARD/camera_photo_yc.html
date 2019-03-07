@@ -1,0 +1,128 @@
+    <div class="container indicates">
+	    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	    <span class="" id="timeoutSelf"><span>
+    </div>
+    <div class="container step" style="margin-top:-5%">
+    	<h1 class="text-center">拍照认证</h1>
+    </div>
+    <div class="step">
+        <h3 class="text-center" style="margin-left:5%">请您去除帽子、墨镜等遮挡物，对准上方摄像头</h3>
+        <span    style="margin-left:4%;font-size:24px;color: #ce352c" id="comment">&nbsp;</span>
+        
+	 <div  style="left:37%;visibility:visible;position:absolute;top:22%;border:0px blue solid;">
+	     <image id="FaceImage_YC" style="width:400px;height:400px;" src=""/>
+	 </div>
+   <div>
+   </div>
+            
+   <div style="margin-top:37%;margin-left:300px;display:none" id="Fun_button1">
+	    <button type="button" id="btn_restart" class=" col-xs-2 image-bt"  onclick = "startCamera()" >重 拍</button>
+		<button type="button" id="btn_end" class="normal col-xs-offset-1 col-xs-2 image-btgr"  onclick="closeCamera()" >退 出</button>
+		<button type="button" id="btn_confirm" class="normal col-xs-offset-1 col-xs-2 image-btgr"  onclick="getImage()" >确 定</button>
+   </div>
+   <div style="margin-top:37%;margin-left:410px;display:none" id="Fun_button2">
+	    <button type="button" id="btn_restart" class=" col-xs-2 image-bt"  onclick = "startCamera()" >重 拍</button>
+		<button type="button" id="btn_end" class="normal col-xs-offset-1 col-xs-2 image-btgr"  onclick="closeCamera()" >退 出</button>
+    </div>
+    	
+
+  <SCRIPT LANGUAGE="JavaScript">
+  
+  var timeoutSelf = 90;
+  $("#timeoutSelf").html(90+"");
+  var n_interval = setInterval(function () {
+	  timeoutSelf = timeoutSelf -1;
+	  if(timeoutSelf == 0)
+	  {
+		  $("#timeoutSelf").html(timeoutSelf+"");
+		  $("#Layer_YC").css("display","none");
+		  clearInterval(n_interval);
+		  TFace1_YC.cwStopCamera();
+		  //document.getElementById("TFace1_YC").cwUnInit();
+		  var scope = angular.element(main).scope();
+		  scope.action('timeout');
+	  }else{
+		  $("#timeoutSelf").html(timeoutSelf+"");
+	  }
+	  
+	},1000);
+  
+  
+  
+  
+    var nRet = 10;
+    var sImg = "";
+    var strBase64 = "";  
+    var szIdCard = "000000000000000000";
+    var szSerise = "000000000000000000000000000000";
+//setTimeout("Run_Func()",500)
+    Run_Func();
+function getImage()
+{
+	//document.getElementById("TFace1_YC").cwUnInit();
+	$("#Layer_YC").css("display","none");
+	clearInterval(n_interval);
+	BrowserCallback("getImage#"+strBase64);//判断呼叫按钮是否隐藏
+}
+
+
+    function Run_Func()
+    {
+    	$("#Layer_YC").css("display","block");
+    	$("#Fun_button1").css("display","none");
+	    $("#Fun_button2").css("display","none");
+	    if(YCinitFlag == "1")
+	    {
+	    	startCamera();
+	    }else{
+	    	var initRt = document.getElementById("TFace1_YC").cwInit();
+	    	if(initRt == 0)
+	    	{
+	    	  YCinitFlag = "1";
+	    	  startCamera();
+	    	}else{
+	    		$("#comment").html("拍照失败请重新拍摄");
+	    		$("#Fun_button1").css("display","none");
+	    	    $("#Fun_button2").css("display","block");
+	    	}
+	    }
+    }
+    
+    function startCamera(){
+        timeoutSelf = 90;
+    	$("#Layer_YC").css("display","block");
+    	$("#FaceImage_YC").css("display","none");
+    	$("#Fun_button1").css("display","none");
+	    $("#Fun_button2").css("display","none");
+    	document.getElementById("TFace1_YC").cwStartCamera();
+    }
+    
+    function closeCamera(){
+    	$("#Layer_YC").css("display","none");
+    	clearInterval(n_interval);
+    	document.getElementById("TFace1_YC").cwStopCamera();
+    	//document.getElementById("TFace1_YC").cwUnInit();
+    	var scope = angular.element(main).scope();
+		scope.action('end');
+    }
+    function getFaceB64B()
+    {
+    	
+    	$("#comment").html("");
+    	$("#Layer_YC").css("display","block");
+    	$("#Fun_button1").css("display","none");
+        $("#Fun_button2").css("display","none");
+        $("#FaceImage_YC").css("display","none");
+        document.getElementById("TFace1_YC").cwStartLiveDetect();
+        
+    }
+    
+    
+    function showImgA()
+    {
+    	$("#Layer_YC").css("display","none");
+    	document.getElementById("TFace1_YC").cwStopCamera();
+    	$("#Fun_button1").css("display","block");
+        $("#Fun_button2").css("display","none");
+    }
+</SCRIPT>

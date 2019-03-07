@@ -1,0 +1,92 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y){
+	Show(type,x,y)
+}
+
+function commit(){
+	 Hide();
+	 var scope = angular.element(main).scope();
+	 var address = document.getElementById("address").value;
+	 var name = document.getElementById("name").value;
+	 $("#name").popover('destroy');
+	 $("#address").popover('destroy');
+	 var reg = /^[1-9]\d{10}$/; //11位号码必须非0开头
+	  if(name.length<=0){
+	   $("#name").popover('show');
+	  }else if(address.length<=0){
+	   $("#address").popover('show');
+	  }else if(address.indexOf(",") > -1)
+	  {
+		$("#address").attr("data-content", "非法字符，请重新输入");
+		$("#address").popover('show');
+	  }else{
+		  scope.action("submit");
+	    }
+		
+	  }
+
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+
+
+<div class="cook-head">
+    <h1 class="text-center">请确认信息</h1>
+	<h3 class="text-center">Please confirm the information</h3>
+</div>
+<div class="cook-content">
+	<table class="col-xs-9 balance">
+		<tr> <th class="col-xs-6"><h2>客户号码：</h2></th><td> <h2>{{pool.userNum}} &nbsp;</h2></td> </tr>
+		<tr> <th class="col-xs-6"><h2>客户名称：</h2></th><td> <h2><input type="text" class='form-control' 
+		style='margin-top:50px;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="name" value="" ng-model="pool.userName" class="form-control" data-container="body"  data-placement="right" 
+	  			  title="<sp class='fg-red'>客户名称输入有误 </sp>" data-content="请输入您的姓名"    data-html="true" onclick="openkeyset(2,900,500)"> &nbsp;</h2></td> </tr>
+		<tr > <th class="col-xs-6"><h2>客户地址：</h2></th><td> <h2>
+		<textarea style="margin-top:40px;border:1px blue solid;box-shadow:0 0px 0px #000 inset" class="form-control" rows="2" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" id="address" value="{{pool.userAddress}}" ng-model="pool.userAddress" class="form-control" data-container="body"  data-placement="right" 
+  			  title="<sp class='fg-red'>地址输入有误 </sp>" data-content="请输入您的地址"    data-html="true"  maxlength="80"/>
+      </textarea> &nbsp;</h2></td> </tr>
+	</table>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+		<button type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+		<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+		<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">确认</button>
+		
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>
+
+
+

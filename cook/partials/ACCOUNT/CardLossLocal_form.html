@@ -1,0 +1,226 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#pbkStatusselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#certTypeselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+creatTree(0,"填写表单");
+	
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+
+var scope = angular.element(main).scope();
+scope.$watch('pool.pid', function(){
+if(undefined!=scope.pool["pid"]){
+	if(scope.pool["ST_PBKStatus"] == "0"){
+		document.getElementById("pbkStatusselect").value = "否";
+	}else if(scope.pool["ST_PBKStatus"] == "1"){
+		document.getElementById("pbkStatusselect").value = "是";
+	}
+	
+	//if(scope.pool["ST_ManaCertType"] == "A"){
+	//	document.getElementById("certTypeselect").value = "身份证";
+	//}else if(scope.pool["ST_ManaCertType"] == "B"){
+	//	document.getElementById("certTypeselect").value = "军官证";
+	//}
+}
+});
+
+
+function commit(){
+ Hide();
+ var scope = angular.element(main).scope();
+ var pbkStatusselect = document.getElementById("pbkStatusselect").value;
+ //var certTypeselect = document.getElementById("certTypeselect").value;
+ //var certId = document.getElementById("certId").value;
+ if(pbkStatusselect == "--是否关联折--")
+  {
+	$("#pbkStatusselect").attr("data-content", "请选择是否关联折");
+	$("#pbkStatusselect").popover('show');
+  }
+  //else if((certTypeselect == "身份证" || certTypeselect == "军官证") && (null == certId || "" == certId.trim())){
+	//	$("#certId").attr("data-content", "请输入代理人证件号码");
+	//	$("#certId").popover('show');
+  //}else if((null != certId && "" != certId.trim()) && ("--可选择代理人证件种类--" == certTypeselect)){
+	//	$("#certTypeselect").attr("data-content", "请输入代理人证件种类");
+	//	$("#certTypeselect").popover('show');
+  //}
+  else{
+	if(pbkStatusselect == "是"){
+		scope.pool["ST_PBKStatus"] = "1";
+	}else if(pbkStatusselect == "否"){
+		scope.pool["ST_PBKStatus"] = "0";
+	}
+	
+	//if(certTypeselect == "身份证"){
+	//	scope.pool["ST_ManaCertType"] = "A";
+	//}else if(certTypeselect == "军官证"){
+	//	scope.pool["ST_ManaCertType"] = "B";
+	//}else{
+	//	scope.pool["ST_ManaCertType"] = '';
+	//}
+	
+	//if(certTypeselect != "无" && null != certId && certId.length > 0){
+	//	scope.pool["ST_ManaCertId"] = certId;
+	//}else{
+	//	scope.pool["ST_ManaCertId"] = "";
+	//}
+	scope.action("submit");
+  }
+}
+
+function select1()
+{
+ if(document.getElementById("pbkStatusselect").value != "--是否关联折--")
+ {
+	 
+     $("#pbkStatusselect").popover('destroy');
+	 document.getElementById("pbkStatus").value = document.getElementById("pbkStatusselect").value;
+ }
+}	
+
+//function select2()
+//{
+// if(document.getElementById("certTypeselect").value != "--可选择代理人证件种类--")
+// {
+//     $("#certTypeselect").popover('destroy');
+//	 document.getElementById("certType").value = document.getElementById("certTypeselect").value;
+// }
+//}
+</script>
+<div class="container indicates"> 
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写卡片挂失表单</h3>
+  <form class="form-horizontal" style="margin-top:0%;margin-left:15%">
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:15px;margin-left:-18px;color:#000000">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.name}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="pid" class="col-sm-2 control-label" style="margin-top:15px;margin-left:-18px;color:#000000;">身份证号</label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text" style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="pid"  value="{{pool.pid}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:15px;margin-left:-18px;color:#000000">挂失类型</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="CLType" value="书面挂失" disabled="disabled" readonly>
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:15px;margin-left:-18px;color:#000000">是否关联折
+      </label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,350)" placeholder="请选择或输入关联类型"  class="form-control" data-container="body" id="pbkStatus"   >
+        <select class="form-control selectpicker" onchange="select1()"  id="pbkStatusselect" style="margin-top:15px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>选择关联类型</sp>" data-content=""    data-html="true" data-placement="right" >
+          <option  disabled selected >--是否关联折--</option>
+          <option>是</option>
+          <option>否</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+    </div>
+	<!-- <div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:15px;margin-left:-18px;color:#000000">代理人证件种类
+      </label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,350)" placeholder="请选择或输入挂失原因"  class="form-control" data-container="body" id="certType"   >
+        <select class="form-control selectpicker" onchange="select2()"  id="certTypeselect" style="margin-top:15px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"
+				title="<sp class='fg-red'>类型输入有误 </sp>" data-content="" data-html="true" data-placement="right">
+          <option  disabled selected >--可选择代理人证件种类--</option>
+          <option>身份证</option>
+		  <option>军官证</option>
+		  <option>无</option>
+        </select>
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:15px;margin-left:-18px;color:#000000">代理人证件号码</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='margin-top:15px;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="certId" value="{{pool.ST_ManaCertId}}"
+			onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" onclick="openkeyset(1,900,500)" maxlength="18"
+			title="<sp class='fg-red'>证件号码有误</sp>" data-content="" data-html="true" data-placement="right">
+      </div>
+    </div> -->
+	
+  </form>
+  
+</div>
+</br>
+</br>
+
+      <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+      <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('return')">退出</button>
+      
+          <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>
+		 
+    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>

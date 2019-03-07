@@ -1,0 +1,21 @@
+
+        <div class="container indicates">
+        	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+				<span class="">{{timeout}}</span>
+			</div>
+    	</div>
+
+    	<div class="container step col-xs-offset-0 col-xs-12">
+            <h1 class="text-center">开卡成功完成</h1>
+          
+    	</div>
+		 <div class="cook-foot col-xs-offset-0 col-xs-12">
+              <button type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('end')">结束服务</button>
+                
+              <button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('return')">返回主界面</button>
+         </div>
+
+<!-- <EMBED id="MUSIC1" SRC="wav/SystemProcessing.wav" Loop=false AUTOSTART=true Hidden=true MASTERSOUND> -->
+<script>
+    document.getElementById("MUSIC1").src = "wav/SystemProcessing.wav";
+</script>

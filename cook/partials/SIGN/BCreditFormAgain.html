@@ -1,0 +1,337 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+#BillTypeselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#OpenAccountselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#Repaymentselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#RepaymentTypeselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+creatTree(0,"");
+
+
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//	alert(e);
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+
+function commit(){
+ Hide();
+ var scope = angular.element(main).scope();
+ var amount = document.getElementById("amount").value;
+ var BillType = document.getElementById("BillType").value;
+ var OpenAccount = document.getElementById("OpenAccount").value;
+ var Repayment = document.getElementById("Repayment").value;
+ var RepaymentType = document.getElementById("RepaymentType").value;
+ var cardNo = document.getElementById("cardNo").value;
+ var WorkTime = document.getElementById("WorkTime").value;
+ var addCompany = document.getElementById("addCompany").value;
+  if(amount.length<=0){
+   $("#amount").attr("data-content","金额有误，请重新输入");
+   $("#amount").popover('show');
+  }else if(WorkTime.length <=0)
+  {
+	$("#WorkTime").attr("data-content", "非法字符，请重新输入");
+	$("#WorkTime").popover('show');
+  }else if(BillType.indexOf(",") > -1 || BillType.length <=0)
+  {
+	$("#BillTypeselect").attr("data-content", "非法字符，请重新输入");
+	$("#BillTypeselect").popover('show');
+  }else if(Repayment.indexOf(",") > -1 || Repayment.length <=0)
+  {
+	$("#Repaymentselect").attr("data-content", "非法字符，请重新输入");
+	$("#Repaymentselect").popover('show');
+  }else if((RepaymentType.indexOf(",") > -1 || RepaymentType.length <=0) && "是" == Repayment)
+  {
+	$("#RepaymentTypeselect").attr("data-content", "非法字符，请重新输入");
+	$("#RepaymentTypeselect").popover('show');
+  }else if(OpenAccount.indexOf(",") > -1 || OpenAccount.length <=0)
+  {
+	$("#OpenAccountselect").attr("data-content", "非法字符，请重新输入");
+	$("#OpenAccountselect").popover('show');
+  }else if((cardNo.length <16 || cardNo.length >20) && "是" == Repayment){
+	$("#cardNo").attr("data-content", "帐号位数有误，请重新输入");
+	$("#cardNo").popover('show');
+  }else if(addCompany.indexOf(",") > -1 || addCompany.length <=0)
+  {
+	$("#addCompany").attr("data-content", "非法字符，请重新输入");
+	$("#addCompany").popover('show');
+  }else{
+	
+	if("寄往单位地址" == BillType){
+		scope.pool["ST_BillType"] = 1;
+	}else if("寄往住宅地址" == BillType){
+		scope.pool["ST_BillType"] = 2;
+	}else if("其他地址" == BillType){
+		scope.pool["ST_BillType"] = 3;
+	}
+	if("是" == OpenAccount){
+		scope.pool["ST_OpenAccountMessage"] = 1;
+	}else if("否" == OpenAccount){
+		scope.pool["ST_OpenAccountMessage"] = 0;
+	}
+	if("是" == Repayment){
+		scope.pool["ST_AutomaticRepayment"] = 1;
+	}else if("否" == Repayment){
+		scope.pool["ST_AutomaticRepayment"] = 0;
+	}
+	if("最低还款额" == RepaymentType){
+		scope.pool["ST_AutomaticRepaymentType"] = 1;
+	}else if("全额还款额" == RepaymentType){
+		scope.pool["ST_AutomaticRepaymentType"] = 0;
+	}
+	scope.pool["ST_WorkTime"] = WorkTime + "年";
+	scope.action("confirm");
+  }
+
+}
+
+
+
+function select2()
+{
+ if(document.getElementById("Employmentselect").value != "--可选择就业状态--")
+ {
+     $("#Employment").popover('destroy');
+	 document.getElementById("Employment").value = document.getElementById("Employmentselect").value;
+ }
+}
+
+function select3()
+{
+ if(document.getElementById("BillTypeselect").value != "--可选择账单方式--")
+ {
+     $("#BillType").popover('destroy');
+	 document.getElementById("BillType").value = document.getElementById("BillTypeselect").value;
+ }
+}
+
+function select4()
+{
+ if(document.getElementById("OpenAccountselect").value != "--是否开通账户短信--")
+ {
+     $("#OpenAccount").popover('destroy');
+	 document.getElementById("OpenAccount").value = document.getElementById("OpenAccountselect").value;
+ }
+}
+
+function select5()
+{
+ if(document.getElementById("Repaymentselect").value != "--是否自动还款--")
+ {
+	 if(document.getElementById("Repaymentselect").value == "是"){
+		document.getElementById("dtName").style.visibility="visible"
+	 }
+	 if(document.getElementById("Repaymentselect").value == "否"){
+		document.getElementById("dtName").style.visibility="hidden"
+	 }
+     $("#Repayment").popover('destroy');
+	 document.getElementById("Repayment").value = document.getElementById("Repaymentselect").value;
+ }
+}
+
+function select6()
+{
+ if(document.getElementById("RepaymentTypeselect").value != "--可选择自动还款方式--")
+ {
+     $("#RepaymentType").popover('destroy');
+	 document.getElementById("RepaymentType").value = document.getElementById("RepaymentTypeselect").value;
+ }
+}
+
+</script>
+<div class="container indicates"> 
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px red solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px red">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写基本信息</h3>
+
+  <form class="form-horizontal" style="margin-top:0%;margin-left:3%">
+    <div class="form-group">
+      <label for="amount" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">年收入(万元)</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text"  style="border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')"  onclick="openkeyset(1,900,500)" class="form-control" id="amount" ng-model="pool.ST_YearIncome" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>金额输入有误 </sp>" data-content=""  data-html="true" maxlength="22" >
+        
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+	   <label for="mobile" class="col-sm-2 control-label" style="margin-top:20px;color:#000000;margin-left:-18px;">工作时长(年)
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="WorkTime"
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>输入有误 </sp>" data-content=""  data-html="true" maxlength="2" >        
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>
+	
+	<div class="form-group" style="border:0px red solid;">
+		 <label for="telephone" class="col-sm-2 control-label" style="margin-top:17px;margin-left:-18px;color:#000000">账单方式
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="请选择或输入账单方式"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>账单方式输入有误 </sp>" data-content=""    data-html="true" id="BillType"   >
+        <select class="form-control selectpicker" onchange="select3()"  id="BillTypeselect" style="margin-top:15px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--可选择账单方式--</option>
+          <option>寄往单位地址</option>
+          <option>寄往住宅地址</option>
+          <option>其他地址</option>
+        </select>
+      </div>	
+		<sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+		<label for="address" class="col-sm-2 control-label" style="color:#000000;margin-top:17px;margin-left:-18px;">单位地址
+      </label>
+      <div class="col-sm-3" style="margin-top:17px;margin-left:18px;">
+        <textarea style="border:1px red solid;box-shadow:0 0px 0px #000 inset" class="form-control" rows="2" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" id="addCompany" class="form-control" data-container="body"  data-placement="right" ng-model="pool.ST_CompanyAddr"
+    			  title="<sp class='fg-red'>地址输入有误 </sp>" data-content="请输入您的地址"    data-html="true"  >
+        </textarea>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>
+	<div class="form-group">
+		<label for="telephone" class="col-sm-2 control-label" style="margin-top:17px;margin-left:-18px;color:#000000">是否开通账户短信
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="是否开通账户短信"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>账户短信输入有误 </sp>" data-content=""    data-html="true" id="OpenAccount"   >
+        <select class="form-control selectpicker" onchange="select4()"  id="OpenAccountselect" style="margin-top:15px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--是否开通账户短信--</option>
+          <option>是</option>
+          <option>否</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:17px;margin-left:-18px;color:#000000">是否自动还款
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="是否自动还款"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>输入有误 </sp>" data-content=""    data-html="true" id="Repayment"   >
+        <select class="form-control selectpicker" onchange="select5()"  id="Repaymentselect" style="margin-top:15px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--是否自动还款--</option>
+          <option>是</option>
+          <option>否</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+	  
+   </div>
+	
+	<div class="form-group" id="dtName" style="visibility:hidden;">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:17px;margin-left:-18px;color:#000000">自动还款方式
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="自动还款方式"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>输入有误 </sp>" data-content=""    data-html="true" id="RepaymentType"   >
+        <select class="form-control selectpicker" onchange="select6()"  id="RepaymentTypeselect" style="margin-top:15px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--可选择自动还款方式--</option>
+          <option>最低还款额</option>
+          <option>全额还款额</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:25px"></sp>
+	  <label for="mobile" class="col-sm-2 control-label" style="margin-top:20px;color:#000000;margin-left:-18px;">自动还款借记卡号
+   
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="cardNo" value="{{pool.ST_AutomaticRepaymentCard}}" ng-model="pool.ST_AutomaticRepaymentCard" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>卡号输入有误 </sp>" data-content=""  data-html="true" maxlength="22" >
+        
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+   </div>
+  </form>
+  
+</div>
+</br>
+</br>
+</br>
+      <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+      <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('return')">退出</button>
+      
+          <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="resetModel('cardNo','ST_AutomaticRepaymentCard');resetModel('amount','ST_YearIncome');commit()">继续</button>
+		 
+    </div>
+	<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

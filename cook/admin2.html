@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-cn" ng-app="cookApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>系统管理</title>
+    <link rel="stylesheet" href="bower_components/metro/build/css/metro.min.css">
+    <link rel="stylesheet" href="bower_components/metro/build/css/metro-icons.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/Buttons/css/buttons.min.css">
+    <link rel="stylesheet" href="css/bootstrap-nav-wizard.css">
+    <link rel="stylesheet" href="css/admin.css">
+
+    <script src="bower_components/metro/build/js/metro.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/Buttons/js/buttons.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+  </head>
+  <body ng-controller="AdminCtrl">
+      <div class="tile-area tile-area-scheme-dark fg-white" style="height: 100%; max-height: 100% !important;">
+          <h1 class="tile-area-title">江苏农村商业银行</h1>
+          <div class="tile-area-controls">
+              <a href="index.html#/pages" class="square-button bg-transparent fg-white bg-hover-dark no-border"><span class="mif-cog"></span></a>
+              <a href="index.html#/pages" class="square-button bg-transparent fg-white bg-hover-dark no-border"><span class="mif-switch"></span></a>
+          </div>
+          <div ng-view class="admin-container"></div>
+      </div>
+  </body>
+</html>

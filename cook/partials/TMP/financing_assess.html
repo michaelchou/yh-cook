@@ -1,0 +1,596 @@
+
+<div class="container apply">
+<div class="row">
+    <div class="div_left col-md-3">
+        <ng-include src="'partials/card_left.html'"></ng-include>
+    </div>
+    <div class="div_right col-md-9">
+        <div class="indicates">
+    		<span class="timeout pull-right">{{timeout}}</span>
+            <h1>江苏农信“XX理财”客户风险承受能力评估书</h1>
+    	</div>
+ 
+ <div id="div_main" class="div_content">
+    	<div style="margin-left:0px; margin-top:0px;">
+            <table cellpadding="0px" cellspacing="0px" style=" width:100%; margin:0px 0px;" border="1">
+      
+            	<tr>
+                	<td style=" color:#000000;width:884px; height:50px; font-size:24px" align="center" colspan="3">评估问卷</td>
+                </tr>
+                <tr>
+                	<td style=" color:#000000;width:884px; height:35px; font-size:20px; padding-left:30px" colspan="3"> 理财产品分析评估</td>
+                </tr>
+             </table>
+         </div>      
+    	 <div style="width:100%;height:60%;overflow-y:auto;margin-left:0px;scrollbar-face-color:#1bbc9b;scrollbar-arrow-color:#16a086;scrollbar-track-color:#ecf0f1;scrollbar-highlight-color:#1bbc9b; scrollbar-3dlight-color:#1bbc9b; scrollbar-shadow-color:#1bbc9b; scrollbar-darkshadow-color:#1bbc9b; padding:0px 0px;">
+         	<table id="table_1"  align="center" style=" width:100%;display:block; " border="1"   >
+                 <tr>
+                	<td class="tab_td_fx"  align="center">1.</td>
+                   
+                    <td>(个人状况)您的年龄介于 </td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no1" value="-3"/></td>               
+                    <td  onclick="radio_ck('no1','0')">≤18岁 </td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no1" value="3"/></td>               
+                    <td onclick="radio_ck('no1','1')">19岁-25岁</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no1" value="5"/></td>               
+                    <td onclick="radio_ck('no1','2')">26岁-40岁</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no1" value="3"/></td>               
+                    <td onclick="radio_ck('no1','3')">41岁-54岁</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no1" value="-5"/></td>               
+                    <td onclick="radio_ck('no1','4')">55岁-64岁</td>                                     
+                 </tr>
+                     <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no1" value="-10"/></td>               
+                    <td onclick="radio_ck('no1','5')">55岁-64岁</td>                                     
+                 </tr>
+               
+            </table>
+        	<table id="table_2"  align="center" style=" width:100%;display:none "  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                   <tr>
+                	<td class="tab_td_fx"  align="center">2.</td>
+                   
+                    <td>(财务状况)依据您目前的情况，以下哪项最符合您和您的家庭对于自身未来5年收入的预期 </td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no2" value="5"/></td>               
+                    <td onclick="radio_ck('no2','0')">快速增长</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no2" value="4"/></td>               
+                    <td onclick="radio_ck('no2','1')">缓慢增长</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no2" value="3"/></td>               
+                    <td onclick="radio_ck('no2','2')">维持稳定</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no2" value="2"/></td>               
+                    <td onclick="radio_ck('no2','3')">不确定</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no2" value="1"/></td>               
+                    <td onclick="radio_ck('no2','4')">下降</td>                                     
+                 </tr>
+               
+            </table>
+  
+   	<table id="table_3"  align="center" style=" width:100%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                             <tr>
+                	<td class="tab_td_fx"  align="center">3.</td>
+                   
+                    <td>(财务状况)以人民币计算，您的总资产净值(不包括自用住宅和私营企业等实业投资，但包括储蓄、现有投资组合、房地产投资、人寿保险、固定收入，同时请扣除债务如房屋贷款、其他贷款、信用卡账单等)介于 </td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no3" value="5"/></td>               
+                    <td onclick="radio_ck('no3','0')">≥100万</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no3" value="4"/></td>               
+                    <td onclick="radio_ck('no3','1')">70万-99万</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no3" value="3"/></td>               
+                    <td onclick="radio_ck('no3','2')">50万-69万</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no3" value="2"/></td>               
+                    <td onclick="radio_ck('no3','3')">16万-49万</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no3" value="1"/></td>               
+                    <td onclick="radio_ck('no3','4')">≤15万</td>                                     
+                 </tr>
+               
+            </table>
+ 	 	<table id="table_4"  align="center" style=" width:100%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                          <tr>
+                	<td class="tab_td_fx"  align="center">4.</td>
+                   
+                    <td>(财务状况)如果您要参与投资理财，您打算购买投资产品的资金占个人总资产的比例是多少 </td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no4" value="5"/></td>               
+                    <td onclick="radio_ck('no4','0')"> >70%</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no4" value="4"/></td>               
+                    <td onclick="radio_ck('no4','1')">50%-70%(含)</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no4" value="3"/></td>               
+                    <td onclick="radio_ck('no4','2')">30%-50%(含)</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no4" value="2"/></td>               
+                    <td onclick="radio_ck('no4','3')">10%-30%(含)</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no4" value="1"/></td>               
+                    <td onclick="radio_ck('no4','4')">≤10%</td>                                     
+                 </tr>
+               
+            </table>
+       	<table id="table_5"  align="center" style=" width:100%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                <tr>
+                	<td class="tab_td_fx"  align="center">5.</td>
+                   
+                    <td>(投资经验)以下哪项最符合对您的投资描述 </td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no5" value="5"/></td>               
+                    <td onclick="radio_ck('no5','0')">迅速获得高收益</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no5" value="4"/></td>               
+                    <td  onclick="radio_ck('no5','1')" >实现投资增值</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no5" value="3"/></td>               
+                    <td  onclick="radio_ck('no5','2')">获得股息、分红等</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no5" value="2"/></td>               
+                    <td  onclick="radio_ck('no5','3')">为养老、育儿准备</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no5" value="1"/></td>               
+                    <td  onclick="radio_ck('no5','4')">保值</td>                                     
+                 </tr>
+               
+            </table>
+  	<table id="table_6"  align="center" style=" width:100%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                    <tr>
+                	<td class="tab_td_fx"  align="center">6.</td>
+                   
+                    <td>(投资目的)对您而言，保本比追求高收益更为重要 </td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no6" value="5"/></td>               
+                    <td  onclick="radio_ck('no6','0')">非常不同意</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no6" value="4"/></td>               
+                    <td onclick="radio_ck('no6','1')">不同意</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no6" value="3"/></td>               
+                    <td onclick="radio_ck('no6','2')">无所谓</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no6" value="2"/></td>               
+                    <td onclick="radio_ck('no6','3')">同意</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no6" value="1"/></td>               
+                    <td onclick="radio_ck('no6','4')">非常同意</td>                                     
+                 </tr>
+               
+            </table>
+   	<table id="table_7"  align="center" style=" width:100%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                      <tr>
+                	<td class="tab_td_fx"  align="center">7.</td>
+                   
+                    <td>(收益预期)您和您的家庭希望通过投资达到的目的是 </td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no7" value="5"/></td>               
+                    <td onclick="radio_ck('no7','0')">迅速获得高收益</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no7" value="4"/></td>               
+                    <td onclick="radio_ck('no7','1')">实现投资增值</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no7" value="3"/></td>               
+                    <td onclick="radio_ck('no7','2')">获得股息、分红等</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no7" value="2"/></td>               
+                    <td onclick="radio_ck('no7','3')">为养老、育儿准备</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no7" value="1"/></td>               
+                    <td onclick="radio_ck('no7','4')">保值</td>                                     
+                 </tr>
+               
+            </table>
+ 	<table id="table_8"  align="center" style=" width:100%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                      <tr>
+                	<td class="tab_td_fx"  align="center">8.</td>
+                   
+                    <td>(投资风格)综合收益和风险，您最愿意将资金投资到下面哪个方向？</td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no8" value="5"/></td>               
+                    <td onclick="radio_ck('no8','0')">非保本结构性产品(与货币/商品/利率等挂钩)</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no8" value="4"/></td>               
+                    <td onclick="radio_ck('no8','1')">股票、股票型基金</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no8" value="3"/></td>               
+                    <td onclick="radio_ck('no8','2')">股票与债券混合型产品</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no8" value="2"/></td>               
+                    <td onclick="radio_ck('no8','3')">债券、债券基金、货币市场基金</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no8" value="1"/></td>               
+                    <td onclick="radio_ck('no8','4')">国债或存款</td>                                     
+                 </tr>
+               
+            </table>
+ 	<table id="table_9"  align="center" style=" width:100%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                         <tr>
+                	<td class="tab_td_fx"  align="center">9.</td>
+                   
+                    <td>(流动性要求)包括理财产品、股票、基金等其他品种时，您可以接受的最长投资期限为</td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no9" value="5"/></td>               
+                    <td onclick="radio_ck('no9','0')">≥5年</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no9" value="4"/></td>               
+                    <td onclick="radio_ck('no9','1')">3-4年</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no9" value="3"/></td>               
+                    <td onclick="radio_ck('no9','2')">1-2年</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no9" value="2"/></td>               
+                    <td onclick="radio_ck('no9','3')">7-11个月</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no9" value="1"/></td>               
+                    <td onclick="radio_ck('no9','4')">≤6个月</td>                                     
+                 </tr>
+               
+            </table>
+ 	<table id="table_10"  align="center" style=" width:100%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                      <tr>
+                	<td class="tab_td_fx"  align="center">10.</td>
+                   
+                    <td>(短期风险承受力)如果短期内您的投资遭受一些损失，但投资基本面并未改变，您会怎么做 </td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no10" value="5"/></td>               
+                    <td onclick="radio_ck('no10','0')">再买入，它曾是好的投资，现在更加便宜，应该追加投资。</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no10" value="4"/></td>               
+                    <td onclick="radio_ck('no10','1')">什么也不做，相信市场会好转，静等收回投资。</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no10" value="3"/></td>               
+                    <td onclick="radio_ck('no10','2')">卖掉一部分，其余看情况而定。</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no10" value="2"/></td>               
+                    <td onclick="radio_ck('no10','3')">为避免更大的亏损，先全部卖掉，再进行其他高安全型的投资。</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no10" value="1"/></td>               
+                    <td onclick="radio_ck('no10','4')">择机全部卖掉，不再进行投资。</td>                                     
+                 </tr>
+               
+            </table>
+       	<table id="table_11"  align="center" style=" width:100%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                  <tr>
+                	<td class="tab_td_fx"  align="center">11.</td>
+                   
+                    <td>(风险偏好)您对投资收益和风险所持的态度是 </td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no11" value="10"/></td>               
+                    <td onclick="radio_ck('no11','0')">我希望承担风险，愿意为获得较高回报而承受较大的负面波动，能够承担本金损失</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no11" value="8"/></td>               
+                    <td onclick="radio_ck('no11','1')">我能够承担风险，愿意接受一定范围的负面波动以提高投资的潜在回报，能够承担部分本金损失</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no11" value="6"/></td>               
+                    <td onclick="radio_ck('no11','2')">我对风险的态度一般，愿意在投资期限内接受较小的负面波动，只要回报能明显高于定期存款</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no11" value="4"/></td>               
+                    <td onclick="radio_ck('no11','3')">我希望避免风险，能够接受轻微的价格波动，以追求高于定期存款的回报。</td>                                     
+                 </tr>
+                   <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no11" value="2"/></td>               
+                    <td onclick="radio_ck('no11','4')">我不愿意承担风险，也不能接受投资的价值下跌。</td>                                     
+                 </tr>
+               
+            </table>
+       	<table id="table_12"  align="center" style=" width:100%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                 <tr>
+                	<td class="tab_td_fx"  align="center">12.</td>
+                   
+                    <td>您认为您是有投资经验的投资者，还是无投资经验的投资者 </td>
+                </tr>
+                <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no12" value="0"/></td>               
+                    <td onclick="radio_ck('no12','0')">有投资经验投资者。曾投资于股票、股票型基金、外汇及其衍生品、投资于股票/股指的非保本理财产品、或与利率、汇率、股票、股指、信用、商品等挂钩的非保本结构性理财产品，且累计投资期限在两年以上。</td>                                     
+                 </tr>
+                  <tr>
+                	<td class="tab_td_fx" align="center">
+                	<input  type="radio"  name="no12" value="-35"/></td>               
+                    <td onclick="radio_ck('no12','1')">无投资经验投资者。未投资于上述产品，或投资上述产品的期限不满两年。</td>                                     
+                 </tr>
+                   
+               
+            </table>
+            
+            
+            
+            <table id="table_13"  align="center" style="margin-top:5%; width:60%;height:40%; display:none"  cellpadding="0px" cellspacing="0px" style="margin:0px 0px;"   border="1">
+                <tr>
+                	<td   colspan="2"   class="tab_td1"  align="center"><h1>题已经做完啦！您得到</h1></td>
+                </tr>
+                 <tr>
+                	<td  colspan="2" class="tab_td1"  id="score" align="center" style="color:red;">&nbsp;</td>
+               </tr>
+               <tr>
+                   <td     class="tab_td_dpign="right">您的投资类型为：</td>
+                   <td      class="tab_td_dps" id="custtype" align="left">&nbsp;</td>
+                </tr>
+                 <tr>
+                	<td     class="tab_td_dps"  align="right">适合您的产品类型为：</td>
+                	<td     class="tab_td_dps" id="fundtype" align="left">&nbsp;</td>
+                   
+                </tr>
+            
+            </table>
+            </div>
+        
+  <div style="padding-top:0px" align="center">
+  <span  style="color:red;color:red;font-family:微软雅黑;" id="comment2">&nbsp;</span></div>
+ 
+ 
+   <div class="button" align="center" >
+        <table border="0">
+            <tr>   
+            <td class="button_td" id="button_td_0" style="display:none">
+                <button style=" width:300px; height:60px;border:0px;background:#3a6fb3; color:#FFFFFF; font-size:24px; font-family:方正粗倩简体; " onclick="next()" id="button1">提交</button>
+            </td>  
+             
+            <td class="button_td" id="button_td_1">
+                <button style=" width:300px; height:60px;border:0px;background:#3a6fb3; color:#FFFFFF; font-size:24px; font-family:方正粗倩简体; " onclick="next()" id="button2">下一题</button>
+            </td>    
+            <td class="button_td" id="button_td_4">
+                <button style="margin-left:55px;width:300px; height:60px;border:0px;background:#3a6fb3; color:#FFFFFF; font-size:24px; font-family:方正粗倩简体; " onclick="next(1)" id="button2" visibility:visible;position:absolute>完成</button>
+            </td>  
+             <td class="button_td" id="button_td_2" style="display:none">
+                <button  ng-click="action('confirm')" id="button3" class="menu_button_3" style=" display:block;top:463px;margin-left:105px;width:160px; height:60px; border:0px;background:#46b963; color:#FFFFFF; font-size:24px; font-family:方正粗倩简体; outline:none;visibility:visible;position:absolute">理财签约</button>
+            </td> 
+             <td class="button_td" id="button_td_3" style="display:none">
+                <button onclick="location.reload();"; id="button" class="menu_button_3" style=" top:463px;left:455px;display:block;width:160px; height:60px; border:0px;background:#3b6fb4; color:#FFFFFF; font-size:24px; font-family:方正粗倩简体; outline:none;visibility:visible;position:absolute">重新评估</button>
+            </td> 
+               
+            </tr>
+        </table>
+    </div>
+     </div>
+      
+    <div id="div_failed" class="div_content"  style="display:none">
+    	<div class="error_msg" id="div_fail" align="center">操作失败</div>
+        <div class="error_photo" id="error_fail"   align="center">  :(  </div>
+    </div>
+	<div id="div_timeout" class="div_content"  style="display:none">
+    	<div class="error_msg" id="divc_timeout" align="center">操作超时</div>
+        <div class="error_photo" id="error_timeout" align="center">  :(  </div>
+    </div>
+    
+    
+  
+<div class="div_eject" align="right">
+    	<img id="img_eject" ng-click="action('quit')" src="image/quit.png"/>
+    </div>
+<div id="div_eject_hint" class="div_eject_hint"  style="display:none" align="center">
+   	<br/><br/><br/>
+       <span class="ext_msg" >您确定要取消并退出吗？</span><br/><br/><br/>
+
+	<table border="0">
+	   <tr>
+	   <td class="button_td" >
+	   	<button id="imgcancel" class="menu_button_1">否</button>
+	   </td>
+	    <td class="button_td" >
+	   	<button id="ok" class="menu_button_2">是</button>
+	   </td>
+	   </tr>
+	</table>
+</div>
+    <style type="text/css">
+
+input[type="radio"]{
+	width:30px;
+	height:30px;
+	border:1px;
+	outline:none;
+}
+
+
+</style>
+
+<script type="text/javascript">
+document.getElementById("MUSIC1").src = "wav/SystemProcessing.wav";	
+	var Num = 1;
+	var score = 0;	
+	function next(end){//评估算法
+
+	var flag = false;
+	var temp=document.getElementsByName("no"+Num);
+	for (i=0;i<temp.length;i++){ 
+    //遍历Radio
+		if(temp[i].checked) {
+		score += Number(temp[i].value);//累计分值
+		flag = true;
+		Num++;                 //题目
+		break;
+		}
+	}
+	
+	if(end==1){
+	flag = true;
+	Num = 13;
+	for (i=1;i<13;i++){ 
+	$("#table_"+(i)).css("display", "none");
+	}}
+	
+	if(!flag){
+	 document.getElementById("comment2").innerHTML = "必须选择一个答案";
+	}else{
+	 document.getElementById("comment2").innerHTML = "&nbsp;";
+	    $("#table_"+(Num-1)).css("display", "none");
+		$("#table_"+Num).css("display", "block");
+	}
+	if(Num==12){
+	 $("#button_td_0").css("display", "block");
+	 $("#button_td_1").css("display", "none");
+	
+	 }
+	
+	if(Num==13){
+	 $("#button_td_0").css("display", "none");
+	 $("#button_td_1").css("display", "none");
+	 $("#button_td_4").css("display", "none");
+	 $("#button_td_2").css("display", "block");
+	 $("#button_td_3").css("display", "block");
+	 
+	 if(score<=20){
+	   document.getElementById("custtype").innerHTML = "保守型";
+	   document.getElementById("fundtype").innerHTML = "极低风险产品";
+	 }else if(score>20&&score<=25){
+	   document.getElementById("custtype").innerHTML = "稳健型";
+	   document.getElementById("fundtype").innerHTML = "极低、低风险产品";
+	 }else if(score>26&&score<=35){
+	   document.getElementById("custtype").innerHTML = "平衡型";
+	   document.getElementById("fundtype").innerHTML = "极低、低、中等风险产品";
+	 }else if(score>36&&score<=45){
+	   document.getElementById("custtype").innerHTML = "成长型";
+	   document.getElementById("fundtype").innerHTML = "极低、低、中等、较高风险产品";
+	 }else if(score>45){
+	   document.getElementById("custtype").innerHTML = "进取型";
+	   document.getElementById("fundtype").innerHTML = "极低、低、中等、较高及高风险产品";
+	 }
+	  document.getElementById("score").innerHTML = "<h1>"+score +" 分<h1>";
+	}
+}
+function OnOk() {
+    // 提交用户用户信息
+    if (parseInt(score)<=20)
+        external.SetValue("F_RiskLevel", "1");
+    else if (parseInt(score) < 45 && parseInt(score) > 25)
+        external.SetValue("F_RiskLevel", "2");
+    else
+        external.SetValue("F_RiskLevel", "3");
+    external.SetValue("F_EvaluatedScore", score);
+    external.SetValue("F_Validity", "3");
+    external.SetValue("F_AgreementVersion", "1.0.0.0");
+    external.SetValue("F_AuthAgentID", "0002");
+
+    external.Navigate('financing\\financingcommon\\Common_7_dyxy.html')
+    }
+    
+  function radio_ck(radio_name,number){
+ var temp=document.getElementsByName(radio_name);
+	
+		if(!temp[number].checked) {
+		temp[number].checked=true;
+		}
+
+ 
+ }
+</script>

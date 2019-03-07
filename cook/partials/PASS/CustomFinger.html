@@ -1,0 +1,66 @@
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}</span>
+	</div>
+</div>
+
+<div>
+ <p style="font-size:35px;text-align: center;color:#000000;">请您进行指纹确认</p></br>
+ <table class="col-xs-12 balance " style="margin-bottom:8px;color:#000000;height:250px;">
+        <tr>
+            <td ><th class="col-xs-3" style="font-size:25px">姓名:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.name}}</td>
+            <td><th class="col-xs-3"style="font-size:25px">性别:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.genderC}}</td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"style="font-size:25px">交易账号:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.cardNo}}</td>
+            <td><th class="col-xs-3"style="font-size:25px">手机号码:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.mobile}}</td>
+        </tr>
+
+		<tr>
+			<td><th class="col-xs-3"style="font-size:25px">终端号:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.Apply_terminalId}}</td>
+        </tr>
+		<tr>
+			<td><th class="col-xs-3"style="font-size:25px">个人职业:</th></td>
+            <td colspan = 3 ng-if="pool.job=='01'" style=""><span style="font-size:22px;color:#000000;">各类专业，技术人员</span></td>
+			<td colspan = 3 ng-if="pool.job=='02'" style=""><span style="font-size:22px;color:#000000;">国家机关，党组织，企事业单位负责人</span></td>
+			<td colspan = 3 ng-if="pool.job=='03'" style=""><span style="font-size:22px;color:#000000;">办事人员和有关人员</span></td>
+			<td colspan = 3 ng-if="pool.job=='04'" style=""><span style="font-size:22px;color:#000000;">商业工作人员</span></td>
+        </tr>		
+        <tr>
+			<td><th class="col-xs-3"style="font-size:25px">证件类型:</th></td>
+            <td class="col-xs-3"style="font-size:25px">身份证</td>
+            <td><th class="col-xs-3"style="font-size:25px">证件号码:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.pid}}</td>
+        </tr>
+		<tr>
+		    <td><th class="col-xs-3"style="font-size:25px">签发机关:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.issueoffice}}</td>
+			<td><th class="col-xs-3"style="font-size:25px">证件有效日期:</th></td>
+            <td class="col-xs-3"style="font-size:25px">{{pool.issuedate}}~{{pool.abatedate}}</td>
+        </tr>
+		<tr>
+			<td><th class="col-xs-3"style="font-size:25px">联系地址:</th></td>
+            <td colspan = 4 ><span style="font-size:25px">{{pool.address}}</span></td>
+        </tr>		
+    </table>
+
+<div style="font-size:25px; ">
+	<div style="position:fixed;top:40%;left:22%">
+	 <div style="position:fixed;top:60%;left:30%">
+	    </br>
+	    <h3 class="text-center" style="display:block;color:#000000;font-size:25px">请将手指在指纹仪上长按&nbsp;<label id="time" style="width:50px;color:red;">5</label>&nbsp;秒后抬起!</h3>
+	</div>
+	</div>
+</div>
+</div>

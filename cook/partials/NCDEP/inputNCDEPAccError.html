@@ -1,0 +1,36 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	document.getElementById("account").focus();
+</script>
+<div class="container indicates">
+	<span class="timeout pull-right">{{timeout}}</span>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite"></object>
+
+<div class="container step col-xs-offset-o col-xs-12">
+    <h1 class="text-center">存入账号有误,请重新输入存入账号</h1>
+    <h3 class="text-center">Account error,Please enter the payee account number and press enter</h3>
+    
+</div>
+
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" onclick="openkeyset(1,490,350)" class="form-control" style="width:330px;" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" 
+                    id="account" value="" onblur="this.focus()" ng-model="pool.input_info" maxlength="19"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>存入账号输入有误</sp>" data-content="" data-html="true">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="_delete()">更  正</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+
+<br>
+<br>
+ <div style="margin-top:24%">
+   <button id="cancel" type="button" class="col-sm-offset-3 col-xs-2 button-eject button-lg1" ng-click="action('cancel')">取消</button>
+    <button id="confirm" type="button" class="col-xs-offset-2 col-xs-2 button-confirm button-lg1" onclick="checkACC();">确认</button>
+  </div>

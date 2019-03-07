@@ -1,0 +1,67 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+	
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+</div>
+<div style="height:450px" class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;"  >
+    <div class="cook-head">
+		<h2  class="text-center">贷款信息</h2>
+	</div>
+    
+    <table class="table table-striped  table-bordered" width="96%" style="text-align:center">
+        <tr style="font-weight:bold;font-size:18px;">
+            <td height="33px">贷款账号</td>
+            <td height="33px">贷款金额</td>
+            <td height="33px">贷款余额</td>
+            <td height="33px">贷款申请日期</td>
+            <td height="33px">贷款到期日</td>
+			<td height="33px">贷款利率</td>
+            <td height="33px">贷款状态</td>
+            <td height="33px">贷款合同号</td>
+        </tr>
+        <tr ng-repeat="x in detail" >
+            <td height="33px">{{ x.key0}}</td>
+            <td height="33px">{{ x.key1}}</td>
+            <td height="33px">{{ x.key2}}</td>
+            <td height="33px">{{ x.key3}}</td>
+			<td height="33px">{{ x.key4}}</td>
+			<td height="33px">{{ x.key5}}</td>
+            <td height="33px">{{ x.key6}}</td>
+			<td height="33px">{{ x.key7}}</td>
+        </tr>
+	</table>
+</div> 	   
+
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px red solid;margin-top:37%;">
+    <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+       <h1 class="text-center" style="font-size: 140%;color:#000000;">第{{pageNo}}页,共{{pageSize}}页</h1>
+    </div>
+	
+    <div ng-if="pageSize > 1">
+    
+
+ 	<div class=" col-xs-offset-0 col-xs-5 "style="border:0px blue solid;">
+ 			<div class="col-xs-offset-4 col-xs-2"style="border:0px red solid;">
+    	    <button  type="button" class="col-xs-offset-4 col-xs-2 image-btgr"  ng-hide="Prev" ng-click="next(-1)">上一页</button>
+    	   </div>
+           <div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+    	    <button  type="button"  class="col-xs-offset-4 col-xs-2 image-btgr"   ng-hide="Next"    ng-click="next(1)">下一页</button>
+    	   </div>
+    </div>
+	
+	<div class=" col-xs-offset-1 col-xs-2 "style="border:0px blue solid;">
+ 			
+    	    <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt"      ng-click="action('eject')">退出</button>
+    </div>
+	
+    </div>
+    <div ng-if="pageSize <= 1">	
+    <div class=" col-xs-offset-6 col-xs-12 "style="border:0px blue solid;">
+ 			
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-bt"      ng-click="action('eject')">退出</button>
+    </div>  
+    </div> 
+ </div>

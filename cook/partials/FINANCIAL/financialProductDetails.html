@@ -1,0 +1,71 @@
+<!-- 理财客户已购明细查询 -->
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+	</div>
+	<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+
+    <div class="cook-head">
+		<h1 class="text-center">{{pool.detail_type}}理财产品明细</h1>
+    </div>
+	<span style="margin-left:43%;margin-top:-1%;width: 30px;height: 20px;font-size:25px;" 
+		data-container="body"  data-placement="left"   data-content="" data-html="true" >总额:</span>
+		<span style="font-size:25px;">{{pool.Query_totalAmount}}</span>
+    <table class=" table-striped  table-bordered" width="100%" style="text-align:center;">
+        <tr style="font-weight:bold;font-size:16px;">
+            <td height="33px">产品名称</td>
+            <td height="33px">起到息日</td>
+            <td height="33px">赎回标识</td>
+			<td height="33px">认购类型</td>
+			<td height="33px">预期收益率</td>
+			<td height="33px">原认购交易日期</td>
+            <td height="33px">申请金额</td>
+			<td height="33px">剩余本金</td>
+			<td height="33px">质押状态</td>
+			<td height="33px">交易状态</td>
+        </tr>
+        <tr ng-repeat="x in detail" >
+            <td height="33px">{{ x.key1}}</td>
+            <td height="33px">{{ x.key2}}~{{ x.key3}}</td>
+            <td height="33px">{{ x.key6}}</td>
+            <td height="33px">{{ x.key18}}</td>
+            <td height="33px">{{ x.key4}}~{{ x.key5}}</td>
+            <td height="33px">{{ x.key10}}</td>
+			<td height="33px">{{ x.key20}}</td>
+			<td height="33px">{{ x.key7}}</td>
+            <td height="33px">{{ x.key23}}</td>
+			<td height="33px">{{ x.key24}}</td>
+        </tr>
+ </table>
+ </div>
+
+
+ <div class="cook-foot col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+   <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+ 	<h1 class="text-center" style="font-size: 140%;">第{{pageNo}}页,共{{pageSize}}页</h1>	
+   </div>
+  <div ng-if="pageSize > 1">
+ 	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<button  type="button" class="col-xs-offset-2 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button  id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt"  ng-click="action('eject')">退卡</button>
+    </div>
+
+ 	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;">
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-hide="Prev"ng-click="next(-1)">上一页</button>
+    	    </div>
+          <div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+    	    <button  type="button"  class="col-xs-offset-1 col-xs-2 image-btgr"   ng-hide="Next"    ng-click="next(1)">下一页</button>
+    	  </div>
+   </div>
+   </div>
+   <div ng-if="pageSize <= 1">	
+   <div class=" col-xs-offset-0 col-xs-12 "style="border:0px blue solid;">
+ 			<button  type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button  id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt"  ng-click="action('eject')">退卡</button>
+  </div>
+  </div>
+</div>

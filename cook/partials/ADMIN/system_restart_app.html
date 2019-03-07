@@ -1,0 +1,60 @@
+<script src="js/admin/base.js"></script>
+<script>
+var sys = "/admin/NewAdminSystemServlet";
+var isRunning = false;
+    $(document).ready(function() {
+    decreaseTimer();
+    function decreaseTimer(){
+ if($("#time1").text() >= 1) {
+	$("#time1").text($("#time1").text()-1);
+	 window.setTimeout(decreaseTimer, 1000);
+ }else if($("#time1").text().length>0){
+	enterRestart();
+	}}
+     });
+     
+function enterRestart(){
+    if(isRunning){
+ 	 	return;
+  	}else{
+  		isRunning = true;
+  }
+    $("#comment2").text("");
+	$("#time1").text("");
+	$("#comment").text("应用正在重启，请稍后...");
+	$("#return").attr("disabled",true);
+	$("#button2").attr("disabled",true);
+  	$.ajax({
+	    url: sys,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=sys-restart",
+	    dataType: 'json',
+	    success: function(data) {
+	    }
+	});
+}
+    </script>
+</head>
+
+<h2 id="head" class="text-center">重启应用</h2>
+<div id="content">
+  <div class="col-xs-offset-1 col-xs-10"style="border:0px #FFFFFF solid;">
+    <div>
+      <div id="title_text" style="margin-top:100px;border:0px red solid;font-size:26px;height:px; text-align:center;font-family:方正粗倩简体;">
+        <label  class="fg-red"  style="color:black" id=""> <span class="comment" style="color:red;color:red;font-family:微软雅黑;font-size:30px;" id="comment">应用将在 </span><span style="color:red;color:red;font-family:微软雅黑;font-size:30px;" id="time1">30</span><span id="comment2"  style="color:red;color:red;font-family:微软雅黑;font-size:30px;" > 秒后重启</span> </label>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="foot" class="col-xs-offset-4 col-xs-4">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button" id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" id="button2" class="btn btn-success btn-lg" onclick="enterRestart()" >立即重启</button>
+    </div>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cook2</title>
+</head>
+<style>
+html {
+		overflow-x:hidden;
+		overflow-y:hidden;
+}
+
+* {
+	margin:0;
+	padding:0;
+}
+	/*
+body {
+  background-image: url("image/VTM.png");
+  background-size:100% 100%;
+}
+*/
+</style>
+<script language="javascript">
+    window.pageId = 'idle';
+</script>
+<body  onselectstart="return false;">
+<img src="image/VTM.png" width="1280" height="1024" usemap="#Map" />
+<map name="Map" id="Map">
+<area shape="rect" coords="130,264,440,414" id="开卡" href="/custom/flow2?actionId=apply&page=idle&mode=file"/>
+<area shape="rect" coords="130,425,280,576" id="换卡" href="#" />
+<area shape="rect" coords="289,425,440,577" id="账户激活" href="/custom/flow2?actionId=active&page=idle&mode=file" />
+<area shape="rect" coords="130,585,440,736" id="签约" href="#" />
+
+<area shape="rect" coords="485,264,797,415" id="余额查询" href="/custom/flow2?actionId=INQ&page=idle&mode=file" />
+<area shape="rect" coords="485,424,637,574" id="账单查询" href="/custom/flow2?actionId=INQ_CREDITBILL&page=idle&mode=file" />
+<area shape="rect" coords="485,584,637,735" id="明细查询" href="/custom/flow2?actionId=INQ_DETAIL&page=idle&mode=file" />
+<area shape="rect" coords="645,426,797,737" id="子账号查询" href="/custom/flow2?actionId=dataLogQuery&page=idle&mode=file" />
+
+<area shape="rect" coords="840,264,991,415" id="密码修改" href="/custom/flow2?actionId=PIN&page=idle&mode=file" />
+<area shape="rect" coords="840,424,991,735" id="非接交易" href="/custom/flow2?actionId=RFTrans&page=idle&mode=file" />
+<area shape="rect" coords="1000,264,1150,574" id="转账" href="/custom/flow2?actionId=TRF&page=idle&mode=file"/>
+<area shape="rect" coords="1000,585,1150,735"id="电子现金"  href="/custom/flow2?actionId=ECash&page=idle&mode=file" />
+
+<area shape="rect" coords="1122,36,1278,88" id="连接坐席" href="#" />
+<area shape="rect" coords="540,970,740,1020" id="index" href="index_s54.html#/pages" /></map>
+</body>
+</html>

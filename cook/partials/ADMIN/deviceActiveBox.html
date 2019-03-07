@@ -1,0 +1,97 @@
+<script src="js/admin/base.js"></script>
+<script>
+     
+var data = "/admin/NewAdminDeviceServlet";
+var isRunning = false;
+function acrivxBoxDown() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	     data: "commandID=activx-box-down",
+	    dataType: 'json',
+	    success: function(data) {
+             $("#listview").show();
+	    	if ((data.messageText).length >= 1) {
+	    	if("ok"==data.state){
+	    		$("#listview").html(data.messageText+">>卸载后必须进行上装才能继续其他操作");
+	    	}else{
+	    		$("#listview").text(data.messageText);
+	    	}
+	    	}
+	    	else {
+	    		$("#listview").text(data.messageText+"\r"+new Date().toLocaleString()+"\r>>钞箱上装失败");
+
+	        }
+	       		 $("#return").attr("disabled",true);
+	        	 $("#button1").attr("disabled",true);
+	        isRunning = false;
+
+	    }
+	});
+
+}
+function acrivxBoxUp() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=activx-box-up",
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    
+	    		$("#listview").html(data.messageText);
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>钞箱上装失败");
+	        }
+	         $("#return").attr("disabled",false);
+	        $("#button1").attr("disabled",false);
+	        isRunning = false;
+
+	    }
+	});
+
+}
+    </script>
+</head>
+
+<h2 id="head" class="text-center">激活钞箱</h2>
+<div id="content">
+  <div class="col-xs-offset-4 col-xs-4"style="border:0px #FFFFFF solid;">
+    <div  >
+      <textarea class="form-control  col-xs-12" rows="22" 
+				style="font-family: verdana; color: black; ont-size: 12px;" readonly
+				id="listview"  style="display:block">
+      </textarea>
+    </div>
+  </div>
+</div>
+<div id="foot" class="col-xs-offset-3 col-xs-6">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button" class="btn btn-primary btn-lg"  id="return" ng-click="action('return')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-success btn-lg" id="button1" onclick="acrivxBoxDown()">卸载钞箱</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-warning  btn-lg" onclick="acrivxBoxUp()">激活钞箱</button>
+    </div>
+  </div>
+</div>
+</div>
+</body></html>

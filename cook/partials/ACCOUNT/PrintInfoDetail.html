@@ -1,0 +1,84 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+	function PrintConfirm(){
+		var scope = angular.element(main).scope();
+		
+		var ReceiptSeq = scope.pool["ST_ReceiptSeq"];
+		var ReceiptAccount = scope.pool["ST_ReceiptAccount"];
+		var ReceiptTransDate = scope.pool["ST_ReceiptTransDate"];
+		var ReceiptBusType = scope.pool["ST_ReceiptBusType"];
+		
+		var ReceiptTrans = "<ers_msg>"+"<receiptsq>"+ReceiptSeq+"</receiptsq>"+"<account_code>"+ReceiptAccount+"</account_code>"+"<transdt>"+ReceiptTransDate+"</transdt>"+"<bus_type>"+ReceiptBusType+"</bus_type>"+"</ers_msg>"
+		
+		scope.pool["ST_ReceiptTransInfoSelect"] = ReceiptTrans;
+		scope.action("confirm");
+		}
+	
+	
+</script>
+
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style="margin-top:0%;border:0px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue;height:600px">
+<h1  style="font-size:34px;margin-top:0px;text-align: center;">回单详细信息</h1>
+
+
+    <div  style="margin-left:150px;margin-top:10px">
+		<table border="0" cellpadding="0" cellspacing="0" class="col-xs-offset-1 col-xs-12" style="height:175px;"> 
+
+			 <tr>
+			    <td height="35px" width="15%"><span style="font-size:25px;">回单序号：</span></td>
+			    <td height="35px" width="85%"><span style="font-size:25px;color:#0B7DF2">{{pool.ST_ReceiptSeq}}</span></td>
+			 </tr>
+			
+			 <tr>
+			    <td height="35px"><span style="font-size:25px;">交易时间：</span></td>
+			    <td height="35px" ><span style="font-size:25px;color:#0B7DF2">{{pool.ST_ReceiptTransDate}}</span></td>
+			 </tr>
+		
+			 <tr>
+			    <td height="35px"><span style="font-size:25px;">交易金额：</span></td>
+			    <td height="35px" ><span style="font-size:25px;color:#0B7DF2">{{pool.ST_ReceiptAmount}}</span></td>
+			 </tr>
+			 <tr>
+			    <td height="35px"> <span style="font-size:25px;">付款账号：</span></td>
+			    <td  height="35px"><span style="font-size:25px;color:#0B7DF2">{{pool.ST_ReceiptPayerAcctno}}</span></td>
+			 </tr>
+			 <tr>
+			    <td height="35px"> <span style="font-size:25px;">付款户名：</span></td>
+			    <td  height="35px"><span style="font-size:25px;color:#0B7DF2">{{pool.ST_ReceiptPayerName}}</span></td>
+			 </tr>
+			 <tr>
+			    <td height="35px"> <span style="font-size:25px;">收款账号：</span></td>
+			    <td  height="35px"><span style="font-size:25px;color:#0B7DF2">{{pool.ST_ReceiptPayeeAcctno}}</span></td>
+			 </tr>
+			 <tr>
+			    <td height="35px"> <span style="font-size:25px;">收款户名：</span></td>
+			    <td  height="35px"><span style="font-size:25px;color:#0B7DF2">{{pool.ST_ReceiptPayeeName}}</span></td>
+			 </tr>
+			
+			 
+			 
+		 </table>
+	</div>   
+  
+
+  <div  style="margin-top:45%">
+		<div >
+           
+			<button type="button" class="col-xs-offset-2 col-xs-1 image-btor"    ng-click="action('return')" >返回</button>
+    	    <button  id="cancel" type="button" class="col-xs-offset-2 col-xs-1 image-bt"  onclick="PrintConfirm()" >打印</button>
+
+        </div>
+       
+
+  </div>
+  
+ </div>	
+		
+		 

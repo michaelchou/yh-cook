@@ -1,0 +1,42 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+ <div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+	<h1 class="text-center">请输入您选择的借记卡账户密码,并按[确认]键</h1>
+	<h3 class="text-center">Please enter your password and press[enter]</h3>
+	<div class="step">
+         
+         
+            <div>
+			<input type="password" disabled="disabled" class="input-lg" style="font-size:33px;line-height:23px;width:250px;" onkeyup="checkInput(id)" 
+            	id="password" maxlength="6" data-container="body"  data-placement="left"  
+                	title="<sp class='fg-red'>密码输入有误 </sp>" data-content="" data-html="true">
+    		</div>
+    		<img src="image/pin.gif" style="margin-top:20px">
+    </div>
+</div>
+</div>
+<br>
+<br>
+
+<div ng-if="pool.customAction != 'NCDEP' && pool.customAction != 'NCCWD' && pool.customAction != 'NCPBKDEP'" class="cook-foot col-xs-offset-0 col-xs-12">
+	<button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-btor"  ng-click="action('return')">返回</button>
+	<button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">{{pool.page_Eject}}</button>
+	
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkPIN()">确认</button>
+</div>
+
+<div ng-if="pool.customAction == 'NCDEP' || pool.customAction == 'NCCWD' || pool.customAction == 'NCPBKDEP'" class="cook-foot col-xs-offset-0 col-xs-12">
+    <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">{{pool.page_Eject}}</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkPIN()">确认</button>
+	
+</div>
+
+<!-- <EMBED id="MUSIC1" SRC="wav/请输入密码.wav" Loop=false AUTOSTART=true Hidden=true MASTERSOUND> -->
+<script>
+    document.getElementById("MUSIC1").src = "wav/请输入密码.wav";
+</script>

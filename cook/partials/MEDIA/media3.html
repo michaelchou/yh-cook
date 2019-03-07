@@ -1,0 +1,39 @@
+
+	<div class="container center" >
+		<div class="timeout pull-right" ><span>{{timeout}}</span></div>
+		<div class="title">
+			<h1 >远程视频测试Media3</h1>
+			<p >Please select services<p>
+		</div>
+
+			<div class="menu row" style="width:80%;margin:4% auto;" >
+				<div class="col-md-3 card">
+					<a class="thumbnail thumbnail-mianMenu button-hide-{{buttons.INQ}}" onclick = "TellerLogout()">
+						<p>结束</p>
+					</a>
+				</div>
+				<div class="col-md-3 card">
+					<a href="" class="thumbnail thumbnail-mianMenu button-hide-{{buttons.INQ}}" ng-click="action('next')">
+						<p>下一步</p>
+					</a>
+				</div>
+				<div class="col-md-3 card">
+					<a href="" class="thumbnail thumbnail-mianMenu " ng-click="action('eject')">
+						<p>退出</p>
+					</a>
+				</div>
+			</div>
+		
+	</div>
+	<script>
+	var menu_keyActionTable = {
+		CANCEL: 'cancel'
+	};
+	
+	
+	function TellerLogout()
+	{ 
+		var ret = MyActiveX.mediaTerminalLogout();
+	}
+	
+	</script>

@@ -1,0 +1,823 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+	position: relative;
+	min-height: 100%;
+}
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+  height: 50px;
+}
+.footer .container {
+	padding-top: 20px;
+}
+.footer a {
+	text-decoration:none;
+	margin-right: 20px;
+}
+.header {
+	font-family: "黑体";
+	font-size: 200%;
+}
+.header .contact {
+	text-align: right;
+}
+.header .logo {
+	text-align: left;
+}
+.header .logo img i {
+	height: 48px;
+}
+.home {
+	background: url(../image/shuimo.jpg) no-repeat;
+	height: 400px;
+}
+.main {
+	min-height: 500px;
+	border:0px red solid;
+}
+
+.cook-content .cook-head {
+	color:black;
+}
+.indicates h1 {
+	margin-top: 0;
+	margin-bottom: 20px;
+	padding: 10px 10px;
+}
+.indicates h3 {
+	text-align: center;
+	border-botton-width: thin;
+	border-bottom-color: gray;
+}
+.timeout {
+	margin-top: -13%;
+	margin-right: -100px;
+	font-family:'黑体';/*字体*/
+	font-size: 300%;/*字体大小*/
+	color:#F90;/*字体颜色*/
+}
+.bg-card {
+	height: 400px;
+}
+.no-card {
+	background: url(../image/no_card.png) no-repeat;
+	height: 370px;
+}
+.apply {
+	background-attachment:fixed;
+}
+.business, .step {
+	text-align: center;
+	color: black;
+}
+.cook-content, .cook-head {
+	color: black;
+}
+.business a, .step a {
+	text-decoration:none;
+}
+.step h1 {
+	margin-top: 20px;
+}
+.step img {
+	margin-top: 50px;
+}
+.step i {
+	margin-top: 50px;
+}
+.step button {
+	margin-top: 50px;
+}
+.step form {
+	margin-top: 80px;
+}
+.step input {
+	margin-top: 20px;
+	color:black;
+}
+.textarea {
+	width: 100%;
+}
+.read {
+	margin-top: 10px;
+}
+.command {
+	margin: 20px;
+}
+.command a {
+	margin: 0 20px;
+}
+.jumbotron {
+	text-align: center;
+	color:white;
+}
+.jumbotron .center {
+	margin: 100px 0;
+	color:white;
+}
+.div_center {
+	width:1200px;
+	height:800px;
+	margin-left:-150px;
+	margin-top:-100px;
+	background:transparent;
+	border-radius:8px;
+	color: white;
+}
+.line_split {
+	height:1px;
+	width:820px;
+	border:0px;
+	background:#8f8f8f;
+	margin-left:25px;
+}
+.btn_return {
+	font-family:方正粗倩简体;
+	background:#FE9A12;
+	height:60px;
+	width:100%;
+	margin-top:100px;
+	text-align:center;
+	line-height:60px;
+	font-size:24px;
+	color:#ffffff;
+}
+.jiantou {
+	font-size:50px;
+	color:#545454;
+	font-weight:bold;
+	float:left;
+	margin-top:130px;
+	cursor:pointer
+}
+.v_content {
+	position:relative;
+	width:1280px;
+	height:1024px;
+	margin-top:0;
+	overflow:hidden;
+	float:left;
+}
+.v_content_list {
+	position:absolute;
+	width:3300px;
+	top:0px;
+	left:0px;
+}
+.v_content ul {
+	float:left;
+	padding:0 0;
+	margin:0 0;
+}
+.v_content ul li {
+	display:inline;
+	float:left;
+	margin-top:40px;
+	padding-left:23px;
+}
+.active_card {
+	text-decoration: none;
+	display:block;
+	width:330px;
+	height:220px;
+	text-align:center
+}
+.active_card:hover {
+	text-decoration: none;
+	display:block;
+	width:330px;
+	height:220px;
+	background-image:url("../image/55_033.png");
+	text-align:center
+}
+.noactive_card {
+	text-decoration: none;
+	display:block;
+	width:330px;
+	height:220px;
+	background-image:url("../image/55_04.png");
+	text-align:center
+}
+.noactive_card:hover {
+	text-decoration: none;
+	display:block;
+	width:330px;
+	height:220px;
+	background-image:url("../image/55_044.png");
+	text-align:center
+}
+.v_content ul li img {
+	width:194px;
+	height:141px;
+	margin-top:20px;
+	border:0px;
+}
+.v_content ul li h4 {
+	margin-top:-5px;
+	overflow:hidden;
+	font-weight:600;
+	color:#28317c
+}
+.div_left {
+	border-right-width: 10px;
+	border-right-color: green;
+	border-right-style: solid;
+}
+.div_right .indicates h1 {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding: 10px 10px;
+	border-botton-width: thin;
+	border-bottom-style: double;
+	border-bottom-color: gray;
+}
+.balance tr th {
+	text-align: right;
+}
+.detail {
+	width: 100%;
+}
+.detail td, .detail th {
+	text-align: center;
+	height:27px;
+	border:solid #ffffff 1px;
+}
+.details td {
+	width:20%;
+	border:solid #888 2px;
+}
+.first {
+	font-family:Microsoft YaHei;
+	font-size:33px !important;
+	color:#000000 !important;
+	letter-spacing:8px !important;
+	padding-top:40px;
+}
+.second {
+	font-family:Microsoft YaHei;
+	font-size:22px !important;
+	color:#f39b06 !important;
+	letter-spacing:3px !important;
+	padding-top:-10px;
+}
+.third {
+	font-family:Microsoft YaHei;
+	font-size:15px !important;
+	color:#000000 !important;
+	letter-spacing:1px !important;
+	padding-top:210px;
+}
+.footerinfo {
+	width:273px;
+	font-family:SimHei;
+	font-size:22px;
+	color:#00000;
+	background: url(../image/footer.png) no-repeat;
+	letter-spacing:1px;
+}
+.title {
+	text-align:center;
+	font-size:36px;
+	color:#000000;
+}
+.title p {
+	margin-top:-5px;
+	font-size:23px;
+}
+.card {
+	/* 	background:rgba(255,255,255,0.45); */
+/* 	opacity:0.45; */
+/* 	filter:alpha(opacity=45); */
+	text-align: center;
+	width:33.3%;
+}
+.card2 {
+	text-align: center;
+	width:25%;
+}
+
+.card5 {
+	text-align: center;
+	width:25%;
+	margin-top:20px
+}	
+
+.thumbnail-mianMenu {
+	background:rgba(255, 255, 255, 0.4);
+	border-radius:5px;
+	width:230px;
+	height:60px;
+	padding:0px !important;
+	margin:0px auto;
+	margin-bottom:30px !important;
+}
+.menu{
+	width:100%;
+	height:55px;
+	padding:0px !important;
+	margin:0px auto;
+	margin-bottom:15% !important;
+	border:0px blue solid;
+	
+}
+.thumbnail-mianMenu p {
+	color:#ffffff !important;
+	font-size:27px!important;
+	width:100%;
+	line-height:60px;
+}
+.thumbnail-mianMenu p2 {
+	color:red !important;
+	font-size:26px!important;
+	width:100%;
+	line-height:60px;
+}
+.card a:hover {
+	text-decoration: none !important;
+}
+.text-center {
+	color:#000000;
+	margin-top:-6px !important;
+}
+.button-confirm {
+	color:#fff;
+	background-color:#51c987;
+	border:0px;
+}
+.button-eject {
+	color:#fff;
+	background-color:#be6069;
+	border:0px;
+}
+.button-change {
+	color:#fff;
+	background-color:#d1ac4f;
+	border:0px;
+}
+.button-lg1 {
+	padding:10px 16px;
+	font-size:18px;
+	line-height:1.3333333;
+	border-radius:6px;
+}
+.button-position {
+	margin-top:39%;
+}
+.button-navbor1 {
+	margin-left:350px;
+}
+.button-cash {
+	background:rgba(255, 255, 255, 0.4);
+	border:0px;
+	color:#fff;
+	background-color:#337ab7;
+}
+.head-positiony {
+	margin-top:50px;
+}
+.tree {
+	text-align:center;
+	font-family: "黑体";
+	font-size: 200%;
+}
+.directory {
+	text-align:center;
+	font-family: "微软雅黑";
+	font-size: 18px;
+}
+@media screen and (MAX-height:1023px ) {
+	
+.card3 {
+	text-align: center;
+	width:25%;
+	margin-top:0px
+}	
+.image-bt {
+ background:url('../image/btncss.png');
+ BORDER:white 0px solid;
+ width:160px;
+ height:70px;
+ background-size:cover;
+ color:#FFF;
+ cursor:pointer;
+ font-size:18px;
+ font-weight:bold;
+ background-color:transparent;
+}
+.image-btor {
+ background:url('../image/btncss.png');
+ BORDER:white 0px solid;
+ width:160px;
+ height:70px;
+ background-size:cover;
+ color:#FFF;
+ cursor:pointer;
+ font-size:18px;
+ font-weight:bold;
+ background-color:transparent;
+}
+.image-btgr {
+ background:url('../image/btncss.png');
+ BORDER:white 0px solid;
+ width:160px;
+ height:70px;
+ background-size:cover;
+ color:#FFF;
+ cursor:pointer;
+ font-size:18px;
+ font-weight:bold;
+ background-color:transparent;
+}
+.image-btfr {
+ background:url('../image/cunkuanIDLE.png');
+ BORDER:white 0px solid;
+ width:150px;
+ height:50px;
+ background-size:cover;
+ color:#FFF;
+ cursor:pointer;
+ font-size:18px;
+ font-weight:bold;
+ background-color:transparent;
+}
+ .menu-bt {
+ position:absolute;
+ z-index:1;
+ right:0%;
+ top:86%
+}
+.top-1 {
+ margin-top:14%
+}
+ body {
+ overflow-x:hidden;
+ overflow-y:hidden;
+ background-image: url("../image/idle/背景1.jpg");
+ background-size:100% 100%;
+/* Margin bottom by footer height */
+}
+
+/*倒计时模块*/
+.time {
+ float:right;/*定位方式，一般不修改*/
+ position:absolute;/*定位方式，一般不修改*/
+ font-family:'微软雅黑';/*字体*/
+ color:#000000;/*字体颜色*/
+ font-size:24px;/*字体大小*/
+ right: 40%;/*距离页面左边框的边距*/
+ top: 8%;/*距离页面上边框的边距*/
+ z-index: 1;
+ text-shadow:0 0 1px rgb(000, 000, 000);
+ filter:glow(color=black, strength=1);
+/*字体阴影，Strength表示阴影的投影长度 Direction表示阴影投影角度 color表示阴影的颜色*/
+}
+.zuoxi {
+ position:absolute;/*定位方式，一般不修改*/
+ right: 25%;/*距离页面左边框的边距*/
+ top: 2%;/*距离页面上边框的边距*/
+ width:8%;
+ height:5%;
+}
+.zuoxi2 {
+ position:absolute;/*定位方式，一般不修改*/
+ right: 15%;/*距离页面左边框的边距*/
+ top: 2%;/*距离页面上边框的边距*/
+ width:8%;
+ height:5%;
+}
+.zuoxi3 {
+ position:absolute;/*定位方式，一般不修改*/
+ right: 5%;/*距离页面左边框的边距*/
+ top: 2%;/*距离页面上边框的边距*/
+ width:8%;
+ height:5%;
+}
+ .imageleft {
+ width:85%;
+ height:110%;
+ position:absolute;
+ top:-5px
+}
+ .imageright {
+ width:85%;
+ height:110%;
+ right:0px;
+ position:absolute;
+ top:-5px;
+}
+ .tile-idle {
+ background: url(image/idle/bg.jpg) !important;
+ align:left;
+ width:100%;
+ height:22%;
+}
+ .parallelogram {
+ width:29.2%;
+ height:94.5%;
+ transfirm:skew(-11.8deg);
+ -o-transform:skew(-11.8deg);
+ -ms-transform:skew(-11.8deg);
+ -webkit-transform: skew(-11.8deg);
+ -moz-transform:skew(-11.8deg);
+ //background-color:red;
+ margin:0.2% -63.9% auto;
+ //position:absolute;
+ // overflow:hidden;
+}
+ .center {
+ width:100%;
+ height:100%;
+ //position:absolute;
+ margin:1% -0% auto;
+}
+/*开卡业务*/
+	#kkyw {
+ background-size:100% 100%;
+}
+ #zhgl {/*账户管理*/
+ background-size:100% 100%;
+}
+ #zz {/*转账*/
+ background-size:100% 100%;
+}
+ #dzxjyw {/*电子现金业务*/
+ background-size:100% 100%;
+}
+ #xykyy {/*信用卡预约*/
+ background-size:100% 100%;
+}
+ #zhqy {/*账户签约*/
+ background-size:100% 100%;
+}
+ #djfyw {/*缴费业务*/
+ background-size:100% 100%;
+}
+ #lcyw {/*理财业务*/
+ background-size:100% 100%;
+}
+ .other {
+ width:74px;
+ border:0px red solid;
+ float:left;
+ margin-left:61px;
+}
+ .phone {
+ position:absolute;/*定位方式，一般不修改*/
+ margin:18.2% 38% auto;
+}
+ .ewm {
+ position:absolute;/*定位方式，一般不修改*/
+ margin:24.2% 47% auto;
+}
+ div.terms {
+ height:300px;
+ overflow:auto;
+ scrollbar-face-color: pink;
+ scrollbar-highlight-color: #FFFFFF;
+ scrollbar-shadow-color: #FFFFFF;
+ scrollbar-3dlight-color: #FFFFFF;
+ scrollbar-arrow-color:#000;
+ scrollbar-track-color: #FFFFFF;
+ scrollbar-darkshadow-color: #FFFFFF;
+ scrollbar-base-color: #FFFFFF;
+}
+
+div.terms2 {
+ height:560px;
+ overflow:auto;
+ scrollbar-face-color: pink;
+ scrollbar-highlight-color: #FFFFFF;
+ scrollbar-shadow-color: #FFFFFF;
+ scrollbar-3dlight-color: #FFFFFF;
+ scrollbar-arrow-color:#000;
+ scrollbar-track-color: #FFFFFF;
+ scrollbar-darkshadow-color: #FFFFFF;
+ scrollbar-base-color: #FFFFFF;
+}
+
+.cook-foot {
+	 position:absolute;/*定位方式，一般不修改*/
+	 margin:32% 0% auto;
+	border:0px blue solid;
+}
+
+}
+@media screen and (min-height:1024px ) {
+ body {
+ overflow-x:hidden;
+ overflow-y:hidden;
+ background-image: url("../1280/image/背景1.jpg");
+ background-size:100% 100%;
+	  /* Margin bottom by footer height */
+	  margin-bottom: 60px;
+}
+
+.card3 {
+	text-align: center;
+	width:25%;
+	margin-top:20px
+}
+	
+	/*倒计时模块*/
+	.time {
+ float:right;/*定位方式，一般不修改*/
+ position:absolute;/*定位方式，一般不修改*/
+ font-family:'微软雅黑';/*字体*/
+ color:#000000;/*字体颜色*/
+ font-size:24px;/*字体大小*/
+ right: 40%;/*距离页面左边框的边距*/
+ top: 6%;/*距离页面上边框的边距*/
+ z-index: 1;
+ text-shadow:0 0 2px rgb(000, 000, 000);
+ filter:glow(color=black, strength=1);
+/*字体阴影，Strength表示阴影的投影长度 Direction表示阴影投影角度 color表示阴影的颜色*/
+	}
+ .zuoxi {
+ position:absolute;/*定位方式，一般不修改*/
+ right: 25%;/*距离页面左边框的边距*/
+ top: 2%;/*距离页面上边框的边距*/
+ width:10%;
+ height:6%;
+}
+ .zuoxi2 {
+ position:absolute;/*定位方式，一般不修改*/
+ right: 15%;/*距离页面左边框的边距*/
+ top: 2%;/*距离页面上边框的边距*/
+ width:10%;
+ height:6%;
+}
+ .zuoxi3 {
+ position:absolute;/*定位方式，一般不修改*/
+ right: 5%;/*距离页面左边框的边距*/
+ top: 2%;/*距离页面上边框的边距*/
+ width:10%;
+ height:4%;
+}
+ .imageleft {
+ width:85%;
+ height:100%;
+ position:absolute;
+ top:-5px
+}
+ .imageright {
+ width:85%;
+ height:100%;
+ right:0px;
+ position:absolute;
+ top:-5px;
+}
+ .tile-idle {
+ background: url(image/idle/bg.jpg) !important;
+ align:left;
+ width:100%;
+ height:22%;
+}
+ .parallelogram {
+ width:33%;
+ height:90.6%;
+ transfirm:skew(-8.8deg);
+ -o-transform:skew(-8.8deg);
+ -ms-transform:skew(-8.8deg);
+ -webkit-transform: skew(-8.8deg);
+ -moz-transform:skew(-8.8deg);
+ //background-color:red;
+ margin:-48.9% 34.1% auto;
+ //position:absolute;
+ // overflow:hidden;
+}
+ .center {
+ width:100%;
+ height:100%;
+ //position:absolute;
+ margin:1% -0% auto;
+}
+	
+	/*开卡业务*/
+	#kkyw {
+ background-size:100% 100%;
+}
+ #zhgl {/*账户管理*/
+ background-size:100% 100%;
+}
+ #zz {/*转账*/
+ background-size:100% 100%;
+}
+ #dzxjyw {/*电子现金业务*/
+ background-size:100% 100%;
+}
+ #xykyy {/*信用卡预约*/
+ background-size:100% 100%;
+}
+ #zhqy {/*账户签约*/
+ background-size:100% 100%;
+}
+ #djfyw {/*缴费业务*/
+ background-size:100% 100%;
+}
+ #lcyw {/*理财业务*/
+ background-size:100% 100%;
+}
+ .other {
+ width:74px;
+ border:0px red solid;
+ float:left;
+ margin-left:61px;
+}
+ .timeout {
+    margin-top: -13%;
+	margin-right: -100px;
+	font-family:'黑体';/*字体*/
+	font-size: 300%;/*字体大小*/
+	color:#F90;/*字体颜色*/
+}
+ .phone {
+ position:absolute;/*定位方式，一般不修改*/
+ margin:29.2% 38% auto;
+}
+ .ewm {
+ position:absolute;/*定位方式，一般不修改*/
+ margin:36.2% 49% auto;
+}
+ .image-bt {
+ background:url('../image/btncss.png');
+ BORDER:white 0px solid;
+ width:160px;
+ height:70px;
+ background-size:cover;
+ color:#FFF;
+ cursor:pointer;
+ font-size:18px;
+ font-weight:bold;
+ background-color:transparent;
+}
+.menu-bt {
+ position:absolute;
+ z-index:1;
+ right:0%;
+ top:86%
+}
+.image-btor {
+ background:url('../image/btncss.png');
+ BORDER:white 0px solid;
+ width:160px;
+ height:70px;
+ background-size:cover;
+ color:#FFF;
+ cursor:pointer;
+ font-size:18px;
+ font-weight:bold;
+ background-color:transparent;
+}
+ .image-btgr {
+ background:url('../image/btncss.png');
+ BORDER:white 0px solid;
+ width:160px;
+ height:70px;
+ background-size:cover;
+ color:#FFF;
+ cursor:pointer;
+ font-size:18px;
+ font-weight:bold;
+ background-color:transparent;
+}
+.image-btfr {
+ background:url('../image/cunkuanIDLE.png');
+ BORDER:white 0px solid;
+ width:150px;
+ height:50px;
+ background-size:cover;
+ color:#FFF;
+ cursor:pointer;
+ font-size:18px;
+ font-weight:bold;
+ background-color:transparent;
+}
+ .top-1 {
+ margin-top:14%
+}
+div.terms {
+ height:400px;
+ overflow:auto;
+ scrollbar-face-color: pink;
+ scrollbar-highlight-color: #FFFFFF;
+ scrollbar-shadow-color: #FFFFFF;
+ scrollbar-3dlight-color: #FFFFFF;
+ scrollbar-arrow-color:#000;
+ scrollbar-track-color: #FFFFFF;
+ scrollbar-darkshadow-color: #FFFFFF;
+ scrollbar-base-color: #FFFFFF;
+}
+.cook-foot {
+	 position:absolute;/*定位方式，一般不修改*/
+	 margin:42% 0% auto;
+	border:0px blue solid;
+}
+cook-foot2{
+	margin-top: 48px;" 
+}
+}

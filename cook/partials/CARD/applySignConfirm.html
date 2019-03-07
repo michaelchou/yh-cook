@@ -1,0 +1,302 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+	var scope = angular.element(main).scope();
+	scope.$watch('pool.ST_AccType', function(){
+	if(true){
+		if(scope.pool["ST_CardSmsSign"] == "1"){
+			document.getElementById("dtName1").checked=true;
+		}else{
+			document.getElementById("dtName1").checked=false;
+		}
+		
+		if(scope.pool["ST_CardAtmSign"] == "1"){
+			document.getElementById("dtName2").checked=true;
+		}else{
+			document.getElementById("dtName2").checked=false;
+		}
+		
+		if(scope.pool["ST_CardTelSign"] == "1"){
+			document.getElementById("dtName3").checked=true;
+		}else{
+			document.getElementById("dtName3").checked=false;
+		}
+		
+		if(scope.pool["ST_ApplyCheckedAgree"] == "1"){
+			document.getElementById("dtName4").checked=true;
+		}else{
+			document.getElementById("dtName4").checked=false;
+		}
+		
+		if(scope.pool["ST_AccType"] == "2" && scope.pool["ST_VirtualCardType"] == "2"){
+			trfcheck.style.display = "none";
+		}
+		if(scope.pool["ST_ReferrerType"] == "0"){
+			document.getElementById("referNoSelect").value="非行员";
+		}else if(scope.pool["ST_ReferrerType"] == "1"){
+			document.getElementById("referNoSelect").value="行员";
+		}
+	
+	}
+	});
+
+	function commit(){
+		Hide();
+			var scope = angular.element(main).scope();
+			var referNo = document.getElementById("referNo").value;
+			if((document.getElementById("dtName1").checked || document.getElementById("dtName2").checked || document.getElementById("dtName3").checked) 
+				&& (!document.getElementById("dtName4").checked)){
+				$("#dtName4").attr("data-content","请勾选我已阅读");
+				$("#dtName4").popover('show');
+			}else if((!document.getElementById("dtName1").checked && !document.getElementById("dtName2").checked && !document.getElementById("dtName3").checked)
+				&& (document.getElementById("dtName4").checked)){
+				$("#dtName1").attr("data-content","请勾选任意签约类型");
+				$("#dtName1").popover('show');
+			}else{
+				if(document.getElementById("dtName1").checked){
+					scope.pool["ST_CardSmsSign"] = "1";
+				}else{
+					scope.pool["ST_CardSmsSign"] = "";
+				}
+				
+				if(document.getElementById("dtName2").checked){
+					scope.pool["ST_CardAtmSign"] = "1";
+				}else{
+					scope.pool["ST_CardAtmSign"] = "";
+				}
+				
+				if(document.getElementById("dtName3").checked){
+					scope.pool["ST_CardTelSign"] = "1";
+				}else{
+					scope.pool["ST_CardTelSign"] = "";
+				}
+				
+				if(referNo == "非行员"){
+					scope.pool["ST_ReferrerType"] = 0;
+				}else if(referNo == "行员"){
+					scope.pool["ST_ReferrerType"] = 1;
+				}else{
+					scope.pool["ST_ReferrerType"] = "";
+				}
+	
+				scope.action("confirm");
+			}
+	}
+	
+	function command(){
+				var scope = angular.element(main).scope();
+				if(document.getElementById("dtName1").checked){
+					scope.pool["ST_CardSmsSign"] = "1";
+				}else{
+					scope.pool["ST_CardSmsSign"] = "";
+				}
+				if(document.getElementById("dtName2").checked){
+					scope.pool["ST_CardAtmSign"] = "1";
+				}else{
+					scope.pool["ST_CardAtmSign"] = "";
+				}
+				if(document.getElementById("dtName3").checked){
+					scope.pool["ST_CardTelSign"] = "1";
+				}else{
+					scope.pool["ST_CardTelSign"] = "";
+				}
+				if(document.getElementById("dtName4").checked){
+					scope.pool["ST_ApplyCheckedAgree"] = "1";
+				}else{
+					scope.pool["ST_ApplyCheckedAgree"] = "";
+				}
+				scope.action("submit");
+	}
+	
+	function commandCard(){
+				var scope = angular.element(main).scope();
+				if(document.getElementById("dtName1").checked){
+					scope.pool["ST_CardSmsSign"] = "1";
+				}else{
+					scope.pool["ST_CardSmsSign"] = "";
+				}
+				if(document.getElementById("dtName2").checked){
+					scope.pool["ST_CardAtmSign"] = "1";
+				}else{
+					scope.pool["ST_CardAtmSign"] = "";
+				}
+				if(document.getElementById("dtName3").checked){
+					scope.pool["ST_CardTelSign"] = "1";
+				}else{
+					scope.pool["ST_CardTelSign"] = "";
+				}
+				if(document.getElementById("dtName4").checked){
+					scope.pool["ST_ApplyCheckedAgree"] = "1";
+				}else{
+					scope.pool["ST_ApplyCheckedAgree"] = "";
+				}
+				scope.action("submit2");
+	}
+	
+	function MessSelect(isChecked){
+		$("#dtName1").popover('destroy');
+		if(isChecked){
+		}else{
+		} 
+	}
+	
+	function TRFSelect(isChecked){
+		$("#dtName1").popover('destroy');
+		if(isChecked){
+		}else{
+		} 
+	}
+	
+	function TelSelect(isChecked){
+		$("#dtName1").popover('destroy');
+		if(isChecked){
+		}else{
+		} 
+	}
+	
+	function readConfirm(isChecked){
+		$("#dtName4").popover('destroy');
+		if(isChecked){
+		}else{
+		} 
+	}
+	
+function Hide(){
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 return;
+	 }
+}
+function selectOne()
+{
+ if(document.getElementById("referNoSelect").value != "--可选择推荐人类型--")
+ {
+	 document.getElementById("referNo").value = document.getElementById("referNoSelect").value;
+ }
+}
+	 
+function openkeyset(type,x,y){
+	Show(type,x,y)
+}
+
+function Show(type,x,y){
+	try {
+		HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	scope.closeHandWriter();
+	location.reload();
+	return;
+	}
+}
+</script>
+<style type="text/css">
+     .button {
+	 background:white;
+	 width:110px;
+	 height:40px;
+	 color:#000000;
+	 font-size:15px;
+	 font-weight:bold;
+	 border:1px gray solid;
+	 border-radius:6px;
+	 padding:0px 0px 0px 0px
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+ body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#referNoSelect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div> 
+ <div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">   
+	<div class="cook-head">
+           <h1 class="text-center">请选择需要签约的电子银行业务</h1>
+	</div>
+   <div class = "row border-special " style = "margin-top:5%;margin-left: 45%">
+   <div  class = "checkbox" style = "font-size:30px;color :black;position:relative !important;bottom:-5%; float :left;  height: 20px; line-height: 25px;font-weight:bold;">
+		<label>
+			<input style="height:28px;width:28px;margin-top:0%;margin-left:-30px" id="dtName1" checked="false" type="checkbox" onclick="MessSelect(this.checked)"
+			data-placement="left"  title="<sp class='fg-red'>请勾选任意签约类型</sp>" data-content=""  data-html="true">短信签约	
+		</label>
+		<br/>
+		<div id="trfcheck" style="display:block">
+		<label style="margin-top:15%">
+			<input style="height:28px;width:28px;margin-top:0%;margin-left:-30px" id="dtName2" checked="false" type="checkbox" onclick="TRFSelect(this.checked)">转账签约	
+		</label>
+		</div>
+		<label style="margin-top:15%">
+			<input style="height:28px;width:28px;margin-top:0%;margin-left:-30px" id="dtName3" checked="false" type="checkbox" onclick="TelSelect(this.checked)">手机银行签约	
+		</label>
+	</div>
+	</div>
+	
+	<div id="referForm" style = "font-size:20px;margin-top:12%;margin-left: 5%;margin-right:5%;display:block">
+		<form class="form-horizontal" style="margin-top:0%;margin-left:5%">
+			<div class="form-group">
+			  <label for="pid" class="col-sm-2 control-label" style="margin-top:14px;margin-left:-18px;color:#000000;">推荐人姓名</label>
+			  <div class="col-sm-3" style="margin-left:18px">
+				<input type="text" style='margin-top:14px;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="custName" value="{{pool.ST_ReferrerName}}" ng-model="pool.ST_ReferrerName"
+					onkeyup="checkInput(id),this.value=this.value.replace(/[^\u4E00-\u9FA5]/g,'')" onclick="openkeyset(2,900,600)" maxlength="6">
+			  </div>
+			  <label for="pid" class="col-sm-2 control-label" style="width:22%;margin-top:14px;margin-left:-18px;color:#000000;">推荐人工号/客户号</label>
+			  <div class="col-sm-3" style="margin-left:18px">
+				<input type="text" style='margin-top:14px;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="custNo" value="{{pool.ST_ReferrerNo}}" ng-model="pool.ST_ReferrerNo"
+					onkeyup="checkInput(id),this.value=this.value.replace(/[\W]/g,'')" onclick="openkeyset(2,900,600)" maxlength="12">
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label for="telephone" class="col-sm-2 control-label" style="margin-top:14px;margin-left:-18px;color:#000000">推荐人类型
+			  </label>
+			  <div class="col-sm-3" style="margin-left:18px;width:28%;">
+				<input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入推荐人类型"  class="form-control" data-container="body" data-placement="right" 
+						  title="<sp class='fg-red'>推荐人类型输入有误 </sp>" data-content=""    data-html="true" id="referNo">
+				<select class="form-control selectpicker" onchange="selectOne()"  id="referNoSelect" style="font-size:18px;margin-top:14px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"
+					title="<sp class='fg-red'>推荐人类型输入有误 </sp>" data-content="" data-html="true" data-container="body" data-placement="right">
+				  <option style = "font-size:18px;" disabled selected>--可选择推荐人类型--</option>
+				  <option style = "font-size:18px;">非行员</option>
+				  <option style = "font-size:18px;">行员</option>
+				</select>
+			  </div>
+			</div>	
+		</form>
+	</div>
+	
+	<div style = "font-size:20px;margin-top:13%;margin-left: 5%;margin-right: 5%">
+		<label>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="height:23px;width:23px;margin-top:-1%;margin-left:-30px" id="dtName4" type="checkbox" onclick="readConfirm(this.checked)"
+			data-placement="left"  title="<sp class='fg-red'>请勾选我已阅读</sp>" data-content=""  data-html="true">
+			本人已阅读<label style="font-size:20px;color:red;" onclick="commandCard()"><u>《江苏农村商业银行圆鼎借记卡章程》</u></label>和<label style="font-size:20px;color:red;" onclick="command()"><u>《江苏省农村信用社电子银行服务协议》</u></label>，知晓功
+			<label style="margin-top:1%;">能说明及业务收费标准，同意遵守上述内容对应的相关责任条款和协议，使用江苏农村商业银行圆鼎借记</label>
+			<label style="margin-top:1%;">卡和电子银行服务而发生的一切收付款项，授权银行记入申请人账户。</label>
+			<label style="margin-top:1%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本人保证所填内容及所提供的资料真实有效，同意申请书及相关材料由江苏农村商业银行保管。</label>
+		</label>   	
+	</div>
+ </div> 
+ 
+<div class="cook-foot col-xs-offset-0 col-xs-11" style="margin-top:50%">
+    <button id="confirm" type="button" class="col-xs-offset-6 col-xs-2 image-btgr" style="margin-top:25px" onclick="commit()">下一步</button>   	
+</div>	
+
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>    

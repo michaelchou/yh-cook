@@ -1,0 +1,145 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script language="javascript" type="text/javascript">
+    document.getElementById("input").focus();
+	var scope = angular.element(main).scope();
+	function Show(type,x,y){
+	  try {
+			HandWrite.Show(type,1,x,y);
+		  } catch (e) {
+			//alert(e);
+			scope.closeHandWriter();
+			location.reload();
+			return;
+		}
+	}
+
+	function openkeyset(type,x,y){
+		Show(type,x,y)
+	}
+	
+	function signReturn()
+	{
+		scope.closeHandWriter();
+		scope.action("return");
+	}
+	
+    function subscription() {
+        var inputs = document.getElementsByTagName("input");
+        var obj = inputs.item(1);
+		var leftAmt = document.getElementById("leftAmt").innerText;
+        var error = "";
+		var sgpurclper=scope.pool["sgpurclper"];
+		var amount = scope.pool["FinancialProductSubscription"].split('@')[2]/scope.pool["SS_redeemAmount"];
+		if (obj.value.length <= 0 || parseFloat(obj.value)<0.01) {
+            error = "赎回份额不能为空或为零";
+        } else if (parseInt(obj.value) > parseInt(amount)) {
+            error = "赎回份额不能高于认购份额";
+        } else if (parseInt(amount)-parseInt(obj.value)>0&&parseInt(amount)-parseInt(obj.value)<parseInt(sgpurclper)) {
+            error = "部分赎回时剩余份额不能少于最低持有份额"+parseInt(sgpurclper);
+        }
+        if (error.length > 0) {
+            $("#" + obj.id).attr("data-content", error);
+            $("#" + obj.id).popover('show');
+            scope.timeout = scope._timeout;
+        } else {
+			scope.closeHandWriter();
+            scope.action("confirm");
+        }
+    }
+	
+	function keypress(){
+		var scope = angular.element(main).scope();
+		//document.ff.change1.value=document.ff.change2.value*scope.pool["SS_redeemAmount"];
+		
+		var allAmt = document.getElementById("allAmt").innerText;
+		
+		
+		var inputAmt = document.ff.change2.value*scope.pool["SS_redeemAmount"];
+		
+		
+		document.getElementById("changeAmt").innerText = parseFloat(inputAmt).toFixed(2);
+		var temp=parseFloat(allAmt)-parseFloat(inputAmt);
+		
+		document.getElementById("leftAmt").innerText=temp.toFixed(2);
+		
+	}
+</script>
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+	</div>
+
+ <div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+ <div class="cook-head">
+  	 <h1 class="text-center">请输入您需要赎回的份额</h1>
+    <h3 class="text-center">Please input your redemption number</h3></div>
+
+<div class="cook-content">
+    <table class="col-xs-12 balance" border="1">
+        <tr>
+            <td><th class="col-xs-3"><h3>产品代码:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[0]}}</h3></td>
+            <td><th class="col-xs-3"><h3>产品名称:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[1]}}</h3></td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"><h3>认购总额:</h3></th></td>
+            <td class="col-xs-3"><h3 id="allAmt">{{pool.FinancialProductSubscription.split('@')[2]}}</h3></td>
+            <td><th class="col-xs-3"><h3>预约标识:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[3]}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>每份金额:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.SS_redeemAmount}}</h3></td>
+            <td><th class="col-xs-3"><h3>认购份数:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[2]/pool.SS_redeemAmount}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>赎回金额:</h3></th></td>
+            <td class="col-xs-3" ><h3 id="changeAmt">0.00</h3></td>
+			<td><th class="col-xs-3"><h3>剩余金额:</h3></th></td>
+            <td class="col-xs-3"><h3 id="leftAmt">{{pool.FinancialProductSubscription.split('@')[2]}}</h3></td>
+        </tr>
+    </table>
+</div>
+ 
+<form action="" name="ff" method="post">
+	<div class="input-group input-group-lg" style="display:none;margin-top: 15%; margin-left: 30%; width: 40%">
+		<input type="text" class="form-control" name="change1">
+	</div>
+	
+	<div class="step">
+    <div style="margin-top:5%; border:0px blue solid;">
+        <h1 class="text-center" style="font-size: 140%;color:#F90;">最高赎回份额：{{pool.FinancialProductSubscription.split('@')[2]/pool.SS_redeemAmount}}</h1>
+		</br>
+		<h1 class="text-center" style="font-size: 140%;color:#F90;">部分赎回时最低持有份额：{{pool.sgpurclper}}</h1>
+    </div>
+    </div>
+	
+	<div class="input-group input-group-lg" style="margin-top: 3%; margin-left: 30%; width: 40%">
+		<input type="text" class="form-control"
+           onkeyup="checkInput(id, '^[0-9]{1,12}$');keypress();" onclick="openkeyset(1,900,680)"
+           id="input" name="change2" value="" onblur="this.focus()" ng-model="pool.FinancialProductRedemptionNumber" maxlength="12"
+           data-container="body"  data-placement="left"  title="<sp class='fg-red'>赎回份额有误</sp>" data-content="" data-html="true">
+		<span class="input-group-btn">
+				<button class="btn btn-primary" type="button" ng-click="clear()">清  除</button>
+		</span>
+	</div>
+</form>
+	   
+
+<div style="margin-top:5%">
+    <h1 class="text-center" style="font-size: 180%;color:#fff"></h1>
+</div>
+</div>
+
+
+
+  <div class="cook-foot col-xs-offset-0 col-xs-12">
+    	    <button  id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor"   onclick="signReturn()">返回</button>
+    	    <button  id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="resetModel('input','FinancialProductRedemptionNumber');subscription()">确认</button>
+	    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

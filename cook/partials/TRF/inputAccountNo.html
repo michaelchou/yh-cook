@@ -1,0 +1,73 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<script language="JavaScript" type="text/JavaScript">
+	var scope = angular.element(main).scope();
+
+	function Show(type,x,y){
+		try {
+			HandWrite.Show(type,1,x,y);
+		} catch (e) {
+			//alert(e);
+			scope.closeHandWriter();
+			location.reload();
+			return;
+		}
+	}
+	function openkeyset(type,x,y){
+		Show(type,x,y)
+	}
+
+	
+	function submit() {
+		var inAccount = document.getElementById("inAccount").value;
+		if(inAccount.length<=0){
+			$("#inAccount").attr("data-content", "户名不能为空");
+			$("#inAccount").popover('show');
+		}else{
+			scope.action("confirm");
+		}
+	}
+	
+	
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>  
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请输入转入银行户名</h1>
+	<h3 class="text-center">Please check the account information</h3>
+</div>
+<div class="cook-content">
+	  <div class="col-xs-offset-2 col-lg-8" style="margin-top:3%;">
+		<div class="input-group input-group-lg">
+		<span class="input-group-addon">银行名称：&nbsp;</span>
+		  <input type="text" class="form-control" id="bankName" data-container="body" data-placement="right" 
+			onclick="openkeyset(2,900,500)" value="{{pool.ST_inBankName}}" disabled>
+		</div>
+	  </div>
+	  
+	  <div class="col-xs-offset-2 col-lg-8" style="margin-top:5%;">
+		<div class="input-group input-group-lg">
+		<span class="input-group-addon">户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：&nbsp;</span>
+			<input type="text" id="inAccount" maxlength="61" class="form-control" onclick="openkeyset(2,900,500)" ng-model="pool.inAccountName" 	
+				onkeyup="checkInput(id),this.value=this.value.replace(/[^\u4E00-\u9FA5]/g,'')" data-container="body"  data-placement="right" 
+				title="<sp class='fg-red'>户名输入有误</sp>" data-content=""  data-html="true">
+		</div>
+	  </div>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+    <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    <button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">{{pool.page_Eject}}</button>
+ 	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="submit()">确认</button>	
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

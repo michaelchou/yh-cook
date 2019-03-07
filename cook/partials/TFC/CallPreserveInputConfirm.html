@@ -1,0 +1,50 @@
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+	</div>
+   <div class="col-xs-offset-1 col-xs-10" style= "border:0px red solid;">
+   <div class="cook-head">
+    <h1 class="text-center">请确认卡内通知存款支取维护表单</h1>
+    <h3 class="text-center">Please confirm the information of call preservation</h3>
+</div>
+<div class="cook-content">
+    <table class="col-xs-12 balance" border="1">
+		<tr>
+            <td><th class="col-xs-3"><h3>理财账户笔号:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.NP_sqno}}</h3></td>
+            <td><th class="col-xs-3"><h3>存期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.NP_term}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>起息日期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.NP_startDate}}</h3></td>
+            <td><th class="col-xs-3"><h3>到期日期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.NP_endDate}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>设定日期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.NP_drawDate_show}}</h3></td>
+            <td><th class="col-xs-3"><h3>支取金额:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.NP_amount}}</h3></td>
+        </tr>
+		<tr>
+            
+            <td><th class="col-xs-3"><h3>是否现金支取:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.NP_cash_show}}</h3></td>
+			<td><th class="col-xs-3"><h3></h3></th></td>
+            <td class="col-xs-3"><h3></h3></td>
+        </tr>
+        
+		
+    </table>
+</div>
+</br>
+</br>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+    	  <button id="cancel" type="button"  class="col-xs-offset-3 col-xs-2 image-bt"   ng-click="action('return')">取消</button>
+    	  <button  type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('modify')">返回修改</button>
+		  <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+	    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

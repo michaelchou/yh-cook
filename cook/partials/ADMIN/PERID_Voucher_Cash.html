@@ -1,0 +1,138 @@
+<script language="JavaScript" type="text/JavaScript"> 
+document.getElementById("img").src ="d:/sign.png"+"?"+Math.random();
+
+//参数为 每隔多少字符插入进行一次断行
+self.setTimeout("formatAddress(40)", 100);
+function formatAddress(flag){
+var address = $("#address").html();
+    var newstr="";
+    for(var i=0;i<address.length;i+=flag){
+        var tmp=address.substring(i, i+flag);
+        newstr+=tmp+"</br>";
+    }
+     $("#useraddress").html(newstr);
+}
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style="border:0px #FFFFFF solid;">
+ <p style="font-size:30px;color:#000000;" class="text-center">江苏农村商业银行个人开卡业务申请书</p>
+ <div>
+ <table border="0" cellpadding="0" cellspacing="0" class="col-xs-offset-1 col-xs-12" style="margin-top:2%"> 
+ <tr>
+	  <td  width="13%"><span style="font-size:20px;color:#000000">姓名:</span></td>
+	  <td  width="37%"><span style="font-size:20px;color:#000000">{{pool.name}}</span></td>
+	  <td  width="13%"><span style="font-size:20px;color:#000000">性别:</span></td>
+	  <td  width="37%"><span style="font-size:20px;color:#000000">{{pool.genderC}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000">身份证号:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.pid}}</span></td>
+	  <td><span style="font-size:20px;color:#000000">居民标志:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">税收居民</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000">签发机关:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.issueoffice}}</span></td>
+	  <td><span style="font-size:20px;color:#000000">有效日期:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.abatedate}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000;">终端号:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.Apply_terminalId}}</span></td>
+      <td><span style="font-size:20px;color:#000000;">受理柜员:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.Apply_tellerno}}</span></td>
+ </tr>
+ <tr>
+    <td><span style="font-size:20px;color:#000000">申请日期:</span></td>
+	<td style=""><span style="font-size:20px;color:#000000;">{{pool.transDate.substring(0,4)+"/"+pool.transDate.substring(4,6)+"/"+pool.transDate.substring(6,8)}}</span></td>
+	<td><span style="font-size:20px;color:#000000;">申请时间:</span></td>
+	<td style=""><span style="font-size:20px;color:#000000;">{{pool.transTime.substring(0,2)+":"+pool.transTime.substring(2,4)+":"+pool.transTime.substring(4,6)}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000;">交易类型:</span></td>
+	  <td ng-if="pool.ST_AccType == '1'" style=""><span style="font-size:20px;color:#000000;">一类户开户</span></td>
+	  <td ng-if="pool.ST_AccType == '2'" style=""><span style="font-size:20px;color:#000000;">二类户开户</span></td>
+	  <td ng-if="pool.ST_AccType == '3'" style=""><span style="font-size:20px;color:#000000;">三类户开户</span></td>
+	  <td><span style="font-size:20px;color:#000000">是否配卡:</span></td>
+	  <td ng-if="pool.ST_VirtualCardType == '1'" style=""><span style="font-size:20px;color:#000000;">有卡</span></td>
+	  <td ng-if="pool.ST_VirtualCardType == '2'" style=""><span style="font-size:20px;color:#000000;">无卡</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000;">职业:</span></td>
+	  <td ng-if="pool.job=='01'" style=""><span style="font-size:20px;color:#000000;">各类专业，技术人员</span></td>
+	  <td ng-if="pool.job=='02'" style=""><span style="font-size:20px;color:#000000;">国家机关，党组织，企事业单位负责人</span></td>
+	  <td ng-if="pool.job=='03'" style=""><span style="font-size:20px;color:#000000;">办事人员和有关人员</span></td>
+	  <td ng-if="pool.job=='04'" style=""><span style="font-size:20px;color:#000000;">商业工作人员</span></td>
+	  <td><span style="font-size:20px;color:#000000">手机号:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.mobile}}</span></td>
+ </tr>
+ <tr ng-if="pool.ST_VirtualCardType=='1'">
+    <td ><span style="font-size:20px;color:#000000">卡种类型:</span></td>
+	<td ng-if="pool.chosedCardType=='0634' || pool.chosedCardType=='0766'" colspan = 3 ><span style="font-size:20px;color:#000000;">圆鼎IC卡</span></td>
+	<td ng-if="pool.chosedCardType=='0607'" colspan = 3 ><span style="font-size:20px;color:#000000;">圆鼎学生卡</span></td>
+	<td ng-if="pool.chosedCardType=='0611'" colspan = 3 ><span style="font-size:20px;color:#000000;">圆鼎个人卡</span></td>
+	<td ng-if="pool.chosedCardType=='0605'" colspan = 3 ><span style="font-size:20px;color:#000000;">圆鼎市民卡</span></td>
+</tr>
+<tr >
+    <td ><span style="font-size:20px;color:#000000">联系地址:</span></td>
+	<td colspan = 3 ><span style="font-size:20px;color:#000000;" id="useraddress"></span></td>
+</tr>
+<tr style="display:none">
+	<td colspan = 4 ><span id="address">{{pool.address}}</span></td>
+</tr>
+ <tr style="height:30px" ng-if="pool.ST_CardAtmSign == '1'">
+	  <td><span style="font-size:20px;color:#000000;font-weight:700">签约类型:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;font-weight:700">转账签约</span></td>
+ </tr>
+ <tr ng-if="pool.ST_CardAtmSign == '1'">
+	  <td><span style="font-size:20px;color:#000000;">控制周期:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">单日</span></td>
+	  <td><span style="font-size:20px;color:#000000">转账限额:</span></td>
+	  <td ng-if="pool.ST_AccType == '1'" style=""><span style="font-size:20px;color:#000000;">50000</span></td>
+	  <td ng-if="pool.ST_AccType != '1'" style=""><span style="font-size:20px;color:#000000;">10000</span></td>
+ </tr>
+ 
+ <tr style="height:30px" ng-if="pool.ST_CardTelSign == '1'">
+	  <td><span style="font-size:20px;color:#000000;font-weight:700">签约类型:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;font-weight:700">手机银行签约</span></td>
+ </tr>
+ <tr ng-if="pool.ST_CardTelSign == '1' && pool.ST_EBankIsSign != '1'">
+	  <td><span style="font-size:20px;color:#000000">登录用户名:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.mobile}}</span></td>
+	  <td><span style="font-size:20px;color:#000000;">签约手机号:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.mobile}}</span></td>
+ </tr>
+ <tr style="height:30px" ng-if="pool.ST_CardSmsSign == '1'">
+	  <td><span style="font-size:20px;color:#000000;font-weight:700">签约类型:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;font-weight:700">短信银行签约</span></td>
+ </tr>
+ <tr ng-if="pool.ST_CardSmsSign == '1' && pool.ST_SmsIsSign != '1'">
+	  <td><span style="font-size:20px;color:#000000;">套餐类型:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">个人账户变动套餐</span></td>
+	  <td><span style="font-size:20px;color:#000000;">签约手机号:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.mobile}}</span></td>
+ </tr>
+<tr style="">
+<td colspan = 4 style="font-size:20px;color:#000000;">客户签名：<img id="img" src=""  style="width:100px; height:50px"></span></td>
+</tr>
+</table>
+</div>
+</div>
+ </div>
+ <div class=" col-xs-offset-3 col-xs-12" style="margin-top:6%;">
+	<button type="button" ng-click="action('return')"  class="col-xs-offset-1 col-xs-2 image-bt" >取消</button>
+	<button type="button"  ng-click="action('confirm')" class="col-xs-offset-1 col-xs-2 image-btgr" >确认</button>
+</div>
+

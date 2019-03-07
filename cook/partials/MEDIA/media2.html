@@ -1,0 +1,112 @@
+<div class="container indicates">
+		<div class="timeout pull-right" ><span>{{timeout}}</span></div>
+		</div>
+	<div class="container step col-xs-offset-0 col-xs-12" style="margin-top:-9%">
+		
+		<div class="title">
+			<h1 >远程视频测试Media2</h1>
+			<p >Please select services<p>
+		</div>
+
+			<div class="menu row" style="width:80%;margin:4% auto;" >
+				<div class="col-md-3 card">
+					<a class="thumbnail thumbnail-mianMenu button-hide-{{buttons.INQ}}" onclick = "Calling()">
+						<p>呼叫</p>
+					</a>
+				</div>
+				<div class="col-md-3 card ">
+					<a class="thumbnail thumbnail-mianMenu" onclick = "Snap()">
+						<p>拍照</p>
+					</a>
+				</div>
+				<div class="col-md-3 card">
+					<a class="thumbnail thumbnail-mianMenu" onclick = "MediaRelease()">
+						<p>释放</p>
+					</a>
+				</div>
+				<div class="col-md-3 card">
+					<a class="thumbnail thumbnail-mianMenu" onclick = "SendData()">
+						<p>发送消息</p>
+					</a>
+				</div>
+	
+				<div class="col-md-3 card" >
+					<a href="" class="thumbnail thumbnail-mianMenu button-hide-{{buttons.INQ}}" ng-click="action('next')">
+						<p>下一步</p>
+					</a>	
+				</div>
+				
+				<div class="col-md-3 card">
+					<a class="thumbnail thumbnail-mianMenu " ng-click="action('eject')">
+						<p>退出</p>
+					</a>
+				</div>
+			</div>
+			<div style="margin-top:-4%">
+				<div class="col-md-12" id="text1" >
+					<textarea style="width:500px; height:80px; padding:3px; border:1px; font-size:22px;" id="textarea1">
+					</textarea>
+				</div>
+				<p>----</p>
+				<div class="col-md-12" >
+					<textarea style= "font-size:22px; width:500px; height:80px; padding:3px; border:1px;" id="textarea2">
+					</textarea>
+				</div>
+				</div>	
+		
+	</div>
+	<script>
+	var menu_keyActionTable = {
+		CANCEL: 'cancel'
+	};
+	</script>
+
+	<script>
+	function onMsgArrived(msg){
+		document.getElementById("textarea2").value=msg;
+	}
+	
+	
+	function MediaRelease()
+	{ 
+		var ret = MyActiveX.mediaTerminalReleaseCall();
+	}
+	
+	function Calling()
+	{ 
+		var ret = MyActiveX.mediaTerminalCall(0, 0, "");
+	}
+	
+	function Snap()
+	{ 
+		MyActiveX.mediaTerminalSnapShot();
+	}
+
+	function SendData()
+	{ 
+		var message = {
+			sn: '44',
+			device: pool2.terminalId,
+			pid: pool2.pid
+		};
+		document.getElementById("textarea1").value=JSON.stringify(message);
+		var textarea1=document.getElementById("textarea1").value;
+		MyActiveX.mediaTerminalSendMsg(textarea1);
+	}
+	</script>
+	
+
+
+	
+
+
+	
+
+
+
+
+	
+
+
+
+

@@ -1,0 +1,152 @@
+<script language="JavaScript" type="text/JavaScript"> 
+creatTree(0,"回单显示");
+document.getElementById("Cardjpg").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+document.getElementById("FaceImgjpg").src ="D:/FaceImg.jpg"+"?"+Math.random();
+$.ajax({
+ 	     url: "/custom/document",
+ 	    cache: false,
+ 	    type: "get",
+ 	    data: "commandID=haveSignImg",
+ 	    dataType: 'json',
+ 	    success: function(data) {
+			if((data.messageText).length >= 1){
+				document.getElementById("img").src ="d:/sign.png"+"?"+Math.random();
+			}
+ 	    }
+ 	});
+self.setTimeout("formatAddress(40)", 10);
+
+//参数为 每隔多少字符插入进行一次断行
+function formatAddress(flag){
+	var address = $("#address").html();
+    var newstr = "";
+    for(var i=0;i<address.length;i+=flag){
+        var tmp=address.substring(i, i+flag);
+        newstr+=tmp+"</br>";
+    }
+     $("#useraddress").html(newstr);
+}
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div style="margin-left:10%;margin-top:0%">
+ <div>
+ <p style="font-size:25px;margin-left:23%;color:#000000;">江苏农村商业银行个人开卡业务申请书</p>
+ <div>
+	  <p style="font-size:18px;color:#000000;">客户开卡信息:</p>
+ </div>
+ <table style="border-radius:10px 10px 10px 10px;">
+ <tr>
+	  <td ><span style="font-size:15px;color:#000000">姓名:</span></td>
+	  <td width="64%"><span style="font-size:15px;color:#000000">{{pool.name}}</span></td>
+	  <td ><span style="font-size:15px;color:#000000">受理柜员:</span></td>
+	  <td ><span style="font-size:15px;color:#000000">{{pool.Apply_tellerno}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:15px;color:#000000">性别:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.genderC}}</span></td>
+	  <td><span style="font-size:15px;color:#000000;">职业:</span></td>
+	  <td ng-if="pool.job=='01'" style=""><span style="font-size:15px;color:#000000;">各类专业，技术人员</span></td>
+	  <td ng-if="pool.job=='02'" style=""><span style="font-size:15px;color:#000000;">国家机关，党组织，企事业单位负责人</span></td>
+	  <td ng-if="pool.job=='03'" style=""><span style="font-size:15px;color:#000000;">办事人员和有关人员</span></td>
+	  <td ng-if="pool.job=='04'" style=""><span style="font-size:15px;color:#000000;">商业工作人员</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:15px;color:#000000">民族:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.nationality}}</span></td>
+	  <td><span style="font-size:15px;color:#000000;">交易类型:</span></td>
+	  <td ng-if="pool.ST_AccType == '1'" style=""><span style="font-size:15px;color:#000000;">一类户开卡</span></td>
+	  <td ng-if="pool.ST_AccType == '2'" style=""><span style="font-size:15px;color:#000000;">二类户开卡</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:15px;color:#000000;">证件类型:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">身份证</span></td>
+	  <td><span style="font-size:15px;color:#000000">证件号码:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.pid}}</span></td>
+ </tr>
+ <tr>
+    <td><span style="font-size:15px;color:#000000">有效日期:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.abatedate}}</span></td>
+	  <td><span style="font-size:15px;color:#000000;">终端号:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.Apply_terminalId}}</span></td>
+</tr>
+<tr>
+    <td><span style="font-size:15px;color:#000000">签发机关:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.issueoffice}}</span></td>
+	  <td><span style="font-size:15px;color:#000000;">申请日期:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.transDate}}</span></td>
+</tr>
+<tr>
+    <td><span style="font-size:15px;color:#000000">联系电话:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.mobile}}</span></td>
+	  <td><span style="font-size:15px;color:#000000;">申请时间:</span></td>
+	  <td style=""><span style="font-size:15px;color:#000000;">{{pool.transTime.substring(0,2)+":"+pool.transTime.substring(2,4)+":"+pool.transTime.substring(4,6)}}</span></td>
+</tr>
+<tr>
+    <td><span style="font-size:15px;color:#000000">联系地址:</span></td>
+	<td colspan = 3 ><span style="font-size:15px;color:#000000;" id="useraddress"></span></td>
+	  
+</tr>
+ <tr style="display:none">
+	<td colspan = 4 ><span id="address">{{pool.address}}</span></td>
+</tr>
+</table>
+<table style="margin-top:0%">
+    <tr>
+		<td width="10%">
+			<span style="font-size:15px;color:#000000;">身份证照片:</span>
+        </td>
+        <td width="7%">
+		 <span style="margin-left:-25%;font-size:15px;color:#000000;">现场审核照片:</span>
+        </td>
+   </tr>
+  <tr>
+		<td>
+			<img id="Cardjpg" src="" style="width:18%;">
+       </td>
+       <td>
+		   <img id="FaceImgjpg" src="" style="margin-left:-25%;width:40%;">
+       </td>
+ </tr>
+<table>
+<span style="font-size:15px;color:#000000;">审核结果:{{pool.PERresponseCode}}{{pool.PERerrorMessage}}</span>
+<div style="margin-top:2%;font-size:15px; ">
+	<p style="margin-left:2%;margin-top:-2%;color:#000000">
+	 本人保证所提供的个人资料信息真实、有效、完整。对信息失真或因违反规定而造成的损失和后果,本人愿意承担一切后果及法律
+	 </p>
+	 <p style="color:#000000">
+	 	责任。
+	</p>
+	 <p style="margin-left:2%;color:#000000">
+	  本人已详细阅读业务相关协议及须知,确认申请业务与打印栏记录相符。本人同意贵行有权依据国家有关规定及业务需要对服务内
+	 </p>
+	 <p style="color:#000000">
+	 容、收费项目等内容进行调整,并同意该项调整将于正式对外公告一定时期后执行,无需另行通知本人。
+	</p>
+	<div style="position:fixed;top:80%;left:23%">
+	 <!-- <span style="color:#000000">
+	 银行盖章:
+	</span> -->
+	 <span style="position:fixed;top:80%;left:53%;color:#000000" onclick="Show(5,1,380,300)">
+	 客户签名:_______________<span id="span">
+	</span>
+	<img id="img" src=""  style="position:fixed;width:8%; height:9%;top:75%;left:58%;"></span>
+</div>
+</div>
+ </div>
+
+
+<div class="col-xs-offset-0 col-xs-12" style="margin-top:15%;margin-left:-10%;">
+    <button type="button"  ng-click="action('confirm')" class="col-xs-offset-4 col-xs-2 image-btgr" >审核通过</button>
+   	<button type="button" ng-click="action('return')"  class="col-xs-offset-2 col-xs-2 image-bt" >审核拒绝</button>
+</div>
+

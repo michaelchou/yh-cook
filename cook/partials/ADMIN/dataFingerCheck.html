@@ -1,0 +1,93 @@
+<script src="js/admin/base.js"></script>
+<script>
+
+var data = "/admin/NewAdminDataServlet";
+var currentusers;
+var isRunning = false;
+$(document).ready(function() {
+$("#commit").attr("disabled",true);
+	fingerCheck();
+});
+
+function fingerCheck() {
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-user-finger-Check",
+	    dataType: 'json',
+	    success: function(data) {
+	   if(data.result=="succ"){
+	    $('#comment').html(data.message);
+	  	 $("#commit").attr("disabled",false);
+	   }else{
+	   $('#comment').html(data.message);
+	   fingerScannercloss(data.message);
+	   }
+        	}
+	   
+	});
+}
+
+function fingerScannercloss(value) {
+if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+	
+ if(value.length>=1){
+ $('#comment').html(value+"</br>正在关闭指纹仪。。。");
+}else{
+ $('#comment').html("正在关闭指纹仪。。。");
+ }
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-fingerScanner-close",
+	    dataType: 'json',
+	    success: function(data) {
+	    isRunning = false;
+	    if(value.length>=1){
+	 
+	   	 }else{
+	    $('#return2').click();	
+	    }
+        	}
+	});
+	
+}
+function fingerScannercloss2() {
+ $('#return2').click();
+}
+
+    </script>
+</head>
+
+<h2 id="head" class="text-center">指纹校验</h2>
+<div id="content">
+  <div class="text-center col-xs-offset-3 col-xs-6"style="border:0px #FFFFFF solid;">
+    <div  >
+      <h3 class="fg-red">请将手指放在指纹仪上，长按5秒后抬起!</h3>
+      <img calss="center" src="image/finger.gif"  style=" height: 270px;" > </div>
+    <div  class="col-xs-offset-2 col-lg-8" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+      <label  class="fg-red"  style="color:black" id="comment">&nbsp;</label>
+    </div>
+  </div>
+</div>
+</div>
+<div id="foot" class="col-xs-offset-4 col-xs-4">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button" id="return" class="btn btn-primary btn-lg" onclick="fingerScannercloss('')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" id="commit" name="enter" class="btn btn-success btn-lg" ng-click="action('dataFingerScanner')">指纹录入</button>
+    </div>
+  </div>
+</div>
+<button style="display:none" type="button"  id="return2" class="btn btn-primary btn-lg" ng-click="action('return')"></button>
+</body></html>

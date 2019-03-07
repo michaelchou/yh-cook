@@ -1,0 +1,49 @@
+<!-- 代缴费支持交易选择页面 -->
+<script language="javascript">
+
+</script>
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" >
+<div class="cook-head">
+    <h1 class="text-center">请选择服务项目</h1>
+    <h3 class="text-center">Please select services</h3>
+</div>
+	<div class="menu row" style="width:70%;margin:4% auto;margin-top:10%">
+     
+	 <div ng-repeat="x in detail">
+	<div class="col-md-3 card" ng-if="x.key1 != '状态同步'  && x.key1 != '签约前检查' "  >
+		<a href=""  class="thumbnail thumbnail-mianMenu btn btn-link btn-lg active" 
+		ng-click="action( x.key1)"  
+		style="background-image:url(image/agent/绿.png);border:0px;">
+			<p2><font color="white">{{ x.key1}}</font></p>
+        </a>
+	</div>
+	</div>
+ </div>
+</div> 
+<div class="cook-foot col-xs-offset-0 col-xs-12 "style="border:0px red solid;" ng-if="pageSize > 1">
+ 	<div class="  col-xs-offset-0 col-xs-6 "style="border:1px blue solid;">
+ 			<button  type="button" class="col-xs-offset-2 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button  id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt"      ng-click="action('eject')">退出</button>
+</div>
+
+ 	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;">
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-hide="Prev"ng-click="next(-1)">上一页</button>
+    	  </div>
+    <div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+    	    <button  type="button"  class="col-xs-offset-1 col-xs-2 image-btgr"   ng-hide="Next"    ng-click="next(1)">下一页</button>
+    	  </div>
+</div>
+</div>
+ <div class=" cook-foot col-xs-offset-0 col-xs-12 "style="border:0px blue solid;" ng-if="pageSize <= 1">
+ 			<button  type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button  id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt"      ng-click="action('eject')">退出</button>
+ </div> 
+
+

@@ -1,0 +1,71 @@
+<style>
+.ui-datepicker{
+	  width: 16em; padding: .5em .5em 0; display: none; font-size: 2em;
+}
+.ui-datepicker-month{
+	color:blue;
+}
+.ui-datepicker-year{
+	color:blue;
+}
+</style>
+<script>
+try{
+$(function() {
+    $( "#startDate" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+        
+    });
+    $.datepicker.setDefaults($.datepicker.regional['zh-CN']); //中文
+    $( "#startDate" ).datepicker( "option", "showAnim", "clip" );//日期控件出现和消失的效果
+  });
+
+document.getElementById("startDate").focus();
+}catch(e){
+	
+}
+</script>
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+	<div class="cook-head">
+    <h1 class="text-center">请选择开始日期</h1>
+</div>
+
+<div class="step1">
+<form class="navbar-form" role="search" >
+	<div class="col-xs-offset-4 col-xs-5">
+	 <div class="input-group input-group-lg">
+		<input type="text" class="form-control" style="margin-left:40px;margin-top:20px"  id="startDate"  name="startDate" value="" ng-model="pool.startDate" 
+				data-container="body"  data-placement="left"  title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""   class="form-control"  data-html="true" maxlength="8" readonly>
+		<span class="input-group-btn">
+			<button class="btn btn-primary" style="margin-top:20px" type="button" onclick="Delete()">清  除</button>
+		</span>
+	</div><!-- /input-group -->
+ </div>
+</form>
+	
+	</div>
+	</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+    <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+	<button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+	
+	<button id="confirm"  type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkStartDate()">确认</button>
+</div>
+<script>
+function Delete()
+{
+	document.getElementById("startDate").value="";
+	document.getElementById("startDate").focus();
+}
+</script>

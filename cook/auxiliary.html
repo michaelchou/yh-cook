@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="zh-cn" ng-app="cookApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>cook2</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/Buttons/css/buttons.min.css">
+	<link rel="stylesheet" href="bower_components/metro/build/css/metro-icons.min.css">
+    <link rel="stylesheet" href="css/bootstrap-nav-wizard.css">
+    <link rel="stylesheet" href="css/cook.css">
+    <link href="css/media.css" rel="stylesheet" type="text/css" />
+    
+    <script language="javascript" type="text/javascript" src="javascript/anychatsdk.js"></script>
+    <script language="javascript" type="text/javascript" src="javascript/anychatobject.js"></script>
+    <script language="javascript" type="text/javascript" src="js/media.js"></script>    
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script language="javascript" type="text/javascript" src="javascript/jquery-1.9.1.js"></script>
+	
+    <script src="bower_components/Buttons/js/buttons.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/check.js"></script>
+    <script type="text/javascript" src="js/ad/js/tFocus.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/ad/css/tFocus.css">
+    <script type="text/javascript" src="js/ad/js/jquery-1.6.js"></script>
+    <script language="javascript" type="text/javascript" src="js/sunyard_ycxz_custom.js"></script>
+    <script language="javascript" type="text/javascript" >
+    var depositInsuranceAD ="";
+    var mediaAdvertiseFlag = 0;
+    var mediaAdvertiseTime = 0;
+    var advtiseLoadedflag = false;
+    function advtiseLoaded()
+    {
+    	advtiseLoadedflag = true;
+    }
+    
+    function setDepositInsuranceAD(val)
+    {
+    	if(val == "open")
+    	{
+    		depositInsuranceAD = "open";
+    	}else{
+    		depositInsuranceAD = "close";
+    	}
+    }
+    function checkMediaPlayer(){
+    	var player = document.getElementById("mediaPlayer1");
+    	if(mediaAdvertiseFlag == 1 )
+    	{
+    		player.play();
+    		doMove2(document.getElementById("tFocus-pic"),"opacity",0);
+			setTimeout(function(){
+				$("ul").html();
+				document.getElementById("tFocus-pic").innerHTML = "";
+				doMove2(document.getElementById("defalutAdvertise"),"opacity",0);
+				doMove2(document.getElementById("imgContainer"),"opacity",0);
+	    		$("#mediaPlayer1").show();
+			    setTimeout(function () {
+		//	    	$("#mediaPlayer1").hide();
+		//    		document.getElementById("imgContainer").style.display="block";
+		//    		return;
+			    	//if($("#videoContainer").css("display")=="block" )
+			    	//{
+			    		if(depositInsuranceAD =="open")
+			    		{
+			    			doMove2(document.getElementById("tFocus-pic"),"opacity",0);
+	    					doMove2(document.getElementById("defalutAdvertise"),"opacity",0);
+	    					$("#mediaPlayer1").hide();
+	    	    			doMove2(document.getElementById("imgContainer"),"opacity",100);
+					    	player.stop();
+				    		//clearInterval(time_media);
+				    		setTimeout(function(){
+		//		    			$("#mediaPlayer1").show();
+		//		    			document.getElementById("imgContainer").style.display="none";
+		//		    			var player = document.getElementById("mediaPlayer1");
+		//		    			player.play();
+		//		    			checkMediaPlayer();
+//				    			if($("#videoContainer").css("display") !="block")
+//				    			{
+//				    				return;
+//				    			}
+				    			//document.getElementById("advertiseContainer").style.display="block";
+				    			//document.getElementById("imgContainer").style.display="none";
+				    			if(delayTime.length>0)
+				    			{
+				    				delayTime = new Array();
+					    			for (var i = 0; i < resourcesArray.length; i ++) {
+										var file = resourcesArray[i];
+									    if(resourcesArray[i].content.indexOf("wmv") >=0)
+									    {
+									    	if(mediaAdvertiseFlag != 1)
+									    	{
+									    		document.getElementById("mediaPlayer1").fileName = "D:\\JSNX\\work\\special\\ad\\AD_IDLE\\"+resourcesArray[i].content;
+									    		player.stop();
+									    		mediaAdvertiseTime = resourcesArray[i].playTime;
+									    		mediaAdvertiseFlag = 1;
+									    	}
+									    }else if(resourcesArray[i].groupId == "" || (groupIDdata.indexOf(resourcesArray[i].groupId) >= 0))
+					    				{
+					    					$("ul").append("<li><img src=\"" + "D:\\JSNX\\work\\special\\ad\\AD_IDLE\\" + resourcesArray[i].content+ "\" width=\"100%\" height=\"100%\" /></li>")
+					    					
+					    					delayTime.push(file.playTime)
+					    				}
+									}
+					    			doMove2(document.getElementById("tFocus-pic"),"opacity",100);
+			    					doMove2(document.getElementById("defalutAdvertise"),"opacity",0);
+			    					$("#mediaPlayer1").hide();
+			    	    			doMove2(document.getElementById("imgContainer"),"opacity",0);
+	        		    			//$("#mediaPlayer1").hide();
+	        		    			player.stop();
+	        		    			addLoadEvent(Focus(delayTime));
+				    			}else{
+				    				player.stop();
+				    				if(!advtiseLoadedflag)
+				    				{
+				    				 checkMediaPlayer();
+				    				}else{
+				    					advertiseInit();
+				    				}
+				    			}
+				    		},8000);
+			    		}else{
+			    			//clearInterval(time_media);
+//			    			if($("#videoContainer").css("display") !="block")
+//			    			{
+//			    				return;
+//			    			}
+			    			//player.stop();
+			    			//$("#mediaPlayer1").hide();
+			    			//document.getElementById("advertiseContainer").style.display="block";
+			    			//document.getElementById("imgContainer").style.display="none";
+			    			if(delayTime.length>0)
+			    			{
+			    				$("ul").html();
+			    				delayTime = new Array();
+				    			for (var i = 0; i < resourcesArray.length; i ++) {
+									var file = resourcesArray[i];
+								    if(resourcesArray[i].content.indexOf("wmv") >=0)
+								    {
+								    	if(mediaAdvertiseFlag != 1)
+								    	{
+								    		document.getElementById("mediaPlayer1").fileName = "D:\\JSNX\\work\\special\\ad\\AD_IDLE\\"+resourcesArray[i].content;
+								    		player.stop();
+								    		mediaAdvertiseTime = resourcesArray[i].playTime;
+								    		mediaAdvertiseFlag = 1;
+								    	}
+								    }else if(resourcesArray[i].groupId == "" || (groupIDdata.indexOf(resourcesArray[i].groupId) >= 0))
+				    				{
+				    					$("ul").append("<li><img src=\"" + "D:\\JSNX\\work\\special\\ad\\AD_IDLE\\" + resourcesArray[i].content + "\" width=\"100%\" height=\"100%\" /></li>")
+				    					delayTime.push(file.playTime)
+				    				}
+								}
+				    			document.getElementById("tFocus-pic").style.opacity=100;
+		    					//doMove2(document.getElementById("defalutAdvertise"),"opacity",0);
+				    			player.stop();
+				    			$("#mediaPlayer1").hide();
+				    			addLoadEvent(Focus(delayTime));
+		    	    			//doMove2(document.getElementById("imgContainer"),"opacity",0);
+			    			}else{
+			    				player.stop();
+			    				if(!advtiseLoadedflag)
+			    				{
+			    				 checkMediaPlayer();
+			    				}else{
+			    					advertiseInit();
+			    				}
+			    			}
+			    		}
+			    	//}
+			        
+			    }, mediaAdvertiseTime*1000);
+				},300);
+    		
+    	}else{
+    		if(depositInsuranceAD =="open")
+    		{
+				doMove2(document.getElementById("tFocus-pic"),"opacity",0);
+				doMove2(document.getElementById("defalutAdvertise"),"opacity",0);
+				$("#mediaPlayer1").hide();
+    			var player = document.getElementById("mediaPlayer1");	
+    			//document.getElementById("imgContainer").style.filter = 'alpha(opacity:100)'; 
+    			doMove2(document.getElementById("imgContainer"),"opacity",100);
+	    		//document.getElementById("imgContainer").style.display="block";
+	    		//$("#mediaPlayer1").hide();
+		    	//player.stop();
+	    		//document.getElementById("defalutAdvertise").style.display="none";
+	    		//clearInterval(time_media);
+	    		setTimeout(function(){
+//		    			$("#mediaPlayer1").show();
+//		    			document.getElementById("imgContainer").style.display="none";
+//		    			var player = document.getElementById("mediaPlayer1");
+//		    			player.play();
+//		    			checkMediaPlayer();
+//	    			if($("#videoContainer").css("display") !="block")
+//	    			{
+//	    				return;
+//	    			}
+	    			//document.getElementById("advertiseContainer").style.display="block";
+	    			//document.getElementById("imgContainer").style.display="none";
+	    			if(delayTime.length>0)
+	    			{
+	    				delayTime = new Array();
+	    				document.getElementById("tFocus-pic").innerHTML = "";
+		    			for (var i = 0; i < resourcesArray.length; i ++) {
+							var file = resourcesArray[i];
+						    if(resourcesArray[i].content.indexOf("wmv") >=0)
+						    {
+						    	if(mediaAdvertiseFlag != 1)
+						    	{
+						    		document.getElementById("mediaPlayer1").fileName = "D:\\JSNX\\work\\special\\ad\\AD_IDLE\\"+resourcesArray[i].content;
+						    		player.stop();
+						    		mediaAdvertiseTime = resourcesArray[i].playTime;
+						    		mediaAdvertiseFlag = 1;
+						    	}
+						    }else if(resourcesArray[i].groupId == "" || (groupIDdata.indexOf(resourcesArray[i].groupId) >= 0))
+		    				{
+		    					$("ul").append("<li><img src=\"" + "D:\\JSNX\\work\\special\\ad\\AD_IDLE\\" + resourcesArray[i].content + "\" width=\"100%\" height=\"100%\" /></li>")
+		    					
+		    					delayTime.push(file.playTime)
+		    				}
+						}
+		    			doMove2(document.getElementById("tFocus-pic"),"opacity",100);
+    					doMove2(document.getElementById("defalutAdvertise"),"opacity",0);
+    					$("#mediaPlayer1").hide();
+    	    			doMove2(document.getElementById("imgContainer"),"opacity",0);
+		    			//$("#mediaPlayer1").hide();
+		    			player.stop();
+		    			addLoadEvent(Focus(delayTime));
+	    			}else{
+	    				player.stop();
+	    				if(!advtiseLoadedflag)
+	    				{
+	    				 checkMediaPlayer();
+	    				}else{
+	    					advertiseInit();
+	    				}
+	    			}
+	    		},8000);
+    		}else{
+    			//clearInterval(time_media);
+//    			if($("#videoContainer").css("display") !="block")
+//    			{
+//    				return;
+//    			}
+    			//player.stop();
+    			//$("#mediaPlayer1").hide();
+    			//document.getElementById("advertiseContainer").style.display="block";
+    			//document.getElementById("imgContainer").style.display="none";
+    			if(delayTime.length>0)
+    			{
+    				delayTime = new Array();
+    				document.getElementById("tFocus-pic").innerHTML = "";
+	    			for (var i = 0; i < resourcesArray.length; i ++) {
+						var file = resourcesArray[i];
+					    if(resourcesArray[i].content.indexOf("wmv") >=0)
+					    {
+					    	if(mediaAdvertiseFlag != 1)
+					    	{
+					    		document.getElementById("mediaPlayer1").fileName = "D:\\JSNX\\work\\special\\ad\\AD_IDLE\\"+resourcesArray[i].content;
+					    		player.stop();
+					    		mediaAdvertiseTime = resourcesArray[i].playTime;
+					    		mediaAdvertiseFlag = 1;
+					    	}
+					    }else if(resourcesArray[i].groupId == "" || (groupIDdata.indexOf(resourcesArray[i].groupId) >= 0))
+	    				{
+	    					$("ul").append("<li><img src=\"" + "D:\\JSNX\\work\\special\\ad\\AD_IDLE\\" + resourcesArray[i].content + "\" width=\"100%\" height=\"100%\" /></li>")
+	    					
+	    					delayTime.push(file.playTime)
+	    				}
+					}
+	    			doMove2(document.getElementById("tFocus-pic"),"opacity",100);
+					doMove2(document.getElementById("defalutAdvertise"),"opacity",0);
+					$("#mediaPlayer1").hide();
+	    			doMove2(document.getElementById("imgContainer"),"opacity",0);
+	    			//$("#mediaPlayer1").hide();
+	    			player.stop();
+	    			addLoadEvent(Focus(delayTime));
+    			}else{
+    				player.stop();
+    				doMove2(document.getElementById("tFocus-pic"),"opacity",0);
+    		    	//doMove2(document.getElementById("defalutAdvertise"),"opacity",100)
+    				document.getElementById("defalutAdvertise").style.opacity = 100;
+					$("#mediaPlayer1").hide();
+	    			doMove2(document.getElementById("imgContainer"),"opacity",0);
+	    			setTimeout(function(){
+	    				if(!advtiseLoadedflag)
+	    				{
+	    				 checkMediaPlayer();
+	    				}else{
+	    					advertiseInit();
+	    				}
+	    			},10000);
+    				
+    			}
+    		}
+    	}
+    }
+       
+    var delayTime  = new Array();
+    var resourcesArray ;
+	var groupIDdata = "";
+    function advertiseInit()
+    {
+    	advtiseLoadedflag = false;
+    	//$("ul").html("");
+		//$("ul:last").html("");
+		//document.getElementById("advertiseContainer").style.display="block";
+    	//$("#mediaPlayer1").hide();
+    	var player = document.getElementById("mediaPlayer1");
+		//document.getElementById("imgContainer").style.display="none";
+    	$(function(){
+    		var baseURL = "http://127.0.0.1/flow-jsnxvtm/resources/cookad/AD_IDLE/";
+    		$.ajax({
+    			type: "GET",
+    			url: baseURL + "groupid.ini?random="+Math.random(),
+    			dataType: "text",
+    			success: function(value){
+    			 groupIDdata =value;
+    		    	$(function(){
+    		    		var baseURL = "http://127.0.0.1/flow-jsnxvtm/resources/cookad/AD_IDLE/";
+    		    		$.ajax({
+    		    			type: "GET",
+    		    			url: baseURL + "idle.ini?random="+Math.random(),
+    		    			dataType: "json",
+    		    			success: function(json){
+    		    			player.stop();
+    		    			mediaAdvertiseFlag = 0;
+    		    			mediaAdvertiseTime = 0;
+    		    			resourcesArray = json.resources;
+    		    			delayTime  = new Array();
+    		    				for (var i = 0; i < json.resources.length; i ++) {
+    		    					var file = json.resources[i];
+    		    				    if(json.resources[i].content.indexOf("wmv") >=0)
+    		    				    {
+    		    				    	if(mediaAdvertiseFlag != 1)
+    		    				    	{
+    		    				    		document.getElementById("mediaPlayer1").fileName = "D:\\JSNX\\work\\special\\ad\\AD_IDLE\\"+json.resources[i].content;
+    		    				    		player.stop();
+    		    				    		mediaAdvertiseTime = json.resources[i].playTime;
+    		    				    		mediaAdvertiseFlag = 1;
+    		    				    	}
+    		    				    }else if(json.resources[i].groupId == "" || (groupIDdata.indexOf(json.resources[i].groupId) >= 0))
+	    		    				{
+	    		    					$("ul").append("<li><img src=\"" + baseURL + json.resources[i].content+"?"+Math.random() + "\" width=\"100%\" height=\"100%\" /></li>")
+	    		    					delayTime.push(file.playTime)
+	    		    				}
+    		    				}
+    		    				player.stop();
+    		    				if(delayTime.length>0)
+    		    				{
+    		    					doMove2(document.getElementById("tFocus-pic"),"opacity",100);
+    		    					doMove2(document.getElementById("defalutAdvertise"),"opacity",0);
+    		    					$("#mediaPlayer1").hide();
+    		    	    			doMove2(document.getElementById("imgContainer"),"opacity",0);
+            		    			//$("#mediaPlayer1").hide();
+            		    			player.stop();
+            		    			addLoadEvent(Focus(delayTime));
+    		    				}else{
+    		    					if(mediaAdvertiseFlag == 0)
+    		    					{
+    		    						doMove2(document.getElementById("tFocus-pic"),"opacity",0);
+    		    						doMove2(document.getElementById("defalutAdvertise"),"opacity",100)
+        		    					$("#mediaPlayer1").hide();
+        		    	    			doMove2(document.getElementById("imgContainer"),"opacity",0);
+        		    	    			setTimeout(function(){
+        		    	    				checkMediaPlayer();
+        		    	    			},5000);
+    		    					}else{
+    		    						doMove2(document.getElementById("tFocus-pic"),"opacity",0);
+        		    					doMove2(document.getElementById("defalutAdvertise"),"opacity",0);
+        		    					//$("#mediaPlayer1").show();
+        		    	    			doMove2(document.getElementById("imgContainer"),"opacity",0);
+    		    					    checkMediaPlayer();
+    		    					}
+    		    				}
+    		    				
+    		    			},
+    		    			error: function(XMLHttpRequest, textStatus, errorThrown) {//什么广告都没有
+		    	    			checkMediaPlayer();
+    		    			}
+    		    	
+    		    		});
+    		    	});
+    		    },
+    				
+    			error: function(XMLHttpRequest, textStatus, errorThrown) {
+	    			checkMediaPlayer();
+    			}
+    	
+    		});
+    	});
+    }
+    
+    function doMove2(obj,attr,iTarget)
+    {
+    clearInterval(obj.timer);
+    obj.timer=setInterval(function (){
+    var iCur=0;
+    if(attr=='opacity')
+    {
+    iCur=parseInt(parseFloat(getStyle2(obj, attr))*100);
+    }else{
+    iCur=parseInt(getStyle2(obj, attr));
+    }
+    var iSpeed=(iTarget-iCur)/8;
+    iSpeed=iSpeed>0?Math.ceil(iSpeed):Math.floor(iSpeed);
+    if(iCur==iTarget)
+    {
+    clearInterval(obj.timer);
+    }else{
+    	if(attr=='opacity')
+    	{
+    	obj.style.filter='alpha(opacity:'+(iCur+iSpeed)+')';
+    	obj.style.opacity=(iCur+iSpeed)/100;
+    	}
+    	else
+    	{
+    	obj.style[attr]=iCur+iSpeed+'px';
+    	}
+    }
+    }, 60)};    
+    function getStyle2(obj, attr){if(obj.currentStyle){return obj.currentStyle[attr];}else{return getComputedStyle(obj, false)[attr];}	};
+    
+    var t ;
+    function closeMediaPlayer()
+    {
+    	var player = document.getElementById("mediaPlayer1");
+    	player.Mute="1";
+    }
+    function openMediaPlayer()
+    {
+    	var player = document.getElementById("mediaPlayer1");
+    	player.Mute="0";
+    }
+    function idleCall(data)
+    {
+    	//var selectMode = data.authorizedMode;
+    	//if("local" == selectMode)//如果是本地审核,
+		//{
+		//}else{
+	    	$("#com").show();
+	    	$("#videoContainer").hide();
+	    	var player = document.getElementById("mediaPlayer1");
+	    	player.stop();
+		//}
+    	MediaEnterQueue("index",data,"");
+    }
+    function flowCall(data)
+    {
+    	$("#com").show();
+    	var player = document.getElementById("mediaPlayer1");
+    	player.stop();
+    	$("#videoContainer").hide();
+    	MediaEnterQueue("flow",data,"");
+    }
+    //setTimeout("test()",30000);
+//var anyChatVideo = "";//视频是否联通标识,1标识已经连接
+//function setAnyChatVideo(val){
+//	anyChatVideo = val;
+//   }
+
+function goPhoto() {
+	    closeCamera();
+		$("#timeout").text(6);
+		$("#title_text").css("display","none");
+		//关闭摄像头
+		timeout();//页面超时处理
+		var player = document.getElementById("mediaPlayer1");
+    	player.stop();
+    	$("#videoContainer").css("display","none");
+		$("#com").css("display","none");
+    	$("#photo").css("display","block");
+    	
+		setTimeout("Run_Func(0)",500);
+		
+		}
+		
+function Run_Func(iIdx){//拍照流程
+        if (iIdx == 0)   {//打开设备
+            nRet = TFace1.TCFOpenDev(0);
+            BrowserCallback("focreActive");
+            if (nRet == 0){
+            flag = true;
+     	 setTimeout("Run_Func(2)",3000)
+            } else {
+            	photoFailed();
+            }
+        }
+        else if(iIdx == 1)  {  //关闭设备
+            nRet = TFace1.TCFCloseDev();
+            BrowserCallback("focreActive");
+             photoSuccess();
+        } else if(iIdx == 2) { //抓拍人脸图像
+        	nRet = TFace2.TCFShowImgByImgB64("");	
+            //sImg = TFace1.TCFCaptureFaceImg(0, 20);     //按抓拍的原始图像返回
+            sImg = TFace1.TCFCaptureFaceImg(0, 20);       //抓拍后按Id照片剪切后返回
+            BrowserCallback("focreActive");
+            if (sImg.length > 10) {
+			  javascript:Run_Func(3);
+			  nRet = TFace1.TCFSaveImgAsFile("D:\\FaceImg.jpg");
+			}else if(flag){
+           		 setTimeout("Run_Func(2)",3000);//超时后进行循环拍摄
+            }else{
+           		 return;
+            }
+        }else if(iIdx == 3)  {//显示人脸图像
+            nRet = TFace2.TCFShowImgByImgB64(sImg);	
+            BrowserCallback("focreActive");
+            $("#title_text").css("display","block");
+            clearTimeout(t);
+	 		 $("#msg1").text("拍照成功");
+	  		$("#msg2").text("秒后将进行下一步操作");
+            countDown();
+        }
+    }
+    
+    	// 拍照成功
+	function photoSuccess() {
+		//alert(anyChatVideo)
+//			if(anyChatVideo == "1")//视频已联通
+//			{
+//				openCamera();//打开视频
+//			}else{
+//			    var player = document.getElementById("mediaPlayer1");
+//	    	    player.play();
+//	    	    $("#com").hide();
+//	    	    $("#videoContainer").show();
+//			}
+			nRet = TFace2.TCFShowImgByImgB64("");
+			$("#tFocus").css("display","block");
+			$("#photo").css("display","none");
+			
+			flag = false;
+			BrowserCallback("photoSuccess");
+		}
+    
+ 	// 拍照失败
+	function photoFailed() {
+		  clearTimeout(t);
+		  //alert(anyChatVideo)
+//		  if(anyChatVideo == "1")//视频已联通
+//			{
+//				openCamera();//打开视频
+//			}else{
+//			    var player = document.getElementById("mediaPlayer1");
+//	    	    player.play();
+//	    	    $("#com").hide();
+//	    	    $("#videoContainer").show();
+//			}
+		  $("#photo").css("display","none");
+    	
+			flag = false;
+			BrowserCallback("photoFailed");
+			
+		}
+		
+function countDown(){
+			
+ 		if($("#comment").text() >= 1) {
+		 $("#comment").text($("#comment").text()-1);
+		 window.setTimeout(countDown, 1000);
+	 }else{
+		  Run_Func(1);//关闭摄像头跳转页面
+//		  if(anyChatVideo == "1")//视频已联通
+//			{
+//				openCamera();//打开视频
+//			}else{
+//			    var player = document.getElementById("mediaPlayer1");
+//	    	    player.play();
+//	    	    $("#com").hide();
+//	    	    $("#videoContainer").show();
+//			}
+		  //$("#videoContainer").css("display","block");
+		  $("#photo").css("display","none");
+		  $("#comment").text(6);
+	}
+}
+
+function countDownFail(){//超时或拍照失败
+	 if($("#comment").text() >= 1) {
+		 $("#comment").text($("#comment").text()-1);
+		 window.setTimeout(countDownFail, 1000);
+	 }else{
+		  	
+		 	 $("#comment").text(6);
+		  		photoFailed();
+	}
+}
+
+function timeout(){
+	 if($("#timeout").text() > 1) {
+		 $("#timeout").text($("#timeout").text()-1);
+		 t = window.setTimeout(timeout, 1000);
+	 }else{
+	 	$("#msg1").text("拍照失败");
+	 	$("#msg2").text("秒后将结束交易");
+		 nRet = TFace1.TCFCloseDev();//关闭摄像头跳转页面
+	 	$("#title_text").css("display","block");
+		 countDownFail();
+	}
+}
+
+
+</script>
+<style>
+html, body
+{
+	margin:0;
+	overflow-x:hidden;
+    overflow-y:hidden;
+
+}
+
+.videoContainer 
+{
+	position:absolute;
+	height:100%;
+	width:100%;
+    background: url(image/11.jpg);
+	overflow: hidden;
+}
+
+.imgContainer 
+{
+	position:absolute;
+    height:100%;
+	width:100%;
+	overflow: hidden;
+    filter:alpha(opacity:0);opacity:0;
+}
+
+.advertiseContainer 
+{
+	
+    filter:alpha(opacity:0);opacity:0;
+}
+
+.defalutAdvertise 
+{
+	position:absolute;
+    width:100%;
+	height:100%;
+	
+    filter:alpha(opacity:0);opacity:0;
+	overflow: hidden;
+}
+
+.videoContainer .video 
+{
+	width: 100%;
+	height: 100%;
+    filter:alpha(opacity:0);opacity:0;
+}
+
+.remoteVideoPos 
+{
+	position:absolute;
+	height:100%;
+	width:100%;
+    top:0px;
+    left:0px;
+	overflow: hidden;
+    z-index:99;
+}
+.remoteImagePos 
+{
+	position:absolute;
+	height:100%;
+	width:100%;
+    top:0px;
+    left:0px;
+	overflow: hidden;
+    z-index:100;
+}
+</style>
+  </head>
+  <body ng-controller="PageCtrl" scroll="auto" onselectstart="return false;" onload="getServer()">
+ 
+  <div class="videoContainer" id="videoContainer" >
+     
+   <OBJECT id='mediaPlayer1' class="video"
+	  classid='CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95' 
+	  standby='Loading Media Player components...' type='application/x-oleobject'>
+	  <param name='fileName' value="">
+	  <param name="uiMode" value="full" />
+	  <param name='autoStart' value="true">
+	  <param name='showControls' value="false">
+	  <param name ="ShowAudioControls" value="false">
+	  <param name="ShowStatusBar" value="false">
+	  <param name='loop' value="false">
+	  </OBJECT>
+	  <div class="imgContainer" id="imgContainer" style="">
+	    <img src="image/depositInsuranceForAD.jpg" id="imgdepositInsurance" style="margin-left:85px;">
+	  </div>
+	  <div class="defalutAdvertise" id="defalutAdvertise" style="">
+	    <img src="image/0001.jpg" id="defalutAdvertiseImg" style="width:100%;height:100%;">
+	  </div>
+	  <div class="advertiseContainer" id="advertiseContainer" >
+		  <div id="tFocus" >
+			    <ul id="tFocus-pic" >
+			    </ul>
+		 </div>
+	  </div>
+</div>	  
+  
+  <!--<object id="tightvnc_ex" width="0" height="0" classid="CLSID:73FBF850-98DA-4F3E-B512-6EE78CCED888" codebase="js/vtacab/TightVNC_Server_EX.cab#version=1,0,1,1">
+  		<span style="color:#FF0000;">未能正常安装远程协助控件。请在检查浏览器的选项中检查浏览器的安全设置。</span>
+  </object>-->
+  <OBJECT WIDTH="0" HEIGHT="0" ID="EBCommonCtrl" CLASSID="CLSID:0232DBFE-F2D4-467C-BAAA-F4F46690306C"></OBJECT>
+  
+  <div id="com" class="container apply main"  style="border:0px red solid;display:none">
+    <div class="container header">
+        <div  class="row">
+			<img  src="image/logo-jsnx.png" style="margin-left:-2% !important;" ng-dblclick="admin()">
+		</div>
+	</div>
+
+	<div id="main" >
+	<div >
+    <!--功能测试-->
+    <!--灰色背景透明层 -->
+    <div id="tips">
+	<h1 class="text-center">请求银行坐席服务,请稍候.....</h1><span></span>
+    </div>
+    
+    <div id="localVideoPos" style="position: absolute;width:21%;left:80%;top:70%;height:30%;z-index:999;"></div>
+    <div class="remoteVideoPos" id="remoteVideoPos"></div>
+    <div class="remoteImagePos" id="remoteImagePos" style="display:none"><img   src="#" class="remoteImage" id="remoteImage" style="width:100%;height:100%;position:fixed;"/></div>
+    
+  </div>   </div> </div> 
+
+	  
+  <!--拍照层-->
+<div id="photo" style="border:0px red solid;display:none" >
+  <div class="container step " style ="margin-top:0%;border:0px blue solid;" > <span id="timeout" style="display:none">15</span>
+ 
+    <div id="Layer2" align="left" style="left:2%;visibility:visible;position:absolute;margin-top:13%;border:0px blue solid;">
+      <OBJECT Name = "TFace1" Id = "TFace1" CLASSID="CLSID:{84EB83F1-0114-4385-A620-593C7FB8DBB1}" width = "480" height = "480" border = 0>
+      </OBJECT>
+       </div>
+       
+       <div id="Layer3" align="right" style="right:2%;visibility:visible;position:absolute;margin-top:13%;border:0px blue solid;">
+      <OBJECT Name = "TFace2" Id = "TFace2" CLASSID="CLSID:{84EB83F1-0114-4385-A620-593C7FB8DBB1}" width = "480" height = "480" border = 0 >
+      </OBJECT>
+    </div>
+    
+    <div  class="col-xs-offset-0 col-md-12" id="title_text" style="border:0px blue solid; text-align: center;left:0%;visibility:visible;position:absolute;margin-top:52%;font-size:20px;display:none"> <span class="comment" style="color:red;color:red;font-family:微软雅黑;font-size:24px;" id="msg1">拍照成功 </span>
+      <label   style="color:red;color:red;font-family:微软雅黑;font-size:24px;" id="comment">6</label>
+      <span class="comment" id='msg2' style="color:red;color:red;font-family:微软雅黑;font-size:24px;" >秒后进行下一步操作 </span> </div>
+  </div>
+ </div>
+  
+  
+	
+
+<!--    <footer class="footer">
+      <div class="container">
+		<div class="row">
+			<div class="col-md-6" >
+
+				<div class="footerinfo" style="float:left ;margin-left:-12%;text-align: center">http://www.js96008.com </div>
+
+			</div>
+			<div class="col-md-6">
+
+				<div class="footerinfo" style="float:right; margin-right:-3%;text-align: center">服务热线：96008 </div>
+				
+			
+			</div>
+
+		</div>
+      </div>
+      </div> 
+    </footer>
+-->
+  </body>
+</html>

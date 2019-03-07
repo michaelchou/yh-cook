@@ -1,0 +1,109 @@
+    <div class="container indicates">
+	    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	    <span class="" id="timeoutSelf"><span>
+    </div>
+    <div class="container step" style="margin-top:0%">
+    	<h1 class="text-center">拍照认证</h1>
+    </div>
+    <div class="step">
+        <h3 class="text-center" style="margin-left:5%">请您去除帽子、墨镜等遮挡物，对准上方摄像头</h3>
+        <span    style="margin-left:4%;font-size:24px;color: #ce352c" id="comment">&nbsp;</span>
+        
+   <div>
+	 <text id="parm" ></text>
+     <text id="reta" ></text>
+     <text id="data" ></text>
+     <text id="datr" ></text>
+   </div>
+            
+	    <div style="margin-top:37%;margin-left:300px;display:none" id="Fun_button1">
+                <button type="button" id="btn_restart" class=" col-xs-2 image-bt"  onclick = "getFaceB64B()" >重 拍</button>
+				<button type="button" id="btn_end" class="normal col-xs-offset-1 col-xs-2 image-btgr"  onclick="forceCancel()" >退 出</button>
+				<button type="button" id="btn_confirm" class="normal col-xs-offset-1 col-xs-2 image-btgr"  onclick="getImage()" >确 定</button>
+		</div>
+		<div style="margin-top:37%;margin-left:410px;display:none" id="Fun_button2">
+		        <button type="button" id="btn_restart" class=" col-xs-2 image-bt"  onclick = "getFaceB64B()" >重 拍</button>
+				<button type="button" id="btn_end" class="normal col-xs-offset-1 col-xs-2 image-btgr"  onclick="forceCancel()" >退 出</button>
+        </div>
+
+  <SCRIPT LANGUAGE="JavaScript">
+  
+  var timeoutSelf = 90;
+  $("#timeoutSelf").html(90+"");
+  var n_interval = setInterval(function () {
+	  timeoutSelf = timeoutSelf -1;
+	  if(timeoutSelf == 0)
+	  {
+		  $("#timeoutSelf").html(timeoutSelf+"");
+		  $("#Layer_TC").css("display","none");
+		  clearInterval(n_interval);
+		  TFace1.faceCancel();
+		  var scope = angular.element(main).scope();
+		  scope.action('timeout');
+	  }else{
+		  $("#timeoutSelf").html(timeoutSelf+"");
+	  }
+	  
+	},1000);
+  
+  
+  
+  
+    var nRet = 10;
+    var sImg = "";
+    var strBase64 = "";  
+    var szIdCard = "000000000000000000";
+    var szSerise = "000000000000000000000000000000";
+//setTimeout("Run_Func()",500)
+Run_Func();
+function getImage()
+{
+	$("#Layer_TC").css("display","none");
+	clearInterval(n_interval);
+	TFace1.faceCancel();
+	BrowserCallback("getImage#"+strBase64);//判断呼叫按钮是否隐藏
+}
+
+
+    function Run_Func()
+    {
+    	    $("#Layer_TC").css("display","block");
+			TFace1.width = "400";
+			TFace1.height = "400";
+        	document.getElementById('parm').value = "";
+            var szParam  = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<param>\n    <Infrared>1</Infrared>\n    <imgWidth>640</imgWidth>\n    <imgHeight>480</imgHeight>\n    <imgCompress>85</imgCompress>\n    <pupilDistMin>0</pupilDistMin>\n    <pupilDistMax>300</pupilDistMax>\n    <isActived>1</isActived>\n    <nirCount>1</nirCount>\n    <liveThreshold>0.7</liveThreshold>\n    <isAudio>1</isAudio>\n    <isText>1</isText>\n    <timeOut>80</timeOut>\n    <version>1.1.7.2</version>\n    <deviceIdxCol>0</deviceIdxCol>\n    <deviceIdxNir>1</deviceIdxNir>\n    <definitionAsk>10</definitionAsk>\n    <compareFacePos>1</compareFacePos>\n    <headLeft>30</headLeft>\n    <headRight>-30</headRight>\n    <headLow>-30</headLow>\n    <headHigh>30</headHigh>\n    <eyeDegree>10</eyeDegree>\n    <mouthDegree>30</mouthDegree>\n    <edage1>0.01</edage1>\n    <edage2>0.99</edage2>\n    <goodOne>0</goodOne>\n    <track>0</track>\n    <AlphaLayerType>0</AlphaLayerType>\n    <moveList>012</moveList>\n    <flip>0</flip>\n</param>\n";
+            document.getElementById('parm').value = szParam;
+            getFaceB64B();
+ 
+    }
+    function getFaceB64B()
+    {
+    	timeoutSelf = 90;
+    	$("#comment").html("");
+    	$("#Fun_button1").css("display","none");
+        $("#Fun_button2").css("display","none");
+    	document.getElementById("data").value = "";
+        document.getElementById("datr").value="";
+        document.getElementById("reta").value = "";
+        var szParam = document.getElementById('parm').value;
+        var s = TFace1.getFaceB64A(szIdCard, szSerise, szParam);
+        document.getElementById("reta").value = s;
+        
+    }
+    
+    function forceCancel(){
+    	$("#Layer_TC").css("display","none");
+    	clearInterval(n_interval);
+    	TFace1.faceCancel();
+    	var scope = angular.element(main).scope();
+		scope.action('end');
+    }
+    
+    function showImgA()
+    {
+    	var s = document.getElementById("data").value;
+        TFace1.showImgA(szIdCard, szSerise, s);
+        $("#Fun_button1").css("display","block");
+        $("#Fun_button2").css("display","none");
+    }
+</SCRIPT>

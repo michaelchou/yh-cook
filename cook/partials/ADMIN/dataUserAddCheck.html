@@ -1,0 +1,590 @@
+<script src="js/admin/base.js"></script>
+<script>
+
+var data = "/admin/NewAdminDataServlet";
+var currentusers;
+var isRunning = false;
+$(document).ready(function() {
+// 给输入框，员工编号添加输入属性绑定事件，当输入的内容发生改变时，隐藏按钮插入身份证和确认
+	$("#newuser").bind("input propertychange", function(){
+		$("#confirm1").attr("disabled",true);
+		$("#confirm").attr("disabled",true);
+	});
+refresh();
+ $("#confirm1").attr("disabled",true);
+  $("#confirm").attr("disabled",true);
+});
+var flag = true;
+function refresh() {
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-get-all-user",
+	    dataType: 'json',
+	    success: function(data) {
+	    	if (data.Result == 0) {
+	    		var list = data.Users.trim().split(" ");
+	 	   		var value = "<table border='0'><tr>";
+	 	   		 var test11 ="11a"
+	 	   		 for(var m=0;m<list.length;m++){
+	 	   		  value += "<td><div style='' onclick="+"getUserByID('"+list[m]+"')"+">&nbsp;&nbsp;"+list[m]+"&nbsp;&nbsp;</div ></td>";
+			    }
+	 	   		value +="</tr></table >"
+	    		if (data.Count >= 6) {
+    		$('#comment3').html( "目前已有6名操作员，不可再进行增加！（点击编号查看明细）");	
+	    	$('#comment').html( value);	
+	    	 $("#confirm").attr("disabled",true);
+	    	 $("#confirm1").attr("disabled",true);
+	    	 $("#pidButton").attr("disabled",true);
+	    	return;
+	 	   		}
+	 	   	
+	    	    $('#comment').html("<div style='align: center;'>" + value+"</div>");
+        		currentusers = data.Users;
+			  //idCardReader(flag);
+        	}
+        	else {
+        		$('#comment').text("获取当前操作员失败");
+        	 $("#button").attr("disabled",true);
+        	}
+	    }
+	});
+}
+function idCardReader(){
+destory();
+$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-user-IDCardReader",
+	    dataType: 'json',
+	    success: function(data) {
+	    if("ok"==data.result){
+	    	document.getElementById("MUSIC1").play();
+	    	$("#myModalLabel").html("请插入您的身份证");
+			$('#myModal').modal('show');
+			$('#button2').html("取消");
+			$("#button").css("display","none");
+			$("#button2").css("display","");
+			$("#button2").attr("disabled",true);
+			$("#image").css("display","");
+			idCardReaderEnable();
+			setTimeout("$('#button2').attr('disabled',false)","5000")
+	    }else{
+	    	$('#comment3').html( "身份证模块故障，无法进行新增！（点击编号查看明细）");	
+        	$("#confirm").attr("disabled",true);
+	    }
+	    }
+	});
+}
+function idCardReaderEnable(){
+$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-user-IDCardReader-enable",
+	    dataType: 'json',
+	    success: function(data) {
+		    if("ok"==data.result){
+				   var emcode =  document.getElementById("emcode").value;
+				   var name = document.getElementById("name").value;
+				if(emcode == data.pid && name == data.name){
+//				if(true){     // 测试，用于跳过身份证的信息对比，直接对比成功
+					   $("#myModalLabel").html("身份比对成功</br>请取回您的身份证");
+				       $("#confirm").attr("disabled",false);
+				   }
+			    else{
+			       $("#myModalLabel").html("身份比对失败!</br>请取回您的身份证");
+			       $("#confirm").attr("disabled",true);
+			    }
+		    }else{
+		    	$("#myModalLabel").html("身份证读取失败！</br>请取回您的身份证");
+		    	$('#comment3').html( "身份证读取失败，无法进行新增！（点击编号查看明细）");	
+	        	$("#confirm").attr("disabled",true);
+		    }
+		    $('#myModal').modal('show');
+			$('#button2').html("确认");
+			$("#button").css("display","none");
+			$("#button2").css("display","");
+			$("#image").css("display","none");
+		}
+	});
+}
+function idCardReaderclose(){
+isRunning = false;
+   if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+		
+	}
+$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-user-IDCardReader-close",
+	    dataType: 'json',
+	    success: function(data) {
+	
+	    }
+	});
+	isRunning = false;
+}
+
+function checkInput(id) {
+	
+	if(event.keyCode==27&&obj.id=="myModal"){
+		fingerScannercloss();
+		return;
+	}
+	var ev = window.event;
+	if(ev.keyCode==65){
+		document.getElementById(id).value = "";
+	}
+	if(ev.keyCode!= 13){
+	$("#newuser").popover('destroy');
+	$("#name").popover('destroy');
+	$("#emcode").popover('destroy');
+	}
+	
+	var input = document.getElementById("newuser");
+	input.value = input.value.replace(/\D/g, '');
+	
+	
+	//$("#newuser").popover('destroy');
+	//$('#comment').text("");
+}
+
+function checkInput(id, rule) {
+	try{
+		var type=HandWrite.GetPadType(); //获取软键盘类型，1为纯数字键盘
+		if(type == '1' && event.keyCode == 65){
+			document.getElementById(id).value = '';
+		}
+	}catch(e){
+	}
+	
+	if(event.keyCode == 13) return;
+	$("#" + id).popover('destroy');
+	if (rule == undefined) return;
+	if (!new RegExp(rule).test(document.getElementById(id).value)) {
+		document.getElementById(id).value = document.getElementById(id).value.substring(0, document.getElementById(id).value.length - 1);
+	}
+	
+}
+
+function confirm() {
+
+	var newuser = document.getElementById("newuser").value;
+	var name = document.getElementById("name").value;
+	var emcode = document.getElementById("emcode").value;
+
+	if ('' == newuser) {
+		$("#newuser").attr("data-content","请输入新增银行员工编号");
+  		$("#newuser").popover('show');
+		document.getElementById("newuser").focus();
+		return;
+	}
+	if (8 != newuser.length) {
+		$("#newuser").attr("data-content","银行员工编号长度为8位");
+  		$("#newuser").popover('show');
+		document.getElementById("newuser").focus();
+		return;
+	}
+	if (currentusers.indexOf(newuser) > -1 ) {
+		$("#newuser").attr("data-content","该操作员已经存在");
+  		$("#newuser").popover('show');
+		document.getElementById("newuser").value = "";
+		document.getElementById("newuser").focus();
+		return;
+	}
+	if ('' == name) {
+		$("#name").attr("data-content","请进行身份证信息查询");
+  		$("#name").popover('show');
+		document.getElementById("name").focus();
+		return;
+	} 
+	if ('' == emcode) {
+		$("#emcode").attr("data-content","请进行身份证信息查询");
+  		$("#emcode").popover('show');
+		document.getElementById("emcode").focus();
+		return;
+	}
+  	var radio = document.getElementsByName("act");
+	var act;
+	for (var i = 0; i < radio.length; i++) {
+    	if (radio[i].checked) {
+			act = radio[i].value;
+		}
+	}
+
+	 $.ajax({
+		    url: data,
+		    cache: false,
+		    type: "post",
+		    data: "commandID=data-add-user&code=" + newuser + "&act=" + act+ "&name=" + name+ "&emcode=" + emcode,
+		    dataType: 'json',
+		    success: function(data) {
+		    	if (data.Result == 0) {
+		    $("#myModalLabel").html("信息添加成功!");
+		    $("#image").css("display","none");
+		    $('#button').html("确认");
+		   
+		   			flag = false;
+		    		refresh();
+		    		$("#confirm").attr("disabled",true);
+		    		$("#confirm1").attr("disabled",true);
+		        	document.getElementById("newuser").value = "";
+		        	document.getElementById("name").value = "";
+		        	document.getElementById("emcode").value = "";
+		        	document.getElementById("newuser").focus();
+		    	}
+		    	else if (data.Result == 1) {
+		    	 $("#myModalLabel").html("新增操作员失败！");
+		      	$("#image").css("display","none");
+		   		 $('#button').html("确认");
+		        	$('#comment').text("新增操作员失败");
+		        	document.getElementById("newuser").value = "";
+		        	document.getElementById("name").value = "";
+		        	document.getElementById("emcode").value = "";
+		        	document.getElementById("newuser").focus();
+		    	}
+		    	$("#wait").css("display","none");
+		    	$('#myModal').modal('show');
+		    }
+
+		});
+	 
+	 }
+	 
+ 
+function fingerScanner() { //录入指纹
+ 	var newuser = document.getElementById("newuser").value;
+	$.ajax({
+	    url: "/admin/NewAdminDataServlet",
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-user-fingerScanner-template&code=" + newuser,
+	    dataType: 'json',
+	    success: function(data) {
+	   if(data.result=="succ"){
+	   insertuser();
+	   
+	   }else{
+	
+	     $("#myModalLabel").html("指纹录入失败！");
+	      $("#img").css("display","none");
+	    $('#button').html("确认");
+	   }
+        	}
+	   
+	});
+}
+function insertuser(){
+	
+ 	var newuser = document.getElementById("newuser").value;
+	var name = document.getElementById("name").value;
+	var emcode = document.getElementById("emcode").value;
+ 	var radio = document.getElementsByName("act");
+	var act;
+	for (var i = 0; i < radio.length; i++) {
+    	if (radio[i].checked) {
+			act = radio[i].value;
+		}
+	}
+	if ('' == newuser) {
+		$("#newuser").attr("data-content","请输入新增操作员编号");
+  		$("#newuser").popover('show');
+		document.getElementById("oldpassword").focus();
+		return;
+	}
+	if (2 != newuser.length) {
+		$("#newuser").attr("data-content","操作员名称长度为2位");
+  		$("#newuser").popover('show');
+		document.getElementById("newuser").focus();
+		return;
+	}
+	if (currentusers.indexOf(newuser) > -1 ) {
+		$("#newuser").attr("data-content","该操作员已经存在");
+  		$("#newuser").popover('show');
+		document.getElementById("newuser").value = "";
+		document.getElementById("newuser").focus();
+		return;
+	}
+	if ('' == name) {
+		$("#name").attr("data-content","请输入新增操作员姓名");
+  		$("#name").popover('show');
+		document.getElementById("oldpassword").focus();
+		return;
+	}
+	if ('' == emcode) {
+		$("#emcode").attr("data-content","请输入新增操作员的员工编号");
+  		$("#emcode").popover('show');
+		document.getElementById("oldpassword").focus();
+		return;
+	}
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-add-user&code=" + newuser + "&act=" + act+ "&name=" + name+ "&emcode=" + emcode,
+	    dataType: 'json',
+	    success: function(data) {
+	    	if (data.Result == 0) {
+	     $("#myModalLabel").html("指纹录入成功!</br>信息添加成功!");
+	     $("#img").css("display","none");
+	    $('#button').html("确认");
+	    		refresh();
+	        	document.getElementById("newuser").value = "";
+	        	document.getElementById("name").value = "";
+	        	document.getElementById("emcode").value = "";
+	        	document.getElementById("newuser").focus();
+	    	}
+	    	else if (data.Result == 1) {
+	    	 $("#myModalLabel").html("新增操作员失败！");
+	      	$("#img").css("display","none");
+	   		 $('#button').html("确认");
+	        	$('#comment').text("新增操作员失败");
+	        	document.getElementById("newuser").value = "";
+	        	document.getElementById("name").value = "";
+	        	document.getElementById("emcode").value = "";
+	        	document.getElementById("newuser").focus();
+	    	}
+	    }
+
+	});
+		
+}
+
+function fingerScannercloss() { //关闭指纹仪
+ $("#confirm").attr("disabled",true);
+ $("#return").attr("disabled",true);
+ $("#return").button('loading');
+	//alert("关闭指纹仪")
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-fingerScanner-close",
+	    dataType: 'json',
+	    success: function(data) {
+	     $("#confirm").attr("disabled",false);
+ 		$("#return").attr("disabled",false);
+ 		$("#return").button('reset');
+        	}
+        	
+	});
+	refresh();
+}
+
+function getUserByID(id){
+	$("#button").css("display","none");
+	$("#button2").css("display","none");
+	 $("#wait").css("display","none");
+	 
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-getuser-byid&id=" + id,
+	    dataType: 'json',
+	    success: function(data) {
+	    	if (data.Result == 0 && data.code == "11111111") {
+	       $('#myModalLabel').html("系统默认："+data.code+"&nbsp;&nbsp;&nbsp;"
+	       						+"</br>用户权限："+data.role);
+					 $("#button").css("display","block");
+			 		 $('#myModal').modal('show');
+ 		}else if(data.Result == 0){
+ 		    $('#myModalLabel').html("员工编号："+data.code+"&nbsp;&nbsp;&nbsp;"
+ 		    					+"</br>员工姓名："+data.usName
+	       						+"</br>员工权限："+data.role
+	       						+"</br>员工证件号："+data.empPid);
+					 $("#button").css("display","block");
+			 		 $('#myModal').modal('show');
+ 		}
+	    	
+	    	else {
+	    		$('#myModalLabel').html("查询失败");
+	    		$('#myModal').modal('show');
+	    		$('#button').html("确认");
+	    	}
+	    }
+	});
+}
+
+function getUserPid(){
+	var newuser = document.getElementById("newuser").value;
+	if(''==newuser){
+		$("#newuser").attr("data-content","请输入新增操作员的员工编号");
+  		$("#newuser").popover('show');
+		document.getElementById("newuser").focus();
+		return;
+	}
+	if(newuser.length<8){
+		$("#newuser").attr("data-content","请输入8位银行员工编号");
+  		$("#newuser").popover('show');
+		document.getElementById("userNo").focus();
+		return;
+	}
+	if (currentusers.indexOf(newuser) > -1 ) {
+		$("#newuser").attr("data-content","该操作员已经存在");
+  		$("#newuser").popover('show');
+		document.getElementById("newuser").value = "";
+		document.getElementById("newuser").focus();
+		return;
+	}
+		document.getElementById("name").value = '';
+	    document.getElementById("emcode").value = '';
+		$('#myModalLabel').html("正在查询请稍后");
+		$('#myModal').modal('show');
+		$('#button').html("确认");
+		$("#wait").css("display","block");
+		$("#button").css("display","none");
+		$("#button2").css("display","none");
+		$("#image").css("display","none");
+		$("#confirm1").attr("disabled",true);
+		$("#confirm").attr("disabled",true);
+	    		
+	
+		$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-getuser-byEmoloyeeId&employeeno=" + newuser,
+	    dataType: 'json',
+	    success: function(data) {
+			$("#button").css("display","block");
+	    	if (data.Result == 'ok') {
+	    		if (data.cmCount == "0") {	
+	    			$('#myModalLabel').html("查询成功</br> 该柜员没有所属的机构号");
+	    			document.getElementById("name").value = data.name;
+	    			document.getElementById("emcode").value = data.pid;
+	    		} else {
+	    			if (data.isSuccess == true) {
+	    				$('#myModalLabel').html("查询成功</br>请点击 【插入证件】 进行核实");
+	    				$("#confirm1").attr("disabled",false);
+	    				document.getElementById("name").value = data.name;
+	    				document.getElementById("emcode").value = data.pid;
+	    			} else {
+	    				$('#myModalLabel').html("查询成功</br> 无法添加该员工，不属于该机构");
+	    				document.getElementById("name").value = data.name;
+	    				document.getElementById("emcode").value = data.pid;
+	    			}
+	    		}
+	    	}
+	    	else {
+    			$('#myModalLabel').html("查询失败</br>" + data.errorMessage);
+	    	}
+	    	$('#myModal').modal('show');
+    		$('#button').html("确认");
+    		$("#button2").css("display","none");
+    		$("#wait").css("display","none");
+    		$("#image").css("display","none");
+    		
+	    }
+	});
+
+}
+    </script>
+</head>
+
+<h2 id="head" class="text-center">添加用户</h2>
+<div id="content">
+
+  <div class="col-xs-offset-1 col-xs-10" style="border:0px #FFFFFF solid;" align="center"> </br>
+    <div class="col-xs-offset-3 col-xs-3 " style="border:0px #FFFFFF solid" >
+      <input  name="act" value="1" checked="checked" type="radio" class="checkbox col-xs-4" checked style="width: 30px;height: 30px;top: 50%;left: 0;margin-top: -10px;margin-left: 30px;position: absolute;z-index:100;">
+      <h4 style="margin-left: 2%;">系统管理员</h4>
+    </div>
+    <div class="  col-xs-3 col-xs-offset-0   " style="border:0px #FFFFFF solid"  >
+      <input name="act" value="2"  type="radio" class="checkbox col-xs-4" style="width: 30px;height: 30px;top: 50%;left: 0;margin-top: -10px;margin-left: 30px;position: absolute;z-index:100;">
+      <h4 style="margin-left: 2%;">主管操作员 </h4>
+    </div>
+    </br>
+    </br>
+    </br>
+       <div class="row ">
+      <div class="col-xs-6 col-xs-offset-3">
+       <div class="input-group input-group-lg"> <span class="input-group-addon">银行员工编号</span>
+          <input type="text" id="newuser"  value="" maxlength="8" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"   onclick="openkeysetAdmin(1,1100,500)" class="form-control" data-container="body"  data-placement="right" 
+      title="<sp class='fg-red'>输入有误 </sp>" data-content=""  class="form-control"  data-html="true">
+        <span class="input-group-btn">
+        <button class="btn  btn-success " id= "pidButton" onclick="getUserPid()" type="button">查询员工身份信息</button>
+     	 </span>
+       
+        </div>
+         </br>
+        </br>
+        
+        <div class="input-group input-group-lg">
+              <span class="input-group-addon">操作员姓名</span>
+          <input type="text" id="name"  maxlength="4" onkeyup="checkInput(id)"  class="form-control" data-container="body"   data-placement="right" 
+      title="<sp class='fg-red'>输入有误 </sp>" data-content=""  readonly class="form-control"  data-html="true">
+        </div>
+        </br>
+        </br>
+        <div class="input-group input-group-lg"> <span class="input-group-addon">操作员身份证号</span>
+          <input type="text" id="emcode"  maxlength="18" readonly onkeyup="checkInput(id,/^([X-X0-9]){1,50}$/)"    class="form-control" data-container="body"  data-placement="right" 
+      title="<sp class='fg-red'>输入有误 </sp>" data-content=""  class="form-control"  data-html="true">
+        </div>
+      </div>
+    </div>
+    </br>
+    
+    <div  class="col-xs-offset-2 col-xs-8" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+      <label  class="fg-blue"  style="color:black" id="comment2">系统最多支持6个操作员</label>
+    </div>
+  </div>
+  <div  class="col-xs-offset-2 col-xs-8" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+    <label  class="fg-red"  style="color:black" id="comment3"> 现有操作员编号：（点击编号查看明细）</label>
+  </div>
+  <div  class="col-xs-offset-2 col-xs-8" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+    <label  class="fg-red"  style="color:black" id="comment"></label>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal"  data-backdrop="static"  data-keyboard="false"   align="center" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class=" col-xs-offset-2 col-lg-8 alert alert-danger fade in" style="top:300px">
+      <div class="modal-header">
+      
+        <h4 class="modal-title center" id="myModalLabel">
+        
+      </div><img id="image" src="image/ID.gif" style="display:none">
+      <p> 
+   
+    <i  id="wait" style="color:blue;display:none"  class="fa fa-spinner fa-spin fa-5x text-primary " ></i>
+      </br>
+        <!--   <button  id="button" type="button" onclick="fingerScannercloss()" class="btn btn-primary col-xs-offset-3 col-lg-6" data-dismiss="modal">取消</button>-->
+     <button  id="button" type="button" onclick="" class="btn btn-primary col-xs-offset-3 col-lg-6" data-dismiss="modal">取消</button>
+      <button  id="button2" style="display:none" type="button" onclick="idCardReaderclose()" class="btn btn-primary col-xs-offset-3 col-lg-6" data-dismiss="modal" tyle="none" >取消</button>
+      </p>
+    </div>
+  </div>
+  <!-- /.modal-content -->
+</div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+</div>
+</div>
+<div id="foot1" class="col-xs-offset-4 col-xs-4">
+  <div class=" btn-group btn-group-justified">
+    <div class="btn-group" >
+      <button type="button" id="return" data-loading-text="正在处理..." class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button id="confirm1" type="button" name="enter"  class="btn btn-success btn-lg" onclick="idCardReader()">插入证件</button>
+    </div>
+       <div class="btn-group">
+      <button id="confirm" type="button" name="enter"  class="btn btn-primary btn-lg" onclick="confirm()">确认</button>
+    </div>
+  </div>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>
+</body></html>
+
+<EMBED id="MUSIC1" SRC="wav/请插入您的身份证.wav" Loop=false AUTOSTART=false Hidden=true MASTERSOUND>

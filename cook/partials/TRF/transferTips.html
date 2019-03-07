@@ -1,0 +1,30 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById("MUSIC1").src = "wav/转账温馨提示.wav";
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+	<h1 class="text-center">温馨提示</h1>
+	<!--<h3 class="text-center">1、自助设备渠道上的转账将于24小时后到账,如</h3>
+	<h3 class="text-center">果有实时到账的需求,请使用其他渠道办理转账业务;</h3>
+	<h3 class="text-center">2、谨慎向他人转账，防范电信诈骗。</h3>-->
+	
+</div>
+<div class="step" style="line-height:40px;">
+		
+			<p style="margin-left:2%;font-size:28px;color:balck">1、自助设备渠道上的转账将于24小时后到账，如果</p></br>
+			<p style="margin-left:6.6%;font-size:28px;color:balck">有实时到账的需求,请使用其他渠道办理转账业务;</p></br>
+			<p style="margin-left:-14%;font-size:28px;color:balck">2、谨慎向他人转账，防范电信诈骗。</p>
+	
+    	<img src="image/police.gif" style="margin-top:15px">
+    </div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+	<button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">{{pool.page_Eject}}</button>
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+</div>

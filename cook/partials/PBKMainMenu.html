@@ -1,0 +1,38 @@
+	<div class="container center" style="margin-top:-4%">
+		<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}<span>
+		</div>
+		<div class="title">
+			<h1 >请选择服务项目</h1>
+			<p >Please select services<p>
+		</div>
+
+			<div class="menu row" style="width:80%;margin:4% auto;margin-top:2%">
+				<div class="col-md-3 card">
+					<a href="" class="thumbnail thumbnail-mianMenu btn btn-primary btn-lg active {{pool.INQ}}" ng-click="action('INQ_PBKTrans')">
+						<p>刷折查询</p>
+					</a>
+				</div>
+				<div class="col-md-3 card">
+					<a href="" class="thumbnail thumbnail-mianMenu btn btn-primary btn-lg active {{pool.PIN}}" ng-click="action('PIN_PBKTrans')">
+						<p>刷折改密</p>
+					</a>
+				</div>
+				<div class="col-md-3 card">
+					<a href="" class="thumbnail thumbnail-mianMenu btn btn-primary btn-lg active {{pool.DEP}}" ng-click="action('DEP_PBKTrans')">
+						<p>刷折存款</p>
+					</a>
+				</div>
+				<div class="col-md-3 card">
+					<a href="" class="thumbnail thumbnail-mianMenu btn btn-primary btn-lg active {{pool.CWD}}" ng-click="action('CWD_PBKTrans')">
+						<p>刷折取款</p>
+					</a>
+				</div>
+				<div class="col-md-3 card" style="clear:both;">
+					<a href="" class="thumbnail thumbnail-mianMenu button-eject button-lg1" ng-click="action('eject')">
+						<p>退出</p>
+					</a>
+				</div>
+			</div>
+		
+	</div>

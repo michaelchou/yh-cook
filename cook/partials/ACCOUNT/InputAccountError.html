@@ -1,0 +1,58 @@
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	document.getElementById("account").focus();
+	
+	function checkACC(){
+		var scope = angular.element(main).scope();
+		var account = document.getElementById("account").value;
+		if(account.length<=0){
+			$("#account").attr("data-content","账户不能为空");
+			$("#account").popover('show');
+		}else if(account.length<16){
+			$("#account").attr("data-content","账户不能小于16位");
+			$("#account").popover('show');
+		}else{
+			scope.action("confirm");
+		}
+	}
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite"></object>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请输入卡账号</h1>
+    
+</div>
+</br>
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" onclick="openkeyset(1,490,350)" class="form-control"  
+                	onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,''),resetModel(id,'payeracc')" 
+                    id="account" value="" onblur="this.focus()" ng-model="pool.payeracc" maxlength="19"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>账户输入有误</sp>" data-content="" data-html="true">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="_delete()">更  正</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+</div>
+
+ <div class="cook-foot col-xs-offset-0 col-xs-12">
+		<button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">结束</button>
+	    <button id="confirm" type="button"class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkACC()">确认</button>
+</div>
+

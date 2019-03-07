@@ -1,0 +1,62 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript"> 
+document.getElementById("MUSIC1").src = "wav/选择服务项目.wav";
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10 " style= "border:0px blue solid;">
+
+<div class="cook-head">
+    <h1 class="text-center">请选择服务项目</h1>
+    <h3 class="text-center">Please select services</h3>
+</div>    
+
+        <div class="col-xs-offset-0 col-xs-12" style= "margin-top:0%;height:100px;border:0px red solid;">
+			<div class="col-xs-offset-4 col-xs-4">
+			  <img id="CurrentToCall" src="image/financial/通知存款开立.png" onmousedown="Mousedown(this)" 
+			       tag="active"  ng-click="action('CurrentToCall')" title="活转定"/>
+			</div>
+	   </div>
+        <div class="col-xs-offset-0 col-xs-12" style= " margin-top:2%;height:100px;border:0px red solid;" >
+			<div class="col-xs-offset-4 col-xs-4" >
+			  <img id="CallToCurrent" src="image/financial/通知存款支取.png" onmousedown="Mousedown(this)" 
+			       tag="active" ng-click="action('CallToCurrent')" title="定转活" />
+			</div>
+	  </div>
+	  <div class="col-xs-offset-0 col-xs-12" style= " margin-top:2%;height:100px;border:0px red solid;" >
+			<div class="col-xs-offset-4 col-xs-4" >
+			  <img id="CallToCurrent" src="image/financial/通知存款维护.png" onmousedown="Mousedown(this)"
+                    tag="active"  ng-click="action('CallPreserve')" title="通知存款维护" />
+			</div>
+	  </div>
+   
+   </div>
+   </br>
+   </br>
+   </br>
+    <div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+    	    <button id="cancel" type="button" class="image-btor" ng-click="action('return')">返回</button>
+    	 <!--   <button  type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>  -->
+	  </div>
+    
+        <!-- Modal -->
+   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class=" col-xs-offset-3 col-lg-6 alert alert-danger fade in" style="top:300px">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel"  style="text-align: center;">与银行预留信息不符！</h4>
+        </div>
+        <p>
+          <button type="button" class="btn btn-danger col-xs-offset-4 col-lg-4" data-dismiss="modal">确认</button>
+        </p>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->

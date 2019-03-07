@@ -1,0 +1,119 @@
+<script language="JavaScript" type="text/JavaScript"> 
+document.getElementById("img").src ="d:/sign.png"+"?"+Math.random();
+
+document.getElementById("Cardjpg").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+document.getElementById("FaceImgjpg").src ="D:/FaceImg.jpg"+"?"+Math.random();
+
+var lastUrl;
+function Show(type,nScreen,x,y)
+{
+	lastUrl= "d:/sign.bmp";
+	try{
+		HandWrite.Show(type,nScreen,x,y);
+		document.getElementById("saveS").style.display="block";
+		document.getElementById("clearS").style.display="block";
+	}catch (e) {
+		return;
+	 }
+}
+</script>
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div style="border:0px blue solid;" class="col-xs-offset-1 col-xs-10">
+ <div>
+ <p style="font-size:30px;color:#000000; text-align:center;">江苏农村商业银行动态令牌更换申请单</p>
+ <table style="border-radius:10px 10px 10px 10px;border:0px blue solid;margin-top:2%" border= 0 class="col-xs-offset-1 col-xs-12">
+ <tr>
+	  <td  width="18%"><span style="font-size:20px;color:#000000">姓名:</span></td>
+	  <td  width="32%"><span style="font-size:20px;color:#000000">{{pool.name}}</span></td>
+	  <td  width="18%"><span style="font-size:20px;color:#000000">性别:</span></td>
+	  <td  width="32%"><span style="font-size:20px;color:#000000">{{pool.genderC}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000">证件类型:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">身份证</span></td>
+	  <td><span style="font-size:20px;color:#000000">证件号码:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.pid}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000">签发机关:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.issueoffice}}</span></td>
+	  <td><span style="font-size:20px;color:#000000">有效日期:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.abatedate}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000;">终端号:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.Apply_terminalId}}</span></td>
+      <td><span style="font-size:20px;color:#000000;">受理柜员:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.Apply_tellerno}}</span></td>
+ </tr>
+ <tr>
+    <td><span style="font-size:20px;color:#000000">申请日期:</span></td>
+	<td style=""><span style="font-size:20px;color:#000000;">{{pool.transDate.substring(0,4)+"/"+pool.transDate.substring(4,6)+"/"+pool.transDate.substring(6,8)}}</span></td>
+	<td><span style="font-size:20px;color:#000000;">申请时间:</span></td>
+	<td style=""><span style="font-size:20px;color:#000000;">{{pool.transTime.substring(0,2)+":"+pool.transTime.substring(2,4)+":"+pool.transTime.substring(4,6)}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000">交易类型:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">动态令牌更换</span></td>
+	  <td><span style="font-size:20px;color:#000000;">账户:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.cardNo}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000">渠道类型:</span></td>
+	  <td ng-if="pool.PBankSignFlag != '1' && pool.ST_MchannelFlag == 'PIBS'" style=""><span style="font-size:20px;color:#000000;">网上银行</span></td>
+	  <td ng-if="pool.PBankSignFlag != '1' && pool.ST_MchannelFlag == 'PMBS'" style=""><span style="font-size:20px;color:#000000;">手机银行</span></td>
+	  <td ng-if="pool.PBankSignFlag == '1'" style=""><span style="font-size:20px;color:#000000;">网上银行、手机银行</span></td>
+	  <td><span style="font-size:20px;color:#000000;">动态口令序列号:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.CCustomUkeyNo}}</span></td>
+ </tr>
+ <tr>
+	  <td><span style="font-size:20px;color:#000000">登陆名称:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.ST_UserId}}</span></td>
+	  <td><span style="font-size:20px;color:#000000;">审核柜员:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.adminUserName}}</span></td>
+ </tr>
+<tr style="">
+<td colspan = 4 style="font-size:20px;color:#000000;">客户签名：<img id="img" src=""  style="width:100px; height:50px"></span></td>
+</tr>
+</table>
+<table style="border-radius:10px 10px 10px 10px;border:0px blue solid;" border= 0 class="col-xs-offset-1 col-xs-12">
+    <tr>
+		<td width="10%">
+			<span style="font-size:20px;color:#000000;">身份证照片:</span>
+        </td>
+        <td width="6.5%">
+		 <span style="margin-left:-25%;font-size:20px;color:#000000;">现场审核照片:</span>
+        </td>
+   </tr>
+  <tr>
+		<td>
+			<img id="Cardjpg" src="" style="width:18%;">
+       </td>
+       <td>
+		   <img id="FaceImgjpg" src="" style="margin-left:-25%;width:40%;">
+       </td>
+ </tr>
+<table>
+</div>
+ </div>
+
+
+<div class=" col-xs-offset-0 col-xs-12" style="margin-top:5%;">
+	<button type="button" ng-click="action('reSign')"  class="col-xs-offset-3 col-xs-2 image-btor" >重新签名</button>
+   	<button type="button" ng-click="action('eject')"  class="col-xs-offset-1 col-xs-2 image-bt" >审核拒绝</button>
+   	<button type="button"  ng-click="action('confirm')" class="col-xs-offset-1 col-xs-2 image-btgr" >审核通过</button>
+</div>
+

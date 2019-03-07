@@ -1,0 +1,151 @@
+<script src="js/admin/base.js"></script>
+<script type="text/javascript" src="javascript/swiper.min.js"></script>
+<link rel="stylesheet" href="css/swiper.admin.css">
+</head></head>
+<h2 id="head" class="text-center">交易设置</h2>
+<div id="content">
+  <div class="col-xs-offset-3 col-xs-6"style="border:0px #FFFFFF solid;">
+    <div class="swiper-container">
+      <div class="swiper-wrapper" id="viewTabs">
+        <div class='swiper-slide' >
+          <table id="table" class="col-xs-12 fg-black table table-striped"   >
+            <tr>
+              <td   ><table  style="border:0px red solid;" class="col-xs-12">
+                  <tr>
+                    <td align="right"><select name="select" size="15" style="font-size:20px;" id="sel_trans">
+                      </select></td>
+                    <td ><table class="tab_leftbut " border="0">
+                        <tr>
+                          <td ><button type="button" name="button1" class="btn btn-info btn-lg"  id="opentrans_but" >交易开放</button></td>
+                        </tr>
+                        <tr>
+                          <td >&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td >&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td ><button type="button" name="button2" class="btn btn-danger btn-lg"  id="closetrans_but" >交易关闭</button></td>
+                        </tr>
+                        <tr>
+                          <td>&nbsp;</td>
+                        </tr>
+                      </table></td>
+                  </tr>
+                </table></td>
+            </tr>
+          </table>
+        </div>
+        <div class='swiper-slide' > <img  src="image/ad/A0004.jpg" style="margin-top:10px;"> </div>
+        <div class='swiper-slide' > <img  src="image/ad/A0002.jpg" style="margin-top:10px;"> </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Pagination -->
+<!--<div class="swiper-pagination col-xs-offset-3 col-xs-6" align="center" style="margin-top:40px;border:0px red solid"></div> -->
+<!-- Add Arrows -->
+<div class="swiper-button-next"></div>
+<div class="swiper-button-prev"></div>
+<div id="foot" class="col-xs-offset-5 col-xs-2">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group">
+      <button type="button" id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+  </div>
+</div>
+</body></html>
+<script>
+$(document).ready(function() {
+	loadTransList();
+	/*获取当前的默认值*/
+	function loadTransList() {
+		$.ajax({
+		type : "post",
+		url : "/transmanage.do",
+		dataType : "json",
+		data : {
+			type : "listtrans"
+		},
+		error : function() {
+			alert('获取数据失败，系统内部程序错误请查看log日志');
+		},
+		success : function(json) {
+			if (json.result == "error") {
+				alert(json.message);
+			} else {
+				var list = json.list;
+				
+				for ( var i =0; i<= list.length;i++) {
+				
+					var s1 = list[i].split(":");
+					if(s1[0]!="取款"&&s1[0]!="存款"&&s1[0]!="无卡存款"&&s1[0]!="圈提"&&s1[0]!="现金充值"&&s1[0]!="代理转账"&&s1[0]!="圈存"&&s1[0]!="非指定账户圈存"){
+						if ("true" == s1[2]) {
+							$("#sel_trans")
+									.append(
+											"<option value='"+s1[1]+":"+s1[2]+"'>"
+													+ "已开放&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+													+ s1[0]
+													+ "</option>");
+						} else {
+							$("#sel_trans")
+									.append(
+											"<option style=\"color:red\" value='"+s1[1]+":"+s1[2]+"'>"
+													+ "已关闭&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+													+ s1[0]
+													+ "</option>");
+						}
+					}
+				}
+			}
+		}
+	});
+}
+;
+
+	function setTrans(flag) {
+		var val = $("#sel_trans ").val();
+		if (val == "" || null == val) {
+			return;
+		}
+		var arg = val.split(":");
+		if (arg[1] == "true" && flag == "open") {
+			return;
+		}
+		if (arg[1] == "false" && flag == "close") {
+			return;
+		}
+
+		$.ajax({
+			type : "post",
+			url : "/transmanage.do",
+			dataType : "json",
+			data : {
+				type : "settrans",
+				transname : arg[0],
+				flag : arg[1]
+			},
+			error : function() {
+				alert('保存数据失败');
+			},
+			success : function(json) {
+				if (json.result == "error") {
+					alert(json.message);
+				} else {
+					window.location.reload();
+				}
+			}
+		});
+	}
+	;
+
+	//选择
+	$("#opentrans_but").click(function() {
+		setTrans("open");
+	});
+	$("#closetrans_but").click(function() {
+		setTrans("close");
+	});
+
+});
+</script>

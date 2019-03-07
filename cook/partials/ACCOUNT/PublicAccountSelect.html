@@ -1,0 +1,153 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+   document.getElementById("MUSIC1").src = "";
+	var scope = angular.element(main).scope();
+	scope.selectNo = function (pid) {	
+		var _detail = scope.pool["detail"].split('#');
+		for (var i = 0; i < _detail.length; i ++) {
+            if (pid == _detail[i].split('@')[0]) {
+                scope.pool["ST_ReceiptName"] = _detail[i].split('@')[1];
+				scope.pool["ST_ReceiptAcc"] = _detail[i].split('@')[0];
+				break;
+            }
+        }
+		
+		scope.action("confirm");
+	}
+	
+		scope.selectQuery = function (pid) {	
+		var _detail = scope.pool["detail"].split('#');
+		for (var i = 0; i < _detail.length; i ++) {
+            if (pid == _detail[i].split('@')[0]) {
+                scope.pool["ST_ReceiptName"] = _detail[i].split('@')[1];
+				scope.pool["ST_ReceiptAcc"] = _detail[i].split('@')[0];
+				scope.pool["cardNo"] = _detail[i].split('@')[0];
+				break;
+            }
+        }
+		
+		scope.action("submit");
+	}
+	
+
+function queryAcc(){
+	var _detail = scope.pool["ST_ReceiptAccCacheDetail"].split('#');
+	var ReceiptAccDetail=null
+	var queryAcc = document.getElementById("ReceiptAccount").value;
+
+		for (var i = 0; i < _detail.length; i ++) {
+			var tt = _detail[i].split('@')[0];
+			if(tt.indexOf(queryAcc)!=(-1)){
+				if(ReceiptAccDetail==null){
+					ReceiptAccDetail=_detail[i]
+				}else{
+					ReceiptAccDetail=ReceiptAccDetail+"#"+_detail[i]
+				}
+			}
+		}
+
+	//scope.pool["ST_ReceiptAccDetail"] = ReceiptAccDetail
+	BrowserCallback("setReceiptAccDetail&"+ReceiptAccDetail)
+	//scope.action("submit2");
+	
+	
+}
+	
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+    <div class="cook-head">
+		<h1  class="text-center">选择查询回单</h1>
+	</div>
+    
+    <table class="table-striped  table-bordered" width="100%" style="text-align:center;">
+	  
+	  
+	  
+	  	<div class="form-group" style="margin-top:0%;margin-left:0%;color:#000000;">
+      <label for="amount" class="col-sm-2 control-label" style="font-size: 100%;margin-top:0.5%;margin-left:0%;color:#000000;">请输入回单账号：</label>
+       <div class="col-sm-3" style="margin-left:0px">
+        <input type="text"  style="margin-top:0%;margin-left:-35%;border:1px blue solid;box-shadow:0 0px 0px #000 inset"    
+				onclick="openkeyset(1,900,500)" class="form-control" id="ReceiptAccount" value=""  
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-blue'>输入有误 </sp>" data-content=""  data-html="true" maxlength="44" >
+      </div>
+	  <div class="col-sm-3" style="margin-top:0%;margin-left:-10%">
+<button class="btn btn-primary" type="button"  onclick="queryAcc()">搜索</button>
+</div>
+    </div> 
+	  
+	  
+	  
+      <tr style="font-weight:bold;font-size:16px;">
+            <td height="33px">户名</td>
+            <td height="33px">账号</td>
+            <td height="33px">操作</td>
+				
+        </tr>
+        <tr ng-repeat="x in detail" >
+            <td height="33px">{{ x.key1}}</td>
+            <td height="33px">{{ x.key0}}</td>
+			
+            <td height="33px">
+                <span class="input-group-btn" ng-if="x.key0 != 'null'">
+                    <button class="btn btn-primary" type="button" ng-click="selectNo(x.key0)">选择</button>
+                </span>
+				
+            </td>
+			
+		
+        </tr>
+	
+	</table>
+	
+	
+
+	
+	
+</div> 	 
+
+ 
+
+<div class="cook-foot col-xs-offset-0 col-xs-12 "style="margin-top:30%;border:0px red solid;">
+ <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+	<div  id = "showMsg" style ="text-align:center;margin-bottom:18px;height :20px; font-size :20px;color:red" >
+	</div>
+ 	<h1 class="text-center" style="font-size: 140%;">第{{pageNo}}页,共{{pageSize}}页</h1>	
+ </div>
+ <div ng-if="pageSize > 1">
+	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+		<button  id="cancel" type="button" class="col-xs-offset-2 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+		
+	</div>
+
+	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+		<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;">
+			<button  type="button" class="col-xs-offset-1 col-xs-2 image-btor"  ng-hide="Prev" ng-click="next(-1)">上一页</button>
+		</div>
+		<div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+			<button  type="button"  class="col-xs-offset-1 col-xs-2 image-btor" ng-hide="Next"  ng-click="next(1)">下一页</button>
+		</div>
+	</div>
+ </div>
+ <div ng-if="pageSize <= 1">
+	<button  id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+	
+ </div>
+</div>
+
+	
+	
+ </div>
+ 
+ 
+     <object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>
+ 
+ 
+ 
+ 

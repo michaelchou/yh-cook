@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-cn" ng-app="cookApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>cook2</title>
+    
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/Buttons/css/buttons.min.css">
+    <link rel="stylesheet" href="css/bootstrap-nav-wizard.css">
+    <link rel="stylesheet" href="css/cook.css">
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/Buttons/js/buttons.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+  </head>
+  <body ng-controller="CookCtrl">
+    <div class="container header">
+        <div class="row">
+			<img src="image/logo-jsnx.png">
+		</div>
+	</div>
+
+<div class="container apply" ng-controller="ZeroCtrl">
+     <div class="container indicates">
+        <span style="margin-right:0px;" class="timeout pull-right">{{timeout}}</span>     
+    	</div>
+		<div class="container step" style="margin-top:-30px">
+    		
+            <h1 class="text-center">拍照认证</h1>
+    	</div>
+
+    	<div class="step">
+            <div style="margin-left:5px; margin-top:20px;font-family:微软雅黑; font-size:20px;">请您去除帽子、墨镜等遮挡物，对准上方摄像头点击"拍照"按钮进行拍照</div>
+            <div id="frame1" style="margin-left:5px;margin-top:20px;">
+           
+
+
+ <div id="Layer2" align="left" style="top:248px;left:220px; width:380px; height:260px; background:#FFFFFF;">
+<object id="AmFaceControl" classid="CLSID:95C661EC-11BE-4018-BD97-5549A7754417" width="100%" height="100%" title="AmFaceControl">
+  </object>
+ </div>
+<div id="Layer3" align="left" style="position:absolute;top:238px;left:550px;background:#FFFFFF 0% 0% / cover;width:320px; height:260px; "></div>
+<div id="idcard" align="left" style="position:absolute; top:238px;left:980px;background:url(C:\\2.BMP) 0% 0% / cover;width:204px; height:260px; "></div>
+
+                </div>
+
+            <div align="center" id="btn_restart" style="display:block;margin-left:0px; margin-top:15px;">
+                <input type="button"  value="重  拍" onclick = "reload()" style=" display:block;top:550px;left:45%;width:160px; height:60px; border:0px;background:#46b963; color:#FFFFFF; font-size:24px; font-family:方正粗倩简体; outline:none;visibility:visible;position:absolute"/>
+		  </div>
+		       <div align="center"  id="btn_confirm"  style="display:none;margin-left:0px; margin-top:15px;">
+                <input type="button"  value="重  拍" onclick = "reload()" style=" top:550px;left:35%;width:160px; height:60px; border:0px;background:#46b963; color:#FFFFFF; font-size:24px; font-family:方正粗倩简体; outline:none;visibility:visible;position:absolute"/>
+				<input type="button"  class="normal" value="确 定"onclick = "CloseDevice()" style=" top:550px;left:50%;width:160px; height:60px; border:0px;background:#3b6fb4; color:#FFFFFF; font-size:24px; font-family:方正粗倩简体; outline:none;visibility:visible;position:absolute"/>
+		  </div>
+		   <div align="center" >
+    		<span align="center" id="commit"  style="left;color:red; top:650px;font-family:微软雅黑; font-size:20px;"></span>
+    	</div>
+    </div>
+</div>
+</div>
+<EMBED id="MUSIC1" SRC="wav/请您摘除帽子等遮挡物进行拍照.wav" Loop=false AUTOSTART=false Hidden=true MASTERSOUND>
+
+        <footer class="footer">
+      <div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<a href="index.html#/pages"><i class="fa fa-bars"></i>index</a>
+			
+			</div>
+			<p class="col-md-6 text-right">
+				<i class="fa fa-copyright"></i> 2015 YIHUA Computer All Rights Reserved.
+			</p>
+		</div>
+      </div>
+    </footer>
+
+  </body>
+<script language="javascript" type="text/javascript">
+
+setTimeout("OpenDevice()","1000")
+
+function OpenDevice()
+{
+	var ret = AmFaceControl.OpenDevice();
+	if (ret != 0){
+		alert("摄像头故障");
+		}else{
+		setTimeout("CaptureImage()","1000");
+		}
+}	
+
+function CloseDevice()
+{
+	var ret = AmFaceControl.CloseDevice();
+	if (ret != 0)
+		alert("close device failed");
+	var scope = angular.element(main).scope();
+    scope.action("confirm");
+}
+
+function CaptureImage(){
+	$("#Layer3").css("background-image","");
+	var ret = AmFaceControl.CaptureImage("C:\\1.jpg",1000);
+	if (ret == -1)
+	     alert("摄像未开启");
+	if (ret == -3)
+	      window.location.reload(true);
+	
+        
+}
+
+function Verify(){
+	var score = AmFaceControl.Verify("C:\\1.jpg", "C:\\2.jpg");
+	if (score < 0){
+		parent.document.getElementById('btn_restart').style.display="block";
+		$('#commit').html("对比失败或照片没有生成")
+	}else if((score >0.7)){
+		$('#commit').html("对比成功");
+		parent.document.getElementById('btn_restart').style.display="none";
+		parent.document.getElementById('btn_confirm').style.display="block";
+	}else{
+	parent.document.getElementById('btn_restart').style.display="block";
+		$('#commit').html("对比不成功，请重新拍摄")
+	}
+	
+}	
+
+function About()
+{
+	var ret = AmFaceControl.AboutBox();
+}
+	
+function SwitchVedio()
+{
+	var ret = AmFaceControl.SwitchVedio();
+}
+ function reload(){
+ window.location.reload(true);
+ }
+</script>
+
+<script language="javascript" type="text/javascript" FOR="AmFaceControl" event="OnCaptureFinish(success)">
+	
+	if (success == 1){
+ 	$("#Layer3").css("background-image","url(C://1.jpg_1.jpg) ");
+ 	setTimeout("Verify()","1000");
+ 	
+	}else if(success ==0){
+		setTimeout("CaptureImage()","1000");
+		//alert("capture image timeout");
+	}else if(success ==-1){
+		setTimeout("CaptureImage()","1000");
+		//alert("vdieo operate failed,please capture image again");
+	}else if(success ==-2){
+		setTimeout("CaptureImage()","1000");
+		//alert("vdieo long free time, restart vdieo,please capture image again");
+}
+</script>
+</html>

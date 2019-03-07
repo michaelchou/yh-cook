@@ -1,0 +1,102 @@
+<script language="JavaScript" type="text/JavaScript"> 
+var scope = angular.element(main).scope();
+scope.$watch('pool.pid', function(){
+	if(undefined!=scope.pool["pid"]){
+		document.getElementById("img").src ="d:/sign.png"+"?"+Math.random();
+	}
+});
+self.setTimeout("formatAddress(40)", 100);
+
+
+//参数为 每隔多少字符插入进行一次断行
+function formatAddress(flag){
+var address = $("#address").html();
+    var newstr="";
+    for(var i=0;i<address.length;i+=flag){
+        var tmp=address.substring(i, i+flag);
+        newstr+=tmp+"</br>";
+    }
+     $("#useraddress").html(newstr);
+}
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+	
+}
+td{
+     height:35px;
+}
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style="border:0px #FFFFFF solid;">
+ <p   style="font-size:30px;color:#000000; text-align:center;">江苏农村商业银行睡眠户激活申请单</p></br>
+  <table  style="border-radius:10px 10px 10px 10px;border:0px blue solid;margin-top:5%;" border= 0 class="col-xs-offset-1 col-xs-12">
+ <tr>
+	  <td width="10%"><span style="font-size:20px;color:#000000">姓名:</span></td>
+	  <td width="40%"><span style="font-size:20px;color:#000000">{{pool.name}}</span></td>
+	   <td width="10%"><span style="font-size:20px;color:#000000">性别:</span></td>
+	   <td width="40%"><span style="font-size:20px;color:#000000">{{pool.genderC}}</span></td>
+ </tr>
+ <tr>
+	  <td ><span style="font-size:20px;color:#000000">民族:</span></td>
+	  <td ><span style="font-size:20px;color:#000000;">{{pool.nationality}}</span></td>
+	  <td ><span style="font-size:20px;color:#000000;">交易类型:</span></td>
+	  <td ><span style="font-size:20px;color:#000000;">已转待处理久悬未取款项账户转正常</span></td>
+  </tr>
+  <tr>
+      <td ><span style="font-size:20px;color:#000000">币别:</span></td>
+	   <td ><span style="font-size:20px;color:#000000">人民币</span></td>
+ 
+	  <td ><span style="font-size:20px;color:#000000">钞汇鉴别:</span></td>
+	  <td ><span style="font-size:20px;color:#000000">现钞</span></td>
+	</tr>
+   <tr>
+	  <td width="10%"><span style="font-size:20px;color:#000000">账户:</span></td>
+	   <td width="40%"><span style="font-size:20px;color:#000000">{{pool.cardNo}}</span></td>
+ 
+	  <td ><span style="font-size:20px;color:#000000">受理柜员:</span></td>
+	  <td ><span style="font-size:20px;color:#000000">{{pool.Apply_tellerno}}</span></td>
+	  
+	</tr>
+ 
+
+ <tr>
+	  <td><span style="font-size:20px;color:#000000;">证件类型:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">身份证</span></td>
+	  <td><span style="font-size:20px;color:#000000">证件号码:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.pid}}</span></td>
+ </tr>
+ <tr>
+      <td><span style="font-size:20px;color:#000000">证件有效日期:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.abatedate}}</span></td>
+	  <td><span style="font-size:20px;color:#000000;">申请日期:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.transDate}}</span></td>
+</tr>
+
+<tr>  
+      <td><span style="font-size:20px;color:#000000;">终端号:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.Apply_terminalId}}</span></td>
+ 
+      <td><span style="font-size:20px;color:#000000;">申请时间:</span></td>
+	  <td style=""><span style="font-size:20px;color:#000000;">{{pool.transTime.substring(0,2)+":"+pool.transTime.substring(2,4)+":"+pool.transTime.substring(4,6)}}</span></td>
+</tr>
+<tr style="">
+<td colspan = 4 style="font-size:20px;color:#000000;">客户签名：<img id="img" src=""  style="width:100px; height:50px"></span></td>
+</tr>
+</table>
+
+</div>
+</div>
+
+ 
+ <div class=" col-xs-offset-3 col-xs-12" style="margin-top:10%;">
+	<button type="button" ng-click="action('return')"  class="col-xs-offset-1 col-xs-2 image-bt" >取消</button>
+	<button type="button"  ng-click="action('confirm')" class="col-xs-offset-1 col-xs-2 image-btgr" >确认</button>
+</div>

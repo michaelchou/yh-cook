@@ -1,0 +1,439 @@
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../bower_components/icheck/icheck.min.js"></script>
+<script language="javascript" type="text/javascript">
+	creatTree(0,"");
+
+	function ReceiptSelectConfirm(){
+		var scope = angular.element(main).scope();
+		
+		var ST_ReceiptSelect = scope.pool["ST_ReceiptSelect"];
+		var ReceiptSelect;
+		var _ReceiptSelect;
+
+		var details = "";
+		if(ST_ReceiptSelect == null || ST_ReceiptSelect.length == 0){
+			document.getElementById("showMsg").innerHTML ="提示:至少选择一个账户";
+		}else{
+			
+			ReceiptSelect = ST_ReceiptSelect.split('#');
+			scope.pool["ST_ReceiptTotal"] = ReceiptSelect.length;
+			
+			for (var i = 0; i < ReceiptSelect.length; i ++) {
+				_ReceiptSelect = ReceiptSelect[i].split('@');
+				
+				details+="<ers_msg>"
+				
+				details+="<receiptsq>"
+				details+=_ReceiptSelect[0]
+				details+="</receiptsq>"
+				
+				details+="<account_code>"
+				details+=_ReceiptSelect[1]
+				details+="</account_code>"
+				
+				details+="<transdt>"
+				details+=_ReceiptSelect[2]
+				details+="</transdt>"
+				
+				details+="<bus_type>"
+				details+=_ReceiptSelect[3]
+				details+="</bus_type>"
+			
+				details+="</ers_msg>"			
+			}
+		
+		
+			//scope.pool["ST_ReceiptTransInfoSelect"] = details;
+			//alert(details)
+			
+			BrowserCallback("setReceiptTransInfo#"+details)
+			//scope.action("confirm");
+			//alert(1)
+			
+		}
+	}
+	
+	
+	
+	function Select(isChecked,id){
+		document.getElementById("showMsg").innerHTML ="";
+		var scope = angular.element(main).scope();
+		var pageNo = parseInt(scope.pageNo);
+		var count = id;
+		var AccDetails = ""
+		var flag = false;
+		var AccDetail = scope.pool["ST_ReceiptSelect"];
+		
+		var _AccDetail = ""
+		if(isChecked){
+			if(AccDetail == null || AccDetail.length == 0){
+				AccDetail = count + "";
+				
+			}else{
+				_AccDetail = AccDetail.split('@');
+				
+				for (var i = 0; i < _AccDetail.length; i ++) {
+					if(_AccDetail[i] == count){
+						flag = true;
+						break;
+					}
+				}
+				if(flag == false){
+					AccDetail += "#" + count;
+					
+				}
+			}
+		}else{
+			_AccDetail = AccDetail.split('#');
+			for (var j = 0; j < _AccDetail.length; j ++) {
+				if(_AccDetail[j] != count){
+						if(AccDetails == ""){
+							AccDetails = _AccDetail[j]
+						}else{
+							AccDetails += "#" + _AccDetail[j]
+						}
+					}
+				}
+				AccDetail = AccDetails;
+			
+			document.getElementById("allcheck").checked=false;
+			document.getElementById("pagecheck").checked=false;
+		}
+		
+		
+		scope.pool["ST_ReceiptSelect"] = AccDetail;
+	}
+	
+	var scope = angular.element(main).scope();
+	function check(){
+		var ST_ReceiptSelect = scope.pool["ST_ReceiptSelect"];
+		
+		if(ST_ReceiptSelect != null && ST_ReceiptSelect.length > 0){
+			_SmsCancelCheck = ST_ReceiptSelect.split('#');
+			
+			for (var i = 0; i < _SmsCancelCheck.length; i ++) {
+				if(null != document.getElementById(_SmsCancelCheck[i])){
+			
+					document.getElementById(_SmsCancelCheck[i]).checked=true;
+				}
+			}
+		}
+	}
+	
+	
+	
+		function checkpageselct(){
+
+	}
+	
+	function SelectAll(isChecked){
+		var _detail = scope.pool["detail"].split('#');
+		
+			
+		var selectDetail = ""
+		
+		if(isChecked){
+			for (var i = 0; i < _detail.length; i ++) {
+				var ST_ReceiptAccDetails = _detail[i].split('@');
+				if(i == 0){
+				
+					selectDetail += ST_ReceiptAccDetails[0];
+					selectDetail += "@"+ST_ReceiptAccDetails[1];
+					selectDetail += "@"+ST_ReceiptAccDetails[2];
+					selectDetail += "@"+ST_ReceiptAccDetails[3];
+				}else{
+				
+					selectDetail += "#"+ST_ReceiptAccDetails[0];
+					selectDetail += "@"+ST_ReceiptAccDetails[1];
+					selectDetail += "@"+ST_ReceiptAccDetails[2];
+					selectDetail += "@"+ST_ReceiptAccDetails[3];
+				}
+			}
+			scope.pool["ST_ReceiptSelect"] = selectDetail;
+			
+			setTimeout(function(){
+			check();
+			},100);
+		}else{
+			scope.pool["ST_ReceiptSelect"] = "";
+			
+			var pageNo=scope.pageNo
+			if(pageNo<=1){
+				var k = 0
+			}else{
+				var k = 12*(pageNo-1)
+			}
+	
+			for(k; k < _detail.length; k ++){
+				var ST_ReceiptAccDetails = _detail[k].split('@');
+				var bb = ST_ReceiptAccDetails[0]+"@"+ST_ReceiptAccDetails[1]+"@"+ST_ReceiptAccDetails[2]+"@"+ST_ReceiptAccDetails[3]
+				document.getElementById(bb).checked=false;
+			}
+		}
+	}
+	
+	
+	
+	function SelectPage(isChecked){
+		document.getElementById("allcheck").checked=false;
+		var _detail = scope.pool["detail"].split('#');
+		var ST_ReceiptSelect = scope.pool["ST_ReceiptSelect"];
+		
+		//_detail.length
+	
+		var pageNo=scope.pageNo
+		
+		var selectDetail = ""
+		if(pageNo<=1){
+			var i = 0
+			if(_detail.length<12){
+				var k = _detail.length
+			}else{
+				var k = 12
+			}
+		}else{
+			var i = 12*(pageNo-1)
+			if(_detail.length<12*pageNo){
+				var k = _detail.length
+			}else{
+				var k = 12*pageNo
+			}
+		}
+				
+
+		
+			if(isChecked){
+
+				var tt
+				var a=i
+				
+				for (i; i < k; i ++) {
+					var ST_ReceiptAccDetails = _detail[i].split('@');
+			
+						tt = ST_ReceiptAccDetails[0];
+						tt += "@"+ST_ReceiptAccDetails[1];
+						tt += "@"+ST_ReceiptAccDetails[2];
+						tt += "@"+ST_ReceiptAccDetails[3];
+						if(i==a){
+							if(ST_ReceiptSelect!=null){
+								ST_ReceiptSelect=ST_ReceiptSelect.replace("#"+tt,"");
+								ST_ReceiptSelect=ST_ReceiptSelect.replace(tt,"");
+							}
+												
+							selectDetail = tt
+							
+							
+						}else{
+							selectDetail += "#"+tt;
+							if(ST_ReceiptSelect!=null){
+								ST_ReceiptSelect=ST_ReceiptSelect.replace("#"+tt,"");
+								ST_ReceiptSelect=ST_ReceiptSelect.replace(tt,"");
+							}
+						}
+						
+					}
+					
+		
+				
+				if(ST_ReceiptSelect==null){
+					scope.pool["ST_ReceiptSelect"] = selectDetail;
+				}else{
+					scope.pool["ST_ReceiptSelect"] = ST_ReceiptSelect+"#"+selectDetail;
+				}
+
+				
+				setTimeout(function(){
+				check();
+				},100);
+			}else{
+					
+				for(i; i < k; i ++){
+				var ST_ReceiptAccDetails = _detail[i].split('@');
+				var bb = ST_ReceiptAccDetails[0]+"@"+ST_ReceiptAccDetails[1]+"@"+ST_ReceiptAccDetails[2]+"@"+ST_ReceiptAccDetails[3]
+			
+				//ST_ReceiptSelect=ST_ReceiptSelect.replace(bb+"#","");
+				ST_ReceiptSelect=ST_ReceiptSelect.replace("#"+bb,"");
+				ST_ReceiptSelect=ST_ReceiptSelect.replace(bb,"");
+				document.getElementById(bb).checked=false;
+				
+			}
+				scope.pool["ST_ReceiptSelect"] = ST_ReceiptSelect;
+		
+			}
+		
+		
+	}
+	
+	function pagechecked(){
+	
+		var ST_ReceiptSelect = scope.pool["ST_ReceiptSelect"];
+		var pageNo=scope.pageNo
+		var _detail = scope.pool["detail"].split('#');
+		
+		var pageDetail = ""
+		if(pageNo<=1){
+			var i = 0
+			if(_detail.length<12){
+				var k = _detail.length
+			}else{
+				var k = 12
+			}
+		}else{
+			var i = 12*(pageNo-1)
+			if(_detail.length<12*pageNo){
+				var k = _detail.length
+			}else{
+				var k = 12*pageNo
+			}
+		}
+		
+						for (i; i < k; i ++) {
+					var ST_ReceiptAccDetails = _detail[i].split('@');
+					if(i == 0){
+					
+						pageDetail += ST_ReceiptAccDetails[0];
+						pageDetail += "@"+ST_ReceiptAccDetails[1];
+						pageDetail += "@"+ST_ReceiptAccDetails[2];
+						pageDetail += "@"+ST_ReceiptAccDetails[3];
+					}else{
+					
+						pageDetail += "#"+ST_ReceiptAccDetails[0];
+						pageDetail += "@"+ST_ReceiptAccDetails[1];
+						pageDetail += "@"+ST_ReceiptAccDetails[2];
+						pageDetail += "@"+ST_ReceiptAccDetails[3];
+					}
+					
+				}
+				if(ST_ReceiptSelect.indexOf(pageDetail)!=(-1)){
+					document.getElementById("pagecheck").checked=true;
+				}else{
+					document.getElementById("pagecheck").checked=false;
+				}
+				
+		
+	}
+	
+	scope.checkboxClickNext = function() {
+		scope.next(1);
+		//document.getElementById("pagecheck").checked=false;
+		
+		setTimeout(function(){
+		pagechecked();
+		check();
+		},100);
+	}
+	
+	scope.checkboxClickPrev = function() {
+		scope.next(-1);
+		//document.getElementById("pagecheck").checked=false;
+		
+		setTimeout(function(){
+		pagechecked();
+		check();
+		},100);
+	}
+	
+	
+	document.getElementById("MUSIC1").src = "";
+	var scope = angular.element(main).scope();
+	scope.selectReceiptNo = function (pid) {	
+		var _detail = scope.pool["detail"].split('#');
+		for (var i = 0; i < _detail.length; i ++) {
+            if (pid == _detail[i].split('@')[0]) {
+                scope.pool["ST_ReceiptSeq"] = _detail[i].split('@')[0];
+				scope.pool["ST_ReceiptAccount"] = _detail[i].split('@')[1];
+				scope.pool["ST_ReceiptTransDate"] = _detail[i].split('@')[2];
+				scope.pool["ST_ReceiptBusType"] = _detail[i].split('@')[3];
+				scope.pool["ST_ReceiptAmount"] = _detail[i].split('@')[4];
+				scope.pool["ST_ReceiptPayerAcctno"] = _detail[i].split('@')[5];
+				scope.pool["ST_ReceiptPayerName"] = _detail[i].split('@')[6];
+				scope.pool["ST_ReceiptPayeeAcctno"] = _detail[i].split('@')[7];
+				scope.pool["ST_ReceiptPayeeName"] = _detail[i].split('@')[8];
+                break;
+            }
+        }
+		
+		scope.action("submit");
+	}
+</script>
+<style>
+   .cssinput{
+      height:20px;
+	  width:20px;
+   }
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head" style="margin-top:-5%">
+	<h1 class="text-center">请选择回单打印</h1>
+</div>
+
+  <div class="cook-head" >
+		<table  width="100%"  style="font-weight:bold;font-size:18px ;text-align:center;margin-top:0%" >
+		<td >户名：{{pool.ST_ReceiptName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账号：{{pool.ST_ReceiptAcc}}</td>
+		
+		</table>
+  </div>
+  
+<table class="table-striped  table-bordered" width="100%" style="text-align:center;">
+	  <input type="checkbox" id="allcheck" name="allcheckbox" class="cssinput" onclick="SelectAll(this.checked)">&nbsp;&nbsp;全选&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" id="pagecheck" name="allcheckbox" class="cssinput" onclick="SelectPage(this.checked)">&nbsp;&nbsp;当页全选&nbsp;&nbsp;&nbsp;&nbsp;
+	  <tr style="font-weight:bold;font-size:16px;">
+		 <td ></td>
+         <td height="33px">交易日期</td>
+		 
+		 <td height="33px">交易金额</td>
+		 <td height="33px">收款户名</td>
+		 <td height="33px">收款账号</td>
+		 <td height="33px">操作</td>
+	
+      </tr>
+      <tr ng-repeat="x in detail" >
+		  <td><input type="checkbox" id={{x.key0}}@{{x.key1}}@{{x.key2}}@{{x.key3}}  name="checkbox" class="cssinput" onclick="Select(this.checked,id)"></td>
+	      <td height="33px"><label >{{ x.key2}}</label></td>
+		  
+		  <td height="33px"><label >{{ x.key4}}</label></td>
+		  <td height="33px"><label >{{ x.key6}}</label></td>
+		  <td height="33px"><label >{{ x.key7}}</label></td>
+		  <td height="33px">
+                <span class="input-group-btn" >
+                    <button class="btn btn-primary" type="button" ng-click="selectReceiptNo(x.key0)">详细</button>
+                </span>
+				
+            </td>
+      </tr>
+ </table>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+ <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;margin-top:5%">
+	<div  id = "showMsg" style ="text-align:center;margin-bottom:18px;height :20px; font-size :20px;color:red" >
+	</div>
+ 	<h1 class="text-center" style="font-size: 140%;">第{{pageNo}}页,共{{pageSize}}页</h1>	
+ </div>
+ <div ng-if="pageSize > 1" style="margin-left:-5%">
+	<div class=" col-xs-offset-0 col-xs-0 "style="border:0px blue solid;">
+		<button  id="cancel" type="button" class="col-xs-offset-1 col-xs-1 image-bt" ng-click="action('eject')">退出</button>
+		<button  id="cancel" type="button" class="col-xs-offset-1 col-xs-1 image-bt" ng-click="action('return')">返回</button>
+		<button  id="confirm" type="button" class="col-xs-offset-1 col-xs-1 image-bt" onclick="ReceiptSelectConfirm()">打印</button>
+	</div>
+
+	<div class=" col-xs-offset-1 col-xs-0 "style="border:0px blue solid;">
+		<div class="col-xs-offset-1 col-xs-0"style="border:0px red solid;">
+			<button  type="button" class="col-xs-offset-1 col-xs-2 image-btor"  ng-hide="Prev" ng-click="checkboxClickPrev();">上一页</button>
+		</div>
+		<div class="col-xs-offset-1 col-xs-0" style="border:0px red solid;">
+			<button  type="button"  class="col-xs-offset-1 col-xs-2 image-btor" ng-hide="Next" ng-click="checkboxClickNext();">下一页</button>
+		</div>
+	</div>
+ </div>
+ <div ng-if="pageSize <= 1">
+	<button  id="cancel" type="button" class="col-xs-offset-1 col-xs-1 image-bt" ng-click="action('eject')">退出</button>
+	<button  id="cancel" type="button" class="col-xs-offset-1 col-xs-1 image-bt" ng-click="action('return')">返回</button>
+	<button  id="confirm" type="button" class="col-xs-offset-1 col-xs-1 image-bt" onclick="ReceiptSelectConfirm()">打印</button>
+ </div>
+</div>

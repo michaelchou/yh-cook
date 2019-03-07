@@ -1,0 +1,248 @@
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#cash{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+#cash::-ms-expand{
+	 display:none;
+ }
+
+ .ui-datepicker{
+	 width: 16em; padding: .5em .5em 0; display: none; font-size: 2em;
+}
+ .ui-datepicker-month{
+		color:blue;
+	}
+	.ui-datepicker-year{
+		color:blue;
+	}
+</style>
+<script language="JavaScript" type="text/JavaScript">
+$(function() {
+    $( "#NP_drawDate" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+    });
+    $.datepicker.setDefaults($.datepicker.regional['zh-CN']); //中文
+    $( "#NP_drawDate" ).datepicker( "option", "showAnim", "clip" );//日期控件出现和消失的效果
+  });
+
+var scope = angular.element(main).scope();
+
+
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//	alert(e);
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+//清除提示信息
+function destory(obj){
+$("#" + obj.id).popover('destroy');
+}
+
+function commit(){
+ Hide();
+ var cash=document.getElementById("cash");
+ 
+ var NP_amount_show=document.getElementById("NP_amount_show");
+ 
+ 
+ var inputs = document.getElementsByTagName("input");
+ var drawDateobj = inputs.item(inputs.length-1);
+ var drawDate = drawDateobj.value.replace('年','').replace('月','').replace('日','').replace(/\s+/g,'');
+ 
+ var reg = "yyyyMMdd";
+ reg = reg.replace(/yyyy/, "[0-9]{4}");
+ reg = reg.replace(/MM/, "((0[1-9])|1[0-2])");
+ reg = reg.replace(/dd/, "((0[1-9])|([1-2][0-9])|30|31)");
+ reg = new RegExp("^" + reg + "$");
+ var dtVal = new Date();
+ var strYear = dtVal.getFullYear();
+ var strMonth = (dtVal.getMonth()+1).toString();
+ for (var i=strMonth.length; i<2; i++)
+     {
+    	 strMonth = '0' + strMonth;
+     }
+     var strDate = dtVal.getDate().toString();
+     for (var i=strDate.length; i<2; i++)
+     {
+    	 strDate = '0' + strDate;
+     }
+  var currentDate=strYear + strMonth +strDate;
+  var NP_endDate=scope.pool["NP_endDate"];
+  var NP_startDate=scope.pool["NP_startDate"];
+  
+  var leftAmount=parseFloat(scope.pool["NP_amount_show"])-parseFloat(NP_amount_show.value);
+  
+  if(drawDate.length<=0){
+	$("#"+drawDateobj.id).attr("data-content", "设定日期不能为空");
+	$("#"+drawDateobj.id).popover('show');
+  }else if(!reg.test(drawDate)){
+	$("#"+drawDateobj.id).attr("data-content", "设定日期格式错误");
+	$("#"+drawDateobj.id).popover('show');
+  }else if(drawDate.toString() < NP_startDate){
+	$("#"+drawDateobj.id).attr("data-content", "设定日期不能小于起息日期");
+	$("#"+drawDateobj.id).popover('show');
+  }else if(drawDate.toString() < currentDate){
+	$("#"+drawDateobj.id).attr("data-content", "设定日期不能小于当前日期");
+	$("#"+drawDateobj.id).popover('show');
+  }else if(cash.value==""){
+	$("#cash").attr("data-content", "请设置是否现金支取");
+	$("#cash").popover('show');
+  }else if((NP_amount_show.value).trim()==""){
+	$("#NP_amount_show").attr("data-content", "支取金额不能为空");
+	$("#NP_amount_show").popover('show');
+  }else if(parseFloat(NP_amount_show.value)<=0){
+	$("#NP_amount_show").attr("data-content", "支取金额不能为0");
+	$("#NP_amount_show").popover('show');
+  }else if(leftAmount<0){
+	$("#NP_amount_show").attr("data-content", "支取金额不能大于账户余额");
+	$("#NP_amount_show").popover('show');
+  }else if(leftAmount>0&&leftAmount<50000){
+	$("#NP_amount_show").attr("data-content", "部分支取后账户余额不能少于50000");
+	$("#NP_amount_show").popover('show');
+  }else{
+    
+	scope.pool["NP_amount1"] =100*parseFloat(NP_amount_show.value);
+	scope.pool["NP_amount"] =NP_amount_show.value;
+	scope.pool["NP_cash"] = cash.value;
+	scope.pool["NP_drawDate"] = drawDate;
+	scope.pool["NP_drawDate_show"] = drawDateobj.value;
+	scope.pool["NP_cash_show"] = cash.options[cash.selectedIndex].text;
+	
+	
+	scope.action("confirm");
+  }
+}
+
+
+function getData(obj){
+var stattData = document.getElementById("rendez-date").value;
+var oldData = stattData;
+document.getElementById("rendez-date").click();
+
+}
+
+</script>
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+	</div>
+
+<div class="container  col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px red solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px red">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">卡内通知存款支取维护表单</h3>
+</br></br>
+
+  <form class="form-horizontal" style="margin-top:0%;margin-left:0%">
+
+	<div class="form-group">
+      <label  class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">理财账户笔号</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="text" class='form-control' style='margin-top:18px;background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  
+				 value="{{pool.NP_sqno}}" disabled="disabled" readonly>
+      </div>
+	  <label  class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000;">存期</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='margin-top:18px;background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  class="form-control" 
+				  value="{{pool.NP_term}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	<div class="form-group">
+      <label  class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">起息日期</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="text" class='form-control' style='margin-top:18px;background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  
+				 value="{{pool.NP_startDate}}" disabled="disabled" readonly>
+      </div>
+	  <label  class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000;">到期日期</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='margin-top:18px;background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  class="form-control" 
+				  value="{{pool.NP_endDate}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	
+   
+   <div class="form-group">
+   
+	  
+	  <label  class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000;">支取维护金额</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" id="NP_amount_show" onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')"
+				 onclick="openkeyset(1,900,500)" class="form-control" maxlength="22"
+				 style="margin-top:10px;border:1px red solid;box-shadow:0 0px 0px #000 inset"
+			  value="{{pool.NP_amount_show}}" >
+      </div>
+     
+	  
+	  
+	  
+      <label for="cash" class="col-sm-2 control-label" style="margin-top:10px;color:#000000;margin-left:-18px;">是否现金支取:</label>
+		<div class="col-sm-3" style="margin-left:18px;">
+		<select id="cash"  style="margin-top:10px;border:1px red solid;box-shadow:0 0px 0px #000 inset"  class="form-control" 
+			ng-model="pool.NP_cash"	data-container="body"  data-placement="right" >
+			<option value="" selected>--请选择--</option>
+			<option value='0'>否</option>
+			<option value='1'>是</option>
+		</select>
+	  </div>
+	  
+    </div>
+	<div class="form-group">
+	 <label for="drawDate" class="col-sm-2 control-label" style="margin-top:10px;color:#000000;margin-left:-18px;">设定日期:</label>
+     
+      <div class="col-sm-3" style="margin-left:18px">
+      <input type="text" style="border:1px red solid;box-shadow:0 0px 0px #000 inset" placeholder="请选择日期" class="form-control"   id="NP_drawDate"  name="NP_drawDate" value="" ng-model="pool.NP_drawDate" 
+		data-container="body"  data-placement="left"  title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""   class="form-control"  data-html="true" maxlength="8">
+      </div>
+      
+    </div>
+	
+	
+  </form>
+</div>
+</br>
+</br>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+    <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor"   ng-click="action('return')">返回</button>
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">确认</button>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

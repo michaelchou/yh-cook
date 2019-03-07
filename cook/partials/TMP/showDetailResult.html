@@ -1,0 +1,35 @@
+
+  <div class="cook-head">
+        <div class="timeout pull-right"><span>{{timeout}}</span></div>
+		<h1 class="text-center">账户明细</h1>
+		<h3 class="text-center">Account detail</h3>
+  </div>
+
+ <div align="center" id="div_main" class="container step">
+  <div align="center" >
+   <table class="details" width="96%">
+      <tr>
+         <td >编号</td>
+         <td >交易类型</td>
+         <td >交易金额</td>
+         <td >余额</td>
+         <td >交易日期</td>
+      <tr ng-repeat="x in detail">
+	      <td>{{ x.Num}}</td>
+	      <td>{{ x.Remark}}</td>
+	      <td>{{ x.Amount}}</td>
+	      <td>{{ x.Balance}}</td>
+	      <td>{{ x.Date}}</td>
+      </tr>
+ </table>
+ </br>
+</div>
+   <button class="col-md-2 btn btn-primary btn-lg" ng-click="action('skip')">返回</button>
+   <button class="col-md-offset-1 col-md-2 btn btn-primary btn-lg"  ng-click="action('eject')">退卡</button>
+   
+    <table width="45%">
+	 <tr><td width="20%"> <button  class="col-md-offset-5 col-md-9 btn btn-primary btn-lg"   ng-hide="hide" ng-click="Prev()" id="button1">上一页</button></td>
+	     <td width="20%"><button   class="col-md-offset-7 col-md-9 btn btn-primary btn-lg"  ng-hide="hide2" ng-click="next()" id="button2">下一页</button> </td> 
+	 </tr>
+   </table>
+</div>

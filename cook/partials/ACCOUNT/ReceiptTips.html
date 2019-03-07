@@ -1,0 +1,20 @@
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="menu row"  style= "border:0px blue solid;">
+<div class="cook-head"  ng-repeat="x in detail">
+	<h1 class="text-center"><br/>{{ x.key2}}</h1>
+</div>
+<div class="cook-head"  ng-if="pool.ST_ReceiptMaxTips == '1'">
+	<h1 class="text-center"><br/>由于查询数据较多，目前只显示前60条数据，继续请按【确认键】</h1>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-6 col-xs-8" style="border:0px red solid;margin-top:17%;margin-left:20%;">
+	<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+	<button  type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+</div>
+

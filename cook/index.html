@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="zh-cn" ng-app="cookApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>cook2</title>
+    <link rel="stylesheet" href="./../bower_components/metro/build/css/metro.min.css">
+    <link rel="stylesheet" href="./../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./../bower_components/Buttons/css/buttons.min.css">
+	<link rel="stylesheet" href="./../bower_components/metro/build/css/metro-icons.min.css">
+    <link rel="stylesheet" href="css/bootstrap-nav-wizard.css">
+    <link id="cook" rel="stylesheet" href="css/cook.css">
+
+    <link rel="stylesheet" href="css/RendezVous/shCore.css">
+	<link rel="stylesheet" href="css/RendezVous/shThemeDefault.css">
+	<link rel="stylesheet" href="css/RendezVous/rendezvous.css">
+	<link rel="stylesheet" href="css/RendezVous/style.css">
+
+	<script src="./../bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="./../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./../bower_components/Buttons/js/buttons.js"></script>
+    <script src="./../bower_components/angular/angular.min.js"></script>
+    <script src="./../bower_components/angular-route/angular-route.min.js"></script>
+    <script src="./../bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/check.js"></script>
+    <script src="js/media_STM.js"></script>
+    <script language="javascript" type="text/javascript" src="javascript/anychatsdk.js"></script>
+    <script language="javascript" type="text/javascript" src="javascript/anychatobject.js"></script>
+
+    <script src="js/RendezVous/jquery.js"></script>
+	<script src="js/RendezVous/shCore.js"></script>
+	<script src="js/RendezVous/rendezvous.js"></script>
+	<script src="js/RendezVous/app.js"></script>
+	<link rel="stylesheet" href="date/jquery-ui.min.css">
+	<script src="date/jquery-ui.min.js"></script>
+
+
+<script language="JavaScript" for="TFace1" event="OpenDeviceEvent(RetCode)">
+
+var nState = TFace1.GetDeviceState();
+if (1 == RetCode)
+{
+
+}
+else
+{
+	$("#comment").html("拍照失败请重新拍摄");
+	$("#Fun_button1").css("display","none");
+    $("#Fun_button2").css("display","block");
+}
+</script>
+<script language="JavaScript" for="TFace1" event="GetImageEvent(RetCode)">
+// 采集成功回调
+if (0 == RetCode)
+{
+    // 获取数据
+    var str1 = TFace1.GetImageData();
+    document.getElementById("data").value = str1;
+    strBase64 = str1.substring(str1.indexOf("<imgBase>")+9, str1.indexOf("</imgBase>"));
+    //var str2 = stdfcectl.GetImageData(1);
+    //document.getElementById("datr").value = str2;
+
+
+    // 延时显示照片，因为js是单线程
+    setTimeout("showImgA()", 1500);
+}
+else
+{
+
+	if(timeoutSelf !=0)
+	{
+		$("#comment").html("拍照失败请重新拍摄");
+		$("#Fun_button1").css("display","none");
+	    $("#Fun_button2").css("display","block");
+	}else{
+		$("#comment").html("");
+	}
+}
+
+</script>
+
+
+<script language="JavaScript" for="TFace1_YC" event=cwLivesInfoCallBack(RetCode)>
+//云从 拍照回调
+var jsonObj = $.parseJSON(RetCode);
+if (0 == jsonObj.result)
+{
+	$("#FaceImage_YC").css("display","block");
+	FaceImage_YC.src = "data:image/jpeg;base64," + jsonObj.image;
+	strBase64 = jsonObj.image
+	showImgA();
+}
+else
+{
+	getFaceB64B();
+
+}
+</script>
+
+<script language="JavaScript" for="TFace1_YC" event=cwStartCameraCallBack(RetCode)>
+
+if (0 == RetCode)
+{
+	getFaceB64B();
+}
+else
+{
+	$("#comment").html("拍照失败请重新拍摄");
+	$("#Fun_button1").css("display","none");
+    $("#Fun_button2").css("display","block");
+}
+</script>
+
+
+
+
+
+<script language="JavaScript" for="cap1" event=stLivesInfoCallBack(result,image)>
+//采集成功回调
+if (result == 2000) {
+	ExampleCloseCamera();
+}
+else
+{
+
+	if(timeoutSelf !=0)
+	{
+		$("#comment").html("拍照失败请重新拍摄");
+		$("#Fun_button1").css("display","none");
+	    $("#Fun_button2").css("display","block");
+	}else{
+		$("#comment").html("");
+	}
+}
+
+</script>
+
+<script language="JavaScript" for="cap1" event=stLivesDeviceCallBack(type,result)>
+	if(type ==0 && result ==0)//init
+	{
+		ExampleOpenCamera();
+	}
+	else if(type ==1 && result ==0)
+	{
+		ExampleStartLiveDetect();
+	}else{
+		if(timeoutSelf !=0)
+		{
+			$("#comment").html("拍照失败请重新拍摄");
+			$("#Fun_button1").css("display","none");
+		    $("#Fun_button2").css("display","block");
+		}else{
+			$("#comment").html("");
+		}
+	}
+</script>
+
+    <script>
+    var YCinitFlag = "0";
+	var url  = "image/idle/";
+	var lasturl = "";
+	var lastImgid = "";
+	window.onload=function() {
+	setTime();
+	}
+	function Mousedown(image) {
+	if($("#" + image.id).attr("src").indexOf("2.png")>-1)
+	{
+		return;
+	}
+	url = $("#" + image.id).attr("src").substr(0,$("#" + image.id).attr("src").length-4)+"2.png";
+	if(lasturl !="")
+	{
+	 $("#" + lastImgid).attr("src",lasturl.substr(0,lasturl.length-5)+".png");
+	}
+	lastImgid = image.id;
+	lasturl = $("#" + image.id).attr("src").substr(0,$("#" + image.id).attr("src").length-4)+"2.png";
+	$("#" + image.id).attr("src",url);
+
+	}
+
+
+	function Mouseup(image) {
+
+		url = $("#" + image.id).attr("src").substr(0,$("#" + image.id).attr("src").length-5)+".png";
+		$("#" + image.id).attr("src",url);
+	}
+	function setTime() {
+		var now = new Date();
+		var month = now.getMonth()+1; month = (month)>9?month:("0"+month);
+		var day = now.getDate(); day=(day>9?day:('0'+day));
+		var hour = now.getHours(); hour=(hour>9?hour:('0'+hour));
+		var min = now.getMinutes(); min=(min>9?min:('0'+min));
+		var sec = now.getSeconds(); sec=(sec>9?sec:('0'+sec));
+		//var str = "星期" + "日一二三四五六".charAt(new Date().getDay());
+		var time = "&nbsp;&nbsp;"+now.getFullYear() + '年  ' + month+ '月';
+		 time += day + '日&nbsp' + hour + ':'+ min +':'+sec;
+		//time +=  day +hour + ':' + min ;
+		document.getElementById("time").innerHTML=  time;
+
+	}
+	function clearTimeInterval()
+	{
+		clearInterval(Time_interval);
+	}
+	var Time_interval = setInterval("setTime()", 1000);
+	var listDirectory;
+	var treeFlag="0" ;
+	function setTreeFlag(data)//流程树开关
+	{
+		treeFlag=data;
+	}
+
+	function creatTree(flag,data){
+		return;
+	//$("#test").css("height","0px");
+	//alert($("#test").css("height"))
+	 if("0"==treeFlag)
+	 {
+		 $("#tree").css("display","none");
+		 return;
+	 }
+	 if(""==data || listDirectory == null || listDirectory == "")
+	 {
+		 $("#tree").css("display","none");
+		 return;
+	 }
+	 for(var m=0;m<listDirectory.split("|").length;m++)
+	    {
+	    	if(data == listDirectory.split("|")[m])
+	    	{
+	    		flag=m+1;
+	    	}
+	    }
+	 if(flag<=0){
+		$("#tree").css("display","none");
+		return;
+	 }
+	 if(flag>listDirectory.split("|").length){
+		 $("#tree").css("display","none");
+		return;
+	 }
+
+	  $("#tree").css("display","block");
+		var process = $('#process');
+		var directory = $('.directory');
+		var dis = "5.6";//间隔距离
+	 	var list = listDirectory.split("|")
+	 	process.empty(); //清除后重新加载
+	 	directory.empty();
+	 if(flag<list.length){
+		 for(i=0;i<flag;i++){
+		 process.append(" <img  src='image/tree1.png'/>"
+				     	+"  <img  src='image/line.png'/>");
+			}
+			 for(i=flag;i<list.length-1;i++){
+		 process.append(" <img  src='image/tree2.png'/>"
+				     	+"  <img  src='image/line.png'/>");
+			}
+			process.append(" <img  src='image/tree2.png'/>");
+	}else{
+	 for(i=0;i<flag-1;i++){
+		 process.append(" <img  src='image/tree1.png'/>"
+				     	+"  <img  src='image/line.png'/>");
+			}
+		process.append(" <img  src='image/tree1.png'/>")
+	}
+
+	directory.append("<div style='float:left;margin-left:"+dis*(9-list.length)+"%;'>"+list[0]+"</div>");
+		 for(i=1;i<list.length;i++){
+		directory.append(
+		"<div class='other' style='display:block'>"+list[i]+"</div>");
+		}
+
+
+}
+
+
+    </script>
+	<style>
+	.timenew {
+		 float:right;/*定位方式，一般不修改*/
+		 position:absolute;/*定位方式，一般不修改*/
+		 font-family:'微软雅黑';/*字体*/
+		 color:#000000;/*字体颜色*/
+		 font-size:24px;/*字体大小*/
+		 right: 10%;/*距离页面左边框的边距*/
+		 top: 4%;/*距离页面上边框的边距*/
+		 z-index: 1;
+		 text-shadow:0 0 2px rgb(000, 000, 000);
+		 filter:glow(color=black, strength=1);
+		/*字体阴影，Strength表示阴影的投影长度 Direction表示阴影投影角度 color表示阴影的颜色*/
+			}
+
+	.terminal {
+		 float:right;/*定位方式，一般不修改*/
+		 position:absolute;/*定位方式，一般不修改*/
+		 font-family:'微软雅黑';/*字体*/
+		 color:#0B68B5;/*字体颜色*/
+		 font-size:24px;/*字体大小*/
+		 right: 35%;/*距离页面左边框的边距*/
+		 top: 4%;/*距离页面上边框的边距*/
+		 z-index: 1;
+		 text-shadow:0 0 2px rgb(000, 000, 000);
+		 filter:glow(color=black, strength=1);
+		/*字体阴影，Strength表示阴影的投影长度 Direction表示阴影投影角度 color表示阴影的颜色*/
+			}
+
+	</style>
+  </head>
+  <body ng-controller="CookMedia" scroll="auto" onselectstart="return false;" ondragstart="return false;">
+  <bgsound id="MUSIC1" loop="0" src="" >
+  <div id="c">
+  <OBJECT WIDTH="0" HEIGHT="0" ID="EBCommonCtrl" CLASSID="CLSID:0232DBFE-F2D4-467C-BAAA-F4F46690306C"></OBJECT>
+  </div>
+	  <div id="Layer_YC"  align="left" style="left:37%;visibility:visible;position:absolute;top:29%;border:0px blue solid;display:none">
+	  </div>
+	  <div id="Layer_TC" align="left" style="left:37%;visibility:visible;position:absolute;top:34%;border:0px blue solid;">
+	   </div>
+	   <div id="Layer_HY" align="left" style="left:37%;visibility:visible;position:absolute;top:29%;border:0px blue solid;display:none">
+	   </div>
+    <div class="container header" >
+        <div style="width:400px;height:50px;margin-top:30px;margin-left:-100px  !important;" >
+	    &nbsp;
+	    </div>
+	    <span id="time"  class="timenew" style="border:0px red solid;">&nbsp;</span>
+	    <span id="terminalId" class="terminal"   style="border:0px red solid;"></span>
+	</div>
+	<div  class="container" id="test"  style="border:0px blue solid;height:10%" >
+	    <div id="tree" class="container tree" style="border:0px red solid;display:none" >
+		      <div id="process" class="process" style="border:0px red solid;" >
+
+			</div>
+		    <div class="directory" style="border:0px blue solid;margin:0 auto;" >
+			  	</div>
+
+		</div>
+   </div>
+	<div id="main" ng-view class="apply main" ></div>
+
+
+    <footer class="footer">
+      <div class="container">
+		<div >
+		<div class="col-md-6" >
+
+
+				<!--<a href="{{reviseIndex}}.html#/pages"  style="position:absolute;left:-100px;top:-200px;color:red;float:right;"><i class="fa fa-bars"></i>index</a>-->
+
+			</div>
+
+		</div>
+      </div>
+
+    </footer>
+
+
+  </body>
+</html>

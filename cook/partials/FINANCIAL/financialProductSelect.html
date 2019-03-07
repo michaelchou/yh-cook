@@ -1,0 +1,294 @@
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#runflagselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#runflagselect::-ms-expand{
+	 display:none;
+}
+#selTypeselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+#selTypeselect::-ms-expand{
+	 display:none;
+ }
+ 
+ .ui-datepicker{
+	 width: 16em; padding: .5em .5em 0; display: none; font-size: 2em;
+}
+ .ui-datepicker-month{
+		color:blue;
+	}
+	.ui-datepicker-year{
+		color:blue;
+	}
+</style>
+<script language="JavaScript" type="text/JavaScript">
+$(function() {
+    $( "#startDate" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+    });
+    $( "#endDate" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+    });
+    $.datepicker.setDefaults($.datepicker.regional['zh-CN']); //中文
+    $( "#startDate" ).datepicker( "option", "showAnim", "clip" );//日期控件出现和消失的效果
+    $( "#endDate" ).datepicker( "option", "showAnim", "clip" );//日期控件出现和消失的效果
+  });	
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//	alert(e);
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+//清除提示信息
+function destory(obj){
+$("#" + obj.id).popover('destroy');
+}
+
+function commit(){
+
+ Hide();
+ var scope = angular.element(main).scope();
+ var runflag = document.getElementById("runflagselect").value;
+ var selType = document.getElementById("selType").value;
+ 	var inputs = document.getElementsByTagName("input");
+	var scope = angular.element(main).scope();
+	var startDateobj = inputs.item(0);
+ var startDate = startDateobj.value;
+ var endDateobj = inputs.item(1);
+ var endDate = endDateobj.value;
+
+ var reg = "yyyyMMdd";
+ reg = reg.replace(/yyyy/, "[0-9]{4}");
+ reg = reg.replace(/MM/, "((0[1-9])|1[0-2])");
+ reg = reg.replace(/dd/, "((0[1-9])|([1-2][0-9])|30|31)");
+ reg = new RegExp("^" + reg + "$");
+ var dtVal = new Date();
+ var strYear = dtVal.getFullYear();
+ var strMonth = (dtVal.getMonth()+1).toString();
+ for (var i=strMonth.length; i<2; i++)
+     {
+    	 strMonth = '0' + strMonth;
+     }
+     var strDate = dtVal.getDate().toString();
+     for (var i=strDate.length; i<2; i++)
+     {
+    	 strDate = '0' + strDate;
+     }
+  var currentDate=strYear + strMonth +strDate;
+
+  if(startDate.length<=0){
+	$("#"+startDateobj.id).attr("data-content", "开始日期不能为空");
+	$("#"+startDateobj.id).popover('show');
+  }else if(!reg.test(startDate)){
+	$("#"+startDateobj.id).attr("data-content", "开始日期格式错误");
+	$("#"+startDateobj.id).popover('show');
+  }else if(endDate.length<=0){
+	$("#"+endDateobj.id).attr("data-content", "结束日期不能为空");
+	$("#"+endDateobj.id).popover('show');
+  }else if(!reg.test(endDate)){
+	$("#"+endDateobj.id).attr("data-content", "结束日期格式错误");
+	$("#"+endDateobj.id).popover('show');
+  }else if(startDate.toString() > currentDate){
+	$("#"+startDateobj.id).attr("data-content", "开始日期不能大于当前日期");
+	$("#"+startDateobj.id).popover('show');
+  }else if(endDate.toString() > currentDate){
+	$("#"+endDateobj.id).attr("data-content", "结束日期不能大于当前日期");
+	$("#"+endDateobj.id).popover('show');
+  }else if(endDate.toString() < startDate.toString()){
+	$("#"+endDateobj.id).attr("data-content", "结束日期不能小于开始日期");
+	$("#"+endDateobj.id).popover('show');
+  }else if(runflag.indexOf(",") > -1)
+  {
+	$("#runflagselect").attr("data-content", "非法字符，请重新输入");
+	$("#runflagselect").popover('show');
+  }else if(selType.indexOf(",") > -1 || selType.length<=0)
+  {
+	$("#selTypeselect").attr("data-content", "非法字符或不能为空，请重新输入");
+	$("#selTypeselect").popover('show');
+  }else{
+  
+  
+  
+    if("封闭式" == runflag){
+		scope.pool["SS_FinancialProductsRunFlag"] = 0;
+	}else if("开放式" == runflag){
+		scope.pool["SS_FinancialProductsRunFlag"] = 1;
+	}else if("全部" == runflag){
+		scope.pool["SS_FinancialProductsRunFlag"] = 4;
+	}
+	if("认购" == selType){
+		scope.pool["SS_selType"] = 1;
+	}else if("预约认购" == selType){
+		scope.pool["SS_selType"] = 2;
+	}else if("撤单" == selType){
+		scope.pool["SS_selType"] = 4;
+	}else if("部分赎回" == selType){
+		scope.pool["SS_selType"] = 5;
+	}else if("全部赎回" == selType){
+		scope.pool["SS_selType"] = 6;
+	}else if("持仓查询" == selType){
+		scope.pool["SS_selType"] = 8;
+	}
+	
+	scope.pool["detail_type"] = selType;
+	scope.pool["startDate"] = startDate;
+	scope.pool["endDate"] = endDate;
+	scope.action("confirm");
+  }
+
+}
+
+function select()
+{
+ if(document.getElementById("runflagselect").value != "--可选择运行方式类型--")
+ {
+ 	document.getElementById("runflag").value = document.getElementById("runflagselect").value;
+ }
+}
+
+function selectType()
+{
+ if(document.getElementById("selTypeselect").value != "--可选择查询类型--")
+ {
+ $("#selType").popover('destroy');
+	 document.getElementById("selType").value = document.getElementById("selTypeselect").value;
+ }
+}
+function getData(obj){
+var stattData = document.getElementById("rendez-date").value;
+var oldData = stattData;
+document.getElementById("rendez-date").click();
+
+}
+</script>
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container  col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请输入查询条件</h3>
+</br></br>
+  <form class="form-horizontal" style="margin-top:0%;margin-left:25%">
+    
+	<div class="form-group" style="border:0px blue solid;">
+      <label for="date" class="col-sm-2 control-label" style="margin-top:0px;color:#000000;margin-left:-18px;">起始日期
+   
+      </label>
+      <div class="col-sm-4" style="margin-left:18px">
+      <input type="text" class="form-control" style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" placeholder="请选择日期"  id="startDate"  name="startDate" value=""  
+		data-container="body"  data-placement="left"  title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""   class="form-control"  data-html="true" maxlength="8">
+      </div>
+	  <sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:8px"></sp>
+    </div>
+   <div class="form-group" style="border:0px blue solid;">
+      <label for="date" class="col-sm-2 control-label" style="margin-top:0px;color:#000000;margin-left:-18px;">结束日期
+   
+      </label>
+      <div class="col-sm-4" style="margin-left:18px">
+      <input type="text" class="form-control" style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" placeholder="请选择日期"   id="endDate" name="endDate" value=""  
+	  data-container="body"  data-placement="left"  title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""   class="form-control"  data-html="true" maxlength="8" />
+      </div>
+	  <sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:8px"></sp>
+    </div>
+    <div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-18px;color:#000000">运行方式
+      </label>
+      
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,350)" placeholder="请选择或输入运行方式"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-blue'>运行方式输入有误 </sp>" data-content=""    data-html="true" id="runflag"   >
+        <select class="form-control selectpicker" onchange="select()"  id="runflagselect" style="margin-top:8px;border:1px blue solid;box-shadow:0 0px 0px #000 inset">
+          <option  selected>全部</option>
+          <option>封闭式</option>
+          <option>开放式</option>
+        </select>        
+      </div>
+      <sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:18px"></sp>
+    </div>
+	<div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-18px;color:#000000">查询类型
+      </label>
+      
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,350)" placeholder="请选择或输入查询类型"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-blue'>查询类型输入有误 </sp>" data-content=""    data-html="true" id="selType"   >
+        <select class="form-control selectpicker" onchange="selectType()"  id="selTypeselect" style="margin-top:8px;border:1px blue solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--可选择查询类型--</option>
+          <option>认购</option>
+          <option>预约认购</option>
+		  <option>撤单</option>
+		  <option>部分赎回</option>
+		  <option>全部赎回</option>
+		  <option>持仓查询</option>
+        </select>
+      </div>
+	  <sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:18px"></sp>
+    </div>
+  </form>
+</div>
+</br>
+</br>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+    <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor"   ng-click="action('return')">返回</button>
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">确认</button>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

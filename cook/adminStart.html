@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-cn" ng-app="cookApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>cook2</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/Buttons/css/buttons.min.css">
+    <link rel="stylesheet" href="css/bootstrap-nav-wizard.css">
+ 	<link rel="stylesheet" href="css/admin.css">
+ 
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/Buttons/js/buttons.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+  </head>
+
+<script type="text/javascript">
+		var isRunning = false;//异步控制
+		var common  = "/admin/NewAdminDeviceServlet";	
+    	$(document).ready(function() {	
+		//getAllDevice();
+		});
+		
+function getAllDevice() {
+if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+var now = new Date();
+var time = now.getMinutes() +now.getSeconds();
+var flag = true;
+var j = 0;
+    //防止缓存加入简单的随机数
+  $.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-get-all&time="+time,
+	    dataType: 'json',
+
+	    success: function(data) {
+			var parameters = data.parameters; 
+          	var messageText = data.messageText;
+         	
+      		$("#listview").html(messageText);
+      		if(parameters.length<=0){
+      		$("#comment").html("设备出现故障，请与管理员联系");
+      		
+      		return;
+  		}
+      		var rows= parameters.length/2;
+      		for(k=0;k<parameters.length;k++) {
+      		if(parameters[k].id =="CashDevice"||parameters[k].id =="CardReader"){
+      		if(parameters[k].state=="MISS")
+      		j++;
+      		}
+  		}
+  		 if(j>=2)
+  		 flag = false;
+  		 
+	if(flag){
+				var tablehtml = 
+			 "<tr align=center style='background:#afcdff' >"     		
+			+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[0].name+" id="+parameters[0].id+" width='40%'    src="+parameters[0].image+" onclick=''></td> "
+			+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[0].name+"</span></td>"
+			//+"<td   rowspan="+rows+" ><textarea class='form-control' rows='20' style='font-family: verdana; color: black; ont-size: 12px;' readonly id='listview'  style='display:block'></textarea></td>"
+			+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[1].name+"</span></td>"
+			+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[1].name+" id="+parameters[1].id+"  width='40%'  src="+parameters[1].image+" onclick=''></td> </tr> "
+			
+      		
+	for (var i=2;i<=parameters.length-2;i++) {
+	
+       			j=i+1;
+       	tablehtml+= "<tr align=center style='background:#afcdff' >"     		
+					+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[i].name+" id="+parameters[i].id+" width='40%'    src="+parameters[i].image+" onclick=''></td> "
+					+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[i].name+"</span></td>"
+	if(parameters[j].name!="none"){
+	
+		tablehtml+= "<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[j].name+"</span></td>"
+					+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[j].name+" id="+parameters[j].id+"  width='40%'  src="+parameters[j].image+" onclick=''></td> </tr>"
+  	 }else{
+  
+       	tablehtml+="<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'></span></td>"
+       			 +"<td  class='col-xs-1'  style='text-align:center'><img name='' id=''  width='40%'  src='' onclick=''></td> </tr>"
+ 
+	               }
+	                if(j<=parameters.length){
+	                 i ++;
+	                }
+	   		 }
+	   		 		$("#devicetable").html (tablehtml);
+     		$("#listview").html(messageText);
+	          listview.scrollTop=listview.scrollHeight;//滚动条沉底
+	    }else{
+	    
+	    	var tablehtml = 
+			 "<tr align=center style='background:#afcdff' >"     		
+			+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[0].name+" id="+parameters[0].id+" width='40%'    src=image/admin/waiting.gif onclick=''></td> "
+			+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[0].name+"</span></td>"
+			//+"<td   rowspan="+rows+" ><textarea class='form-control' rows='20' style='font-family: verdana; color: black; ont-size: 12px;' readonly id='listview'  style='display:block'></textarea></td>"
+			+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[1].name+"</span></td>"
+			+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[1].name+" id="+parameters[1].id+"  width='40%'  src=image/admin/waiting.gif onclick=''></td> </tr> "
+			
+      		
+	for (var i=2;i<=parameters.length-2;i++) {
+	
+       			j=i+1;
+       	tablehtml+= "<tr align=center style='background:#afcdff' >"     		
+					+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[i].name+" id="+parameters[i].id+" width='40%'    src=image/admin/waiting.gif onclick=''></td> "
+					+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[i].name+"</span></td>"
+	if(parameters[j].name!="none"){
+	
+		tablehtml+= "<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[j].name+"</span></td>"
+					+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[j].name+" id="+parameters[j].id+"  width='40%'  src=image/admin/waiting.gif onclick=''></td> </tr>"
+  	 }else{
+  
+       	tablehtml+="<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'></span></td>"
+       			 +"<td  class='col-xs-1'  style='text-align:center'><img name='' id=''  width='40%'  src='' onclick=''></td> </tr>"
+ 
+	               }
+	                if(j<=parameters.length){
+	                 i ++;
+	                }
+      		
+	          
+	    }
+	    		$("#devicetable").html (tablehtml);
+     		$("#listview").html();
+	          listview.scrollTop=listview.scrollHeight;//滚动条沉底
+	    
+	    }
+      
+	    }
+	});
+	isRunning = false;
+	loadBoxesTableData();
+}	
+
+
+
+
+
+
+
+
+
+
+function loadBoxesTableData(){
+if (isRunning) {
+		return;
+	}
+	
+	$.ajax({
+	     url: "/admin/NewAdminCycleServlet",
+	    cache: false,
+	    type: "post",
+	    data: "commandID=load-boxes-table-data",
+	    dataType: 'json',
+	    success: function(data) {
+	    		if ("ok"==data.message) {
+	    		  $("#cashtable").show();
+	    		var parameters = data.messageText;
+	    		var tablebody = $("#cashtable>tbody");
+				tablebody.empty();
+                var sume =0;
+				tablebody.append(
+	                	$("<tr align=center style='background:#afcdff' >").append(
+	                       	$('<td >').text("序号"),
+                	   		$('<td >').text("类型"),
+	                     	$('<td>').text("状态"),
+	                     	$('<td >').text("面值"),
+                         	$('<td >').text("初始张数"),
+                         	$('<td >').text("结存张数")
+
+	                ));
+				
+				for (var i in parameters) {
+				
+					tablebody.append(
+	                	$("<tr align=center style='background:#e7f0ff'  onclick='test()'>").append(
+	                    	$('<td>').text(parameters[i].id0),
+	                    	$('<td>').text(parameters[i].id1),
+	                        $('<td >').text(parameters[i].id2),
+	                        $('<td >').html(parameters[i].id3),
+	                        $('<td align=center>').text(parameters[i].id4+" 张"),
+                		 $('<td   align=center>').html("<div  class='input-group col-xs-6'> "+(parameters[i].id5)+" 张"+"</div>")            ));
+
+	    		}
+	    
+	    			isRunning = false;
+        	}else {
+        		  $('#cashtable').hide();
+         
+
+        	}
+	    }
+	});
+   isRunning = false;
+   setTimeout("getAllDevice()","10000");//每10秒刷新一次
+}
+
+
+
+
+
+       
+function restDervice(id,name){
+    alert(id+" "+name)
+    $("#"+id).attr('src','image/admin/waiting.gif');
+    if (isRunning) {
+		return;
+	}
+	else {
+		$("#return").button('loading');
+		isRunning = true;
+	}
+		$("#"+id).attr('src','image/admin/waiting.gif');
+     $("#listview").append("\r\n******* "+getTime()+" ******* \r\n"+"动作：设备检测\r\n过程：检测"+name+"\r\n>>正进行"+name+"设备检测...\r\n");
+        $.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-check&id=" + id,
+	    dataType: 'json',
+
+	    success: function(data) {
+	   // alert(data.errorMSG)
+	      if((data.errorMSG).length<=0){
+	    		     $("#listview").append("\r>>检测结果："+data.status+"\r\r\n");
+	    		    
+                  }else{
+                     $("#listview").append("\r>>检测结果："+data.status+"\r\n"+data.errorMSG.replace(/\错误/g,'\r\n错误')+"\r\n");
+                  }
+                  
+           if(data.status=="设备状态正常"){
+		     $("#"+id).attr('src','image/admin/well.png');
+		     }else if(data.status=="设备状态异常"){
+		     $("#"+id).attr('src','image/admin/warn.png');
+		     }else{
+		     $("#"+id).attr('src','image/admin/red.png');
+		     }
+     listview.scrollTop=listview.scrollHeight;
+	 isRunning = false;
+	  $("#return").button('reset');
+	    }
+     });
+     
+
+   listview.scrollTop=listview.scrollHeight;//滚动条沉底
+   
+    }
+     
+    </script>  
+  
+  
+  
+  
+  
+  
+  
+  
+  <body ng-controller="CookCtrl"  >
+        <div  >
+			<img  src="image/logo-jsnx.png" style="margin-left:40px !important;">
+		</div>
+	</div>
+<div id="content" >
+  <div class="col-xs-offset-0 col-xs-12" >
+    <table id="devicetable" class="bg-white col-xs-12" cellspacing="0"   border="1" cellpadding="0">
+    </table>
+  </div>
+</br>
+<div class="col-xs-offset-0 col-xs-12" >
+  <table id="cashtable" class="col-xs-12 fg-black table table-striped"   border="0" cellpadding="0">
+          <tr> </tr>
+        </table>
+        </div></div>
+        </body>
+</html>
+
+

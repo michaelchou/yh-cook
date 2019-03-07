@@ -1,0 +1,36 @@
+  <div class="container indicates">
+	  <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}<span>
+		</div>
+    </div>
+    
+<div class="col-xs-offset-0 col-xs-12 " style= "border:0px blue solid;">
+
+	<div class="cook-head">
+		    <h1 class="text-center">请选择服务项目</h1>
+	    	<h3 class="text-center">Please select services</h3>
+	</div>
+
+	
+<div class="col-xs-offset-1 col-xs-12" style= "margin-top:4%;height:0px;">
+		<div class="col-xs-offset-1 col-md-3 " ng-if="pool.I_DEP == 'active'">
+		  <img id="DEP" class="" src="image/FaceDEP.png"   ng-click="action('FaceDEP')" />
+		</div>
+		
+		<div class="col-md-3 " ng-if="pool.I_CWD == 'active'" >
+		    <img id="CWD" class="" src="image/FaceCWD.png"  ng-click="action('FaceCWD')" />
+		</div>
+        
+		<div class="col-md-3 " ng-if="pool.I_INQ == 'active'" >
+	     <img id="Query" class="" src="image/余额查询.png"  ng-click="action('INQ')" />
+	    </div>
+</div>	
+			
+	<div class="cook-foot col-xs-offset-0 col-xs-12" style="margin-left:4%;">
+	     <button id="cancel" type="button" class="col-sm-offset-3 col-xs-2 image-bt" ng-click="action('cancel')">退出</button>
+	     <button id="return" type="button" class="col-xs-offset-2 col-xs-2 image-btgr" ng-click="action('return')">返回</button>
+    </div>  
+    
+    
+    
+    

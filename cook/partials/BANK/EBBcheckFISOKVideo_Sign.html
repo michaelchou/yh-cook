@@ -1,0 +1,110 @@
+<script language="JavaScript" type="text/JavaScript"> 
+creatTree(0,"回单显示");
+document.getElementById("Cardjpg").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+document.getElementById("FaceImgjpg").src ="D:/FaceImg.jpg"+"?"+Math.random();
+$.ajax({
+ 	     url: "/custom/document",
+ 	    cache: false,
+ 	    type: "get",
+ 	    data: "commandID=haveSignImg",
+ 	    dataType: 'json',
+ 	    success: function(data) {
+			if((data.messageText).length >= 1){
+				document.getElementById("img").src ="d:/sign.png"+"?"+Math.random();
+			}
+ 	    }
+ 	});
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div>
+ <p style="font-size:35px;text-align: center;color:#000000;">江苏农村商业银行动态令牌绑定申请单</p></br>
+ <table class="col-xs-12 balance " style="margin-bottom:8px;color:#000000;height:165px;">
+        <tr>
+            <td ><th class="col-xs-3" style="font-size:20px">姓名:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.name}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">性别:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.genderC}}</td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">证件号码:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.pid}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">证件类型:</th></td>
+            <td class="col-xs-3"style="font-size:20px">身份证</td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"style="font-size:20px">登陆名称:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.ST_UserId}}</td>
+			<td><th class="col-xs-3"style="font-size:20px">渠道类型:</th></td>
+            <td ng-if="pool.ST_MchannelFlag == 'PIBS'" class="col-xs-3"style="font-size:20px">网上银行</td>
+			<td ng-if="pool.ST_MchannelFlag == 'PMBS'" class="col-xs-3"style="font-size:20px">手机银行</td>
+			<td ng-if="pool.ST_MchannelFlag == 'All'" class="col-xs-3"style="font-size:20px">网上银行、手机银行</td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">交易类型:</th></td>
+            <td class="col-xs-3"style="font-size:20px">动态令牌绑定</td>
+			<td><th class="col-xs-3"style="font-size:20px">终端号:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.Apply_terminalId}}</td>
+        </tr>
+		<tr>
+		    <td><th class="col-xs-3"style="font-size:18px">签发机关:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.issueoffice}}</td>
+			<td><th class="col-xs-3"style="font-size:18px">证件有效日期:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.issuedate}}~{{pool.abatedate}}</td>
+        </tr>
+		<tr>
+		    <td><th class="col-xs-3"style="font-size:18px">申请日期:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.transDate.substring(0,4)+"/"+pool.transDate.substring(4,6)+"/"+pool.transDate.substring(6,8)}}</td>
+			<td><th class="col-xs-3"style="font-size:18px">申请时间:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.transTime.substring(0,2)+":"+pool.transTime.substring(2,4)+":"+pool.transTime.substring(4,6)}}</td>
+        </tr>
+    </table>
+
+	<table style="margin-left:17.5%" >
+		<tr>
+			<td width="10%">
+				<span style="font-size:20px;font-weight:bold;color:#000000;">身份证照片:</span>
+			</td>
+			<td width="7%">
+			 <span style="font-size:20px;font-weight:bold;color:#000000;">现场审核照片:</span>
+			</td>
+	   </tr>
+	  <tr>
+			<td>
+				<img id="Cardjpg" src="" style="width:18%; border:1px red solid">
+		   </td>
+		   <td>
+			   <img id="FaceImgjpg" src="" style="width:40%;border:1px red solid">
+		   </td>
+	 </tr>
+	</table>
+	<div style="margin-top:2%;font-size:15px; ">
+		<p style="margin-left:17%;margin-right:17%;margin-top:0%;color:#000000">
+		 本人保证所提供的个人资料信息真实、有效、完整。对信息失真或因违反规定而造成的损失和后果,本人愿意承担一切后果及法律
+		 </p>
+		 <p style="margin-left:17%;margin-right:17%;color:#000000">
+		 责任。本人已详细阅读业务相关协议及须知,确认申请业务与打印栏记录相符。本人同意贵行有权依据国家有关规定及业务需要对
+		 </p>
+		 <p style="margin-left:17%;margin-right:17%;color:#000000">
+		 服务内容、收费项目等内容进行调整,并同意该项调整将于正式对外公告一定时期后执行,无需另行通知本人。
+		</p>
+		<span style="position:fixed;top:73%;left:19%;font-size:15px;color:#000000;">审核结果:{{pool.PERresponseCode}}{{pool.PERerrorMessage}}</span>
+		<span style="position:fixed;top:73%;left:65%;color:#000000">
+			客户签名:_______________<span id="span">
+		</span>
+		<img id="img" src=""  style="position:fixed;width:8%; height:6%;top:68%;left:70%;"></span>
+	</div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style="margin-top:12%;margin-left:-5%">
+    <button type="button"  ng-click="action('confirm')" class="col-xs-offset-4 col-xs-2 image-btgr" >审核通过</button>
+   	<button type="button" ng-click="action('return')"  class="col-xs-offset-2 col-xs-2 image-bt" >审核拒绝</button>
+</div>

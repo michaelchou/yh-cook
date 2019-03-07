@@ -1,0 +1,35 @@
+<script>
+    document.getElementById("MUSIC1").src = "wav/选择服务项目.wav";
+</script>
+<div class="container center" style="margin-top:-4%">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+    <div class="title">
+        <h1 class="text-center">请选择交易类型</h1>
+        <h3 class="text-center">Please select services</h3>
+    </div>
+	</br>
+    </br>
+	<div>
+        <div>
+            <a href="" class="thumbnail thumbnail-mianMenu btn btn-primary btn-lg active" ng-click="action('DEFAULT')">
+                <p>转账</p>
+            </a>
+        </div>
+		</br>
+        <div>
+            <a href="" class="thumbnail thumbnail-mianMenu btn btn-primary btn-lg active" ng-click="action('TRANSFERCANCEL')">
+                <p>转账撤销</p>
+            </a>
+        </div>
+	</div>
+    </br>
+    </br>
+    </br>
+    </br>
+    <div>
+        <button id="cancel" type="button" class="col-sm-offset-3 col-xs-2 button-change button-lg1" ng-click="action('return')">返回</button>
+        <button type="button" class="col-sm-offset-2  col-xs-2 button-eject button-lg1" ng-click="action('eject')">退卡</button>
+    </div>
+</div>

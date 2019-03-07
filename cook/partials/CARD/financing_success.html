@@ -1,0 +1,28 @@
+
+<div class="container apply">
+<div class="row">
+    <div class="div_left col-md-3">
+        <ng-include src="'partials/card_left.html'"></ng-include>
+    </div>
+    <div class="div_right col-md-9">
+        <div class="indicates">
+    		<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+			<span class="">{{timeout}}</span>
+			</div>
+            <h1>完成理财签约</h1>
+    	</div>
+
+    	<div class="step">
+            <h2 class="text-center">签约成功！</h2>
+            <div class="row">
+                <div class="col-md-offset-3 col-md-3">
+                    <button type="button" class="button button-primary button-lg" ng-click="action('yes')">完成并退出</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="button button-primary button-lg" ng-click="action('no')">打印凭条</button>
+                </div>
+            </div>
+    	</div>
+    </div>
+</div>
+</div>

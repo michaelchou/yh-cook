@@ -1,0 +1,358 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/RendezVous/app.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#lossCodeselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#lossTypeselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+creatTree(0,"填写表单");
+	document.getElementById("idcard").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+
+getTime();
+function getTime() {
+		
+	}
+
+var scope = angular.element(main).scope();
+scope.$watch('pool.pid', function(){
+if(true){
+	if(scope.pool["ST_LostType"] == "LTR"){
+		document.getElementById("lossTypeselect").value="信函挂失";
+	}else if(scope.pool["ST_LostType"] == "PHN"){
+		document.getElementById("lossTypeselect").value="电话挂失";
+	}else if(scope.pool["ST_LostType"] == "VTB"){
+		document.getElementById("lossTypeselect").value="到分行挂失";
+	}else if(scope.pool["ST_LostType"] == "VTC"){
+		document.getElementById("lossTypeselect").value="到信用卡中心挂失";
+	}
+	
+	if(null != scope.pool["ST_CanCode"] && scope.pool["ST_CanCode"].length > 0){
+		document.getElementById("lossCodeselect").value = scope.pool["ST_CanCode"];
+	}
+	
+	if(null != scope.pool["mobile"] && scope.pool["mobile"].length > 0){
+		document.getElementById("mobile").value = scope.pool["mobile"];
+	}
+	
+	var now = new Date();
+		var month = now.getMonth()+1; month = (month)>9?month:("0"+month);
+		var day = now.getDate(); day=(day>9?day:('0'+day));
+		var hour = now.getHours(); hour=(hour>9?hour:('0'+hour));
+		var min = now.getMinutes(); min=(min>9?min:('0'+min));
+		var sec = now.getSeconds(); sec=(sec>9?sec:('0'+sec));
+		var time = now.getFullYear() + '年 '+ month+ '月'+day + '日';
+		// time += day + '日' + hour + ':'+ min +':'+sec;
+		//time +=  day +hour + ':' + min ;
+		$('#time').html(time);
+		var inputs = document.getElementsByTagName("input");
+		//inputs.item(0).value=time;
+		if(null != scope.pool["ST_LostDate"] && scope.pool["ST_LostDate"].length > 0){
+			inputs.item(5).value = scope.pool["ST_LostDate"].substring(0,4)+'年'
+									+scope.pool["ST_LostDate"].substring(4,6)+'月'
+									+scope.pool["ST_LostDate"].substring(6,8)+'日';
+		}else{
+			inputs.item(5).value=time;
+		}
+		
+		//if(null != scope.pool["ST_LostTime"] && scope.pool["ST_LostTime"].length > 0){
+		//	inputs.item(6).value=scope.pool["ST_LostTime"].substring(0,2);
+		//}else{
+		//	inputs.item(6).value=hour;
+		//}
+		
+		//if(null != scope.pool["ST_LostTime"] && scope.pool["ST_LostTime"].length > 0){
+		//	inputs.item(7).value=scope.pool["ST_LostTime"].substring(2,4);
+		//}else{
+		//	inputs.item(7).value=min;
+		//}
+}
+});
+
+	function commit(){
+	 Hide();
+	 var scope = angular.element(main).scope();
+	 var date = document.getElementsByTagName("input").item(5);
+	 var lossdate = date.value.replace('年','').replace('月','').replace('日','').replace(/\s+/g,'');
+	 //var losshour = document.getElementById("losshour").value;
+	 //var losssecond = document.getElementById("losssecond").value;
+	 //var losstime = "";
+	 var lossCodeselect = document.getElementById("lossCodeselect").value;
+	 var lossTypeselect = document.getElementById("lossTypeselect").value;
+	 var mobile = document.getElementById("mobile").value;
+	 var reg = "yyyyMMdd";
+	 reg = reg.replace(/yyyy/, "[0-9]{4}");
+	 reg = reg.replace(/MM/, "((0[1-9])|1[0-2])");
+	 reg = reg.replace(/dd/, "((0[1-9])|([1-2][0-9])|30|31)");
+	 reg = new RegExp("^" + reg + "$");
+	 //var reg1 = "HHmm"
+	 //reg1 = reg1.replace(/HH/, "(([0-1][0-9])|20|21|22|23)");
+     //reg1 = reg1.replace(/H/, "([0-9]|1[0-9]|20|21|22|23)");
+     //reg1 = reg1.replace(/mm/, "([0-5][0-9])");
+     //reg1 = reg1.replace(/m/, "([0-9]|([1-5][0-9]))");
+	 //reg1 = new RegExp("^" + reg1 + "$");
+	 var dtVal = new Date();
+	 var strYear = dtVal.getFullYear();
+	 var strMonth = (dtVal.getMonth()+1).toString();
+	 for (var i=strMonth.length; i<2; i++)
+	 {
+		strMonth = '0' + strMonth;
+	 }
+	 var strDate = dtVal.getDate().toString();
+	 for (var i=strDate.length; i<2; i++)
+	 {
+		strDate = '0' + strDate;
+	 }
+	 var currentDate=strYear + strMonth +strDate;
+	 
+	 //if(losshour.length == "1"){
+	//	losshour = "0"+losshour;
+	 //}
+	// if(losssecond.length == "1"){
+	//	losssecond = "0"+losssecond;
+	// }
+	// losstime = losshour + losssecond;
+	 
+	 if(lossTypeselect == "--可选择挂失类型--")
+	  {
+		$("#lossTypeselect").attr("data-content", "请选择挂失类型");
+		$("#lossTypeselect").popover('show');
+	  }else if(lossCodeselect == "--可选择挂失原因--")
+	  {
+		$("#lossCodeselect").attr("data-content", "请选择挂失原因");
+		$("#lossCodeselect").popover('show');
+	  }else if(lossdate.length <= 0 || (!reg.test(lossdate))){
+		$("#"+ date.id).attr("data-content", "日期为空或格式有误，请重新输入");
+		$("#"+ date.id).popover('show');
+	  }else if(lossdate.toString() > currentDate){
+		$("#"+ date.id).attr("data-content", "日期不能大于当前日期");
+		$("#"+ date.id).popover('show');
+	  }
+	  //else if(losstime.length < 4 || (!reg1.test(losstime))){
+		//$("#losssecond").attr("data-content", "时间为空或格式有误，请重新输入");
+		//$("#losssecond").popover('show');
+	  //}
+	  else{
+		if(null != mobile && mobile.length > 0){
+			scope.pool["mobile"] = mobile;
+		}else{
+			scope.pool["mobile"] = "";
+		}
+	  
+		if(lossCodeselect != "--可选择挂失原因--"){
+			scope.pool["ST_CanCode"] = lossCodeselect;
+		}else{
+			scope.pool["ST_CanCode"] = '';
+		}
+		
+		if(lossTypeselect == "信函挂失"){
+			scope.pool["ST_LostType"] = "LTR";
+		}else if(lossTypeselect == "电话挂失"){
+			scope.pool["ST_LostType"] = 'PHN';
+		}else if(lossTypeselect == "到分行挂失"){
+			scope.pool["ST_LostType"] = 'VTB';
+		}else if(lossTypeselect == "到信用卡中心挂失"){
+			scope.pool["ST_LostType"] = 'VTC';
+		}else{
+			scope.pool["ST_LostType"] = '';
+		}
+		scope.pool["ST_LostDate"] = lossdate;
+		//scope.pool["ST_LostTime"] = losstime;
+		scope.action("submit");
+	  }
+	}
+
+function select1()
+{
+ if(document.getElementById("lossCodeselect").value != "--可选择挂失原因--")
+ {
+     $("#lossCodeselect").popover('destroy');
+	 document.getElementById("lossCode").value = document.getElementById("lossCodeselect").value;
+ }
+}	
+
+function select2()
+{
+ if(document.getElementById("lossTypeselect").value != "--可选择挂失类型--")
+ {
+     $("#lossTypeselect").popover('destroy');
+	 document.getElementById("lossType").value = document.getElementById("lossTypeselect").value;
+ }
+}
+</script>
+<div class="container indicates"> 
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:-2%;border:1px red solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px red">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写卡片挂失表单</h3>
+  <form class="form-horizontal" style="margin-top:0%;margin-left:15%">
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-18px;color:#000000">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='margin-top:10px;background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.name}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="pid" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-18px;color:#000000;">身份证号</label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text" style='margin-top:10px;background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="pid"  value="{{pool.pid}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="mobile" class="col-sm-2 control-label" style="margin-top:10px;color:#000000;margin-left:-18px;">手机号码
+      </label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="tel"  style="margin-top:10px;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="mobile" value="{{pool.mobile}}" 
+    			onBlur="Hide()"  data-container="body"  data-placement="right"  title="<sp class='fg-red'>手机号输入有误 </sp>" data-content=""  data-html="true" maxlength="11" >
+        
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-18px;color:#000000">挂失类型
+      </label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入挂失类型"  class="form-control" data-container="body"  ng-model="pool.lossType" id="lossType"   >
+        <select class="form-control selectpicker" onchange="select2()"  id="lossTypeselect" style="margin-top:10px;border:1px red solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>挂失类型输入有误 </sp>" data-content="" data-html="true" data-placement="right" >
+          <option  disabled selected >--可选择挂失类型--</option>
+          <option>信函挂失</option>
+          <option>电话挂失</option>
+          <option>到分行挂失</option>
+          <option>到信用卡中心挂失</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:18px"></sp>
+    </div>
+	<div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-18px;color:#000000">挂失原因
+      </label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入挂失原因"  class="form-control" data-container="body" ng-model="pool.lossCode" id="lossCode"   >
+        <select class="form-control selectpicker" onchange="select1()"  id="lossCodeselect" style="margin-top:10px;border:1px red solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>挂失原因输入有误 </sp>" data-content=""    data-html="true" data-placement="right" >
+          <option  disabled selected >--可选择挂失原因--</option>
+          <option>卡片丢失</option>
+		  <option>卡片分层损坏</option>
+          <option>帐户关闭而关闭卡片</option>
+          <option>卡片损坏</option>
+          <option>凸字错误</option>
+          <option>欺诈</option>
+          <option>因为催收而关闭的卡片</option>
+          <option>持卡人换名</option>
+		  <option>未收到卡片</option>
+          <option>拣到的卡片挂失</option>
+          <option>被偷</option>
+          <option>未交费而关闭卡片</option>
+		  <option>因为服务抱怨而关闭卡片</option>
+          <option>睡眠卡关闭</option>
+          <option>损坏交回</option>
+          <option>持卡人死亡</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:18px"></sp>
+    </div>
+	<div class="form-group" style="border:0px red solid;">
+      <label for="date" class="col-sm-2 control-label" style="margin-top:10px;color:#000000;margin-left:-18px;">遗失日期
+      </label>
+      <div class="col-sm-4" style="margin-left:18px" >
+			<div id="rendez-vous-sign" style="margin-top:-10px;margin-left:-1px;"></div>
+	  </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:18px"></sp>
+    </div>
+   <!--  
+	<div class="form-group">
+      <label for="mobile" class="col-sm-2 control-label" style="margin-top:10px;color:#000000;margin-left:-18px;">遗失时间
+      </label>
+      <div class="col-sm-1" style="margin-left:18px">
+        <input type="tel"  style="margin-top:10px;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="losshour"
+    		onBlur="Hide()" title="<sp class='fg-red'>时间输入有误 </sp>"  data-container="body"  data-placement="right" data-content=""  data-html="true" maxlength="2" >
+      </div>
+	  <div class="col-sm-1" style="margin-top:15px;margin-left:-40px">:</div>
+	  <div class="col-sm-1" style="margin-left:-40px">
+        <input type="tel"  style="margin-top:10px;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="losssecond"
+    		onBlur="Hide()" title="<sp class='fg-red'>时间输入有误 </sp>"  data-container="body"  data-placement="right" data-content=""  data-html="true" maxlength="2" >
+      </div>
+	  <div class="col-sm-1" style="margin-top:15px;margin-left:-10px;font-size:15px">(时:分)</div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:18px"></sp>
+    </div>
+	-->
+    <div style="top:8%;left:68%;width:102px; height:126px;outline:none;visibility:visible;position:absolute;">
+      <label >身份证照片</label >
+      <img id="idcard" align="left" style="width:100%; height:100%;margin-top:20px;border:1px red solid;border-radius:10px 10px 10px 10px;" /> 
+    </div>
+  </form>
+  
+</div>
+</br>
+</br>
+
+      <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+      <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('return')">退出</button>
+      
+          <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>
+		 
+    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>

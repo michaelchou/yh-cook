@@ -1,0 +1,62 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript">
+	document.getElementById("amount").focus();
+	function Show(type,x,y){
+		try {
+			HandWrite.Show(type,1,x,y);
+		} catch (e) {
+			//alert(e);
+			return;
+		}
+	}
+	function openkeyset(type,x,y){
+		Show(type,x,y)
+	}
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+<div class="container step col-xs-offset-o col-xs-12">
+    <h1 class="text-center">请输入存款金额</h1>
+    <h3 class="text-center">Please enter the deposit amount</h3>
+</div>
+
+<div class="step1">
+	<form class="navbar-form" role="search">
+		<div class="col-xs-offset-4 col-xs-5" style="margin-left:38%">
+			<div class="input-group input-group-lg">
+            	<input type="text" class="form-control" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" onclick="openkeyset(1,700,330)"
+                	id="amount" onblur="this.focus()" ng-model="pool.input_DEPAmount"  maxlength="5" data-container="body"  
+                    	data-placement="left"  title="<sp class='fg-red'>存款金额输入有误 </sp>" data-content="" data-html="true">
+				<span class="input-group-btn">
+        			<button class="btn btn-primary" type="button" ng-click="clear()">清  除</button>
+      			</span>
+			</div>
+		</div>
+	<div>
+	</br>
+	</br>
+	</br>
+	</br>
+	</br>
+	</br>
+	</br>
+	</br>
+		<h1 class="text-center" style="font-size: 140%;color:#545454;">
+            交易时按实际存入金额为准</br>
+            输入金额应为{{pool.page_DEPValue}} 的整数倍</br>
+            最大不能超过 {{pool.page_DEPMaxAmount}} 元
+        </h1>
+	</div>
+</form>
+	
+</div>
+<div class="form-group" style="margin-top:12%;margin-left:7%">
+	<button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt" ng-click="action('cancel')">取消</button>
+    <button id="confirm" type="button" class="col-xs-offset-2 col-xs-2 image-btgr"
+    	onclick="resetModel('amount','input_DEPAmount');checkPASSDEPAmount('page_DEPMaxAmount');">确认</button>
+  </div>
+  <object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+  </object>

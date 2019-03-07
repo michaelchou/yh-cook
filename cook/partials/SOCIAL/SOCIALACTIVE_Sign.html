@@ -1,0 +1,79 @@
+<script language="JavaScript" type="text/JavaScript"> 
+creatTree(0,"指纹授权");
+document.getElementById("Cardjpg").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+document.getElementById("FaceImgjpg").src ="D:/FaceImg.jpg"+"?"+Math.random();
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+	<span class="timeout pull-right">{{timeout}}</span>
+</div>
+<div>
+ <p style="font-size:35px;text-align: center;color:#000000;">江苏农村商业银行社保卡激活申请单</p></br>
+ <table class="col-xs-12 balance " style="margin-bottom:8px;color:#000000;height:165px;">
+        <tr>
+            <td ><th class="col-xs-3" style="font-size:18px">姓名:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.activateName}}</td>
+            <td><th class="col-xs-3"style="font-size:18px">性别:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.genderC}}</td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"style="font-size:18px">交易类型:</th></td>
+            <td class="col-xs-3"style="font-size:18px">社保卡激活</td>
+            <td><th class="col-xs-3"style="font-size:18px">证件类型:</th></td>
+            <td class="col-xs-3"style="font-size:18px">身份证</td>
+        </tr>
+		
+		<tr>
+			<td><th class="col-xs-3"style="font-size:18px">手机号码:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.activateTelephone}}</td>
+		    <td><th class="col-xs-3"style="font-size:18px">民族:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.nationality}}</td>
+        </tr>
+        <tr>			
+            <td><th class="col-xs-3"style="font-size:18px">证件号码:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.activateIdno}}</td>
+            <td><th class="col-xs-3"style="font-size:18px">证件有效日期:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.issuedate}}~{{pool.abatedate}}</td>
+        </tr>		
+    </table>
+
+	<table style="margin-left:17.5%" >
+		<tr>
+			<td width="10%">
+				<span style="font-size:20px;font-weight:bold;color:#000000;">身份证照片:</span>
+			</td>
+			<td width="7%">
+			 <span style="font-size:20px;font-weight:bold;color:#000000;">现场审核照片:</span>
+			</td>
+	   </tr>
+	  <tr>
+			<td>
+				<img id="Cardjpg" src="" style="width:18%; border:1px red solid">
+		   </td>
+		   <td>
+			   <img id="FaceImgjpg" src="" style="width:40%;border:1px red solid">
+		   </td>
+	 </tr>
+	</table>
+	<div style="margin-top:5%;font-size:15px; ">
+		<p style="margin-left:17%;margin-right:17%;margin-top:0%;color:#000000">
+		 本人保证所提供的个人资料信息真实、有效、完整。对信息失真或因违反规定而造成的损失和后果,本人愿意承担一切后果及法律
+		 </p>
+		 <p style="margin-left:17%;margin-right:17%;color:#000000">
+		  责任。本人确认申请业务与打印栏记录相符。本人同意贵行有权依据国家有关规定及业务需要对服务内容、收费项目等内容进行
+		 </p>
+		 <p style="margin-left:17%;margin-right:17%;color:#000000">
+		 调整,并同意该项调整将于正式对外公告一定时期后执行,无需另行通知本人。
+		</p>
+	</div>
+</div>
+<div style="margin-top:5%;">
+	    <h1 class="text-center" style="display:block;color:#000000">请银行工作人员授权</h1>
+	    </br>
+	    <h3 class="text-center" style="display:block;color:#000000">请将手指在指纹仪上长按&nbsp;<label id="time" style="width:50px;color:red;">5</label>&nbsp;秒后抬起!</h3>
+</div>

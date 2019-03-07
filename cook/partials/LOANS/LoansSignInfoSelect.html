@@ -1,0 +1,87 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+   document.getElementById("MUSIC1").src = "";
+	var scope = angular.element(main).scope();
+	scope.selectLoansNo = function (pid) {	
+		var _detail = scope.pool["detail"].split('#');
+		for (var i = 0; i < _detail.length; i ++) {
+            if (pid == _detail[i].split('@')[0]) {
+                scope.pool["ST_LoansCompactNo"] = _detail[i].split('@')[0];
+				
+				
+                break;
+            }
+        }
+		scope.action("confirm");
+	}
+	
+</script>
+  <div class="container indicates">
+	  <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}<span>
+		</div>
+    </div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+    <div class="cook-head">
+		<h1  class="text-center">自助渠道放款确认登记</h1>
+	</div>
+    
+    <table class=" table-striped  table-bordered" width="100%" style="text-align:center;">
+        <tr style="font-weight:bold;font-size:18px;">
+            <td height="33px">客户名称</td>
+            <td height="33px">合同号</td>
+            <td height="33px">文本合同号</td>
+            <td height="33px">状态</td>
+			<td height="33px">请选择</td>
+           
+        </tr>
+        <tr ng-repeat="x in detail" >
+			<td height="33px">{{pool.ST_LoansCUSTNAME}}</td>
+            <td height="33px">{{x.key0}}</td>
+            <td height="33px">{{x.key1}}</td>
+            <td height="33px" ng-if="pool.ST_LoansStatus=='1'">登记</td>
+			<td height="33px" ng-if="pool.ST_LoansStatus=='2'">生效</td>
+			<td height="33px" ng-if="pool.ST_LoansStatus=='3'">失效</td>
+			
+		    <td height="33px">
+                <span class="input-group-btn" >
+                    <button class="btn btn-primary" type="button" ng-click="selectLoansNo(x.key0)">选择</button>
+                </span>
+				
+            </td>
+        </tr>
+	</table>
+</div> 	   
+
+
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px red solid;margin-top:37%;">
+    <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+       <h1 class="text-center" style="font-size: 140%;color:#000000;">第{{pageNo}}页,共{{pageSize}}页</h1>
+    </div>
+	
+    <div ng-if="pageSize > 1">
+    
+
+ 	<div class=" col-xs-offset-0 col-xs-5 "style="border:0px blue solid;">
+ 			<div class="col-xs-offset-4 col-xs-2"style="border:0px red solid;">
+    	    <button  type="button" class="col-xs-offset-4 col-xs-2 image-btgr"  ng-hide="Prev" ng-click="next(-1)">上一页</button>
+    	   </div>
+           <div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+    	    <button  type="button"  class="col-xs-offset-4 col-xs-2 image-btgr"   ng-hide="Next"    ng-click="next(1)">下一页</button>
+    	   </div>
+    </div>
+	
+	<div class=" col-xs-offset-1 col-xs-2 "style="border:0px blue solid;">
+ 			
+    	    <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt"      ng-click="action('eject')">退出</button>
+    </div>
+	
+    </div>
+    <div ng-if="pageSize <= 1">	
+    <div class=" col-xs-offset-6 col-xs-12 "style="border:0px blue solid;">
+ 			
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-bt"      ng-click="action('eject')">退出</button>
+    </div>  
+    </div> 
+ </div>
+ 

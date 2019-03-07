@@ -1,0 +1,27 @@
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+
+<div class="container step col-xs-offset-o col-xs-12">
+	<h1 class="text-center">请放入钞票</h1>
+	<h3 class="text-center">Please put in cash</h3>
+    <img src="image/deposit.gif">
+    
+</div>
+<br>
+<br>
+<div>
+      <h1 class="text-center" style="font-size: 130%;color:#545454;">提示：本机仅能存入面额 {{pool.page_DEPValue}} 元人民币</br>此次您最多能存入 {{pool.page_DEPNumber}} 张</h1>
+</div>
+<br>
+<div style="margin-top:6%;margin-left:7%">
+	<button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt" ng-click="action('cancel')">取消</button>
+    <button id="confirm" type="button" class="col-xs-offset-2 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+</div>
+<!-- <EMBED id="MUSIC1" SRC="wav/钞票放入ok.wav" Loop=false AUTOSTART=true Hidden=true MASTERSOUND> -->
+<script>
+    document.getElementById("MUSIC1").src = "wav/钞票放入ok.wav";
+</script>

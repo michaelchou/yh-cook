@@ -1,0 +1,30 @@
+<script>
+creatTree(0,"");
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+	<h1 class="text-center">对不起，您已进行过签约。</h1>
+	<h3 class="text-center">Sorry,you have signed</h3>
+</div>
+<table class="table-striped  table-bordered" width="100%" style="text-align:center;">
+      <tr style="font-weight:bold;font-size:16px;">
+         <td height="33px">卡号</td>
+         <td height="33px">单笔限额</td>
+         <td height="33px">当日限额</td>
+      </tr>
+      <tr ng-repeat="x in detail" >
+	      <td height="33px">{{ x.key0}}</td>
+	      <td height="33px">{{ x.key1}}</td>
+	      <td height="33px">{{ x.key2}}</td>
+      </tr>
+ </table>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+    <button type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+	<button  id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+</div>

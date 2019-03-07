@@ -1,0 +1,105 @@
+  <div class="container indicates">
+		<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}<span>
+		</div>
+  </div>
+    
+<div class="col-xs-offset-0 col-xs-12 " style= "border:0px blue solid;">
+
+<div class="cook-head">
+	    <h1 class="text-center">请选择服务项目</h1>
+    	<h3 class="text-center">Please select services</h3>
+		</div>
+
+	
+<div class="col-xs-offset-0 col-xs-12" style= "margin-top:2%;height:0px;">
+		<div class="col-md-3 card5" ng-if="pool.INQ == 'active'">
+		  <img id="INQ"  src="image/partials/INQ.png"  tag=" {{pool.INQ}}" ng-click="action('INQ')" />
+	
+		</div>
+		
+		<div class="col-md-3 card5" ng-if="pool.PIN == 'active'">
+			  <img id="PIN"  src="image/partials/PIN.png"  tag=" {{pool.PIN}}" ng-click="action('PIN')" />
+		</div>
+        
+		<div class="col-md-3 card5" ng-if="pool.TRF == 'active'">
+		  <img id="TRF" src="image/partials/TRF.png"  tag="  {{pool.TRF}}" ng-click="action('TRF')" />
+		</div>
+		
+		<div class="col-md-3 card5" ng-if="pool.QUERY_DETAIL == 'active'">
+		  <img id="INQ_DETAIL"  src="image/partials/INQ_DETAIL.png"  tag=" {{pool.QUERY_DETAIL}}" ng-click="action('INQ_DETAIL')" />
+		</div>
+			
+			
+		<div class="col-md-3 card5" ng-if="pool.NomalFixed == 'active'">
+			  <img id="NomalFixed"   src="image/partials/NomalFixed.png"  tag=" {{pool.NomalFixed}}" ng-click="action('NomalFixed')" />
+		</div>
+		
+		<div class="col-md-3 card5" ng-if="pool.CallDeposit == 'active'">
+		  <img id="CallDeposit"   src="image/partials/CallDeposit.png"  tag=" {{pool.CallDeposit}}" ng-click="action('CallDeposit')" />
+		</div>
+		
+	   <!--  <div class="col-md-3 card5" ng-if="pool.AgentFee == 'active'">
+		  <img id="AgentFee"   src="image/partials/AgentFee.png"  tag=" {{pool.AgentFee}}" ng-click="action('AgentFee')" />
+		</div>
+		 -->
+		<div class="col-md-3 card5"  ng-if="pool.EC == 'active'">
+		  <img id="ECash"   src="image/partials/ECash.png"  tag=" {{pool.EC}}" ng-click="action('ECash')" />
+		</div>
+		
+	<!--
+		<div class="col-md-3 card5" ng-if="pool.Financial == 'active'">
+			 <img id="Financial" src="image/partials/Financial.png"  tag=" {{pool.Financial}}" ng-click="action('Financial')" />
+		</div>
+		
+		<div class="col-md-3 card5" ng-if="pool.Child_DETAIL == 'active'">
+			 <img id="Child_DETAIL"   src="image/partials/Child_DETAIL.png"  tag=" {{pool.Child_DETAIL}}" ng-click="action('Child_DETAIL')" />
+		</div>
+		
+		<div class="col-md-3 card5" ng-if="pool.signflg == 'active'">
+			 <img id="SIGN"   src="image/partials/SIGN.png"  tag="{{pool.signflg}}" ng-click="action('SIGN')" />
+		</div>
+		-->
+		<div class="col-md-3 card5" ng-if="pool.TRFCancel == 'active'">
+		  <img id="TRANSFERCANCEL"  src="image/tfc/TRFCancel.png"  tag="  {{pool.TRFCancel}}" ng-click="action('TRFCANCEL')" />
+		</div> 
+		
+		<div class="col-md-3 card5" ng-if="pool.Trans_cardhanging == 'active'">
+		  <img id="CardHanging"  src="image/tfc/CardHanging.png"  ng-click="action('LocalCardHanging')"/>
+		</div>
+		<div class="col-md-3 card5" ng-if="pool.CreditRepayment == 'active'">
+		  <img  id="CreditRepayment" src="image/tfc/CreditRepayment.png"  ng-click="action('CreditRepayment')"/>
+	    </div>
+	    
+	    <div class="col-md-3 card5" ng-if="pool.I_RemoveFreeze == 'active'">
+		  <img  id="RemoveFreeze" src="image/zhgl/Account/RemoveFreeze.png"  ng-click="action('RemoveFreeze')"/>
+	    </div>
+	    
+	    <div class="col-md-3 card5" ng-if="pool.I_ALL == 'active'">
+		  <img  id="RemoveFreeze" src="image/zhgl/Account/ALL.png"  ng-click="action('ALL')"/>
+	    </div>
+	    
+	    <div class="col-md-3 card5" ng-if="pool.I_STN == 'active'">
+		  <img  id="RemoveFreeze" src="image/zhgl/Account/STN.png"  ng-click="action('STN')"/>
+	    </div>
+	    
+	    <div class="col-md-3 card5"  ng-if="pool.I_CWD == 'active'">
+		 <img id="CWD" src="image/partials/bankCardCWD.png" ng-click="action('CWD')"/>					
+	    </div>
+			
+	    <div class="col-md-3 card5" ng-if="pool.I_DEP == 'active'">
+		 <img id="DEP" src="image/partials/bankCardDEP.png" ng-click="action('DEP')"/>
+	    </div>
+</div>	
+			
+	
+	</div>	
+			
+			
+
+	 <div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+    	    <button  id="cancel" type="button" style="text-align: center;" class="  image-bt" ng-click="action('eject')">{{pool.page_Eject}}</button>
+    </div>  
+    
+    
+    

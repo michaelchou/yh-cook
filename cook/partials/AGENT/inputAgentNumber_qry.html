@@ -1,0 +1,54 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript">
+	document.getElementById("input").focus();
+	
+	function checkAgentNumber(){
+		var inputs = document.getElementsByTagName("input");
+		var scope = angular.element(main).scope();
+		var obj = inputs.item(0);
+		var error = "";
+		if (obj.value.length <= 0) {
+			error = "客户号不能为空";
+		} 
+		if (error.length > 0) {
+			$("#" + obj.id).attr("data-content", error);
+			$("#" + obj.id).popover('show');
+			scope.timeout = scope._timeout;
+		}else {
+			scope.action("confirm");
+		}
+	}
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请输入用户编号</h1>
+    <h3 class="text-center">Please input customNum</h3>	
+</div>
+</br></br>
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" class="form-control" id="input" onclick="openkeyset(1,900,500)" onkeyup="checkInput(id, '^[0-9]{1,16}$')" 
+                    value="" onblur="this.focus()" ng-model="pool.userNum" maxlength="16"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>客户号输入有误</sp>" data-content="" data-html="true" >
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="clear()" >清  除</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+	<button type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>	
+	<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="resetModel('input','userNum');checkAgentNumber()">确认</button>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

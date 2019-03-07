@@ -1,0 +1,90 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	document.getElementById("amount").focus();
+	var scope = angular.element(main).scope();
+	function checkAmount(){
+	var inputs = document.getElementsByTagName("input");
+		var obj = inputs.item(0);
+		var error = "";
+		if (obj.value.length <= 0 || parseFloat(obj.value)<0.01) {
+			$("#" + obj.id).attr("data-content", "转账金额不能为空或为零");
+			$("#" + obj.id).popover('show');
+		} else if (parseFloat(scope.pool["accountBalance"]) - parseFloat(obj.value)  < 50.00) {
+			$("#" + obj.id).attr("data-content", "部提剩余金额不能低于50元");
+			$("#" + obj.id).popover('show');
+		} else {
+			scope.action("confirm");
+		}
+	}
+	
+	function Show(type,x,y){
+
+		  try {
+	HandWrite.Show(type,1,x,y);
+		 } catch (e) {
+		 	//alert(e);
+		 return;
+		
+		 }
+	}
+	function Hide(){
+	try {
+	 HandWrite.Hide();
+	} catch (e) {
+		 //	alert(e);
+		 return;
+		 }
+	}	 
+	function openkeyset(type,x,y){
+		Show(type,x,y)
+	}
+</script>
+  <div class="container indicates">
+	  <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}<span>
+		</div>
+    </div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请输入部提金额</h1>
+    <h3 class="text-center">Please enter transfer amount and press enter</h3>
+</div>
+
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" class="form-control" 
+                onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')" 
+                    id="amount" value="" onblur="this.focus()" onclick="openkeyset(1,700,330)" ng-model="pool.transAmount" maxlength="22"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>部提金额输入有误</sp>" data-content="" data-html="true">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="clear()">清  除</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+</div>
+
+ <div class="cook-foot col-xs-offset-0 col-xs-12">
+	<button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">结束</button>
+	<button id="confirm" type="button"class="col-xs-offset-2 col-xs-2 image-btgr" onclick="resetModel('amount','transAmount');checkAmount()">确认</button>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

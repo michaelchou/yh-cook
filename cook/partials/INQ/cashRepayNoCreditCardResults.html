@@ -1,0 +1,27 @@
+  <div class="container indicates">
+	  <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}<span>
+		</div>
+    </div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请核对账户信息</h1>
+	<h3 class="text-center">Please check the account information</h3>
+</div>
+<div class="cook-content">
+	<table class="col-xs-12 balance">
+		<tr> <th class="col-xs-6"><h2>卡号：</h2></th><td> <h2>{{pool.payeracc}} &nbsp;</h2></td> </tr>
+		<tr> <th class="col-xs-6"><h2>姓名：</h2></th><td> <h2>{{pool.page_inAccTranslate}} &nbsp;</h2></td> </tr>
+		<tr> <th class="col-xs-6"><h2>应还金额：</h2></th><td> <h2>{{pool.amount}} &nbsp;</h2></td> </tr>
+		<tr> <th class="col-xs-6"><h2>最低应还款金额：</h2></th><td> <h2>{{pool.minpay}} &nbsp;</h2></td> </tr>
+	</table>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+		<button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('cancel')">取消</button>
+		<button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('confirm')">我要还款</button>
+</div>
+
+
+
+

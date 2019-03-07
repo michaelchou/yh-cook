@@ -1,0 +1,40 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+
+
+function changeTransPwd(){
+var scope = angular.element(main).scope();
+scope.pool["OPTION"]=1;//交易密码
+scope.action("confirm");
+}
+
+function changeQueryPwd(){
+var scope = angular.element(main).scope();
+scope.pool["OPTION"]=2;//查询密码
+scope.action("submit");
+}
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container step col-xs-offset-0 col-xs-12">
+	<h1 class="text-center">请选择改密类型</h1>
+	<h3 class="text-center">Please select change password type</h3>
+</div>
+
+<div class="step">
+		<div class="col-sm-offset-4 col-sm-3">
+		  <button type="button" class="button-cash button-lg1 btn-block" style="margin-left:20%;" onclick="changeTransPwd()">修改交易密码</button>
+		</div>
+		<div class="col-sm-offset-4 col-sm-3">
+		  <button type="button" class="button-cash button-lg1 btn-block" style="margin-left:20%;" onclick="changeQueryPwd()" >修改查询密码</button>
+		</div>
+	
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+
+	<button type="button" class="image-bt" ng-click="action('eject')">结束修改</button>
+</div>

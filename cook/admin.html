@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-cn" ng-app="cookApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>系统管理</title>
+ <link rel="stylesheet" href="bower_components/metro/build/css/metro.min.css">
+    <link rel="stylesheet" href="bower_components/metro/build/css/metro-icons.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/Buttons/css/buttons.min.css">
+    <link rel="stylesheet" href="css/bootstrap-nav-wizard.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/main.css"/>
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/metro/build/js/metro.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+  	<script src="js/admin/base.js"></script>
+</head>
+  <body ng-controller="AdminCtrl">
+      <div class="tile-area tile-area-scheme-dark fg-white" style="height: 100%; max-height: 100% !important;background:url(image/1.jpg)!important;background-size:100% 100% !important;">
+<!--           <h1 class="tile-area-title">江苏农村商业银行</h1> -->
+		  <img  src="image/logo-jsnx.png" style="margin-top:-150px;">
+          <div class="tile-area-controls"  >
+              <div  class="col-xs-offset-0 col-lg-12"  style="left:20px;top:px;border:0px red solid;">
+       		<span id="time" style="border:0px red solid;font-size:30px;font-family:方正粗倩简体;">&nbsp;</span> &nbsp;&nbsp; &nbsp;&nbsp;
+           	<span class="glyphicon glyphicon-log-out" style="display:none;margin-top:-14px;border:0px red solid;font-size:30px;" id="exit" onclick="userexit()"></span>
+    </div>
+              </div>
+          <div ng-view class="admin-container"></div>
+      </div>
+      
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class=" col-xs-offset-3 col-lg-6 alert alert-danger fade in" style="top:300px">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">请先退出当前页面</h4>
+        </div>
+        <p>
+          <button  type="button" class="btn btn-danger col-xs-offset-4 col-lg-4"   data-dismiss="modal">确认</button>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- /.modal -->
+  </body>
+</html>
+<script>
+$(document).ready(function() {
+		setTime();
+	});
+function setTime() {
+	var now = new Date();
+	var month = now.getMonth()+1; month = (month)>9?month:("0"+month);
+	var day = now.getDate(); day=(day>9?day:('0'+day));
+	var hour = now.getHours(); hour=(hour>9?hour:('0'+hour));
+	var min = now.getMinutes(); min=(min>9?min:('0'+min));
+	var sec = now.getSeconds(); sec=(sec>9?sec:('0'+sec));
+	//var time = "&nbsp;&nbsp;"+now.getFullYear() + '-' + month+ '-';
+	//time += day + '&nbsp&nbsp&nbsp' + hour + ':';
+	var time = hour + ':' + min + ':' + sec;
+	$('#time').html(time);
+}
+setInterval("setTime()", 1000);
+
+var isRunning = false;
+function userexit() {
+ if(isRunning){
+	  return;
+	  }else{
+	  isRunning = true;
+	  }
+	Hide();//关闭键盘
+	 var common = "/admin/NewAdminCommonServlet";
+	 var s =document.location.toString();
+	 var length = s.length;
+	 s = s.substring(length-5);
+		if(s.indexOf("admin")==0 || s.indexOf("login")==0){
+		 $('#quitadmin').modal('show');
+			$.ajax({
+			    url: common,
+			    cache: false,
+			    type: "post",
+			    data: "commandID=common-user-exit",
+			    dataType: 'json',
+			    success: function(data) {
+			    	if (data.Result == 0) {
+			        	$('#quit').click();
+			    	}
+			       // isRunning = false;
+			    }
+			});
+		}else{
+		 $('#myModal1').modal('show');
+		 isRunning = false;
+		return;
+		}
+	
+	}
+</script>

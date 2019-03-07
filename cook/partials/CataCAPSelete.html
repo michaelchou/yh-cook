@@ -1,0 +1,40 @@
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+
+<div class="cook-head">
+    <h1 class="text-center">请选择服务项目</h1>
+    <h3 class="text-center">Please select services</h3>
+	</br>
+</div>
+
+<div class="col-xs-offset-0 col-xs-12" ng-if="pool.AgainselectedTrans!='mobile'">
+	<div class="col-xs-offset-1 col-xs-4 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="CARD" src="image/插入卡片.png" class="center" onmousedown=""  ng-click="action('CARD')"/>
+	</div>
+	
+	<div class="col-xs-offset-1 col-xs-4 " style="margin-top:2%;border:0px blue solid;" >
+			  <img id="PBK" src="image/刷入存折.png" class="center" onmousedown=""  ng-click="action('PBK')"/>
+	</div>
+	
+</div>
+
+<div class="col-xs-offset-0 col-xs-12" ng-if="pool.AgainselectedTrans=='mobile'">
+	<div class="col-xs-offset-4 col-xs-4 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="CARD" src="image/插入卡片.png" class="center" onmousedown=""  ng-click="action('CARD')"/>
+	</div>
+	
+	
+	
+</div>
+
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+	<button id="cancel" type="button" class="col-sm-offset-5 col-xs-2 image-bt" ng-click="action('eject')">结束</button>
+</div>
+	
+

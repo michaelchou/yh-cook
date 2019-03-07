@@ -1,0 +1,169 @@
+<script src="js/admin/base.js"></script>
+<script type="text/javascript">
+		var isRunning = false;//异步控制
+		var common  = "/admin/NewAdminDeviceServlet";	
+    	$(document).ready(function() {	
+		 getAllDevice();
+		});
+		
+function getAllDevice() {
+
+if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+var now = new Date();
+var time = now.getMinutes() +now.getSeconds();
+    //防止缓存加入简单的随机数
+  $.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-get-all&time="+time,
+	    dataType: 'json',
+
+	    success: function(data) {
+			var parameters = data.parameters; 
+          	var messageText = data.messageText;
+      		$("#listview").html(messageText);
+      		if(parameters.length<=0){
+      		$("#comment").html("设备出现故障，请与管理员联系");
+      		
+      		return;
+      		}
+      		var rows= parameters.length/2;
+  		if(parameters.length==2){
+      		var tablehtml = 
+			 "<tr align=center style='background:#afcdff' >"     		
+			+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[0].name+" id="+parameters[0].id+" width='70%'    src="+parameters[0].image+" onclick='restDervice(this.id,this.name)'></td> "
+			+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[0].name+"</span></td>"
+			+"<td   rowspan="+rows+" ><textarea class='form-control' rows='	24' style='font-family: verdana; color: black; ont-size: 12px;' readonly id='listview'  style='display:block'></textarea></td>"
+			+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'></span></td>"
+			+"<td  class='col-xs-1'  style='text-align:center'><img name='' id=''  width='70%'  src='' ></td> </tr> "
+		}else{
+				var tablehtml = 
+			 "<tr align=center style='background:#afcdff' >"     		
+			+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[0].name+" id="+parameters[0].id+" width='70%'    src="+parameters[0].image+" onclick='restDervice(this.id,this.name)'></td> "
+			+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[0].name+"</span></td>"
+			+"<td   rowspan="+rows+" ><textarea class='form-control' rows='24' style='font-family: verdana; color: black; ont-size: 12px;' readonly id='listview'  style='display:block'></textarea></td>"
+			+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[1].name+"</span></td>"
+			+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[1].name+" id="+parameters[1].id+"  width='70%'  src="+parameters[1].image+" onclick='restDervice(this.id,this.name)'></td> </tr> "
+			
+					
+					}     		
+      		
+	for (var i=2;i<=parameters.length-2;i++) {
+	
+       			j=i+1;
+       	tablehtml+= "<tr align=center style='background:#afcdff' >"     		
+					+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[i].name+" id="+parameters[i].id+" width='70%'    src="+parameters[i].image+" onclick='restDervice(this.id,this.name)'></td> "
+					+"<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[i].name+"</span></td>"
+	if(parameters[j].name!="none"){
+	
+		tablehtml+= "<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'>"+parameters[j].name+"</span></td>"
+					+"<td  class='col-xs-1'  style='text-align:center'><img name="+parameters[j].name+" id="+parameters[j].id+"  width='70%'  src="+parameters[j].image+" onclick='restDervice(this.id,this.name)'></td> </tr>"
+  	 }else{
+  
+       	tablehtml+="<td style='text-align:left'  class='col-xs-3' onclick=''><span  class='fg-black' style='font-size:20px; font-family:微软雅黑; margin-left:5px;'></span></td>"
+       			 +"<td  class='col-xs-1'  style='text-align:center'><img name='' id=''  width='70%'  src='' onclick=''></td> </tr>"
+ 
+	               }
+	                if(j<=parameters.length){
+	                 i ++;
+	                }
+      		
+	          
+	    }
+      		$("#devicetable").html (tablehtml);
+     		$("#listview").html(messageText);
+	          
+	    }
+	});
+	isRunning = false;
+}	
+       
+    function restDervice(id,name){
+    
+    if (isRunning) {
+		return;
+	}
+	else {
+		$("#return").button('loading');
+		isRunning = true;
+	}
+		$("#"+id).attr('src','image/admin/waiting.gif');
+     $("#listview").append("\r\n******* "+getTime()+" ******* \r\n"+"动作：设备检测\r\n过程：检测"+name+"\r\n>>正进行"+name+"设备检测...\r\n");
+        $.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-check&id=" + id,
+	    dataType: 'json',
+
+	    success: function(data) {
+	   // alert(data.errorMSG)
+	      if((data.errorMSG).length<=0){
+	    		     $("#listview").append("\r>>检测结果："+data.status+"\r\r\n");  
+					 $("#"+id).attr('src','image/admin/well.png');
+           }else{
+			   if("UKEY"==id){
+				   if((data.errorMSGUkeyReader).length<=0){
+					   $("#listview").append("\r>>检测结果："+data.status+"\r\n"+data.errorMSG.replace(/\错误/g,'\r\n错误')+"\r\n");
+				   }else{
+				   $("#listview").append("\r>>检测结果："+data.status+"\r\n"+data.errorMSG.replace(/\错误/g,'\r\n错误')+"\r\n"+data.errorMSGUkeyReader.replace(/\错误/g,'\r\n错误')+"\r\n");}
+				    if(data.status=="设备状态正常" && data.statusUkeyReader=="设备状态正常"){
+				     $("#"+id).attr('src','image/admin/well.png');
+				     }else if(data.status=="设备状态异常"|| data.statusUkeyReader=="设备状态异常"){
+				     $("#"+id).attr('src','image/admin/warn.png');
+				     }else{
+				     $("#"+id).attr('src','image/admin/red.png');
+				     }
+			
+			   }else{
+				    $("#listview").append("\r>>检测结果："+data.status+"\r\n"+data.errorMSG.replace(/\错误/g,'\r\n错误')+"\r\n");
+				   if(data.status=="设备状态正常"){
+				 $("#"+id).attr('src','image/admin/well.png');
+				 }else if(data.status=="设备状态异常"){
+				 $("#"+id).attr('src','image/admin/warn.png');
+				 }else{
+				 $("#"+id).attr('src','image/admin/red.png');
+				 }
+				   
+			   }
+                     
+         }
+                  
+           
+     listview.scrollTop=listview.scrollHeight;
+	 isRunning = false;
+	  $("#return").button('reset');
+	    }
+     });
+     
+
+   listview.scrollTop=listview.scrollHeight;//滚动条沉底
+   
+    }
+     
+    </script>
+</head>
+
+<h2 id="head" class="text-center">设备检测</h2>
+<div id="content">
+  <div class="col-xs-offset-1 col-xs-10" >
+    <table id="devicetable" class="bg-white col-xs-12" cellspacing="0"   border="1" cellpadding="0">
+    </table>
+  </div>
+</div>
+<div  class="col-xs-offset-0 col-lg-12"  style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+  <label  class="fg-red"   id="comment">点击图片进行复位</label>
+</div>
+<div id="foot" class="col-xs-offset-5 col-xs-2" style="margin-top:-50px;">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group">
+      <button type="button" id="return" data-loading-text="正在复位..." class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,273 @@
+<script src="js/admin/base.js"></script>
+<script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script>
+var validateYear ;
+var data = "/admin/NewAdminDataServlet";
+var isRunning = false;
+$(document).ready(function() {
+
+	var date = new Date();
+	document.getElementById("date").value = formatdate(date);
+ 	validateYear = parseInt(formatdate(date).substring(0, 4)-1);
+ //rootCheck();
+ //自适应高度
+ if( window.screen.height>768){
+ document.getElementById("tab").style.height = "452px";
+
+ }
+ fillTable(20);
+ getLog();
+});
+
+function checkInput(id) { //清除提示框
+
+	if(ev.keyCode==65){
+		document.getElementById(id).value = "";
+	}
+var ev = window.event;
+	if(ev.keyCode!= 13){
+	$("#cardno").popover('destroy');
+	$("#pid").popover('destroy');
+	$("#date").popover('destroy');
+	}
+
+}
+  function fillTable(rows) {
+	var tablebody = $("#crowntable>tbody");
+	for (var i = 0; i < rows; i++) {
+		tablebody.append(
+	        $('<tr width="100%">').append(
+	        $('<td width="5%">').html("&nbsp"),
+	         $('<td width="10%">').html("&nbsp"),
+	        $('<td width="8%">').html("&nbsp"),
+	        $('<td width="20%">').html("&nbsp"),
+	        $('<td width="10%">').html("&nbsp"),
+	        $('<td width="20%">').html("&nbsp"),
+	        $('<td width="9%">').html("&nbsp"),
+	        $('<td width="9%">').html("&nbsp"),
+	        $('<td width="7.4%">').html("&nbsp")
+	        
+	    ));
+	}
+
+}         
+function getLog() {
+
+	var cardno = document.getElementById("cardno").value;
+	var pid = document.getElementById("pid").value;
+	var date = document.getElementById("date").value;
+	var head  =  $("#head").html();	
+	var flag = 0;
+	var type = "card";
+	if(head	=="卡片明细查询") type = "card";
+	if(head	=="U盾明细查询") type = "ukey";
+	if (date.length < 8&& date.length >0) {
+	$("#date").attr("data-content","日期输入长度为8位");
+  	$("#date").popover('show')
+		document.getElementById("date").value = "";
+		document.getElementById("date").focus();
+		isRunning = false;
+		return;
+	}
+	if (parseInt(date.substring(0, 4)) < validateYear) {
+		$("#date").attr("data-content","日期过早");
+  		$("#date").popover('show')
+		document.getElementById("date").value = "";
+		document.getElementById("date").focus();
+		isRunning = false;
+		return;
+	}
+	if (parseInt(date) > parseInt(formatdate(new Date()))) {
+		$("#date").attr("data-content","日期不能大于今天");
+  		$("#date").popover('show');
+		document.getElementById("date").value = "";
+		document.getElementById("date").focus();
+		isRunning = false;
+		return;
+	}
+
+$.ajax({
+		url: data,
+		cache: false,
+		type: "post",		
+		data: "commandID=data-card-detail-query&cardno=" + cardno +"&pid=" + pid +  "&date=" + date +"&page=" + 1+"&type=" + type,
+		dataType: 'json',
+		success: function(data) {
+		
+		    if (data.Result == 0) {
+				$("#date").attr("data-content","日期格式不符合 yyyymmdd");
+  				$("#date").popover('show')
+				document.getElementById("date").value = "";
+				document.getElementById("date").focus();
+		    }
+		    else {
+		      destory();
+		    	var loglist = data.sclist;
+		    	if (loglist[0] == null) {
+		    		$('#comment').html("没有符合查询条件的信息");
+		    		//清空
+	    			var table = document.getElementById("crowntable");
+		    		var rows = table.rows.length;
+		    		for(r=0;r<=rows;r++){
+                    var cells = table.rows[r].cells.length;
+		    			for(c=0;c<cells;c++){
+		    				table.rows[r].cells[c].innerHTML="&nbsp";
+		    		     	}
+		    			}
+		    		isRunning = false;
+		    		return;
+		    	}
+	    		var tablebody = $("#crowntable>tbody");
+	    		tablebody.empty();
+		    	var log="";
+		    	for (i=0;i<=loglist.length-1;i++) {
+				//	log += loglist[i] + "\r";
+				var flag = loglist[i].split('|')[6];
+				if(flag == ""||flag==null)tablerows='$(<td id=\"flag\"  align=\"center\">是';
+				else tablerows='<td id=\"flag\" style=\" color:red\" align=\"center\">否';
+				tablebody.append(
+	                	$('<tr>').append(
+	                		$('<td align="center">').text(i+1),
+	                		$('<td align="center">').text(loglist[i].split('|')[5]),
+	                		$('<td align="center">').text(loglist[i].split('|')[0]),
+	                    	$('<td align="center">').text(loglist[i].split('|')[1]),
+	                        $('<td align="center">').text(loglist[i].split('|')[2]),
+	                        $('<td align="center">').text(loglist[i].split('|')[3]),
+	                        $('<td align="center">').text(loglist[i].split('|')[4]),
+	                        $('<td align="center">').text(loglist[i].split('|')[6]),
+	                        
+	                        tablerows
+	                ));
+	                $('#comment').html("");
+		    	}
+		    		  var rows = document.getElementById("crowntable").rows.length - 1;
+    		fillTable(50 - rows);
+		    }
+	
+		}
+	});
+	  isRunning = false;
+}
+
+   $(function(){
+ 
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    
+        var tabID = $(e.target).attr("id"); 
+		var tablebody = $("#crowntable>tbody");
+		tablebody.empty();         
+   	 if(tabID=="card"){
+   		fillTable(50)    
+       	 destory();
+       	 $('#card').css("background","#afcdff");
+      	$('#ukey').css("background","");
+         $('#head').text("卡片明细查询");
+       }else if(tabID=="ukey"){
+       fillTable(50)
+       	 destory();
+       	  $('#ukey').css("background","#afcdff");
+       	  $('#card').css("background","");
+          $('#head').text("U盾明细查询");
+          $("#comment").html("");
+     
+       }
+   });
+});
+
+
+    </script>
+</head>
+<h2 id="head" class="text-center">发卡明细查询</h2>
+</br>
+    
+<div id="content">
+  <div class="col-xs-offset-1 col-xs-10"style="border:0px #FFFFFF solid;">
+    <div class="row ">
+
+      <div class="col-xs-offset-0 col-xs-4" >
+        <div class="input-group input-group"> <span class="input-group-addon ">凭证编号</span>
+          <input type="text"  id="cardno" onclick="openkeysetAdmin(1,1100,500)" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>凭证号输入有误</sp>" data-content="" maxlength="19" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-html="true">
+        </div>
+      </div>
+           <div class="col-xs-offset-0 col-xs-4">
+        <div class="input-group input-group"> <span class="input-group-addon ">身份证编号</span>
+          <input type="text"  id="pid" onclick="openkeysetAdmin(1,1100,500)" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>身份证号输入有误</sp>" data-content="" maxlength="20" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-html="true">
+        </div>
+      </div>
+      
+      <div class="col-xs-offset-0 col-xs-4">
+        <div class="input-group input-group"> <span class="input-group-addon ">发放日期</span>
+          <input type="text" id="date" onclick="openkeysetAdmin(1,1100,500)" maxlength="8" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""  class="form-control"  data-html="true">
+        </div>
+      </div>
+    </div>
+    </br>
+
+
+
+
+<div id="content" style="border:0px #FFFFFF solid;">
+  <div class="col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+   <ul id="myTab" class="nav nav-tabs">
+      <li class="active"><a href=".htm#tabcard" data-toggle="tab"  id="card" style="display:">卡片明细</a></li>
+      <li><a href=".htm#tabukey" data-toggle="tab" id="ukey" style="display:">UKey明细</a></li>
+      </li>
+    </ul>
+    
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade in active" id="tabcard">
+      </div>
+      <div class="tab-pane fade" id="tabukey">
+      </div>
+    </div>
+   
+     
+      <table id=""  class="table table-bordered " style="padding-:500px;">
+          <tr style='background:#afcdff;'>
+            <td width="5%" align="center" class="fg-white">序号</td>
+            <td width="10%" align="center" class="fg-white">交易类型</td>
+          	<td width="8%" align="center" class="fg-white">凭证箱</td>
+            <td width="20%" align="center" class="fg-white">凭证类型</td>
+            <td width="10%" align="center" class="fg-white">凭证编号</td>
+            <td width="20%" align="center" class="fg-white">身份证号</td>
+            <td width="9%" align="center" class="fg-white">发放日期</td>
+            <td width="9%" align="center" class="fg-white">回收至</td>
+            <td width="9%" align="center" class="fg-white">是否成功</td>
+          </tr>
+      </table>
+     </div> 
+     <div  class="tab-content" id="tab" style="padding-top:0px;height:267px;overflow-x: hidden; overflow-y: auto;border:0px red solid;">
+      <table id="crowntable"  class="table table-bordered " style="border:1px red solid;">
+        <tbody>
+        </tbody>
+      </table>
+	</div>
+	
+	
+
+	
+	   <div  class="col-xs-offset-3 col-xs-6" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+      <label  class="fg-red"  style="color:black" id="comment">&nbsp;</label>
+    </div>
+    </div>
+  </div>
+</div>
+<div id="foot" class="col-xs-offset-4 col-xs-4">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button" id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" id="confirm" name="enter" class="btn btn-success btn-lg" onclick="getLog()">查询</button>
+    </div>
+  </div>
+</div>
+
+
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49
+ id="HandWrite">
+</object>
+</body></html>

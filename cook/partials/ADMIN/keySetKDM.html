@@ -1,0 +1,161 @@
+<script src="js/admin/base.js"></script>
+<script type="text/javascript">
+ var data = "/admin/NewAdminKDMServlet";
+ var isRunning = false;
+ $(document).ready(function() {
+    $("#listview").css("display","block");
+    var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+        $("#listview").text("******* "+getTime()+" ******* "+" \r\n>> 动作：密钥分发操作 \r\n>> 过程：是否确认执行密钥分发?");    
+});
+
+function submit(){
+   if (isRunning) {
+       var msg= document.getElementById("listview").value;
+       $("#listview").val(msg+"\r>>密钥分发尚未完成，不能重复分发..."+"\n");
+	   return;
+	}else{
+	   var msg= document.getElementById("listview").value;
+       $("#listview").val(msg+"\r>>密钥分发正在处理,请稍后..."+"\n");
+	}
+	$("#listview").css("display","block");
+    var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-KDM-OpenDevice&time="+time,
+	    dataType: 'json',
+	    success: function(data) {
+	           isRunning = true;//这里设置为true，防止密钥还没有分发完就点击返回按钮返回了。
+	           var msg= document.getElementById("listview").value;
+               $("#listview").val(msg+data.messageText+"\n");
+               if(data.retFlag){//如果打开串口成功，开始接收串口数据
+                   msg= document.getElementById("listview").value;
+                   $("#listview").val(msg+">>正在接收串口数据,请稍后..."+"\n");
+                   ReadData();//开始接收串口数据
+               }else{
+                   isRunning = false;
+               }
+	    }
+	});
+}
+function ReadData(){
+	$("#listview").css("display","block");
+    var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-KDM-ReadData&time="+time,
+	    dataType: 'json',
+	    success: function(data) {
+	           var msg= document.getElementById("listview").value;
+               $("#listview").val(msg+data.messageText+"\n");
+               if(data.retFlag){//接收串口数据成功
+                   msg= document.getElementById("listview").value;
+                   $("#listview").val(msg+">>正在请求终端密钥,请稍后..."+"\n");
+                   dispatchData();//请求终端密钥
+               }else{
+                   isRunning = false;
+               }
+	    }
+	});
+}
+function dispatchData(){
+	$("#listview").css("display","block");
+    var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-KDM-dispatchData&time="+time,
+	    dataType: 'json',
+	    success: function(data) {
+	           var msg= document.getElementById("listview").value;
+               $("#listview").val(msg+data.messageText+"\n");
+               if(data.retFlag){//请求终端密钥成功
+                   msg= document.getElementById("listview").value;
+                   $("#listview").val(msg+">>正在设置主密钥,请稍后..."+"\n");
+                   loadMasterKey();//下装主密钥
+               }else{
+                   isRunning = false;
+               }
+	    }
+	});
+}
+function loadMasterKey(){
+	$("#listview").css("display","block");
+    var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-KDM-loadMasterKey&time="+time,
+	    dataType: 'json',
+	    success: function(data) {
+	           var msg= document.getElementById("listview").value;
+               $("#listview").val(msg+data.messageText+"\n");
+               if(data.retFlag){//下装主密钥成功
+                   msg= document.getElementById("listview").value;
+                   $("#listview").val(msg+">>正在发送应答请求,请稍后..."+"\n");
+                   assembleMsg();//发送应答请求
+               }else{
+                   isRunning = false;
+               }
+	    }
+	});
+}
+function assembleMsg(){
+	$("#listview").css("display","block");
+    var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-KDM-assembleMsg&time="+time,
+	    dataType: 'json',
+	    success: function(data) {
+	           var msg= document.getElementById("listview").value;
+               $("#listview").val(msg+data.messageText+"\n");
+               if(data.retFlag){//发送应答请求成功
+                   msg= document.getElementById("listview").value;
+                   $("#listview").val(msg+">>密钥分发完成"+"\n");
+                   isRunning = false;
+               }else{
+                   isRunning = false;
+               }
+	    }
+	});
+}
+
+</script>
+</head>
+
+<h2 id="head" class="text-center">密钥分发器</h2>
+<div id="content">
+  <div class="col-xs-offset-4 col-xs-4"style="border:0px #FFFFFF solid;">
+    <div>
+      <textarea class=" form-control  col-xs-12" rows="22" 
+				style="font-family: verdana; color: black; ont-size: 12px;" readonly
+				id="listview"  style="display:block">
+      </textarea>
+    </div>
+  </div>
+</div>
+<div id="foot" class="col-xs-offset-4 col-xs-4">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button" id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button id="confirm" name="enter" type="button" class="btn btn-success btn-lg" onclick="submit()">确认</button>
+    </div>
+  </div>
+</div>
+</body></html>

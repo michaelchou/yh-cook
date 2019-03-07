@@ -1,0 +1,67 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+
+
+function loansReverAll(){
+var scope = angular.element(main).scope();
+scope.pool["ST_LoansRevertWay"]=1;
+scope.pool["ST_LoansRevertWay1"]="放款结清"
+scope.action("confirm");
+
+}
+
+function loansReverPart(){
+var scope = angular.element(main).scope();
+scope.pool["ST_LoansRevertWay"]=3;
+scope.pool["ST_LoansRevertWay1"]="提前还本"
+scope.action("submit");
+}
+
+function loansReverPresent(){
+var scope = angular.element(main).scope();
+scope.pool["ST_LoansRevertWay"]=7;
+scope.pool["ST_LoansRevertWay1"]="当期利息偿还"
+scope.action("submit2");
+}
+
+</script>
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+
+<div class="cook-head">
+    <h1 class="text-center">选择归还方式</h1>
+ 
+</div>
+
+<div class="col-xs-offset-0 col-xs-12">
+	<div class="col-xs-offset-4 col-xs-4 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="loansReverAll" src="image/loans/loansReverAll.png" class="center" onmousedown=""  onclick="loansReverAll()"/>
+	</div>
+	
+	<div class="col-xs-offset-4 col-xs-4 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="loansReverPart" src="image/loans/loansReverPart.png" class="center" onmousedown=""  onclick="loansReverPart()"/>
+	</div>
+	
+	<div class="col-xs-offset-4 col-xs-4 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="loansReverPresent" src="image/loans/loansReverPresent.png" class="center" onmousedown=""  onclick="loansReverPresent()"/>
+	</div>
+</div>
+
+
+
+</div>
+
+<div class=" col-xs-offset-3 col-xs-12 "style="border:0px blue solid;margin-top:10%;">
+ 			<button  type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-bt"      ng-click="action('eject')">退出</button>
+    </div>  
+
+	
+	
+	

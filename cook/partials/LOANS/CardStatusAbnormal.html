@@ -1,0 +1,30 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+document.getElementById("MUSIC1").src = "";
+	
+var scope = angular.element(main).scope();
+
+scope.$watch('pool.ST_CardStatus', function(){
+	
+	
+	if(scope.pool["ST_CardStatus"] != "0"){//判断卡挂失状态，0正常
+		document.getElementById("LoansCardStatus").innerHTML = "该卡已挂失，请至柜面办理";
+	}else{
+		document.getElementById("LoansCardStatus").innerHTML = "该卡状态异常，请至柜面办理";
+	}
+});
+
+
+
+</script>
+
+  <div class="container indicates">
+	  <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}<span>
+		</div>
+    </div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+	<h1 class="text-center" id="LoansCardStatus" ></h1>
+</div>
+</div>

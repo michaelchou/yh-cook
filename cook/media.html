@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-cn" ng-app="cookApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>cook2</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/Buttons/css/buttons.min.css">
+	<link rel="stylesheet" href="bower_components/metro/build/css/metro-icons.min.css">
+    <link rel="stylesheet" href="css/bootstrap-nav-wizard.css">
+    <link rel="stylesheet" href="css/cook.css">
+    <link href="css/media.css" rel="stylesheet" type="text/css" />
+    
+    <script language="javascript" type="text/javascript" src="javascript/anychatsdk.js"></script>
+    <script language="javascript" type="text/javascript" src="javascript/anychatobject.js"></script>
+    <script language="javascript" type="text/javascript" src="js/media2.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  </head>
+  <body onload="MediaInit('idle')">
+  <OBJECT WIDTH="0" HEIGHT="0" ID="EBCommonCtrl" CLASSID="CLSID:0232DBFE-F2D4-467C-BAAA-F4F46690306C"></OBJECT>
+  <p>
+  <div>
+  </div>
+  </p>
+    <div class="container header">
+        <div  class="row">
+			<img  src="image/logo-jsnx.png" style="margin-left:-60px !important;" >
+			<!--<img class="pull-right" src="image/logo.jpg">-->
+		</div>
+	</div>
+
+	<div id="main" ng-view class="container apply main" >
+	<div id="tips">
+	<h1 class="text-center" style="color:white">请求银行坐席服务,请稍候.....</h1>
+	</div>
+	<center>
+	<div class="callBox">
+	    
+	<div id="callLayer">
+	    <h4>服务等待中</h4>
+	    <br />
+	    <div id="queueMsg1">
+	        <div class="queueBox">
+	            当前排队人数共：<strong></strong> 人，您现在排在第 <strong></strong> 位 <br />
+	            已等待时长：<strong></strong>
+	            <br />
+	            <button class="confirmMsg" onclick="MediaLeaveQueue()">取消排队</button>
+	        </div>
+	    </div>
+	</div>
+
+	<div id="videoCall">
+	    <div style="padding:15px;">
+	        <!-- 视频层 -->
+	        <div id="videoCallContent">
+	        </div>
+	    </div>
+	</div>
+
+	</div>
+	</center>
+	</div>
+	
+
+    <footer class="footer">
+      <div class="container">
+		<div class="row">
+			<div class="col-md-6" >
+
+				<div class="footerinfo" style="float:left ;margin-left:-75px;text-align: center">http://www.js96008.com </div>
+
+			</div>
+			<div class="col-md-6">
+
+				<div class="footerinfo" style="float:right; margin-right:-70px;text-align: center">服务热线：96008 </div>
+				
+			
+			</div>
+
+		</div>
+      </div>
+     
+    </footer>
+    
+  </body>
+</html>

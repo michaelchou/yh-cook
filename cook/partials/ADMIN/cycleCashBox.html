@@ -1,0 +1,741 @@
+<script src="js/admin/base.js"></script>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49
+ id="HandWrite">
+</object>
+<h2 id="head" class="text-center">设备信息</h2>
+<div id="content">
+  <div class="col-xs-offset-1 col-xs-10"style="border:0px #FFFFFF solid;">
+   <ul id="myTab" class="nav nav-tabs">
+   
+        <li id="cardbox" style='display:none' > <a href=".htm#tabcard" data-toggle="tab" id="card">卡箱信息</a></li>
+  	  	<li id="cashbox" style='display:none' > <a href=".htm#tabcash" data-toggle="tab" id="cash">钞箱信息</a></li>
+	    <li id="ukeybox" style='display:none'>  <a href=".htm#tabukey" data-toggle="tab" id="ukey">UKey信息</a></li>
+      </li>
+    </ul>
+    
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade " id="tabcash">
+        <table id="cashtable" class="col-xs-12 fg-black table table-striped"   border="0" >
+          <tr> </tr>
+        </table>
+      </div>
+      <div class="tab-pane fade " id="tabcard">
+        <table id="casetable" class="col-xs-12 fg-black table table-striped"   border="0" >
+          <tr> </tr>
+        </table>
+      </div>
+      <div class="tab-pane fade " id="tabukey">
+        <table id="ukeytable" class="col-xs-12 fg-black table table-striped"   border="0" >
+          <tr> </tr>
+        </table>
+      
+      </div>
+    </div>
+    <div  class="col-xs-offset-0 col-lg-12" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+      <label  class="fg-red"  style="color:black" id="comment"></label>
+    </div>
+  </div>
+</div>
+</div>
+<div id="foot" class="col-xs-offset-5 col-xs-2">
+  <div class=" btn-group btn-group-justified" > 
+    <div class="btn-group" >
+      <button type="button" id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+    <!--
+    <div class="btn-group">
+      <button type="button" id="commit" name="enter" class="btn btn-success btn-lg" onclick="addcard()">确认加卡</button>
+    </div>
+    -->
+  </div>
+</div>
+<script type="text/javascript">
+var cycle = "/admin/NewAdminCycleServlet";
+var isRunning = false;
+var currentparameter = 1;
+
+$(document).ready(function() {
+
+
+	 getHwState();
+});
+
+function getHwState(){
+$.ajax({
+	     url: cycle,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-get-hw-state",
+	    dataType: 'json',
+	    success: function(data) {
+	    
+ 		 if("OK"==data.cardModel||"WARNING"==data.cardModel){
+ 		$("#cardbox").css("display","block");
+ 		}
+	  	if("OK"==data.cashModel||"WARNING"==data.cashModel){
+ 		$("#cashbox").css("display","block");
+ 		}
+	    if("OK"==data.ukeyModel||"WARNING"==data.ukeyModel){
+ 		$("#ukeybox").css("display","block");
+ 		}
+ 		//默认的菜单栏效果
+ 		
+		 if("OK"==data.cardModel){
+		 	 $('#head').text("卡箱信息");
+		 	 $('#card').css("background","#afcdff");
+			 $("#tabcard").attr("class","tab-pane fade in active");
+	 		loadCaseTableData();
+ 		}
+	  	else if("OK"==data.cashModel){
+		  	$('#head').text("钞箱信息");
+		  	$('#cash').css("background","#afcdff");
+		  	$("#tabcash").attr("class","tab-pane fade in active");
+	 		loadBoxesTableData();
+ 		}
+		   else if("OK"==data.ukeyModel){
+		   $('#head').text("U盾箱信息");
+		   $('#ukey').css("background","#afcdff");
+		   $("#tabukey").attr("class","tab-pane fade in active");
+	 		loadUKeyTableData();
+ 		}
+ 		else{
+ 		  
+          $("#comment").html("</br></br></br></br>硬件故障，无法查询到有效信息。");
+ 		}
+ 		 
+}
+	                });
+}
+   $(function(){
+    
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+       var tabID = $(e.target).attr("id"); 
+         $("#commit").attr("disabled",false);
+       if(tabID=="cash"){
+       	 destory();
+       	 $('#cash').css("background","#afcdff");
+         $('#card').css("background","");
+      	$('#ukey').css("background","");
+         $('#head').text("钞箱信息");
+         $("#comment").html("");
+       // $("#comment").html("加钞前请先进行清机操作");
+        $("#commit").html("确认加钞");
+        $("#commit").attr("onclick","addcash()");
+        loadBoxesTableData();
+       }else if(tabID=="card"){
+       	 destory();
+       	 $('#card').css("background","#afcdff");
+       	  $('#cash').css("background","");
+      	$('#ukey').css("background","");
+         $('#head').text("卡箱信息");
+         $("#comment").html("");
+         $("#commit").html("确认加卡");
+       //  $("#comment").html("加卡前请先进行清机操作");
+         $("#commit").attr("onclick","addcard()");
+           loadCaseTableData();
+       }else{
+       	 destory();
+       	 $('#ukey').css("background","#afcdff");
+       	  $('#card').css("background","");
+       	  $('#cash').css("background","");
+          $('#head').text("U盾信息");
+          $("#comment").html("");
+          $("#commit").html("确认添加");
+         //  $("#comment").html("加U盾前请先进行清机操作");
+          $("#commit").attr("onclick","addukey()");
+			loadUKeyTableData();
+       }
+   });
+});
+function loadBoxesTableData(){
+if (isRunning) {
+		return;
+	}
+	$.ajax({
+	     url: cycle,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-load-boxes-table-data&value="+"all",
+	    dataType: 'json',
+	    success: function(data) {
+	 
+	    		if ("ok"==data.message&&data.messageText.length>0) {
+	    		  $("#cashtable").show();
+	    		var parameters = data.messageText;
+	    		var tablebody = $("#cashtable>tbody");
+				tablebody.empty();
+				var sum = 0;
+				tablebody.append(
+	                	$("<tr align=center style='background:#afcdff' >").append(
+	                	   //	$('<td >').html("&nbsp;"),
+	                       	$('<td >').text("序号"),
+                	   		$('<td >').text("类型"),
+	                     	$('<td>').text("状态"),
+	                     	$('<td >').text("面值"),
+                         	$('<td >').text("结存张数")
+                         //	$('<td >').text("金额(元)")
+
+	                ));
+				
+				for (var i in parameters) {
+				if(parameters[i].id8=="ok"){
+					tablebody.append(
+	                	$("<tr align=center style='background:#e7f0ff'  >").append(
+	                	  // 	$('<td>').html(" "),
+	                    	$('<td align=center>').text(parameters[i].id0),
+	                    	$('<td>').text(parameters[i].id1),
+	                        $('<td >').text(parameters[i].id2),
+	                        $('<td >').html(parameters[i].id3),
+	                        $('<td align=center>').text(parameters[i].id5+" 张")
+                        //  $('<td  align=center>').html("<div class='input-group col-xs-6'> <input name=Amount id='"+parameters[i].id0+"_Amount'  //readonly maxlength=4 type='text' class='form-control'  value=''><span class='input-group-addon'>元</span></div>")
+        				
+	                ));
+					sum+=parseInt(parameters[i].id5);
+	    		}else if(parameters[i].id8=="notstate"&&parameters[i].id2!="不存在"&&parameters[i].id0!='') {
+				
+                   tablebody.append(
+	                	$('<tr align=center  style="background:#C0C0C0" >').append(
+	                	  // 	$('<td>').html((i == currentparameter - 1) ? " " : " "),
+	                    	$('<td>').text(parameters[i].id0),
+	                    	$('<td>').text(parameters[i].id1),
+	                        $('<td>').text(parameters[i].id2),
+	                        $('<td >').text(parameters[i].id3),
+	                        $('<td >').text(parameters[i].id5+" 张")
+                           // $('<td>').text("不可加钞")
+	                ));
+					sum+=parseInt(parameters[i].id5);
+	    		}
+
+	    		}
+	    		tablebody.append(
+	                	$('<tr  bgcolor= "#C0C0C0">').append(
+                            $('<td class="showmark">').text("合计"),
+	                    	$('<td colSpan=3>').text(""),
+	                    	$('<td  id=sum  align=center>').text(sum*100+".00元")
+
+	                ));
+	              
+	    			isRunning = false;
+					
+	    			
+        	}else {
+        		  $('#comment').text("钞箱出错或没有装载现金模块，无法查询到有效信息。");
+        		  $("#commit").attr("disabled",true);
+         
+
+        	}
+	    }
+	});
+   isRunning = false;
+
+}
+
+
+
+function checkInput(id,id3){
+	var ev = window.event;
+	if(ev.keyCode==65){
+	document.getElementById(id).value = "";
+	}
+	$("#"+id).popover('destroy');
+	var input = document.getElementById(id);
+	var Amount = document.getElementById(id+"_Amount");
+
+  	var amountSum =  document.getElementsByName("Amount");
+	var amountSumlen = amountSum.length;
+	var sum = 0;
+	input.value=input.value.replace(/\D/g,'')
+	
+if(input.value>2750){
+	$("#"+id).attr("title","<sp class='fg-red'>输入有误 </sp>");
+	$("#"+id).attr("data-content","加钞张数不能超过2750张");
+  	$("#"+id).popover('show');
+  	input.value="";
+  	Amount.value="";
+}
+	Amount.value=input.value*id3;
+	
+	for(i=0;i<amountSumlen;i++){
+	sum+=Number(amountSum[i].value);
+	}
+	$("#sum").html(sum+".00元");
+}
+
+function commit(){
+if (isRunning) {
+		return;
+	}else{
+	isRunning = true;
+	}
+	
+    var list = "";
+    var leycolumn = "";
+    var add_column = "";
+    var in_column = "";
+    var boxid = document.getElementsByName("boxid");
+    //alert(boxid.length);
+	  for(i=0;i<boxid.length;i++){
+	   in_column = boxid[i].value;
+	     if(in_column>0){
+	       leycolumn = boxid[i].id;
+	       add_column = 0;
+	       list+=leycolumn+","+add_column+","+in_column+",|";
+	    }
+	  }
+
+     $("#comment").html("正在加钞,请稍候...");
+ 	  $.ajax({
+		url: cycle,
+		cache: false,
+		type: "post",
+		data: "commandID=cysle-add-cash-by-number&state=normal&list=" + list,
+		dataType: 'json',
+		success: function(data) {
+	    $("#comment").html(data.messageText);
+          isRunning = false;
+          	if("ok"==data.msg){
+          	loadBoxesTableData();
+			}
+		}
+	});
+
+
+}
+
+function addcash() {
+
+ if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+	var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+	$.ajax({
+	    url: cycle,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-add-cash&time="+time,
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ("ok"==data.isNormal) {
+	    	commit();
+	    	}else if((data.messageText).length >= 1&&"ok"!=data.isNormal){
+	    	    $("#comment").text(data.messageText);
+	    	}else {
+	    	    $("#comment").css("display","block");
+	    		$("#comment").text(data.messageText+"\r"+new Date().toLocaleString()+"\r>>加钞失败");
+	        }
+
+
+	    }
+	});
+	isRunning = false;
+}
+
+function loadCaseTableData(){
+if (isRunning) {
+		return;
+	}
+	$.ajax({
+	     url: cycle,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-CardDispenser-Machine",
+	    dataType: 'json',
+	    success: function(data) {
+	      		if ("ok"==data.messageText&&data.dataList.length>0) {
+	    		
+	    		  $("#casetable").show();
+	    		var parameters = data.dataList;
+	    		var length = data.BlankCardType.length;
+	        
+	    		
+	    		var tablebody = $("#casetable>tbody");
+
+				tablebody.empty();
+
+				tablebody.append(
+				
+	                	$("<tr align=center style='background:#afcdff'>").append(
+	                		$('<td Style="display:none">').text("id"),
+	                       	$('<td >').text("序号"),
+                	   		$('<td >').text("卡箱类型"),
+	                     	$('<td>').text("卡箱状态"),
+	                     	$('<td >').text("初始加卡张数"),
+                         	$('<td >').text("结存卡量"),
+                         	$('<td >').text("卡片类型"),
+                         	$('<td >').text("凭证种类"),
+                     		$('<td >').text("凭证起始号"),
+							$('<td >').text("加卡张数")
+	                ));
+	        
+				for (var j in parameters) {
+					
+				var status = parameters[j].id8; //是否可加卡标志
+				if("发卡箱"==parameters[j].id1&&("ok"==status)){
+			
+			
+			
+				var feild = "<select id=op_"+parameters[j].id0+" style='height:25px;width:70px;' id=''>";
+	    		
+	    		if(length>=0){
+				for(var i in data.BlankCardType)
+		
+    				if(data.BlankCardType[i].id!=null){
+    					if(parameters[j].id5==data.BlankCardType[i].id){
+    					feild += "<option selected value="+data.BlankCardType[i].id+">"+data.BlankCardType[i].name+"</option>"
+    				}else{
+    				feild += "<option  value="+data.BlankCardType[i].id+">"+data.BlankCardType[i].name+"</option>"
+    	
+    			}
+    		}
+	    		}
+	    		feild += "</select>";
+	    		var cardno ;
+	    		if(parameters[j].id9==0||parameters[j].id9=="null"||parameters[j].id9==""){
+	    		 cardno = "";
+	    		}else{
+	    		 cardno = parameters[j].id9;
+	    		}
+	    		
+    			var VoucherType = "";
+    			
+				if(parameters[j].id5=="track1"){
+						VoucherType = "普通磁条卡";					
+					}else if(parameters[j].id5=="IC"){
+						VoucherType = "普通IC卡";		
+					}else if(parameters[j].id5=="ICCitizen"){
+						VoucherType = "市民卡";		
+					}
+					tablebody.append(
+				
+	                	$("<tr align=center style='background:#e7f0ff'>").append(
+	                		$("<td id='sign"+j+"' name='' Style='display:none'>").text(""),
+	                    	$('<td>').text(parameters[j].id0),
+	                    	$('<td>').text(parameters[j].id1),
+	                        $('<td >').text(parameters[j].id2),
+	                         $('<td >').html(parameters[j].id3),
+	                        $('<td >').html(parameters[j].id4),
+	                         $("<td id='cardVoucher"+j+"'>").html(VoucherType),
+	                         $("<td id='InVoucher"+j+"'>").html(parameters[j].id7),
+	                         $("<td id='tellerNoR"+j+"' style='display:none'>").html(""),
+	                         
+	                         $('<td align=center>').html("<div class='input-group col-xs-12'> <input type='text'  value='"+cardno+"' readonly name='cardbegin' onkeyup=\"cardbegin(id,this.value)\" id='"+parameters[j].id0+"cardbegin' maxlength=19 type='text'  class='form-control' data-container='body'  onclick='openkeysetAdmin(1,1100,500)' data-placement='right' title='' data-content='' data-html='true'style=''></div>"),
+       						$('<td align=center>').html("<div class='input-group col-xs-5'> <input type='text'   readonly name='addcard' onchange=\"casesume(id,this.value)\" id='"+parameters[j].id0+"' maxlength=2 type='text'  class='form-control' data-container='body'  onclick='openkeysetAdmin(1,1100,500)' data-placement='right' title='' data-content='' data-html='true'><span  class='input-group-addon'>张</span></div>")
+        					
+	                ));
+	    		}else if("发卡箱"==parameters[j].id1&&"ok"!=status) {
+	    		    	tablebody.append(
+	                	$("<tr align=center style='background:#e7f0ff' >").append(
+	                	$("<td id='sign"+j+"' Style='display:none'>").text(""),
+	                	   	$('<td>').html(" "),
+	                    	$('<td>').text(parameters[j].id0),
+	                    	$('<td>').text(parameters[j].id1),
+	                        $('<td >').text(parameters[j].id2),
+	                        $('<td >').html(parameters[j].id3),
+	                        $('<td >').html(parameters[j].id4),
+	                        $('<td >').html("&nbsp;"),
+	                        $('<td >').html("&nbsp;"),
+	                        $('<td >').html("&nbsp;"),
+       						$('<td align=center>').html("<div class='input-group col-xs-5'> <input  name=''  readonly  type='text' id='"+parameters[j].id0+"' class='form-control' data-container='body'  ><span  class='input-group-addon'>张</span></div>")
+        					
+	                ));		
+	    		}else if("回收箱"==parameters[j].id1) {
+	    		
+	    		    	tablebody.append(
+	                	$("<tr align=center style='background:#e7f0ff'  >").append(
+	                	$("<td id='sign"+j+"' Style='display:none'>").text(""),
+	                    	$('<td>').text(parameters[j].id0),
+	                    	$('<td>').text(parameters[j].id1),
+	                        $('<td >').text(parameters[j].id2),
+	                        $('<td >').html(parameters[j].id3),
+	                        $('<td >').html(parameters[j].id4),
+	                        $('<td >').html("&nbsp;"),
+	                        $('<td >').html("&nbsp;"),
+	                        $('<td >').html("&nbsp;"),
+       						$('<td align=center>').html("<div class='input-group col-xs-5'> <input    readonly  type='text'  class='form-control' data-container='body'  ><span  class='input-group-addon'>张</span></div>")
+        					
+	                ));		
+	    		}
+	    		}
+	    		tablebody.append(
+	                	$('<tr  bgcolor= "#C0C0C0">').append(
+                        $('<td  bgcolor= "#C0C0C0" class="showmark">').text("合计"),
+                    	$('<td 	bgcolor= "#C0C0C0" colSpan=7>').text(""),
+                    	$('<td  bgcolor= "#C0C0C0" id=cardsum  align=center>').text("0  张")
+	                ));
+	             // cardBox += "</select>";
+	              $("#commit").attr("disabled",false);
+	    			isRunning = false;
+        	}else {
+        	
+        		  $('#comment').text(data.messageText);
+        		  $("#commit").attr("disabled",true);
+         
+        	}
+        	
+	    }
+	    
+	});
+	
+   isRunning = false;
+
+}
+
+function casesume(id,id3){
+
+var ev = window.event;
+	if(ev.keyCode==65){
+	document.getElementById(id).value = "";
+	}
+
+	$("#"+id).popover('destroy');
+	var input = document.getElementById(id);
+	input.value=input.value.replace(/\D/g,'')
+	var cardSum = document.getElementsByName("addcard");
+	var cardSumlen = cardSum.length;
+
+	var sum = 0;
+if(id3>60){
+$("#"+id).attr("title","<sp class='fg-red'>输入有误 </sp>");
+	$("#"+id).attr("data-content","加卡张数不能超过60张");
+  	$("#"+id).popover('show');
+  	input.value="";
+ }
+for(i=0;i<cardSumlen;i++){
+	sum+=Number(cardSum[i].value);
+	}
+	$("#cardsum").html(sum+" 张");
+}
+
+function ukeysume(id,id3){
+var ev = window.event;
+	if(ev.keyCode==65){
+	document.getElementById(id).value = "";
+	}
+	$("#"+id).popover('destroy');
+	var input = document.getElementById(id);
+	input.value=input.value.replace(/\D/g,'')
+	var cardSum = document.getElementsByName("addukey");
+	var cardSumlen = cardSum.length;
+	var sum = 0;
+if(id3>20){
+$("#"+id).attr("title","<sp class='fg-red'>输入有误 </sp>");
+	$("#"+id).attr("data-content","U盾个数不能超过20个");
+  	$("#"+id).popover('show');
+  	input.value="";
+ }
+for(i=0;i<cardSumlen;i++){
+	sum+=Number(cardSum[i].value);
+	}
+	
+	$("#ukeysum").html(sum+" 个");
+}
+
+function addcard(){
+
+if (isRunning) {
+		return;
+	}else{
+	isRunning = true;
+	}
+	
+  	var k=0;
+    var list = "";
+    var id = "";
+    var in_column = "";
+    var card = document.all("addcard");
+   
+  for(i=0;i<card.length;i++){
+
+   in_column = card[i].value;
+   id = card[i].id;
+      var cardtype = document.getElementById("op_"+id).value;//卡片类型
+     if(in_column>0){
+    	 k++;
+    
+       list+=id+","+in_column+","+cardtype+",|";
+    }else{
+   
+       list+=id+","+0+","+cardtype+",|";
+    }
+
+  }
+//alert(list)
+   if(k<=0){
+   $("#comment").html(">>警告：加卡失败，无法获取加卡信息或无可加卡的卡箱");
+   	isRunning = false;
+   return;
+  }
+
+     $("#comment").html("正在加卡,请稍候...");
+   $.ajax({
+		url: cycle,
+		cache: false,
+		type: "post",
+		data: "commandID=device-cycle-addcard&list=" + list,
+		dataType: 'json',
+		success: function(data) {
+		
+	    $("#comment").html(data.messageText);
+          	if("OK"==data.msg){
+          loadCaseTableData();
+		}
+		}
+	});
+ 	isRunning = false;
+	
+}
+
+//U盾
+function loadUKeyTableData(){
+if (isRunning) {
+		return;
+	}
+	$.ajax({
+	     url: cycle,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-UKeyDispenser-Machine",
+	    dataType: 'json',
+	    success: function(data) {
+	    		if ("ok"==data.messageText&&data.dataList.length>=0) {
+	    		  $("#casetable").show();
+	    		var parameters = data.dataList;
+	    		var length = data.BlankUkeyType.length;
+	    	
+	    		//alert(parameters.length)
+	    		var tablebody = $("#ukeytable>tbody");
+				tablebody.empty();
+
+				tablebody.append(
+	                	$("<tr align=center style='background:#afcdff' >").append(
+	                       	$('<td >').text("序号"),
+                	   		$('<td >').text("U盾箱类型"),
+	                     	$('<td>').text("U盾箱状态"),
+	                     	$('<td >').text("初始加U盾数"),
+                         	$('<td >').text("结存U盾量"),
+							$('<td >').text("U盾类型")
+	                ));
+				var initial=0; var remain=0;
+				for (var j in parameters) {
+				if(null!= parameters[j].id3){initial	+=  parseInt(parameters[j].id3)}
+				if(null!= parameters[j].id4){remain	+=  parseInt(parameters[j].id4)}
+				var status = parameters[j].id8; //是否可加卡标志
+				//alert(status)
+				if("U盾箱"==parameters[j].id1&&("ok"==status)){
+				    var ukeytype = ""
+					ukeytype = data.BlankUkeyType[j].name
+					tablebody.append(
+	                	$("<tr align=center style='background:#e7f0ff'>").append(
+	                	
+	                    	$('<td>').text(parameters[j].id0),
+	                    	$('<td>').text(parameters[j].id1),
+	                        $('<td >').text(parameters[j].id2),
+	                         $('<td >').html(parameters[j].id3),
+	                        $('<td >').html(parameters[j].id4),
+							$('<td >').html(parameters[j].id6)
+        					
+	                ));
+	    		}else if("U盾箱"==parameters[j].id1&&"ok"!=status) {
+	    		    	tablebody.append(
+	                	$("<tr align=center style='background:#e7f0ff' >").append(
+	                	   	$('<td>').html(" "),
+	                    	$('<td>').text(parameters[j].id0),
+	                    	$('<td>').text(parameters[j].id1),
+	                        $('<td >').text(parameters[j].id2),
+	                        $('<td >').html(parameters[j].id3),
+	                        $('<td >').html(parameters[j].id4),
+        					$('<td >').html("&nbsp;")
+	                ));		
+	    		}else if("回收箱"==parameters[j].id1) {
+	    		
+	    		    	tablebody.append(
+	                	$("<tr align=center style='background:#e7f0ff'  >").append(
+	                    	$('<td>').text(parameters[j].id0),
+	                    	$('<td>').text(parameters[j].id1),
+	                        $('<td >').text(parameters[j].id2),
+	                        $('<td >').html(parameters[j].id3),
+	                        $('<td >').html(parameters[j].id4),
+        					$('<td >').html("&nbsp;")
+	                ));		
+	    		}
+	    		}
+	    		tablebody.append(
+	                	$('<tr  bgcolor= "#C0C0C0">').append(
+                        $('<td  bgcolor= "#C0C0C0" class="showmark">').text("合计"),
+                    	$('<td 	bgcolor= "#C0C0C0" colSpan=2>').text(""),
+                    	$('<td  bgcolor= "#C0C0C0" id=ukeysum  align=center>').text(initial+"  个"),
+                    	$('<td  bgcolor= "#C0C0C0" id=ukeysum  align=center>').text(remain+"  个"),
+						$('<td  bgcolor= "#C0C0C0" id=ukeysum  align=center>').text("")
+	                ));
+	    			isRunning = false;
+        	}else {
+        	
+        		  $('#comment').text("U盾箱出错，无法查询到有效信息。");
+        		  $("#commit").attr("disabled",true);
+         
+        	}
+	    }
+	});
+   isRunning = false;
+
+}
+//U盾添加
+function addukey(){
+if (isRunning) {
+		return;
+	}else{
+	isRunning = true;
+	}
+	
+  	var k=0;
+    var list = "";
+    var id = "";
+    var in_column = "";
+   // var ukey = document.all("addukey");
+	var ukey = document.getElementsByName("addukey");
+  for(i=0;i<ukey.length;i++){
+
+   in_column = ukey[i].value;
+    
+   id = ukey[i].id;
+      var cardtype =  ukeytype;
+      // alert(cardtype);
+     if(in_column>0){
+    	 k++;
+    
+       list+=id+","+in_column+","+cardtype+",|";
+    }else{
+   
+       list+=id+","+0+","+cardtype+",|";
+    }
+
+  }
+   if(k<=0){
+   $("#comment").html(">>警告：添加U盾失败，无法获取U盾信息或无可加U盾的卡箱");
+   	isRunning = false;
+   return;
+  }
+
+     $("#comment").html("正在添加U盾,请稍候...");
+   $.ajax({
+		url: cycle,
+		cache: false,
+		type: "post",
+		data: "commandID=device-cycle-addukey&list=" + list,
+		dataType: 'json',
+		success: function(data) {
+		
+	    $("#comment").html(data.messageText);
+          	if("OK"==data.msg){
+          loadUKeyTableData();
+		}
+		}
+	});
+ 	isRunning = false;
+	
+}
+    </script>

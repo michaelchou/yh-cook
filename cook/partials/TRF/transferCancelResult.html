@@ -1,0 +1,98 @@
+<!-- 普通定转活明细页面 -->
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../bower_components/icheck/icheck.min.js"></script>
+
+<link rel="stylesheet" href="../../../bower_components/icheck/skins/square/_all.css">
+
+<script language="javascript" type="text/javascript">
+	
+var scope = angular.element(main).scope();
+scope.subscription = function (pid) {
+    var _detail = scope.pool["detail"].split('#');
+    for (var i = 0; i < _detail.length; i ++) {
+        if (pid == _detail[i].split('@')[7]) {
+            scope.pool["preworkdate"] = _detail[i].split('@')[0];
+			scope.pool["pretranstype"] = _detail[i].split('@')[8];
+			scope.pool["preagentserialno"] = _detail[i].split('@')[2];
+			scope.pool["prebankfzseq"] = _detail[i].split('@')[7];
+			scope.pool["prebankfzdate"] = _detail[i].split('@')[6];
+			scope.pool["transAmount"] = _detail[i].split('@')[5];
+			scope.pool["prepayeeacc"] = _detail[i].split('@')[4];
+			scope.pool["payeraccname"] = _detail[i].split('@')[9];
+			scope.pool["payeeaccname"] = _detail[i].split('@')[10];
+            break;
+        }
+    }
+    scope.action("confirm");
+}
+</script>
+<style>
+   .cssinput{
+      height:20px;
+	  width:20px;
+   }
+</style>
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+<div class="cook-head">
+    <h1 class="text-center">转账撤销明细</h1>
+    <h3 class="text-center">Transfer Cancel detail</h3>
+</div>
+<table class="table table-striped  table-bordered" width="100%" style="text-align:center">
+  <tr style="font-weight:bold;font-size:16px">
+     <td height="33px">序号</td>
+     <td height="33px">转账日期</td>
+     <td height="33px">转账时间</td>
+     <td height="33px">转出卡号</td>
+     <td height="33px">转出户名</td>
+     <td height="33px">转入卡号</td>
+     <td height="33px">转入户名</td>
+     <td height="33px">转账金额</td>
+     <td height="33px">操作</td>
+  </tr>
+  <tr ng-repeat="x in detail" >
+      <td height="33px">{{ x.key7}}</td>
+      <td height="33px">{{ x.key0}}</td>
+      <td height="33px">{{ x.key1}}</td>
+      <td height="33px">{{ x.key3}}</td>
+      <td height="33px">{{ x.key9}}</td>
+      <td height="33px">{{ x.key4}}</td>
+      <td height="33px">{{ x.key10}}</td>
+      <td height="33px">{{ x.key5}}</td>
+      <td height="33px">
+        <span class="input-group-btn">
+          <button class="btn btn-primary" type="button" ng-click="subscription(x.key7)">撤销</button>
+        </span>
+     </td>
+  </tr>
+</table>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+ <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+<h1 class="text-center" style="font-size: 140%;">第{{pageNo}}页,共{{pageSize}}页</h1>
+</div>
+<div ng-if="pageSize > 1">
+<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+<button class="col-md-2 image-btor" ng-click="action('return')">返回</button>
+</div>
+<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;">
+ <button  type="button" class="image-btgr"  ng-hide="Prev" ng-click="next(-1)">上一页</button>
+ </div>
+  <div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+  <button  type="button" class=" image-btgr"                        ng-hide="Next" ng-click="next(1)">下一页</button>
+ </div> 
+  </div> 
+   </div> 
+<div ng-if="pageSize <= 1">
+<div class=" col-xs-offset-0 col-xs-12 "style="border:0px blue solid;text-align: center;">
+<button class=" image-btor" ng-click="action('return')">返回</button>
+ </div> 
+   </div>
+ </div>  

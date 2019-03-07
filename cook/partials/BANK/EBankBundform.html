@@ -1,0 +1,136 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+creatTree(0,"填写表单");
+	
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+
+function commit(){
+ Hide();
+ var scope = angular.element(main).scope();
+  if((null == document.getElementById("dtName1") && !document.getElementById("dtName2").checked) 
+	|| (null == document.getElementById("dtName2") && !document.getElementById("dtName1").checked)
+	||(null != document.getElementById("dtName2") && null !=document.getElementById("dtName1") 
+	&& !document.getElementById("dtName2").checked && !document.getElementById("dtName1").checked)){
+		document.getElementById("showMsg").innerHTML ="提示:至少勾选一种渠道方式";
+  }else{
+    if(null != document.getElementById("dtName1") && null != document.getElementById("dtName2") && document.getElementById("dtName1").checked && document.getElementById("dtName2").checked){
+		scope.pool["ST_MchannelFlag"] = 'All';
+	}else if(null != document.getElementById("dtName1") && document.getElementById("dtName1").checked){
+		scope.pool["ST_MchannelFlag"] = 'PIBS';
+	}else if(null != document.getElementById("dtName2") && document.getElementById("dtName2").checked){
+		scope.pool["ST_MchannelFlag"] = 'PMBS';
+	}
+	scope.action("submit");
+  }
+
+}
+
+	function EBSelect(isChecked){
+		document.getElementById("showMsg").innerHTML ="";
+		if(isChecked){
+			document.getElementById("dtName1").checked=true;
+		}else{
+			document.getElementById("dtName1").checked=false;
+		} 
+	}
+
+	function MoSelect(isChecked){
+		document.getElementById("showMsg").innerHTML ="";
+		if(isChecked){
+			document.getElementById("dtName2").checked=true;
+		}else{
+			document.getElementById("dtName2").checked=false;
+		} 
+	}
+</script>
+<div class="container indicates"> 
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写表单</h3>
+<h6  style="font-size:15px;margin-top:0px;text-align: left;">基本信息</h6>
+
+  <form class="form-horizontal" style="margin-top:0%;margin-left:15%">
+    <div class="form-group">
+      <label for="name" class="col-sm-3 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">登陆名称</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="ST_UserId" value="{{pool.ST_UserId}}" disabled="disabled" readonly>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="pid" class="col-sm-3 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">电子客户号</label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text" style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="ST_CifSeq"  value="{{pool.ST_CifSeq}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	<div class="form-group">
+      <label for="pid" class="col-sm-3 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">渠道方式</label>
+      <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+	  <div  class = "checkbox" style = "margin-top:20px;margin-left:30px;font-size:18px;color :black;position:relative !important;bottom:-5%; float :left; text-align: center; height: 20px; line-height: 12px;font-weight:bold;">
+		<label ng-if="pool.PIBSIsDisabled != '1'">
+			<input style="height:18px;width:18px;margin-top:0%" id="dtName1" type="checkbox" onclick="EBSelect(this.checked)">网上银行&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</label>
+		<label ng-if="pool.PMBSIsDisabled != '1'">
+			<input style="height:18px;width:18px;margin-top:0%" id="dtName2" type="checkbox" onclick="MoSelect(this.checked)">手机银行	
+		</label>
+	</div>
+    </div>
+	<div  id = "showMsg" style ="margin-top :0px; height :20%; font-size :20px;color:red" >
+	</div>
+	</br>
+    
+  </form>
+  
+</div>
+</br>
+</br>
+
+      <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+      <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('return')">退出</button>
+      
+          <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>
+		 
+    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>

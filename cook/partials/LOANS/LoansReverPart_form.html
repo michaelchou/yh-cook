@@ -1,0 +1,88 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+
+</style>
+<script language="JavaScript" type="text/JavaScript">
+function commit(){
+
+var scope = angular.element(main).scope();
+var loansAmount = document.getElementById("LoansRevertAmount").value;
+var LoansBalance = scope.pool["ST_LoansBalance"];
+var balance = scope.pool["balance"];
+
+if(loansAmount==0){
+	$("#LoansRevertAmount").attr("data-content","还款金额不能为零");
+	$("#LoansRevertAmount").popover('show');
+  }else if(loansAmount.length<=0){
+	$("#LoansRevertAmount").attr("data-content","不能为空");
+	$("#LoansRevertAmount").popover('show');
+  }else if(parseFloat(loansAmount)>=parseFloat(LoansBalance)){
+	$("#LoansRevertAmount").attr("data-content","还款金额不能等于或超过贷款余额");
+	$("#LoansRevertAmount").popover('show');
+  }else if(parseFloat(loansAmount)>parseFloat(balance)){
+	$("#LoansRevertAmount").attr("data-content","卡内余额不足");
+	$("#LoansRevertAmount").popover('show');
+  }else{
+  
+   scope.pool["ST_LoansRevertAmount"] = parseFloat(loansAmount).toFixed(2);
+   
+  scope.action("submit");
+  
+  }
+
+}
+</script>
+
+  <div class="container indicates">
+	  <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}<span>
+		</div>
+    </div>
+	
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写还款信息表单</h3>
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue" id="loansReverPart">
+
+  <form class="form-horizontal" style="margin-top:1%;margin-left:15%">
+    <div class="form-group">
+      <label for="name" class="col-sm-3 control-label" style="margin-top:18px;margin-left:20px;color:#000000">还款方式</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="name" value="提前还本" disabled="disabled" readonly>
+      </div>
+    </div>
+	 <div class="form-group">
+      <label for="name" class="col-sm-3 control-label" style="margin-top:18px;margin-left:20px;color:#000000">贷款金额</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.ST_LoansAmount}}" disabled="disabled" readonly>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="pid" class="col-sm-3 control-label" style="margin-top:20px;margin-left:20px;color:#000000;">剩余贷款金额</label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text" style='background:#C0C0C0;border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="pid"  value="{{pool.ST_LoansBalance}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	
+	
+	<div class="form-group">
+      <label for="amount" class="col-sm-3 control-label" style="margin-top:20px;margin-left:20px;color:#000000;">还款金额</label>
+       <div class="col-sm-4" style="margin-left:18px">
+        <input type="text"  style="margin-top:25px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"  onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')"  
+				onclick="openkeyset(1,900,500)" class="form-control" id="LoansRevertAmount" value=""  placeholder="请输入还款金额，单位：元"
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-blue'>金额输入有误 </sp>" data-content=""  data-html="true" maxlength="10" >
+      </div>
+
+	  <sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>
+ 
+  </form>
+  
+</div>
+   <div class="cook-foot col-xs-offset-0 col-xs-12">
+          <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+          <button type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交</button>
+          
+		        
+    </div>
+    <object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>

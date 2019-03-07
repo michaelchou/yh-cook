@@ -1,0 +1,213 @@
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script type="application/javascript" language="javascript" >
+    var scope = angular.element(main).scope();
+    scope.cancellation = function (pid) {
+        var _detail = scope.pool["detail"].split('#');
+        for (var i = 0; i < _detail.length; i ++) {
+            if (pid == _detail[i].split('@')[0]) {
+			    scope.pool["SS_prodCode"] = _detail[i].split('@')[0];
+				scope.pool["FC_ProductName"] = _detail[i].split('@')[1];
+				scope.pool["FC_originDate"] = _detail[i].split('@')[10];
+				
+				
+				scope.pool["agentserialno"] = _detail[i].split('@')[11];
+				
+				var amount=_detail[i].split('@')[20];
+				scope.pool["cancelAmount"] =amount.substring(0,amount.length-3)+"00";
+				//scope.pool["cancelAmount_show"] =amount.substring(0,amount.length-3);
+				scope.pool["cancelAmount_show"] =amount;
+                scope.pool["FinancialProductSubscription"] = _detail[i];
+				
+				
+                break;
+            }
+        }
+        scope.action("confirm");
+    }
+    scope.lookover = function (pid) {
+    	 scope.timeout = 60;
+    	 var docdata = pid+"@3";
+    	// document.getElementById("slideShow3").style.display="block";
+    	   $('#myModal').modal('show');
+    	   $.ajax({
+    	   	     url: "/custom/document",
+    	   	    cache: false,
+    	   	    type: "get",
+    	   	    data: "commandID="+docdata,
+    	   	    dataType: 'json',
+    	   	    success: function(data) {
+    	        	showSWF(data.messageText);
+    	   	    		
+    	   	    }
+    	   	});
+//    	 setTimeout(function(){
+//    		 BrowserCallback("key.FinancialProduct#"+pid+"#3");
+//    	 },1000)
+    	
+    }
+    var pageNo = 1;
+    var pageSize = 0;
+    var jpglist;
+    function showSWF(data)
+    {
+     scope.timeout = scope._timeout;
+     if(data=="")
+     {
+    	 document.getElementById("slideShow").innerHTML="<span    style='position:fixed;left:30%;top:40%;font-size:100px;' >打开文档失败</span>";
+    	 document.getElementById("slideShow").style.display="block";
+    	 document.getElementById("slideShow2").style.display="block";
+	    // document.getElementById("slideShow3").style.display="none";
+	        $('#myModal').modal('hide');
+	     document.getElementById("Flex").style.display="block";
+	     document.getElementById("NewTime").style.display="block";
+    	 return;
+     }
+     pageNo = 1;
+     jpglist=data.split("#");
+     pageSize = jpglist.length;
+     var li="";
+     if(pageSize >0)
+     {
+	     li="<img id='imgDOC' src=''  style=\"width;150%;height:200%;\" />";
+	     document.getElementById("slideShow").innerHTML=li;
+	     document.getElementById("slideShow").style.display="block";
+	     document.getElementById("slideShow2").style.display="block";
+	     document.getElementById("imgDOC").src=jpglist[pageNo-1]+"?"+Math.random();
+	    // document.getElementById("slideShow3").style.display="none";
+	        $('#myModal').modal('hide');
+	     document.getElementById("Flex").style.display="block";
+	     document.getElementById("NewTime").style.display="block";
+	     //document.getElementById("showDOCbtn").style.display="block";
+	     if(pageSize>1)
+	     {
+	    	 document.getElementById("nextDOC").style.display="block";
+	     }
+     }
+    }
+    function Flexhidden()
+    {
+    	document.getElementById("slideShow").style.display="none";
+    	document.getElementById("NewTime").style.display="none";
+        document.getElementById("Flex").style.display="none";
+        document.getElementById("nextDOC").style.display="none";
+        document.getElementById("preDOC").style.display="none";
+        document.getElementById("slideShow2").style.display="none";
+    }
+    function nextDOC(num)
+    {
+    	pageNo = pageNo + num;
+    	document.getElementById("imgDOC").src=jpglist[pageNo-1]+"?"+Math.random();
+    	if(pageNo ==1)
+    	{
+    	  document.getElementById("preDOC").style.display="none";
+    	  document.getElementById("nextDOC").style.display="block";
+    	}else if(pageNo ==pageSize)
+    	{
+    		document.getElementById("preDOC").style.display="block";
+    		document.getElementById("nextDOC").style.display="none";
+    	}else{
+    		document.getElementById("preDOC").style.display="block";
+    		document.getElementById("nextDOC").style.display="block";
+    	}
+    }
+</script>
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+	</div>
+<div class="slideShow" id="slideShow" style="overflow:auto;display:none;position:fixed;top:0%;left:10%;width:80%;height:100%;z-index:999">
+</div>
+<div id="slideShow2" style="display:none;background-size:100% 100%;background-image:url(1280/image/11.jpg);position:fixed;top:0%;left:0%;width:100%;height:100%;z-index:99">
+</div>
+ <!-- Modal -->
+  <div class="modal fade" id="myModal"  data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" backdrop="static">
+    <div class="modal-dialog ">
+      <div class=" col-xs-offset-3 col-lg-6 alert alert-danger fade in" style="top:300px">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">下载中,请稍后...<br>
+        </div>
+        <img id="lcyws" src="image/process.gif" class="center" />
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+<div id="Flex"  style="display:none;width:30px;height:30px;position:fixed;left:88%;top:0%;background-image:url(image/red.png);background-size:100%;z-index:9999;"  onclick="Flexhidden()">
+</div>
+<div id="NewTime"   style="display:none;position:fixed;left:91%;top:2%;z-index:99999;font-family:'黑体';font-size: 300%;color:#F90;" >
+      <span>{{timeout}}</span>
+</div>
+<div class="jiantou fg-black" id="preDOC" style="display:none;position:fixed;left:8%;top:30%;z-index:9999" onclick="nextDOC(-1)"> < </div>
+<div class="jiantou fg-black" id="nextDOC" style="display:none;position:fixed;left:89.6%;top:30%;z-index:9999" onclick="nextDOC(1)"> > </div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+
+    <div class="cook-head">
+ 
+		<h1 class="text-center">可撤单理财产品明细</h1>
+		<h3 class="text-center">Cancelable Financial Products Detail</h3>
+    </div>
+    
+    <table class=" table-striped  table-bordered" width="100%" style="text-align:center;">
+        <tr style="font-weight:bold;font-size:16px;">
+			<td height="33px">产品代码</td>
+            <td height="33px">产品名称</td>
+            <td height="33px">起到息日</td>
+            <td height="33px">预期年收益率</td>
+            <td height="33px">原认购交易日期</td>
+            <td height="33px">申请金额</td>
+            <td height="33px">交易状态</td>
+            <td height="33px">操作</td>
+        </tr>
+        <tr ng-repeat="x in detail" >
+            <td height="33px">{{ x.key0}}</td>
+			<td height="33px">{{ x.key1}}</td>
+            <td height="33px">{{ x.key2}}~{{ x.key3}}</td>
+            <td height="33px">{{ x.key4}}~{{ x.key5}}</td>
+            <td height="33px">{{ x.key10}}</td>
+            <td height="33px">{{ x.key20}}</td>
+            <td height="33px">{{ x.key24}}</td>
+            <td height="33px">
+                <span class="input-group-btn">
+                    <button ng-if="x.key8 == '正常'||x.key8== '0'" class="btn btn-primary" type="button" ng-click="cancellation(x.key0)">撤单</button>
+                </span>
+            </td>
+        </tr>
+ </table>
+ 	   
+ 
+</div>
+
+
+
+
+ 
+  <div class="cook-foot col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+    <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+ 	 <h1 class="text-center" style="font-size: 140%;">第{{pageNo}}页,共{{pageSize}}页</h1> 	
+    </div>
+ <div ng-if="pageSize > 1">
+ 	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<button  type="button" class="col-xs-offset-2 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button  id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt"  ng-click="action('eject')">退卡</button>
+    </div>
+
+ 	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;">
+    	    <button  type="button" class="image-btgr"  ng-hide="Prev" ng-click="next(-1)">上一页</button>
+           </div>
+    <div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+    	    <button  type="button" class=" image-btgr"                        ng-hide="Next" ng-click="next(1)">下一页</button>
+    </div>
+</div>
+</div>
+<div ng-if="pageSize <= 1">
+<div class=" col-xs-offset-0 col-xs-12 "style="border:0px blue solid;">
+ 			<button  type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt"  ng-click="action('eject')">退卡</button>
+</div>
+</div>
+</div>

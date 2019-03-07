@@ -1,0 +1,122 @@
+<script language="JavaScript" type="text/JavaScript"> 
+document.getElementById("MUSIC1").src = "wav/请按指纹.wav";
+creatTree(0,"指纹授权");
+
+$.ajax({
+ 	     url: "/custom/document",
+ 	    cache: false,
+ 	    type: "get",
+ 	    data: "commandID=haveSignImg",
+ 	    dataType: 'json',
+ 	    success: function(data) {
+			if((data.messageText).length >= 1){
+				document.getElementById("img").src ="d:/sign.png"+"?"+Math.random();
+			}
+ 	    }
+ 	});
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49
+id="HandWrite">
+</object>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+ <h1 class="text-center">江苏农村商业银行短信银行签约申请单</h1>
+ </div>
+ </br>
+<div class="cook-content">
+ 
+
+<table class="col-xs-12 balance " border="1" style="height:200px">
+        <tr>
+            <td ><th class="col-xs-3" style="font-size:20px">姓名:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.name}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">性别:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.genderC}}</td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">证件号码:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.pid}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">证件类型:</th></td>
+            <td class="col-xs-3"style="font-size:20px">身份证</td>
+        </tr>
+
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">手机号码:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.mobile}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">证件有效日期:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.issuedate}}~{{pool.abatedate}}</td>
+        </tr>
+		
+		<tr>
+            <td><th class="col-xs-3"style="font-size:20px">套餐类型:</th></td>
+            <td ng-if="pool.ST_QY_packId=='504'" class="col-xs-3"style="font-size:20px">个人账户变动套餐</td>
+			<td ng-if="pool.ST_QY_packId=='505'" class="col-xs-3"style="font-size:20px">企业账户变动套餐</td>
+            <td><th class="col-xs-3"style="font-size:20px">收费类型:</th></td>
+            <td ng-if="pool.ST_QY_fee=='01'" class="col-xs-3"style="font-size:20px">按年</td>
+			<td ng-if="pool.ST_QY_fee=='02'" class="col-xs-3"style="font-size:20px">按月</td>
+			<td ng-if="pool.ST_QY_fee=='03'" class="col-xs-3"style="font-size:20px">免费</td>
+        </tr>
+		
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">职业:</th></td>
+            <td colspan="4"style="font-size:20px">{{pool.job}}</td>
+            
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">地址:</th></td>
+            <td colspan="4"style="font-size:20px">{{pool.address}}</td>
+            
+        </tr>
+        
+    </table>
+
+<table style="margin-left:11.5%" >
+    <tr>
+		<td width="10%">
+			<span style="font-size:20px;font-weight:bold;color:#000000;">联网核查照片:</span>
+        </td>
+        <td width="7%">
+		 <span style="font-size:20px;font-weight:bold;color:#000000;">现场审核照片:</span>
+        </td>
+   </tr>
+  <tr>
+		<td>
+			<img src="D:/ID_Photos/Card.jpg" style="width:18%; border:1px red solid">
+       </td>
+       <td>
+		   <img src="D:/FaceImg.jpg" style="width:40%;border:1px red solid">
+       </td>
+ </tr>
+<table>
+
+<div style="margin-top:7%;margin-left:12%;">
+<!-- <span style="color:#000000">
+银行盖章:
+</span> -->
+<span style="margin-left:50%;color:#000000" onclick="Show(5,1,280,400)">
+客户签名:_______________<span id="span"></span>
+</span>
+<span id="notice"  style="position:fixed;width:9%; height:9%;top:65%;left:65%;color:red;"></span>
+<img id="img" src=""  style="position:fixed;width:8%;height:8%;top:65%;left:66%;"></span>
+</div>
+
+<div id="saveS" style="display:none;position:fixed;top:55%;left:85%"><button type="button" class="button-confirm button-lg1 pull-right"  onclick="SaveSignal()">保存</button></div>
+<div id="clearS" style="display:none;position:fixed;top:65%;left:85%"><button type="button" class="button-confirm button-lg1 pull-right"  onclick="ClearSignal()">清除</button></div>
+<div style="margin-top:14%;">
+	    <h1 class="text-center" style="display:block;color:#000000">客户签名后,请银行工作人员授权</h1>
+	    </br>
+	    <h3 class="text-center" style="display:block;color:#000000">请将手指在指纹仪上长按&nbsp;<label id="time" style="width:50px;color:red;">5</label>&nbsp;秒后抬起!</h3>
+	</div>
+ </div>
+ 

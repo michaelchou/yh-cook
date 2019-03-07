@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cook2</title>
+<link rel="stylesheet" type="text/css" href="js/ad/css/tFocus.css">
+<script type="text/javascript" src="js/ad/js/jquery-1.6.js"></script>
+<script type="text/javascript" src="js/ad/js/tFocus.js"></script>
+
+<script type="text/javascript">
+var delayTime  = new Array();
+	$(function(){
+		var baseURL = "http://127.0.0.1/flow-jsnxvtm/resources/cookad/AD_IDLE/";
+		$.ajax({
+			type: "GET",
+			url: baseURL + "config.ini",
+			dataType: "json",
+			success: function(json){
+			
+				for (var i = 0; i < json.resources.length; i ++) {
+				var file = json.resources[i];
+					$("ul:first").append("<li><img src=\"" + baseURL + json.resources[i].content + "\" width=\"100%\" height=\"100%\" /></li>")
+					
+					$("ul:last").append("<li><img src=\"" + baseURL + json.resources[i].content + "\" width=\"100%\" height=\"100%\" /></li>")
+					delayTime.push(file.playTime)
+				}
+				addLoadEvent(Focus(delayTime));
+				
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			
+			}
+	
+		});
+	});
+</script>
+
+</head>
+<body >
+<!--效果开始-->
+<div id="tFocus" >
+  <div class="prev" id="prev"></div>
+  <div class="next" id="next"></div>
+  <a class="mark_left" href="javascript:;" id="markLeft"></a>
+  <a class="mark_right" href="javascript:;" id="markRight"></a>
+ <ul id="tFocus-pic" onclick="javascript:window.location.href='/custom/flow2?actionId=confirm&page=advertise&mode=file'">
+ </ul>
+ <div id="tFocusBtn">
+   <a href="javascript:void(0);" id="tFocus-leftbtn"></a>
+   <div id="tFocus-btn">
+     <ul "tFocus-pic" onclick="javascript:window.location.href='/custom/flow2?actionId=confirm&page=advertise&mode=file'">
+     </ul>
+   </div>
+   <a href="javascript:void(0);" id="tFocus-rightbtn"></a>
+  </div>
+</div>
+ <div id="tFocus-bg"></div>
+
+<!--End-->
+</body>
+</html>

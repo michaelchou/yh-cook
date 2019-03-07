@@ -1,0 +1,76 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+document.getElementById("MUSIC1").src = "wav/输入转账金额.wav";
+	document.getElementById("amount").focus();
+	var scope = angular.element(main).scope();
+	
+	// 转账金额校验
+	function checkCommonTRFAmount() {
+		var inputs = document.getElementsByTagName("input");
+		var obj = inputs.item(0);
+		var error = "";
+		if (obj.value.length <= 0 || parseFloat(obj.value)<0.01) {
+			$("#" + obj.id).attr("data-content", "转账金额不能为空或为零");
+			$("#" + obj.id).popover('show');
+		} else if (parseFloat(obj.value) > 1000000.00) {
+			$("#" + obj.id).attr("data-content", "转账金额不能大于100万");
+			$("#" + obj.id).popover('show');
+		} else {
+			if(parseFloat(obj.value) < 50000.00){
+				scope.pool["ST_TRFAmountType"] = 1;
+			}else if(parseFloat(obj.value) >= 50000.00 && parseFloat(obj.value) < 200000.00){
+				scope.pool["ST_TRFAmountType"] = 2;
+			}else if(parseFloat(obj.value) >= 200000.00 && parseFloat(obj.value) <= 1000000.00){
+				scope.pool["ST_TRFAmountType"] = 3;
+			}
+			scope.action("confirm");
+		}
+	}
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">金额输入有误,请输入转入金额</h1>
+    <h3 class="text-center">Input error, Please input transfer amount and press enter</h3>
+</div>
+
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" class="form-control" 
+                onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')" 
+                    id="amount" value="" onblur="this.focus()" ng-model="pool.transAmount" maxlength="22"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>转账金额输入有误</sp>" data-content="" data-html="true">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="clear()">清  除</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</div>
+
+<div class="cook-foot  col-xs-offset-0 col-xs-12">
+    <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    <button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkCommonTRFAmount();">确认</button>
+</div>

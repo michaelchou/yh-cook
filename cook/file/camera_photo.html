@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>camera</title>
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../bower_components/Buttons/css/buttons.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-nav-wizard.css">
+    <link rel="stylesheet" href="../css/cook.css">
+
+    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+
+   
+  </head>
+  <body onload="javascript:Run_Func(0);">
+    <div class="container header">
+        <div  class="row">
+			<img  src="../image/logo-jsnx.png" style="margin-left:-60px !important;">
+		</div>
+	</div>
+
+<div class="container apply">
+<div class="row">
+    <div class="div_right col-md-12">
+        <div class="indicates">
+    		<span id="timeout" class="timeout pull-right">60</span>
+            <h1>拍照认证</h1>
+    	</div>
+
+    	<div class="step">
+            <div style="margin-left:5px; margin-top:20px;font-family:微软雅黑; font-size:20px;">请您去除帽子、墨镜等遮挡物，对准上方摄像头点击"开始拍照"按钮进行拍照</div>
+            <div id="frame1" style="margin-left:5px;margin-top:20px;">
+           
+	
+	 <div id="Layer2" align="left" style="left:150px;visibility:visible;position:absolute">
+	        <OBJECT Name = "TFace1" Id = "TFace1" CLASSID="CLSID:{84EB83F1-0114-4385-A620-593C7FB8DBB1}" Width = 360 Height = 280 border = 1> </OBJECT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	         <OBJECT Name = "TFace2" Id = "TFace2" CLASSID="CLSID:{84EB83F1-0114-4385-A620-593C7FB8DBB1}" Width = 360 Height = 280 border = 1 style="top:0px;visibility:visible;position:absolute"> </OBJECT>&nbsp;
+	   
+	 </div>
+	<div id="idcard" align="left" style="top:150px;left:950px;background:url(C:/2.BMP) 0% 0% / cover;width:102px; height:126px; visibility:visible;position:absolute"></div>
+   </div>
+   
+    		<span style="top:300%;margin-left:325px;visibility:visible;position:absolute; color:red;font-family:微软雅黑; font-size:20px;">请在摄像框页面中出现红色对焦框后再摆好姿势</span>
+            
+            <div align="left"  style="margin-left:25px; margin-top:0px;">
+
+                <input type="button" id="btn_restart" value="重  拍" onclick = "javascript:Run_Func(2);" style="display:none;top:520px;margin-left:235px;width:140px; height:50px; border:0px;background:#46b963; color:#FFFFFF; font-size:24px; font-family:方正粗倩简体; outline:none;visibility:visible;position:absolute"/>
+				<input type="button" id="btn_confirm" class="normal" value="确 定" disabled onclick= "javascript:Run_Func(1);" style="top:520px;left:715px;display:none;width:140px; height:50px; border:0px;background:#3b6fb4; color:#FFFFFF; font-size:24px; font-family:方正粗倩简体; outline:none;visibility:visible;position:absolute"/>
+                      
+		   </div>
+
+    	</div>
+    </div>
+</div>
+</div>
+<EMBED id="MUSIC1" SRC="../wav/请您摘除帽子等遮挡物进行拍照.wav" Loop=false AUTOSTART=false Hidden=true MASTERSOUND>
+
+    <footer class="footer">
+      <div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="footerinfo" style="float:left ;">http://www.js96008 </div>
+				<a href="index.html#/pages" style="color:#ffffff;float:right;"><i class="fa fa-bars"></i>index</a>
+			</div>
+			<div class="col-md-6">
+				<div class="footerinfo" style="float:right; ">服务热线：96008 </div>
+			</div>
+		</div>
+      </div>
+    </footer>
+
+  </body>
+  <SCRIPT LANGUAGE="JavaScript">
+    var nRet = 0;
+    var sImg = "";
+
+    function Run_Func(iIdx)
+    {
+        if (iIdx == 0)          //打开设备
+        {
+            nRet = TFace1.TCFOpenDev(0);
+            if (nRet == 0)
+            {
+      setTimeout("Run_Func(2)",2000)
+            }
+            else
+            {
+             
+            }
+        }
+        else if(iIdx == 1)      //关闭设备
+        {
+            nRet = TFace1.TCFCloseDev();
+
+        }
+        else if(iIdx == 2)      //抓拍人脸图像
+        {
+            //sImg = TFace1.TCFCaptureFaceImg(0, 20);     //按抓拍的原始图像返回
+            sImg = TFace1.TCFCaptureFaceImg(0, 20);       //抓拍后按Id照片剪切后返回
+            if (sImg.length > 10)
+            {
+          $("#btn_restart").css("display","block");
+          $("#btn_confirm").css("display","block");
+				javascript:Run_Func(3);
+				nRet = TFace1.TCFSaveImgAsFile("E:\\FaceImg.jpg");
+				document.getElementById("btn_confirm").disabled=false;
+				  
+			
+				 
+            }
+            else
+            {
+          setTimeout("Run_Func(2)",3000)
+            }
+        }
+        else if(iIdx == 3)      //显示人脸图像
+        {
+            nRet = TFace2.TCFShowImgByImgB64(sImg);	
+
+        }
+ 
+    }
+
+</SCRIPT>
+
+</html>

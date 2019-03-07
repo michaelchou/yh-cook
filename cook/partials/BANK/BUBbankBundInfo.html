@@ -1,0 +1,86 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+	var scope = angular.element(main).scope();
+	function SignedType() {	
+		var _detail = scope.pool["detail"].split('#');
+		var checkbox=document.getElementsByTagName("input");
+		var flag = 0;
+        for (var i = 0; i < _detail.length; i ++) {
+			if (checkbox.item(i).checked && checkbox.item(i).type == "checkbox") {
+				if(flag == 0){
+					scope.pool["PBankSignDetail"] = _detail[i];
+					scope.pool["ST_CifSeq"] = _detail[i].split('@')[0];
+					scope.pool["CCustomUkeyNo"] = _detail[i].split('@')[1];
+					scope.pool["OtpVendorId"] = _detail[i].split('@')[4];
+					scope.pool["ST_MchannelFlag"] = _detail[i].split('@')[5];
+					scope.pool["OtpType"] = _detail[i].split('@')[2];
+					if('正常' == _detail[i].split('@')[3]){
+						scope.pool["OTPState"] = 'N';
+					}else if('挂失' == _detail[i].split('@')[3]){
+						scope.pool["OTPState"] = 'B';
+					}else{
+						scope.pool["OTPState"] = _detail[i].split('@')[3];
+					}
+					flag = 1;
+				}else if(flag == 1){
+					scope.pool["PBankSignDetail2"] = _detail[i];
+					scope.pool["PBankSignFlag"] = 1;
+				}
+			}
+        }
+		if(flag == 1){
+			scope.action("confirm");
+		}else{
+			document.getElementById("showMsg").innerHTML ="提示:至少选择一条绑定记录";
+		}
+	}
+	
+	function Select(isChecked){
+		if(isChecked){
+			document.getElementById("showMsg").innerHTML ="";
+		}
+	}
+</script>
+<style>
+   .cssinput{
+      height:20px;
+	  width:20px;
+   }
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+    <div class="cook-head">
+		<h1 class="text-center">已开户列表</h1>
+    </div>
+    
+    <table class=" table-striped  table-bordered" width="100%" style="text-align:center;">
+        <tr style="font-weight:bold;font-size:18px;">
+			<td height="33px"></td>
+			<td height="33px">客户姓名</td>
+            <td height="33px">动态口令序列号</td>
+            <td height="33px">厂商代码</td>
+            <td height="33px">渠道类型</td>
+        </tr>
+        <tr ng-repeat="x in detail" >
+			<td height="33px"><input type="checkbox" id={{$index}} name="checkbox" class="cssinput" onclick="Select(this.checked)"></td>
+			<td height="33px"><label for={{$index}}>{{pool.accountName}}</td>
+            <td height="33px"><label for={{$index}}>{{ x.key1}}</label></td>
+            <td height="33px" ng-if="x.key4 == 'RSA_HY2TOKEN'"><label for={{$index}}>恒银二代电子令牌</label></td>
+			<td height="33px" ng-if="x.key4 == 'RSA_FT2TOKEN'"><label for={{$index}}>飞天二代电子令牌</label></td>
+			<td height="33px" ng-if="x.key4 != 'RSA_HY2TOKEN' && x.key4 != 'RSA_FT2TOKEN'"><label for={{$index}}>{{ x.key4}}</label></td>
+            <td height="33px" ng-if="x.key5 == 'PIBS'"><label for={{$index}}>网上银行</label></td>
+			<td height="33px" ng-if="x.key5 == 'PMBS'"><label for={{$index}}>手机银行</label></td>
+			<td height="33px" ng-if="x.key5 != 'PIBS' && x.key5 != 'PMBS'"><label for={{$index}}>{{ x.key5}}</label></td>
+        </tr>
+	</table>
+	<div  id = "showMsg" style ="text-align:center;margin-top:10%;height :20px; font-size :20px;color:red" >
+	</div>
+</div>
+ <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+    <button  type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+	<button  id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="SignedType()">继续</button>
+ </div>

@@ -1,0 +1,51 @@
+
+<!-- 样式JS -->
+<script type="text/javascript" src="js/ad/jquery-1.6.js"></script>
+<script type='text/javascript' src='js/ad/jquery.easing.1.3.js'></script>
+<script type='text/javascript' src='js/ad/camera.min.js'></script>
+
+
+
+
+<link rel='stylesheet' id='camera-css'  href='css/style.css' type='text/css' media='all'/>
+<link rel='stylesheet' id='vtm_main'  href='css/vtm_main.css' type='text/css' media='all'/>
+
+<script>
+		jQuery(function(){
+			jQuery('#camera_wrap_1').camera({
+				height: '580px',
+				thumbnails: true
+			});
+			flow_main_init();
+		});
+	
+</script>
+</head>
+<body>
+
+<!-- 广告显示层 -->
+<div class="fluid_container" >
+  <!-- <div class="camera_wrap camera_azure_skin" id="camera_wrap_1"> -->
+  <div class="camera_wrap" id="camera_wrap_1"   ng-click="action('confirm')" >
+	<div 	 data-thumb="image/ad/A0001.jpg" data-src="image/ad/A0001.jpg"  >
+	</div>
+	<div data-thumb="image/ad/A0002.jpg" data-src="image/ad/A0002.jpg">
+	 </div>
+	<div data-thumb="image/ad/A0003.jpg" data-src="image/ad/A0003.jpg">
+  </div>
+   <div data-thumb="image/ad/A0004.jpg" data-src="image/ad/A0004.jpg">
+  </div>
+      <div data-thumb="image/ad/A0005.jpg" data-src="image/ad/A0005.jpg">
+  </div>
+     <div data-thumb="image/ad/A0006.jpg" data-src="image/ad/A0006.jpg">
+  </div>
+
+    
+
+</div>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<script language="JavaScript" type="text/JavaScript">
+  creatTree(0,"");
+  var scope = angular.element(main).scope();
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y){
+	Show(type,x,y)
+}
+</script>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请核对转账信息</h1>
+	<h3 class="text-center">Please check the account information</h3>
+</div>
+<div class="cook-content">
+	<table class="col-xs-12 balance" style="margin-left:4%;font-size:25px;font-family:宋体;height:175px;">
+		<tr> <th class="col-xs-5"><font>转出账号：</font></th><td> <font>{{pool.cardNo}} &nbsp;</font></td> </tr>
+		<tr> <th class="col-xs-5"><font>转出户名：</font></th><td> <font>{{pool.page_accTranslate}} &nbsp;</font></td> </tr>
+		<tr> <th class="col-xs-5"><font>转入账号：</font></th><td> <font>{{pool.inAccountNo}} &nbsp;</font></td> </tr>
+		<tr> <th class="col-xs-5"><font>转入户名：</font></th><td> <font>{{pool.page_inAccTranslate}} &nbsp;</font></td> </tr>
+		<tr> <th class="col-xs-5"><font>转账金额：</font></th><td> <font>{{pool.transAmount}} &nbsp;</font></td> </tr>
+	</table>
+</div>
+<div style="margin-top: 18%; margin-left: 30%; width: 40%;height:80px;"> 
+	<textarea style="border:0px red solid;box-shadow:0 0px 0px #000 inset" rows="2" onkeyup="checkInput(id)" placeholder="转账备注:"
+		onclick="openkeyset(2,900,500)" id="message" ng-model="pool.ST_TransferMessage" class="form-control" maxlength="20"/>
+    </textarea>
+</div>
+<div>
+  <h1 style="text-align:center;font-size: 180%;color:#000000;margin-top:3%">请核对上述信息是否正确</br>按[确认]键继续</br></h1>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+        <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+		<button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">{{pool.page_Eject}}</button>
+        <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+</div>
+<script>
+var tip_keyActionTable = {
+	CANCEL: 'cancel',
+	CONFIRM: 'confirm'
+};
+</script>

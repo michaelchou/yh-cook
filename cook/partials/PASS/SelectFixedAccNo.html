@@ -1,0 +1,77 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+   document.getElementById("MUSIC1").src = "";
+	var scope = angular.element(main).scope();
+	scope.selectBindNo = function (pid) {	
+		var _detail = scope.pool["detail"].split('#');
+        for (var i = 0; i < _detail.length; i ++) {
+            if (pid == _detail[i].split('@')[0]) {
+                scope.pool["TD_VOLNO"] = _detail[i].split('@')[0];
+				scope.pool["accountBalance"] = _detail[i].split('@')[5];
+                break;
+            }
+        }
+		scope.action("confirm");
+	}
+	
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+    <div class="cook-head">
+		<h1 class="text-center">定期未销户明细</h1>
+    </div>
+    
+    <table class=" table-striped  table-bordered" width="100%" style="text-align:center;">
+        <tr style="font-weight:bold;font-size:18px;">
+            <td height="33px">序号</td>
+			<td >开户日期</td>
+			<td >账户状态</td>
+			<td >存期</td>
+			<td >开户金额</td>
+            <td height="33px">操作</td>
+        </tr>
+        <tr ng-repeat="x in detail" >
+            <td height="33px">{{ x.key0}}</td>
+			<td height="33px">{{ x.key7}}</td>
+            <td height="33px">{{ x.key6}}</td>
+            <td height="33px">{{ x.key2}}</td>
+            <td height="33px">{{ x.key5}}</td>
+            <td height="33px">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="selectBindNo(x.key0)">选择</button>
+                </span>
+            </td>
+        </tr>
+	</table>
+</div> 
+
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px red solid;">
+    <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+       <h1 class="text-center" style="font-size: 140%;color:#000000;">第{{pageNo}}页,共{{pageSize}}页</h1>
+    </div>
+ <div ng-if="pageSize > 1">
+    <div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<button  type="button" class="col-xs-offset-2 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button  type="button" class="col-xs-offset-3 col-xs-2 image-bt"      ng-click="action('eject')">结束</button>
+    </div>
+
+ 	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;">
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-hide="Prev" ng-click="next(-1)">上一页</button>
+    	   </div>
+           <div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+    	    <button  type="button"  class="col-xs-offset-1 col-xs-2 image-btgr"   ng-hide="Next"    ng-click="next(1)">下一页</button>
+    	   </div>
+    </div>
+ </div>
+    <div ng-if="pageSize <= 1">	
+    <div class=" col-xs-offset-0 col-xs-12 "style="border:0px blue solid;">
+ 			<button  type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-bt"      ng-click="action('eject')">结束</button>
+    </div>   
+    </div> 
+ </div>

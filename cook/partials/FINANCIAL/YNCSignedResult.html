@@ -1,0 +1,30 @@
+
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+	</div>
+ <p style="font-size:35px;text-align: center;color:#000000;">您已进行过益农存签约</p></br>
+ 
+ <div class="cook-content">
+	<table class="col-xs-12 balance">
+		<tr> <th class="col-xs-6"><h3>客户姓名：</h3></th><td> <h3>{{pool.name}} &nbsp;</h3></td> </tr>
+		<tr> <th class="col-xs-6"><h3>身份证号：</h3></th><td> <h3>{{pool.pid}} &nbsp;</h3></td> </tr>
+		<tr> <th class="col-xs-6"><h3>签约日期：</h3></th><td> <h3>{{pool.YNCSignDate}} &nbsp;</h3></td> </tr>
+	</table>
+</div>
+ 
+
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align:center">
+<button id="cancel"   class="image-bt"  ng-click="action('cancel')">退出</button>
+</div>
+
+
+
+

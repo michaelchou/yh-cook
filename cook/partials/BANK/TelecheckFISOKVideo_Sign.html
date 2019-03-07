@@ -1,0 +1,101 @@
+<script language="JavaScript" type="text/JavaScript"> 
+creatTree(0,"回单显示");
+document.getElementById("Cardjpg").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+document.getElementById("FaceImgjpg").src ="D:/FaceImg.jpg"+"?"+Math.random();
+$.ajax({
+ 	     url: "/custom/document",
+ 	    cache: false,
+ 	    type: "get",
+ 	    data: "commandID=haveSignImg",
+ 	    dataType: 'json',
+ 	    success: function(data) {
+			if((data.messageText).length >= 1){
+				document.getElementById("img").src ="d:/sign.png"+"?"+Math.random();
+			}
+ 	    }
+ 	});
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div style="margin-left:10%;margin-top:0%;margin-right:10%">
+ <div>
+ <p style="font-size:25px;text-align: center;color:#000000;">江苏农村商业银行电话银行签约申请单</p>
+ <table class="col-xs-12 balance " border="1" style="height:200px">
+        <tr>
+            <td ><th class="col-xs-3" style="font-size:20px">姓名:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.name}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">性别:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.genderC}}</td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">证件号码:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.pid}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">证件类型:</th></td>
+            <td class="col-xs-3"style="font-size:20px">身份证</td>
+        </tr>
+
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">手机号码:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.mobile}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">证件有效日期:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.issuedate}}~{{pool.abatedate}}</td>
+        </tr>
+        <tr>
+		    <td><th class="col-xs-3"style="font-size:20px">转账单笔限额:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.ST_PhoneOneLimitAmount}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">转账单日限额:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.ST_PhoneDayLimitAmount}}</td>
+        </tr>
+    </table>
+<table style="margin-left:15%;margin-top:0%">
+    <tr>
+		<td width="10%">
+			<span style="font-size:18px;color:#000000;">联网核查照片:</span>
+        </td>
+        <td width="7%">
+		 <span style="font-size:18px;color:#000000;">现场审核照片:</span>
+        </td>
+   </tr>
+  <tr>
+		<td>
+			<img id="Cardjpg" src="" style="width:18%;">
+       </td>
+       <td>
+		   <img id="FaceImgjpg" src="" style="width:40%;">
+       </td>
+ </tr>
+<table>
+</br>
+</br>
+</br>
+<span style="font-size:18px;color:#000000;margin-left:15%;">审核结果:{{pool.PERresponseCode}}{{pool.PERerrorMessage}}</span>
+<div style="margin-top:8%;font-size:15px;margin-left:15%; ">
+	
+	<div style="margin-top:-2%;">
+	 <!-- <span style="font-size:18px;color:#000000">
+	 银行盖章:
+	</span> -->
+	 <span style="font-size:18px;margin-left:50%;color:#000000" onclick="Show(5,1,380,300)">
+	 客户签名:_______________<span id="span"><img id="img" src=""  style="width:8%; height:8%;margin-left:-10%"></span>
+	</span>
+</div>
+</div>
+
+
+ </div>
+
+
+<div class="col-xs-offset-0 col-xs-12" style="margin-top:5%;margin-left:-5%">
+    <button type="button"  ng-click="action('confirm')" class="col-xs-offset-4 col-xs-2 image-btgr" >审核通过</button>
+   	<button type="button" ng-click="action('return')"  class="col-xs-offset-2 col-xs-2 image-bt" >审核拒绝</button>
+</div>
+

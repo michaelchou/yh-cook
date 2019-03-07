@@ -1,0 +1,19 @@
+.bigmenu{
+	    border:0px solid red;
+	    padding:0px;
+		margin-left:40px;
+		width:1194px;
+		position:absolute;
+		overflow:hidden;
+		background-color:transparent;
+}
+
+.table_td{
+	width:300px;
+	height:234px;
+	font-size: 18pt;
+	border:0px;
+	outline:none;
+	font-family:微软雅黑;
+	color:gray;
+}

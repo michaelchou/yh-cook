@@ -1,0 +1,81 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript">
+	document.getElementById("input").focus();
+	var count = 0;
+	var scope = angular.element(main).scope();
+	function openkeyset(type,x,y){
+		Show(type,x,y)
+	}
+	
+	function Show(type,x,y){
+		try {
+			HandWrite.Show(type,1,x,y);
+		} catch (e) {
+			scope.closeHandWriter();
+			location.reload();
+		return;
+		}
+	}
+	
+	function checkRandom(randomNumber) {
+		var scope = angular.element(main).scope();
+		randomNumber = eval("scope.pool." + randomNumber);
+		var inputs = document.getElementsByTagName("input");
+		var scope = angular.element(main).scope();
+		var obj = inputs.item(0);
+		var reg = /^[0-9]{1,6}$/; 
+		var error = "";
+		if (obj.value.length != 6) {
+			$("#" + obj.id).attr("data-content", "请输入手机上的6位验证码");
+			$("#" + obj.id).popover('show');
+			count += 1;
+			if(count >= 5){
+				scope.action("eject");
+			}
+		} else if (obj.value != randomNumber) {
+			$("#" + obj.id).attr("data-content", "请输入正确的6位验证码");
+			$("#" + obj.id).popover('show');
+			count += 1;
+			if(count >= 5){
+				scope.action("eject");
+			}
+		} else {
+			scope.action("confirm");
+		}
+	}
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+
+<div class="cook-head">
+    <h1 class="text-center">请输入手机上的6位验证码</h1>
+    <h3 class="text-center">Please input the six random number</h3>	
+</div>
+
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" class="form-control" id="input" onkeyup="checkInput(id, '^[0-9]{1,6}$')" 
+                    value="" onblur="this.focus()" maxlength="6" onclick="openkeyset(1,900,500)"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>验证码输入有误</sp>" data-content="" data-html="true" >
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="clear()" >清  除</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+<h2 style="margin-top:15%; text-align:center;color:red;">{{pool.msg_TFCNumber}}</h2>
+</div>
+
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+    <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>	
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkRandom('RandomNumber');">确认</button>
+</div>

@@ -1,0 +1,64 @@
+
+
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container step col-xs-offset-3 col-xs-6" style="margin-top:-5%">
+    <h1>银行坐席业务审核</h1>
+</div>
+
+<div class="col-xs-offset-1 col-xs-6" style="font-size:18px;margin-top:15px;mar color:#000000;font-weight:600;color:#FFF">个人信息</div>
+<div class="col-xs-offset-1 col-xs-6"  style="margin-top:3px; width:450px; height:280px; border:1px solid #cccccc;">
+   <div id="idcard" class="pull-right" style="background:url(D:/ID_Photos/Card.jpg) 0% 0% / cover;width:102px; height:126px; visibility:visible; border:1px solid red;"></div>
+   <div class="input_div" style="margin-top:15px;">
+	  <font style="font-size:16px;margin-right:22px;margin-top:10px; font-family:微软雅黑;color:#FFF">姓名:</font>
+      <span style="margin-right:40px;font-size:14px; font-family:微软雅黑;color:#777777;">
+       <label id="name">{{pool.name}}</label>
+      </span>
+   </div>
+
+   <div class="input_div" style="margin-top:15px;">
+	 <font style="font-size:16px;margin-top:10px; font-family:微软雅黑;color:#FFF">身份证号:</font>
+     <span style="margin-right:40px;font-size:14px; font-family:微软雅黑;color:#777777;">
+        <label id="pid">{{pool.pid}}</label>
+     </span>
+   </div>
+
+   <div class="input_div" style="margin-top:15px;">
+	 <font style="font-size:16px;margin-right:20px;margin-top:10px; font-family:微软雅黑;color:#FFF">手机号码:</font>
+     <span style="margin-right:40px;font-size:14px; font-family:微软雅黑;color:#777777;">
+        <label id="mobile">{{pool.mobile}}</label>
+     </span>
+   </div>
+
+   <div class="input_div" style="margin-top:15px;">
+	 <font style="font-size:16px;margin-right:22px;margin-top:10px; font-family:微软雅黑;color:#FFF">地址:</font>
+     <span style="margin-right:40px;font-size:14px; font-family:微软雅黑;color:#777777;">
+         <label id="address">{{pool.address}}</label>
+     </span>
+   </div>
+
+   <div class="input_div" style="margin-top:15px;">
+	 <font style="font-size:16px;margin-right:20px;margin-top:10px; font-family:微软雅黑;color:#FFF">签发机关:</font>
+     <span style="margin-right:40px;font-size:14px; font-family:微软雅黑;color:#777777;">
+        <label id="issueoffice">{{pool.issueoffice}}</label>
+     </span>
+   </div>
+
+   <div class="input_div" style="margin-top:15px;">
+     <font style="font-size:16px;margin-right:22px;margin-top:10px; font-family:微软雅黑;color:#FFF">有效期:</font>
+     <span style="margin-right:40px;font-size:14px; font-family:微软雅黑;color:#777777;">
+        <label id="abatedate">{{pool.abatedate}}</label>
+     </span>
+   </div>
+
+</div>
+<div id="idcard" class="col-xs-offset-1 col-xs-4" style="background:url(D:/FaceImg.jpg) 0% 0% / cover;width:370px; height:280px; visibility:visible; border:1px solid red;"></div>
+<!--<div class="col-xs-offset-2 col-xs-6"  style="font-size:18px;margin-top:30px;margin-left:110px; color:#000000;font-weight:600;color:#FFF">身份识别结果：<span style="color:red;">比对通过</span><label id="result"></label></div>-->
+<div style="margin-top:35%;" ng-controller="MediaAuthorizedCtrl">
+    <button type="button"  ng-click="sendData()" class="col-xs-offset-3 col-xs-2 button-confirm button-lg1">提交审核</button>
+   	<button type="button" ng-click="sendFile()"  class="col-xs-offset-2 col-xs-2 button-change button-lg1">发送文件</button>
+</div>

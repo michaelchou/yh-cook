@@ -1,0 +1,218 @@
+<script src="js/admin/base.js"></script>
+<script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script>
+var validateYear ;
+var data = "/admin/NewAdminDataServlet";
+var isRunning = false;
+$(document).ready(function() {
+	var date = new Date();
+	//document.getElementById("date").value = formatdate(date);
+ 	validateYear = parseInt(formatdate(date).substring(0, 4)-1);
+ //rootCheck();
+});
+
+function checkInput() { //清除提示框
+var ev = window.event;
+	if(ev.keyCode!= 13){
+	$("#serial").popover('destroy');
+	$("#cardno").popover('destroy');
+	$("#date").popover('destroy');
+	}
+
+}
+
+function checkInput(id, rule) {
+	try{
+		var type=HandWrite.GetPadType(); //获取软键盘类型，1为纯数字键盘
+		if(type == '1' && event.keyCode == 65){
+			document.getElementById(id).value = '';
+		}
+	}catch(e){
+	}
+	
+	if(event.keyCode == 13) return;
+	$("#" + id).popover('destroy');
+	if (rule == undefined) return;
+	if (!new RegExp(rule).test(document.getElementById(id).value)) {
+		document.getElementById(id).value = document.getElementById(id).value.substring(0, document.getElementById(id).value.length - 1);
+	}
+	
+}
+           
+function getLog() {
+var radio = document.getElementsByName("act");
+	var act;
+	for (var i = 0; i < radio.length; i++) {
+    	if (radio[i].checked) {
+			act = radio[i].value;
+		}
+	}
+	var uscode = document.getElementById("uscode").value;
+	var emcode = document.getElementById("emcode").value;
+	var date = document.getElementById("date").value;
+	var flag = 0;
+	
+	if (uscode.length ==1) {
+	$("#uscode").attr("data-content","操作员编号为2位数字");
+  	$("#uscode").popover('show')
+  	document.getElementById("uscode").value = "";
+	document.getElementById("uscode").focus();
+  	isRunning = false;
+		return;
+		}
+
+	if (date.length < 8&& date.length >0) {
+	$("#date").attr("data-content","日期输入长度为8位");
+  	$("#date").popover('show')
+		document.getElementById("date").value = "";
+		document.getElementById("date").focus();
+		isRunning = false;
+		return;
+	}
+	if (parseInt(date.substring(0, 4)) < validateYear) {
+		$("#date").attr("data-content","日期过早");
+  		$("#date").popover('show')
+		document.getElementById("date").value = "";
+		document.getElementById("date").focus();
+		isRunning = false;
+		return;
+	}
+	if (parseInt(date) > parseInt(formatdate(new Date()))) {
+		$("#date").attr("data-content","日期不能大于今天");
+  		$("#date").popover('show');
+		document.getElementById("date").value = "";
+		document.getElementById("date").focus();
+		isRunning = false;
+		return;
+	}
+
+$.ajax({
+		url: data,
+		cache: false,
+		type: "post",
+		data: "commandID=data-query-admin-log&uscode=" + uscode +"&emcode=" + emcode +  "&act=" + act +  "&date=" + date +"&page=" + 1,
+		dataType: 'json',
+		success: function(data) {
+		
+		    if (data.Result == 0) {
+				$("#date").attr("data-content","日期格式不符合 yyyymmdd");
+  				$("#date").popover('show')
+				document.getElementById("date").value = "";
+				document.getElementById("date").focus();
+		    }
+		    else {
+		      destory();
+		    	var loglist = data.Log;
+		    	
+		    	if (loglist[0] == null) {
+		    		$('#listview').css("color","red")
+		    		$('#listview').html("没有符合查询条件的日志");
+		    		isRunning = false;
+		    		return;
+		    	}
+		    	var log="";
+		    	for (i=0;i<=loglist.length-1;i++) {
+					log += loglist[i] + "\r";
+						
+		    	}
+		    	$('#listview').css("color","black")
+		    	$("#listview").html(log);
+		    	 listview.scrollTop=listview.scrollHeight; //滚动条
+		    }
+		  
+		}
+	});
+	  isRunning = false;
+}
+
+function rootCheck(){
+
+var common = "/admin/NewAdminCommonServlet";
+$.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=common-get-user-role",
+	    dataType: 'json',
+	    success: function(data) {
+	    if("11"==data.UserID){
+	    
+	    }else{
+ 		document.getElementById("uscode").value = data.UserID+"    姓名："+ data.UserName;
+ 		document.getElementById("uscode").disabled = true;
+	    	}
+	        isRunning = false;
+	    }
+	});
+}
+    </script>
+</head>
+<h2 id="head" class="text-center">用户日志查询</h2>
+<div id="content">
+  <div class="col-xs-offset-1 col-xs-10"style="border:0px #FFFFFF solid;">
+    <div class="row ">
+   <div class="col-xs-offset-1 col-xs-2 " style="border:0px #FFFFFF solid" >
+      <input  name="act" value="1" checked="checked" type="radio" class="checkbox col-xs-4" checked style="width: 20px;height: 20px;top: 50%;left: 0;margin-top: -10px;margin-left: 0px;position: absolute;z-index:100;">
+      <h4 style="margin-left: 5%;">全部操作</h4>
+    </div>
+    <div class="  col-xs-offset-0 col-xs-2  " style="border:0px #FFFFFF solid"  >
+      <input name="act" value="2"  type="radio" class="checkbox col-xs-4" style="width: 20px;height:20px;top: 50%;left: 0;margin-top: -10px;margin-left: 0px;position: absolute;z-index:100;">
+      <h4 style="margin-left: 5%;">新增用户 </h4>
+    </div>
+      <div class="  col-xs-offset-0 col-xs-2  " style="border:0px #FFFFFF solid"  >
+      <input name="act" value="3"  type="radio" class="checkbox col-xs-4" style="width: 20px;height:20px;top: 50%;left: 0;margin-top: -10px;margin-left: 0px;position: absolute;z-index:100;">
+      <h4 style="margin-left: 5%;">删除用户</h4>
+    </div>
+      <div class="  col-xs-offset-0 col-xs-2  " style="border:0px #FFFFFF solid"  >
+      <input name="act" value="4"  type="radio" class="checkbox col-xs-4" style="width: 20px;height:20px;top: 50%;left: 0;margin-top: -10px;margin-left: 0px;position: absolute;z-index:100;">
+      <h4 style="margin-left: 5%;">密码重置 </h4>
+    </div>
+      <div class="  col-xs-offset-0 col-xs-2  " style="border:0px #FFFFFF solid"  >
+      <input name="act" value="5"  type="radio" class="checkbox col-xs-4" style="width: 20px;height:20px;top: 50%;left: 0;margin-top: -10px;margin-left: 0px;position: absolute;z-index:100;">
+      <h4 style="margin-left: 5%;">密码修改 </h4>
+    </div>
+    </br></br> </br>
+      <div class="col-xs-offset-0 col-xs-4" >
+        <div class="input-group input-group"> <span class="input-group-addon ">操作员编号</span>
+          <input type="text"  id="uscode" onclick="openkeysetAdmin(1,1100,500)" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>编号输入有误</sp>" data-content="" maxlength="2" onkeyup="checkInput(),this.value=this.value.replace(/\D/g,'')" class="form-control" data-html="true">
+        </div>
+      </div>
+           <div class="col-xs-offset-0 col-xs-4">
+        <div class="input-group input-group"> <span class="input-group-addon ">操作员身份证号</span>
+          <input type="text"  id="emcode" onclick="openkeysetAdmin(3,1100,500)" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>编号输入有误</sp>" data-content="" maxlength="15" onkeyup="checkInput(id,/^([X-X0-9]){1,50}$/)" class="form-control" data-html="true">
+        </div>
+      </div>
+      
+      <div class="col-xs-offset-0 col-xs-4">
+        <div class="input-group input-group"> <span class="input-group-addon ">查询日期</span>
+          <input type="date" id="date" onclick="openkeysetAdmin(1,1100,500)" maxlength="8" onkeyup="checkInput(),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""  class="form-control"  data-html="true">
+        </div>
+      </div>
+    </div>
+     </br>
+
+    <div>
+      <textarea class=" form-control  col-xs-12" rows="18" 
+				style="font-family: verdana; color: black; ont-size: 12px;" readonly
+				id="listview"  style="display:block">
+      </textarea>
+    </div>
+  </div>
+</div>
+<div id="foot" class="col-xs-offset-4 col-xs-4">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button" id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" id="confirm" name="enter" class="btn btn-success btn-lg" onclick="getLog()">查询</button>
+    </div>
+  </div>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49
+ id="HandWrite">
+</object>
+</body></html>

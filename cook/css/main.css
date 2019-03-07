@@ -1,0 +1,78 @@
+body {
+	margin:0px 0px;
+	padding:0px 0px;
+}
+
+.div_main{
+	width:1280px;
+	height:1024px;
+}
+
+.div_top{
+	width:1280px;
+	height:90px;
+	position:absolute;
+	top:0px;
+	background:url("../image/admin/HEAD_01.png") no-repeat;
+	border:0px;
+	margin:0px 0px;
+	padding:0px 0px;
+}
+
+.div_left_menu{
+	width:118px;
+	height:1024px;
+	float:left;
+	background:url("../image/admin/11_01.png") no-repeat;
+	border:0px;
+	margin:0px 0px;
+	padding:0px 0px;
+	margin-top:0px;
+}
+.div_center_menu{
+	width:0px;
+	height:1024px;
+	background:#f8f8f8;
+	
+	float:left;
+}
+.div_right{
+	background:#ffffff;
+	border:0px;
+	width:1162px;
+	height:1024px;
+	margin-left:118px;
+}
+.menu{
+	margin-top:110px;
+	text-align:center;
+	font-size:24px;
+}
+.menu_title{
+	width:100%;
+	height:60px;
+	color:#FFFFFF; 
+	background:#2c55a5;
+	line-height:60px;
+	font-size:28px;
+}
+
+.menu_content{
+	color:#4e504f;
+	width:240px;
+	height:45px;
+	margin-top:10px;
+	margin-bottom:8px;
+	margin-left:10px;
+	line-height:45px;
+	cursor:pointer;
+	display:none
+}
+
+.menu_split{
+	width:240px;
+	height:1px;
+	margin-left:10px;
+	background:#cccccc;
+	display:none
+}

@@ -1,0 +1,53 @@
+<script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" language="javascript">
+	function checkResult() {
+		var scope = angular.element(main).scope();
+		if(scope.pool.menuAction != null && scope.pool.menuAction != "" && scope.pool.menuAction=="UspPass"){
+			if(scope.pool.ST_CYCLDEPAMT != null && scope.pool.ST_CYCLDEPAMT != "" && parseFloat(scope.pool.ST_CYCLDEPAMT) == parseFloat(scope.pool.page_DEPTotalValue)){				
+				scope.action("confirm");
+			}else{	
+				document.getElementById("uspErroAmount").style.visibility="visible";
+			}				
+		}else{
+			scope.action("confirm");
+		}
+	}
+</script>
+<style>
+a:hover{
+	color:white;
+	text-decoration:none;
+}
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+    
+</div>
+ <div class="container step col-xs-offset-o col-xs-12">
+   
+    <h1 class="text-center">验钞明细</h1>
+    <h3 class="text-center">Transaction result</h3>
+</div>
+<div class="cook-content">
+<h2 style="margin-left:510px">100元张数：{{pool.page_DEP100Value}}</h2>
+<h2 style="margin-left:530px">存款金额：{{pool.page_DEPTotalValue}}</h2>
+<h2 style="margin-left:360px">提示：存款不校验密码,继续交易请点确认</h2>
+<h2 id="uspErroAmount" style="margin-left:420px;visibility:hidden">零存整取存款金额小于{{pool.ST_CYCLDEPAMT}}.00元</h2>
+
+    <!--<table class="">
+        <tr> <th ><h2 style="margin-left:480px">100元张数：</h2></th><td><h2> {{pool.page_DEP100Value}} &nbsp;</h2></td> </tr>
+        <tr> <th ><h2 style="margin-left:500px">存款金额：</h2></th><td><h2> {{pool.page_DEPTotalValue}} &nbsp;</h2></td> </tr>
+        <tr > <td style="margin-left:400px;font-size: 23px; font-family:黑体;"> 提示：存款不校验密码,继续交易请点确认</td></tr>
+		<tr id="uspErroAmount" style="visibility:hidden"> <th class="col-xs-6"><h2>零存整取存款</h2></th><td><h2>金额小于{{pool.ST_CYCLDEPAMT}}.00元</h2></td> </tr>
+	</table>-->
+</div>
+<div style="margin-top:10%" class="col-xs-offset-4">
+
+    <div ng-if="pool.DEP_ADDCASH == 'active'">
+       <button id="confirm" type="button" class="col-xs-offset-0 col-xs-2 image-btgr" ng-click="action('DEP_ADDCASH')">继续放钞</button>
+    </div>
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkResult()">确认</button>
+ 
+</div>

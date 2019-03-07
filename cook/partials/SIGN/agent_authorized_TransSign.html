@@ -1,0 +1,98 @@
+<script language="JavaScript" type="text/JavaScript"> 
+document.getElementById("MUSIC1").src = "wav/请按指纹.wav";
+creatTree(0,"指纹授权");
+
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div style="margin-left:10%;margin-top:0%">
+ <div>
+ <p style="font-size:25px;text-align: center;color:#000000;">江苏农村商业银行转账签约申请单</p>
+ <table class="col-xs-12 balance " border="1" style="height:200px">
+        <tr>
+            <td ><th class="col-xs-3" style="font-size:20px">姓名:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.name}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">性别:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.genderC}}</td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">证件号码:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.pid}}</td>
+            <td><th class="col-xs-3"style="font-size:20px">证件类型:</th></td>
+            <td class="col-xs-3"style="font-size:20px">身份证</td>
+        </tr>
+
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px;">证件有效日期:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.issuedate}}~{{pool.abatedate}}</td>
+			<td><th class="col-xs-3"style="font-size:20px">失效日期:</th></td>
+            <td class="col-xs-3"style="font-size:20px">{{pool.ATS_enddate}}</td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">控制周期:</th></td>
+            <td ng-if="pool.ATS_funCode == 0" class="col-xs-3"style="font-size:20px" >单笔</td>
+	        <td ng-if="pool.ATS_funCode == 1" class="col-xs-3"style="font-size:20px" >单日</td>
+            <td><th class="col-xs-3"style="font-size:20px">受理行网络标识:</th></td>
+            <td ng-if="pool.banktype == 0" class="col-xs-3"style="font-size:20px">全部</td>
+            <td ng-if="pool.banktype == 1" class="col-xs-3"style="font-size:20px">本行</td>
+			<td ng-if="pool.banktype == 2" class="col-xs-3"style="font-size:20px">他行</td>
+        </tr>
+        <tr>
+			<td><th class="col-xs-3"style="font-size:20px">交易限额:</th></td>
+            <td colspan="4"style="font-size:20px">{{pool.transAmount}}</td>
+		</tr>
+        <tr>
+            <td><th class="col-xs-3"style="font-size:20px">地址:</th></td>
+            <td colspan="4"style="font-size:20px">{{pool.address}}</td>
+            
+        </tr>
+        
+    </table>
+<table style="margin-top:0%">
+    <tr>
+		<td width="10%">
+			<span style="font-size:15px;color:#000000;">联网核查照片:</span>
+        </td>
+        <td width="7%">
+		 <span style="font-size:15px;color:#000000;">现场审核照片:</span>
+        </td>
+   </tr>
+  <tr>
+		<td>
+			<img src="D:/ID_Photos/Card.jpg" style="width:18%;">
+       </td>
+       <td>
+		   <img src="D:/FaceImg.jpg" style="width:40%;">
+       </td>
+ </tr>
+<table>
+<span style="font-size:15px;color:#000000;">审核结果:{{pool.PERresponseCode}}{{pool.PERerrorMessage}}</span>
+<div style="margin-top:2%;font-size:15px; ">
+	
+	<div style="position:fixed;top:80%;left:10%">
+	 <span style="color:#000000">
+	 银行盖章:
+	</span>
+	 <span style="position:fixed;top:80%;left:40%;color:#000000" onclick="Show(5,1,380,300)">
+	 客户签名:_______________<span id="span">
+	</span>
+	<img id="img" src=""  style="position:fixed;width:8%; height:9%;top:75%;left:45%;"></span>
+</div>
+</div>
+ </div>
+ 
+
+<div style="margin-top:5%;">
+    <h1 class="text-center" style="display:block;color:#000000">请银行工作人员授权</h1>
+    </br>
+    <h3 class="text-center" style="display:block;color:#000000">请将手指在指纹仪上长按&nbsp;<label id="time" style="width:50px;color:red;">5</label>&nbsp;秒后抬起!</h3>
+</div>

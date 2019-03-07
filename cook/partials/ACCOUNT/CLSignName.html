@@ -1,0 +1,87 @@
+<script language="JavaScript" type="text/JavaScript"> 
+Show(5,1,240,220);
+$.ajax({
+ 	     url: "/custom/document",
+ 	    cache: false,
+ 	    type: "get",
+ 	    data: "commandID=deleteSignImg",
+ 	    dataType: 'json',
+ 	    success: function(data) {
+	      
+ 	    }
+ 	});
+var lastUrl;
+
+function Show(type,nScreen,x,y)
+{
+	lastUrl= "d:/sign.bmp";
+	try{
+		HandWrite.Show(type,nScreen,x,y);
+	}catch (e) {
+		return;
+	 }
+}
+
+function SaveSignal()
+{
+   var code=99;
+   code=HandWrite.SaveSignal("d:/sign.bmp");
+   if(0 == code)
+   {
+		var scope = angular.element(main).scope();
+		scope.action("confirm"); 
+	   
+   }else{
+	   $("#signName").html("签名失败,请重签")
+	   Show(5,1,280,200);
+	   //alert("打开失败")
+   }
+   //alert(code);
+}
+
+function ClearSignal()
+{
+   HandWrite.ClearSignal();
+}
+
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+<span class="">{{timeout}}</span>
+</div>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49
+id="HandWrite">
+</object>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head" style="margin-top:-5%;">
+<h1 id="signName" class="text-center">请您签字,并按[确认]键</h1>
+</div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style="margin-top:37%;margin-left:-20px;">
+<button id="" type="button" class="col-xs-offset-3 col-xs-2 image-btgr" onclick="ClearSignal()">清除</button>
+<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('return')">退出</button>
+<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-bt" onclick="SaveSignal()">确认</button>
+
+</div>

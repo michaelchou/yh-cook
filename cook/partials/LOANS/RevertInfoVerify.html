@@ -1,0 +1,68 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script language="JavaScript" type="text/JavaScript">
+document.getElementById("MUSIC1").src = "";
+	
+var scope = angular.element(main).scope();
+scope.$watch('pool.ST_LoansRevertWay', function(){
+	if(scope.pool["ST_LoansRevertWay"] == "1"){
+		document.getElementById("LoansRevertWay").value = "放款结清";
+	}else if(scope.pool["ST_LoansRevertWay"] == "3"){
+		document.getElementById("LoansRevertWay").value = "提前还本";
+	}else if(scope.pool["ST_LoansRevertWay"] == "7"){
+		document.getElementById("LoansRevertWay").value = "当期利息偿还";
+	}
+});
+
+
+
+</script>
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+</div>
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">还款信息确认</h3>
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px red solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px red" id="loansReverPart">
+
+  <form class="form-horizontal" style="margin-top:1%;margin-left:15%">
+    <div class="form-group">
+      <label for="name" class="col-sm-3 control-label" style="margin-top:18px;margin-left:20px;color:#000000">贷款户名</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.accountName}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	
+	 <div class="form-group">
+      <label for="name" class="col-sm-3 control-label" style="margin-top:18px;margin-left:20px;color:#000000">贷款账号</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.ST_LoansAcc}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	
+	<div class="form-group">
+      <label for="name" class="col-sm-3 control-label" style="margin-top:18px;margin-left:20px;color:#000000">还款方式</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  id="LoansRevertWay" value=""  disabled="disabled" readonly>
+      </div>
+    </div>
+	
+	
+	
+	<div class="form-group">
+      <label for="name" class="col-sm-3 control-label" style="margin-top:18px;margin-left:20px;color:#000000">付款金额</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.ST_PayAmount}}" disabled="disabled" readonly>
+      </div>
+    </div>
+	
+
+  </form>
+  
+</div>
+   <div class="cook-foot col-xs-offset-0 col-xs-12">
+          <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+          
+          <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+		        
+    </div>
+    
+
+</object>

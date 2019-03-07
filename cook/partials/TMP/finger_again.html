@@ -1,0 +1,21 @@
+<script type="text/javascript">
+document.getElementById("MUSIC1").src = "wav/请按指纹.wav";
+</script>
+<div class="container apply">
+<div class="row">
+    <div class="div_left col-md-3">
+        <ng-include src="'partials/card_left.html'"></ng-include>
+    </div>
+    <div class="div_right col-md-9">
+        <div class="indicates">
+    		<span class="timeout pull-right">{{timeout}}</span>
+            <h1>指纹采集</h1>
+    	</div>
+
+    	<div class="step">
+            <h3 class="text-danger">请再次按下手指！</h3>
+    		<img src="image/finger.gif">
+    	</div>
+    </div>
+</div>
+</div>

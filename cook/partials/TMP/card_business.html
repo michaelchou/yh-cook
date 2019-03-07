@@ -1,0 +1,94 @@
+
+<div class="container apply">
+<div class="row">
+    <div class="div_left col-md-3">
+        <ng-include src="'partials/card_left.html'"></ng-include>
+    </div>
+    <div class="div_right col-md-9">
+        <div class="indicates">
+    		<span class="timeout pull-right">{{timeout}}</span>
+            <div style="margin-left:25px;font-size:28px; font-weight:700;height:75px;text-align:left; line-height:75px;">业务签约</div>
+            <div class="line_split"></div>
+            <table cellpadding="0px" cellspacing="0" style=" margin-bottom:20px;margin-left:100px;margin-top:30px;text-align:left;font-family:微软雅黑;">
+            	<tr style="margin-top:20px;">
+                	<td style="font-size:22px;" width="250px">网上银行</td>
+                    <td style="color:#a42629;" width="245px"><label id="lab0">( 未开通 )</label></td>
+                    <td rowspan="3">
+                    	<input type="button" id="qiany" class="normal" value="立即开通" ng-click="action('sign')" style="width:250px; height:60px; border:0px; outline:none; background:#3a6fb3; border-radius:5px;color:white;font-size:24px; font-family:微软雅黑;"/>
+                    </td>
+                </tr>
+                <tr style="margin-top:20px;">
+                	<td style="font-size:22px;">手机银行</td>
+                    <td colspan="2" style="color:#a42629;"><label id="lab1">( 未开通 )</label></td>
+                </tr>
+                <tr style="margin-top:20px;">
+                	<td style="font-size:22px;">百灵鸟短信</td>
+                    <td colspan="2" style="color:#a42629;"><label id="lab2">( 未开通 )</label></td>
+
+                </tr>
+            </table>
+            <div class="line_split"></div>
+            <table cellpadding="0" cellspacing="0" style="margin-left:100px;text-align:left; margin-bottom:20px;margin-top:20px;font-family:微软雅黑;">
+                <tr id="tr1" style="display:none">
+                	<td  id="td1" width="250px" style="font-size:22px;">电子现金账户激活</td>
+                    <td  id="td2" style="color:#a42629;"><label id="lab3">( 未开通 )</label></td>
+                    <td></td>
+                </tr>
+    			<tr id="tr212" >
+                	<td  id="td3" width="250px" style="font-size:22px;">&nbsp;</td>
+                    <td  id="td4" style="color:#a42629;"><label id="lab3">&nbsp;</label></td>
+                    <td></td>
+                </tr>
+                <tr>
+                	<td style="font-size:22px;">自助银行</td>
+                    <td style="color:#a42629;"><label id="lab4">( 未开通 )</label></td>
+                    <td></td>
+                </tr>
+
+            </table>
+
+           <div class="line_split"></div>
+            <table cellpadding="0" cellspacing="0" style="margin-left:100px;text-align:left;margin-top:15px;font-family:微软雅黑;">
+            	<tr>
+                	<td style="font-size:22px;" width="250px"></td>
+                    <td width="245px" style="color:#1d901b;"></td>
+
+                </tr>
+                <tr>
+                	<td style="font-size:22px;" width="250px">理财账户</td>
+                    <td width="245px" style="color:#a42629;"><label id="lab5">( 未开通 )</label></td>
+                    <td rowspan="2">
+                    	<input id="lc" class="normal" type="button"  ng-click="action('financing')" value="立即开通" style="width:250px; height:60px; border:0px; outline:none; background:#3a6fb3; border-radius:5px;color:white;font-size:24px; font-family:微软雅黑;"/><br/>
+    					<font style="color:red; font-size:19px">(理财非存款、产品有风险、投资需谨慎)</font>
+    				</td>
+                </tr>
+                <tr>
+                	<td></td>
+                    <td> </td>
+
+                </tr>
+
+            </table>
+
+            <div style="margin-left:25px;font-size:28px; font-weight:700;height:75px; text-align:left; line-height:75px; margin-top:15px">换卡服务</div>
+            <div class="line_split"></div>
+            <table cellpadding="0" cellspacing="0" style="margin-left:100px;text-align:left;margin-top:25px;font-family:微软雅黑;">
+            	<tr>
+                	<td style="font-size:22px;" width="496px">磁条卡免费换IC卡</td>
+                    <td rowspan="2">
+                    	<input type="button" id="changeCard" class="normal" value="立即换卡" ng-click="action('exchange')" style="background:#3a6fb3;width:250px; height:60px; border:0px; outline:none; border-radius:5px;color:white;font-size:24px; font-family:微软雅黑;"/><br/>
+                        <font style="color:red; font-size:19px">( 本机只支持磁条卡换芯片卡 )</font>
+                    </td>
+
+                </tr>
+                <tr>
+                	<td style="color:#4b4b4b;">( 换新卡后旧卡失效,请用户自行销毁 )</td>
+
+                </tr>
+
+            </table>
+    	</div>
+
+    </div>
+</div>
+</div>

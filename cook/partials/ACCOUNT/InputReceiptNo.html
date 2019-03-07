@@ -1,0 +1,146 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+ .ui-datepicker{
+	 width: 16em; padding: .5em .5em 0; display: none; font-size: 2em;
+}
+ .ui-datepicker-month{
+		color:blue;
+	}
+	.ui-datepicker-year{
+		color:blue;
+	}
+</style>
+<script language="JavaScript" type="text/JavaScript">
+$(function() {
+    $( "#ReceiptTransdt" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+    });
+	$( "#endDate" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+    });
+    $.datepicker.setDefaults($.datepicker.regional['zh-CN']); //中文
+    $( "#ReceiptTransdt" ).datepicker( "option", "showAnim", "clip" );//日期控件出现和消失的效果
+	$( "#endDate" ).datepicker( "option", "showAnim", "clip" );
+  });
+ 
+
+
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//	alert(e);
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+//清除提示信息
+function destory(obj){
+$("#" + obj.id).popover('destroy');
+}
+
+
+
+		
+function commit(){
+	var scope = angular.element(main).scope();
+	var ReceiptSealCode = document.getElementById("ReceiptSealCode").value;
+	var ReceiptTransdt = document.getElementById("ReceiptTransdt").value;
+
+	if(ReceiptSealCode===""){
+		$("#ReceiptSealCode").attr("data-content", "电子印章串码不能为空");
+		$("#ReceiptSealCode").popover('show');
+	}else if(ReceiptTransdt.length<=0){
+		$("#ReceiptTransdt").attr("data-content", "交易日期不能为空");
+		$("#ReceiptTransdt").popover('show');
+	}else{
+	  scope.pool["ST_ReceiptSealCode"]=ReceiptSealCode.toUpperCase();
+	  
+	  scope.pool["ST_ReceiptTransdt"]=ReceiptTransdt;
+	  scope.action("confirm");
+  }
+  
+  }
+ 
+          
+
+
+
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+</div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:0px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请根据提示填写表单</h3>
+  <form class="form-horizontal" style="margin-top:6%;margin-left:20%">
+
+	<div class="form-group">
+      <label for="rate" class="col-sm-4 control-label" style="font-size:16.5px;margin-top:40px;margin-left:50px;color:#000000;">请输入回单电子印章串码：
+      </label>															
+		  <div class="col-sm-4" style="margin-left:10px">
+				<input type="tel"  style="margin-top:40px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"   onclick="openkeyset(3,900,500)" class="form-control" id="ReceiptSealCode" value="" 
+				data-container="body"  data-placement="right"  title="<sp class='fg-red'>输入有误 </sp>" data-content=""  data-html="true" maxlength="20" >
+		  </div>
+	 
+	</div>
+	
+	
+	
+	<div class="form-group">
+      <label for="loansAmount" class="col-sm-4 control-label" style="font-size:16.5px;margin-top:15px;margin-left:50px;color:#000000;">请输入交易日期：
+      </label>															
+		<div class="col-sm-4" style="margin-left:10px">
+		   <input type="text" class="form-control" style="border:1px blue solid;box-shadow:0 0px 0px #000 inset"  id="ReceiptTransdt" name="ReceiptTransdt" value=""  
+		  data-container="body"  data-placement="right"  title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""   class="form-control"  data-html="true" maxlength="8" />
+		</div>
+	</div>
+	
+	
+
+  </form>
+</div>
+
+
+
+
+<div class="cook-foot col-xs-offset-6 col-xs-12" style="border:0px blue solid;" style="margin-top:-50%;">
+	 <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+     <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">确认</button>
+	
+</div>
+
+
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

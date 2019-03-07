@@ -1,0 +1,56 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+	</div>
+
+ <div class="col-xs-offset-1 col-xs-10" style= "border:0px red solid;">
+ <div class="cook-head">
+  	 <h1 class="text-center">请确认您要撤单的产品信息</h1>
+    <h3 class="text-center">Please confirm the information of the product you are cancelling</h3></div>
+
+<div class="cook-content">
+    <table class="col-xs-12 balance" border="1">
+        <tr>
+            <td><th class="col-xs-3"><h3>产品代码:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[0]}}</h3></td>
+            <td><th class="col-xs-3"><h3>产品名称:</h3></th></td>
+            <td class="col-xs-3"><h3 id="FC_ProductName">{{pool.FinancialProductSubscription.split('@')[1]}}</h3></td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"><h3>起到息日:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[2]}}~{{pool.FinancialProductSubscription.split('@')[3]}}</h3></td>
+            <td><th class="col-xs-3"><h3>预期年收益率:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.FinancialProductSubscription.split('@')[4]}}~{{pool.FinancialProductSubscription.split('@')[5]}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>撤单金额:</h3></th></td>
+            <td class="col-xs-3"><h3 >{{pool.FinancialProductSubscription.split('@')[20]}}</h3></td>
+            <td><th class="col-xs-3"><h3>原认购交易日期:</h3></th></td>
+            <td class="col-xs-3"><h3 >{{pool.FinancialProductSubscription.split('@')[10]}}</h3></td>
+        </tr>
+		
+		
+		
+		
+    </table>
+</div>
+
+
+<div style="margin-top:5%">
+    <h1 class="text-center" style="font-size: 180%;color:#fff"></h1>
+</div>
+</div>
+
+
+
+  <div class="cook-foot col-xs-offset-0 col-xs-12">
+    	  <button id="cancel" type="button"  class="col-xs-offset-3 col-xs-2 image-bt"   ng-click="action('return')">取消</button>
+    	  <button  type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('modify')">返回修改</button>
+		  <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认撤单</button>
+	    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

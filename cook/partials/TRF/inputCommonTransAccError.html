@@ -1,0 +1,50 @@
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	document.getElementById("account").focus();
+	document.getElementById("MUSIC1").src = "wav/输入转入账号.wav";
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite"></object>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请重新输入转入账号</h1>
+    <h3 class="text-center">Please enter the payee account number and press enter again</h3>
+    
+</div>
+
+<div >
+	<form role="search">
+        <div class="col-xs-offset-4 col-lg-5" style="border:0px red solid;margin-left:30%">
+            <div class="input-group input-group-lg">
+                <input type="text" onclick="openkeyset(1,490,350)" class="form-control"
+                	onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" style="width:100%;height:48px;"
+                    id="account" value="" onblur="this.focus()" ng-model="pool.inAccountNo" maxlength="32"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>转入账号输入有误</sp>" data-content="" data-html="true">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="_delete()">更  正</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+</div>
+
+ <div class="cook-foot col-xs-offset-0 col-xs-12">
+	
+	  	<button id="cancel" type="button"  class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+		<button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">{{pool.page_Eject}}</button>
+	   
+	    <button id="confirm" type="button"class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkCommonTransACC()">确认</button>
+	
+	
+</div>

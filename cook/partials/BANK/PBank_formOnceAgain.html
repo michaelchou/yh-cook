@@ -1,0 +1,256 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#referNoSelect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#innerBankSelect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#crossBankSelect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select1.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+	creatTree(0,"填写表单");
+	function Show(type,x,y){
+		try {
+				HandWrite.Show(type,1,x,y);
+		} catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+		return;
+		}
+	}
+	
+	function Hide(){
+		try {
+				HandWrite.Hide();
+		} catch (e) {
+			//	alert(e);
+			return;
+		}
+	}	
+	
+	function openkeyset(type,x,y)
+	{
+		Show(type,x,y)
+	}
+
+		function commit(){
+			Hide();
+			var scope = angular.element(main).scope();
+			var referNo = document.getElementById("referNo").value;
+			var innerBankSelect = document.getElementById("innerBankSelect").value;
+			var crossBankSelect = document.getElementById("crossBankSelect").value;
+		//	var ManaPhone = document.getElementById("ManaPhone").value;
+			var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/; //11位号码必须 13 14 15 17 18 开头
+		//	if(null != ManaPhone && ManaPhone.length > 0 && ManaPhone.length<11){
+		//		$("#ManaPhone").attr("data-content","请输入11位手机号");
+		//	    $("#ManaPhone").popover('show');
+		//	}else if(null != ManaPhone && ManaPhone.length > 0 && !reg.test(ManaPhone)){
+		//		$("#ManaPhone").attr("data-content","请输入正确的手机号");
+		//	    $("#ManaPhone").popover('show');
+		//	}
+			if(innerBankSelect.length <= 0){
+				$("#innerBankSelect").attr("data-content", "非法字符，请重新输入");
+				$("#innerBankSelect").popover('show');
+			}else if(crossBankSelect.length <= 0){
+				$("#crossBankSelect").attr("data-content", "非法字符，请重新输入");
+				$("#crossBankSelect").popover('show');
+			}else{
+				if(referNo == "非行员"){
+					scope.pool["ST_ReferrerType"] = 0;
+				}else if(referNo == "行员"){
+					scope.pool["ST_ReferrerType"] = 1;
+				}
+			//	scope.pool["CifManagerTel"] = ManaPhone;
+				scope.pool["ST_BankInnerTransfer"] = innerBankSelect;
+				scope.pool["ST_CrossBankTransfer"] = crossBankSelect;
+				scope.action("submit");
+			}
+		}
+
+
+
+function selectOne()
+{
+ if(document.getElementById("referNoSelect").value != "--可选择推荐人类型--")
+ {
+	 document.getElementById("referNo").value = document.getElementById("referNoSelect").value;
+ }
+}
+
+function selectTwo()
+{
+ if(document.getElementById("innerBankSelect").value != "--可选择行内转账类型--")
+ {
+	 document.getElementById("innerBank").value = document.getElementById("innerBankSelect").value;
+ }
+}
+
+function selectThree()
+{
+ if(document.getElementById("crossBankSelect").value != "--可选择跨行转账类型--")
+ {
+	 document.getElementById("crossBank").value = document.getElementById("crossBankSelect").value;
+ }
+}
+
+self.setTimeout("selectTest()", 10);
+function selectTest(){
+	var scope = angular.element(main).scope();
+	if(null != scope.pool["ST_BankInnerTransfer"] && scope.pool["ST_BankInnerTransfer"].length>0){
+		document.getElementById("innerBankSelect").value=scope.pool["ST_BankInnerTransfer"];
+	}
+	if(null != scope.pool["ST_CrossBankTransfer"] && scope.pool["ST_CrossBankTransfer"].length>0){
+		document.getElementById("crossBankSelect").value=scope.pool["ST_CrossBankTransfer"];
+	}
+}
+</script>
+<div class="container indicates"> 
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写表单三</h3>
+<h6  style="font-size:15px;margin-top:0px;text-align: left;">基本信息</h6>
+
+  <form class="form-horizontal" style="margin-top:0%;margin-left:0%">
+    <!-- <div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">客户经理号</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="text" class='form-control' style='border:1px blue solid;box-shadow:0 0px 0px #000 inset'  id="ManaNo" ng-model="CifManagerSeq"
+			onkeyup="checkInput(id),this.value=this.value.replace(/[\W]/g,'')" onclick="openkeyset(2,900,500)" maxlength="12">
+      </div>
+	  <label for="pid" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">客户经理姓名</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="ManaName" ng-model="CifManagerName"
+			onkeyup="checkInput(id),this.value=this.value.replace(/[^\u4E00-\u9FA5]/g,'')" onclick="openkeyset(2,900,500)" maxlength="6">
+      </div>
+    </div>
+	<div class="form-group">
+		<label for="pid" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">客户经理联系电话</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="ManaPhone" ng-model="pool.CifManagerTel"
+			onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" maxlength="11"
+			title="<sp class='fg-red'>电话号码输入有误 </sp>" data-content="" data-html="true" data-container="body" data-placement="right">
+      </div>
+	  <label for="pid" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">客户经理所属机构</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="ManaBank" value="{{pool.ST_EmployeeDeptName}}" disabled>
+      </div>
+    </div> -->
+	<div class="form-group">
+		<label for="telephone" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000">推荐人类型
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入推荐人类型"  class="form-control" data-container="body" data-placement="right" 
+    			  title="<sp class='fg-red'>推荐人类型输入有误 </sp>" data-content=""    data-html="true" id="referNo">
+        <select class="form-control selectpicker" onchange="selectOne()"  id="referNoSelect" style="margin-top:20px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>推荐人类型输入有误 </sp>" data-content="" data-html="true" data-container="body" data-placement="right">
+          <option disabled selected>--可选择推荐人类型--</option>
+		  <option>非行员</option>
+          <option>行员</option>
+        </select>
+      </div>
+	  <label for="pid" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">推荐人工号/客户号</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="custNo" ng-model="pool.ST_ReferrerNo"
+			onkeyup="checkInput(id),this.value=this.value.replace(/[\W]/g,'')" onclick="openkeyset(2,900,500)" maxlength="12">
+      </div>
+    </div>
+	<div class="form-group">
+		<label for="pid" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">推荐人姓名</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='border:1px blue solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="custName" ng-model="pool.ST_ReferrerName"
+			onkeyup="checkInput(id),this.value=this.value.replace(/[^\u4E00-\u9FA5]/g,'')" onclick="openkeyset(2,900,500)" maxlength="6">
+      </div>
+    </div>
+	<h6  style="font-size:15px;margin-top:0px;text-align: left;">上挂账户</h6>
+	<div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-18px;color:#000000">行内转账
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入转账类型"  class="form-control"
+    			  title="<sp class='fg-red'>转账类型输入有误 </sp>" data-content=""    data-html="true" id="innerBank"   >
+        <select class="form-control selectpicker" onchange="selectTwo()"  id="innerBankSelect" style="margin-top:8px;border:1px blue solid;box-shadow:0 0px 0px #000 inset" title="<sp class='fg-red'>行内转账类型输入有误 </sp>" 
+			data-content="" data-html="true" data-container="body" data-placement="right">
+          <!-- <option disabled selected>--可选择行内转账类型--</option> --> 
+		  <option>开通</option>
+          <option>不开通</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:16px"></sp>
+	  <label for="telephone" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-30px;color:#000000">跨行转账
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入转账类型"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>转账类型输入有误 </sp>" data-content=""    data-html="true" id="crossBank"   >
+        <select class="form-control selectpicker" onchange="selectThree()"  id="crossBankSelect" style="margin-top:8px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>跨行转账类型输入有误 </sp>" data-content="" data-html="true" data-container="body" data-placement="right">
+          <!-- <option disabled selected>--可选择跨行转账类型--</option> -->
+		  <option >开通</option>
+          <option >不开通</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:16px"></sp>
+    </div>
+  </form>
+  
+</div>
+</br>
+</br>
+
+    <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+		<button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+		<button type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('return')">上一页</button>
+        <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>
+		 
+    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>

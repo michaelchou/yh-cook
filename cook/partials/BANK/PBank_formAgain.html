@@ -1,0 +1,382 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+var scope = angular.element(main).scope();
+	creatTree(0,"填写表单");
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+
+scope.$watch('pool.pid', function(){
+if(undefined!=scope.pool["pid"]){
+	if(scope.pool["Ukeyflg"] == "disabled"){
+		document.getElementById("TRFOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[2];
+		document.getElementById("TRFDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[3];
+	}else{
+		document.getElementById("TRFOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[0];
+		document.getElementById("TRFDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[1];
+	}
+}
+});
+
+	function commit(){
+	 Hide();
+	 var scope = angular.element(main).scope();
+	 var SecretNotice = document.getElementById("SecretNotice").value;
+	 var TRFOneLimit = document.getElementById("TRFOneLimit").value;
+	 var TRFDayLimit = document.getElementById("TRFDayLimit").value;
+	 var MessOneLimit = document.getElementById("MessOneLimit").value;
+	 var MessDayLimit = document.getElementById("MessDayLimit").value;
+	  if(null != document.getElementById("EBankCheck") && !document.getElementById("EBankCheck").checked 
+			&& !document.getElementById("MobileCheck").checked){
+		    document.getElementById("showMsg").innerHTML ="提示:请至少选择一种开通渠道";
+	  }
+	  else if(null == document.getElementById("EBankCheck") && !document.getElementById("MobileCheck").checked){
+		    document.getElementById("showMsg").innerHTML ="提示:请至少选择一种开通渠道";
+	  }
+	  else if(null != document.getElementById("EBankCheck") && document.getElementById("EBankCheck").checked 
+			&& !document.getElementById("dtName1").checked){
+			document.getElementById("showMsg").innerHTML ="提示:网上银行请至少选择一种认证方式";
+	  }
+	  else if(document.getElementById("MobileCheck").checked && !((null != document.getElementById("dtName2") 
+			&& document.getElementById("dtName2").checked) || document.getElementById("dtName3").checked)){
+			document.getElementById("showMsg").innerHTML ="提示:手机银行请至少选择一种认证方式";
+	  }
+	  else if(TRFOneLimit.length <= 0 || TRFDayLimit.length <= 0 || TRFOneLimit*1 < 0.01 || TRFDayLimit*1 < 0.01){
+			document.getElementById("showMsg").innerHTML ="提示:限额不能为空或为零";
+	  }
+	  else if((document.getElementById("dtName3").checked &&(MessOneLimit.length <= 0 || MessDayLimit.length <= 0
+			|| MessOneLimit*1 < 0.01 || MessDayLimit*1 < 0.01 || TRFOneLimit.length <= 0 || TRFDayLimit.length <= 0
+			|| TRFOneLimit*1 < 0.01 || TRFDayLimit*1 < 0.01))){
+			document.getElementById("showMsg").innerHTML ="提示:限额不能为空或为零";
+	  }
+	  else if(TRFOneLimit*1 > TRFDayLimit*1){
+			document.getElementById("showMsg").innerHTML ="提示:转账单笔限额不能大于转账单日限额";
+	  }
+	  else if((null != document.getElementById("dtName1") && (document.getElementById("dtName1").checked || document.getElementById("dtName2").checked)) 
+		&& (TRFOneLimit*1 > scope.pool["PBankAmountDetail"].split('@')[0])){
+			document.getElementById("showMsg").innerHTML ="提示:转账单笔限额不能大于"+scope.pool["PBankAmountDetail"].split('@')[0];
+	  }
+	  else if(!(null != document.getElementById("dtName1") && (document.getElementById("dtName1").checked || document.getElementById("dtName2").checked)) 
+		&& (TRFOneLimit*1 > scope.pool["PBankAmountDetail"].split('@')[2])){
+			document.getElementById("showMsg").innerHTML ="提示:转账单笔限额不能大于"+scope.pool["PBankAmountDetail"].split('@')[2];
+	  }
+	  else if((null != document.getElementById("dtName1") && (document.getElementById("dtName1").checked || document.getElementById("dtName2").checked)) 
+		&& (TRFDayLimit*1 > scope.pool["PBankAmountDetail"].split('@')[1])){
+			document.getElementById("showMsg").innerHTML ="提示:转账单日限额不能大于"+scope.pool["PBankAmountDetail"].split('@')[1];
+	  }
+	  else if(!(null != document.getElementById("dtName1") && (document.getElementById("dtName1").checked || document.getElementById("dtName2").checked)) 
+		&& (TRFDayLimit*1 > scope.pool["PBankAmountDetail"].split('@')[3])){
+			document.getElementById("showMsg").innerHTML ="提示:转账单日限额不能大于"+scope.pool["PBankAmountDetail"].split('@')[3];
+	  }
+	  else if(document.getElementById("dtName3").checked && (MessOneLimit*1 > MessDayLimit*1)){
+		document.getElementById("showMsg").innerHTML ="提示:短信单笔限额不能大于短信单日限额";
+	  }
+	  else if(document.getElementById("dtName3").checked && (MessOneLimit*1 > scope.pool["PBankAmountDetail"].split('@')[2])){
+			document.getElementById("showMsg").innerHTML ="提示:短信单笔限额不能大于"+scope.pool["PBankAmountDetail"].split('@')[2];
+	  }
+	  else if(document.getElementById("dtName3").checked && (MessDayLimit*1 > scope.pool["PBankAmountDetail"].split('@')[3])){
+			document.getElementById("showMsg").innerHTML ="提示:短信单日限额不能大于"+scope.pool["PBankAmountDetail"].split('@')[3];
+	  }
+	  else if(document.getElementById("dtName3").checked && (TRFOneLimit*1 < MessOneLimit*1)){
+			document.getElementById("showMsg").innerHTML ="提示:转账单笔限额不能小于短信单笔限额";
+	  }
+	  else{
+		if(document.getElementById("MobileCheck").checked){
+			scope.pool["PIsMobileBank"] = "1";
+		}else{
+			scope.pool["PIsMobileBank"] = "0";
+		}
+		
+		if(null != document.getElementById("EBankCheck") && document.getElementById("EBankCheck").checked){
+			scope.pool["PIsEBank"] = "1";
+		}else{
+			scope.pool["PIsEBank"] = "0";
+		}
+		
+		if(document.getElementById("dtName3").checked){
+			scope.pool["PIsMessType"] = "1";
+			scope.pool["ST_MessOneLimitAmount"] = parseFloat(MessOneLimit).toFixed(2);
+			scope.pool["ST_MessDayLimitAmount"] = parseFloat(MessDayLimit).toFixed(2);
+		}else{
+			scope.pool["PIsMessType"] = "0";
+			scope.pool["ST_MessOneLimitAmount"] = "";
+			scope.pool["ST_MessDayLimitAmount"] = "";
+		}
+		scope.pool["ST_TRFOneLimitAmount"] = parseFloat(TRFOneLimit).toFixed(2);
+		scope.pool["ST_TRFDayLimitAmount"] = parseFloat(TRFDayLimit).toFixed(2);
+		
+		if(null != document.getElementById("dtName1") && document.getElementById("dtName1").checked){
+			scope.pool["PIsUkeyType"] = "1";
+		}else{
+			scope.pool["PIsUkeyType"] = "0";
+		}
+		
+		if(null != document.getElementById("dtName2") && document.getElementById("dtName2").checked){
+			scope.pool["PMoUkeyType"] = "1";
+		}else{
+			scope.pool["PMoUkeyType"] = "0";
+		}
+		scope.action("submit");
+	  }
+	}
+
+	
+	function EBankSelect(isChecked){
+		document.getElementById("showMsg").innerHTML ="";
+		if(isChecked){
+			document.getElementById("dtName1").checked=true;
+			document.getElementById("dtName1").disabled="";
+			ukeySelect1(true);
+		}else{
+			document.getElementById("dtName1").checked=false;
+			document.getElementById("dtName1").disabled="disabled";
+			ukeySelect1(false);
+		} 
+	}
+	
+	function MobileBankSelect(isChecked){
+		document.getElementById("showMsg").innerHTML ="";
+		if(isChecked){
+			if(null != document.getElementById("dtName2")){
+				document.getElementById("dtName2").disabled="";
+			}
+			document.getElementById("dtName3").checked=true;
+			document.getElementById("dtName3").disabled="";
+			MessSelect(true);
+		}else{
+			if(null != document.getElementById("dtName2")){
+				document.getElementById("dtName2").checked=false;
+				document.getElementById("dtName2").disabled="disabled";
+			}
+			document.getElementById("dtName3").checked=false;
+			document.getElementById("dtName3").disabled="disabled";
+			ukeySelect2(false);
+			MessSelect(false);
+		} 
+	}
+	
+	function MessSelect(isChecked){
+		if(isChecked){
+			document.getElementById("MessOneLimit").disabled="";
+			document.getElementById("MessDayLimit").disabled="";
+			document.getElementById("MessOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[2];
+			document.getElementById("MessDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[3];
+			if(null != document.getElementById("dtName1") && (document.getElementById("dtName1").checked
+				|| document.getElementById("dtName2").checked)){
+				document.getElementById("TRFOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[0];
+				document.getElementById("TRFDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[1];
+			}else{
+				document.getElementById("TRFOneLimit").disabled="";
+				document.getElementById("TRFDayLimit").disabled="";
+				document.getElementById("TRFOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[2];
+				document.getElementById("TRFDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[3];
+			}
+		}else{
+			document.getElementById("MessOneLimit").disabled="disabled";
+			document.getElementById("MessDayLimit").disabled="disabled";
+			document.getElementById("MessOneLimit").value="";
+			document.getElementById("MessDayLimit").value="";
+			if(null == document.getElementById("dtName1") || (null != document.getElementById("dtName1") 
+				&& (!document.getElementById("dtName1").checked && !document.getElementById("dtName2").checked))){
+				document.getElementById("TRFOneLimit").disabled="disabled";
+				document.getElementById("TRFDayLimit").disabled="disabled";
+				document.getElementById("TRFOneLimit").value="";
+				document.getElementById("TRFDayLimit").value="";
+			}
+		} 
+	}
+	
+	function ukeySelect1(isChecked){
+		var scope = angular.element(main).scope();
+		if(isChecked){
+			document.getElementById("TRFOneLimit").disabled="";
+			document.getElementById("TRFDayLimit").disabled="";
+			document.getElementById("TRFOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[0];
+			document.getElementById("TRFDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[1];
+		}else{
+			if(!document.getElementById("dtName2").checked && document.getElementById("dtName3").checked){
+				document.getElementById("TRFOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[2];
+				document.getElementById("TRFDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[3];
+				document.getElementById("MessOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[2];
+				document.getElementById("MessDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[3];
+			}
+			if(!document.getElementById("dtName2").checked && !document.getElementById("dtName3").checked){
+				document.getElementById("TRFOneLimit").value="";
+				document.getElementById("TRFDayLimit").value="";
+				document.getElementById("MessOneLimit").value="";
+				document.getElementById("MessDayLimit").value="";
+				document.getElementById("TRFOneLimit").disabled="disabled";
+				document.getElementById("TRFDayLimit").disabled="disabled";
+				document.getElementById("MessOneLimit").disabled="disabled";
+				document.getElementById("MessDayLimit").disabled="disabled";
+			}
+		} 
+	}
+	
+	function ukeySelect2(isChecked){
+		var scope = angular.element(main).scope();
+		if(isChecked){
+			document.getElementById("TRFOneLimit").disabled="";
+			document.getElementById("TRFDayLimit").disabled="";
+			document.getElementById("TRFOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[0];
+			document.getElementById("TRFDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[1];
+		}else{
+			if(!document.getElementById("dtName1").checked && document.getElementById("dtName3").checked){
+				document.getElementById("TRFOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[2];
+				document.getElementById("TRFDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[3];
+				document.getElementById("MessOneLimit").value=scope.pool["PBankAmountDetail"].split('@')[2];
+				document.getElementById("MessDayLimit").value=scope.pool["PBankAmountDetail"].split('@')[3];
+			}
+			if(!document.getElementById("dtName1").checked && !document.getElementById("dtName3").checked){
+				document.getElementById("TRFOneLimit").value="";
+				document.getElementById("TRFDayLimit").value="";
+				document.getElementById("MessOneLimit").value="";
+				document.getElementById("MessDayLimit").value="";
+				document.getElementById("TRFOneLimit").disabled="disabled";
+				document.getElementById("TRFDayLimit").disabled="disabled";
+				document.getElementById("MessOneLimit").disabled="disabled";
+				document.getElementById("MessDayLimit").disabled="disabled";
+			}
+		} 
+	}
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写电子银行签约表单（二）</h3>
+<h6  style="font-size:18px;margin-top:0px;text-align: left;">开通渠道信息</h6>
+<form class="form-horizontal" style="margin-top:0%;margin-left:0%">
+	<div ng-if="pool.Ukeyflg!='disabled'">
+	<div class="form-group" style="margin-left:2%">
+	<div  class = "checkbox" style = "font-size:18px;color :black;position:relative !important;bottom:-5%; float :left; text-align: center; height: 20px; line-height: 12px;font-weight:bold;">
+		<label  >
+			<input style="height:18px;width:18px;margin-top:0%" id="EBankCheck" type="checkbox" checked="checked" onclick="EBankSelect(this.checked)">网上银行
+		</label>
+	</div>
+	</div>
+	<div class="form-group" style="margin-left:2%">
+    <font  style="font-size:18px;margin-top:5px;float: left;">安全认证方式&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>
+    <div  class = "checkbox" style = "font-size:18px;color :black;position:relative !important;bottom:-5%; float :left; text-align: center; height: 20px; line-height: 12px;font-weight:bold;">
+		<label>
+			<input style="height:18px;width:18px;margin-top:0%" id="dtName1" type="checkbox" checked="true" onclick="ukeySelect1(this.checked)">二代令
+		</label>
+	</div>
+	</div>
+	</div>
+	<div>
+	<div class="form-group" style="margin-left:2%">
+	<div  class = "checkbox" style = "font-size:18px;color :black;float :left; height: 20px; line-height: 12px;font-weight:bold;">
+		<label  >
+			<input style="height:18px;width:18px;margin-top:0%" id="MobileCheck" type="checkbox" checked="checked" onclick="MobileBankSelect(this.checked)">手机银行
+		</label>
+	</div>
+	</div>
+	<div class="form-group" style="margin-left:2%">
+    <font  style="font-size:18px;margin-top:5px;float: left;">安全认证方式&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>
+    <div  class = "checkbox" style = "font-size:18px;color :black;position:relative !important;bottom:-5%; float :left; text-align: center; height: 20px; line-height: 12px;font-weight:bold;">
+		<label ng-if="pool.Ukeyflg!='disabled'">
+			<input style="height:18px;width:18px;margin-top:0%" id="dtName2" type="checkbox" onclick="ukeySelect2(this.checked)">二代令&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</label>
+		<label>
+			<input style="height:18px;width:18px;margin-top:0%" id="dtName3" checked="true" type="checkbox" onclick="MessSelect(this.checked)">短信认证	
+		</label>
+	</div>
+	</div>
+	</div>
+	<div class="form-group" style="border:0px blue solid;">
+	  <label for="mobile" class="col-sm-2 control-label" style="margin-top:14px;color:#000000;margin-left:-18px;">转账单笔限额<br/>
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text"  style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="TRFOneLimit" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>金额输入有误 </sp>" data-content=""  data-html="true" maxlength="9">       
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+      <label for="mobile" class="col-sm-2 control-label" style="margin-top:14px;color:#000000;margin-left:-18px;">转账单日限额<br/>
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="TRFDayLimit" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>金额输入有误 </sp>" data-content=""  data-html="true" maxlength="9">
+        
+      </div>
+         <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>
+	<div id="messSign" class="form-group" style="border:0px blue solid;">
+	  <label for="mobile" class="col-sm-2 control-label" style="margin-top:14px;color:#000000;margin-left:-18px;">短信单笔限额<br/>
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')"  onclick="openkeyset(1,900,500)" class="form-control" id="MessOneLimit" value="{{pool.ST_MessOneLimitAmount}}"
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>金额输入有误 </sp>" data-content=""  data-html="true" maxlength="9" >       
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+      <label for="mobile" class="col-sm-2 control-label" style="margin-top:14px;color:#000000;margin-left:-18px;">短信单日限额<br/>
+   
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')"  onclick="openkeyset(1,900,500)" class="form-control" id="MessDayLimit" value="{{pool.ST_MessDayLimitAmount}}"
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>金额输入有误 </sp>" data-content=""  data-html="true" maxlength="9" >
+        
+      </div>
+         <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>
+	<div class="form-group" style="margin-top:3%;">
+      <label for="address" class="col-sm-2 control-label" style="color:#000000;margin-left:-18px;">预留信息
+      </label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <textarea style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" class="form-control" rows="2" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" id="SecretNotice" ng-model="pool.ST_SecretNotice" class="form-control" data-container="body"  data-placement="right" 
+    			  title="<sp class='fg-red'>信息输入有误 </sp>" data-content=""    data-html="true"  maxlength="60"/>{{pool.ST_SecretNotice}}
+        </textarea>
+      </div>
+    </div>
+	<div style ="margin-top :0px; height :20%; font-size :18px;color:black" >
+		限额输入规则：1、短信单笔 <= 短信单日。
+	</div>
+	<div  id = "showMsg" style ="margin-top :15px; height :20%; font-size :20px;color:red" >
+	</div>
+	</br>
+	</form>
+</div>	
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+    <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+	<button type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('return')">上一页</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>
+

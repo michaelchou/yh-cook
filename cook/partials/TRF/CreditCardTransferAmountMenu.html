@@ -1,0 +1,54 @@
+  
+<script>
+function selectAmount(obj){
+	var scope = angular.element(main).scope();
+	if(obj.id=="confirm")
+	{
+	  scope.pool["transAmount"] = scope.pool["amount"];
+	  scope.action("confirm");
+	}else{
+		scope.pool["transAmount"] = scope.pool["minpay"];
+		scope.action("confirm");
+	}
+}
+</script>
+<div class="container indicates">
+	  <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}<span>
+		</div>
+    </div>
+    
+<div class="col-xs-offset-0 col-xs-12 " style= "border:0px blue solid;">
+
+	<div class="cook-head">
+		    <h1 class="text-center">请选择服务项目</h1>
+	    	<h3 class="text-center">Please select services</h3>
+	</div>
+
+	
+<div class=" col-xs-12" style= "margin-top:4%;height:0px;margin-left:24%">
+		<div class="col-xs-offset-2 col-md-3 col-xs-5" >
+		<button id="confirm" type="button" style="width:200px;height:90px;" class=" col-xs-10 image-btgr" onclick="selectAmount(this)">应还款额还款</button>
+		<button id="confirm1" type="button" style="margin-top:8%;width:200px;height:90px;" class=" col-xs-10 image-btgr" onclick="selectAmount(this)">最低还款额还款</button>
+		<button id="return" type="button" style="margin-top:8%;width:200px;height:90px;" class=" col-xs-10 image-btgr" ng-click="action('Hand')">部分还款</button>
+		</div>
+		
+		<div class="col-xs-offset-1 col-md-3 " >
+		</div>
+        
+		
+</div>	
+			
+<div class="cook-foot col-xs-offset-5 col-xs-12">
+<button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+	<button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">{{pool.page_Eject}}</button>
+	
+
+</div>	
+			
+			
+
+    
+    
+    
+    

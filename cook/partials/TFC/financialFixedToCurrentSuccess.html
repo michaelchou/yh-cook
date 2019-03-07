@@ -1,0 +1,76 @@
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style="margin-top:0%;border:0px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue;height:600px">
+<h1  style="font-size:34px;margin-top:0px;text-align: center;">交易成功</h1>
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">Transaction succeed</h3>
+<div class="cook-content">
+ <table class="col-xs-12 balance " style="margin-bottom:8px;color:#000000;height:220px;">
+       <tr>
+            <td><th class="col-xs-3"><h3>交易账号:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.page_CardNo}}</h3></td>
+            <td><th class="col-xs-3"><h3>设备终端号:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.terminalId}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>交易时间:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.page_TransTime}}</h3></td>
+            <td><th class="col-xs-3"><h3>交易日期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.page_TransDate}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>交易类型:</h3></th></td>
+            <td class="col-xs-3"><h3>定期转活期</h3></td>
+            <td><th class="col-xs-3"><h3>客户姓名:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.accountName}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>存期</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.Page2_Term}}</h3></td>
+			<td><th class="col-xs-3"><h3>定期转活期转出金额:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.transAmount}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>开户日期:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.startDate}}</h3></td>
+            <td><th class="col-xs-3"><h3>到期日期</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.endDate}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>利息:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.TT_INT}}</h3></td>
+            <td><th class="col-xs-3"><h3>利率:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.TT_INTR}}</h3></td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"><h3>本息合计:</h3></th></td>
+            <td class="col-xs-3"><h3>{{pool.TT_INTTotal}}</h3></td>
+        </tr>
+		
+		
+    </table>
+</div>	
+</div>	
+<div  style="margin-top:55%">
+	<div ng-if="pool.receipt == 'active'">
+		<button type="button" class="col-xs-offset-3 col-xs-2 image-btgr active {{pool.receipt}}" ng-click="action('receipt')">
+			打印凭条
+		</button>
+		<button type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+		<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('eject')">退出</button>
+	</div>
+	<div ng-if="pool.receipt != 'active'">
+		<button type="button" class="col-xs-offset-4 col-xs-2 image-btor"  ng-click="action('return')" >返回</button>
+    	<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-click="action('eject')" >退出</button>
+	</div>
+</div>
+
+

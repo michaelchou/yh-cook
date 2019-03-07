@@ -1,0 +1,80 @@
+<script src="js/admin/base.js"></script>
+<script>
+
+var data = "/admin/NewAdminDataServlet";
+var currentusers;
+var isRunning = false;
+$(document).ready(function() {
+ $('#myModal').modal('hide');
+	fingerScanner();
+});
+
+function fingerScanner() {
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-user-fingerScanner-template",
+	    dataType: 'json',
+	    success: function(data) {
+	   if(data.result=="succ"){
+	    $('#comment').html("指纹录入成功");
+	   
+	   }else{
+	   $('#comment').html("指纹录入失败");
+	   fingerScannercloss("指纹录入失败");
+	   }
+        	}
+	   
+	});
+}
+
+function fingerScannercloss(value) {
+	if(value.length>=1){
+	 $('#comment').html(value+"</br>正在关闭指纹仪。。。");
+	}else{
+	 $('#comment').html("正在关闭指纹仪。。。");
+	 }
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-fingerScanner-close",
+	    dataType: 'json',
+	    success: function(data) {
+	    if(value.length<=0){
+	     $('#return2').click();
+	  
+	    }
+	  	
+        	}
+	});
+}
+function fingerScannercloss2() {
+ $('#return2').click();
+}
+
+    </script>
+</head>
+
+<h2 id="head" class="text-center">指纹录入</h2>
+<div id="content">
+  <div class="text-center col-xs-offset-3 col-xs-6"style="border:0px #FFFFFF solid;">
+    <div  >
+      <h3 class="fg-red">听到提示音后请抬起手指，并再次按下，连续三次。</h3>
+      <img calss="center" src="image/finger.gif"  style=" height: 270px;" > </div>
+    <div  class="col-xs-offset-0 col-xs-12" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+      <label  class="fg-red"  style="color:black" id="comment">&nbsp;</label>
+    </div>
+  </div>
+</div>
+</div>
+<div id="foot" class="col-xs-offset-5 col-xs-2">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button"   id="return" class="btn btn-primary btn-lg" onclick="fingerScannercloss('')">返回主页面</button>
+    </div>
+  </div>
+</div>
+<button style="display:none" type="button"  id="return2" class="btn btn-primary btn-lg" ng-click="action('return')"></button>
+</body></html>

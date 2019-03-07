@@ -1,0 +1,981 @@
+<script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="js/admin/base.js"></script>
+
+<script>
+var validateYear ;
+var data = "/admin/NewAdminDataServlet";
+var isRunning = false;
+var sign = false;// 0显示 1隐藏
+var validateYear ;
+
+$(document).ready(function() {
+
+	var date = new Date();
+	document.getElementById("date").value = formatdate(date);
+ 	validateYear = parseInt(formatdate(date).substring(0, 4)-1);
+ //rootCheck();
+ //自适应高度
+	
+ if( window.screen.height<=768){
+	
+document.getElementById("tab").style.height = "255px";
+
+ }
+
+ fillTable(50);
+	getLog();
+ 
+ $('.dropdown-toggle1').dropdown();
+
+});
+
+
+  function fillTable(rows) {
+
+	var tablebody = $("#crowntable>tbody");
+	for (var i = 0; i < rows; i++) {
+		tablebody.append(
+	        $('<tr width="100%">').append(
+	         $('<td width="7%">').html("&nbsp"),
+	        $('<td width="8%">').html("&nbsp"),
+	        $('<td width="6%">').html("&nbsp"),
+	        $('<td width="7%">').html("&nbsp"),
+	        $('<td width="10%">').html("&nbsp"),
+	        $('<td width="15%">').html("&nbsp"),
+	        
+	        $('<td width="8%">').html("&nbsp"),
+	        $('<td width="6%">').html("&nbsp"),
+	        $('<td width="6%">').html("&nbsp"),
+	        $('<td width="6%">').html("&nbsp"),
+	        $('<td width="8%">').html("&nbsp"),
+	       $('<td width="11.8%">').html("&nbsp")
+	   
+	        
+	    ));
+	}
+}         
+function getLog() {
+
+
+$.ajax({
+		url: data,
+		cache: false,
+		type: "post",		
+		data: "commandID=data-accounts-flat-query",
+		dataType: 'json',
+		success: function(data) {
+		$('#terminalID').html(data.terminalID);
+ 				if (data.message!='ok') {
+		    		$('#comment').html("现金模块故障，请先进行复位");
+		    		fillTable(50);
+		    		//清空
+		    		isRunning = false;
+		    		return;
+		    	}else{
+		    		document.getElementById("stockAmount").value = data.stockAmount/100;
+		    		document.getElementById("boxesAmount").value = data.boxesAllAmount;	
+		    		document.getElementById("rAmount").value = data.rAmount;
+		    		document.getElementById("jAmount").value =data.jAmount;
+		    		
+		    	}
+		    	if (data.sclist.length<=0) {
+		    		$('#comment').html("无异常交易数据");
+		    		fillTable(50);
+		    		//清空
+		    		isRunning = false;
+		    		return;
+		    	}
+		    	
+		    	var Sendlist = data.sclist;
+		    	
+ 				 $('#sum').html(Sendlist.length+"笔");
+	    		var tablebody = $("#crowntable>tbody");
+	    		tablebody.empty();
+		    	var log="";
+		    	var remark="";
+		    	var btn ="btn-danger";
+		    	for (i=0;i<Sendlist.length;i++) {
+		    		var button ="";
+					var remark = Sendlist[i].remark;
+					var display = "display"
+					checkbox =	" <input type='checkbox' name='checkbox'  Style='display:block' id='checkbox"+i+"' value=''>"
+					
+					if(remark == ""||remark == "未处理"){
+						remark='未处理';btn ="btn-danger";
+					}else {
+						remark=Sendlist[i].remark; 
+						btn ="btn-info";
+						display = "display:none";
+							checkbox =	" <input type='checkbox' name='checkbox'  Style='display:none' id='checkbox"+i+"' value=''>"
+				
+						}//处理成功不显示
+					
+					var flag = Sendlist[i].flag;
+					var transtypeEn = Sendlist[i].transtypeEn.trim()
+					var feild = "";
+					var feild = "<div class='btn-group' >"
+						feild += "<button type='button' id='btn"+i+"'  style='border-radius:4px 4px 4px 4px' class='dropdown-toggle2 btn  "+btn+" ' data-toggle='dropdown'>"
+						feild += "<sp id='remark"+i+"' >"+remark+"</sp> "
+						feild += "</button>"
+						feild += "</div>"
+						
+					if(remark != '已处理'&&'DF'==Sendlist[i].localhost && Sendlist[i].tamount>0 ){
+						 button = "<button type='button'  name='enter' class='btn btn-primary ' style='width:100px' onclick='submit("+i+",1)'>取款冲正</button>";	
+						 		checkbox =	" <input type='checkbox' name='checkbox'  Style='display:none' id='checkbox"+i+"' value=''>"
+				
+					}else if(remark == '未处理' && transtypeEn == "存款"&&Sendlist[i].transFlag==1){
+						 button = "<button type='button'  name='enter' class='btn btn-warning ' style='width:100px' onclick='submit("+i+",2)'>存款确认</button>";	
+					 			checkbox =	" <input type='checkbox' name='checkbox'  Style='display:none' id='checkbox"+i+"' value=''>"
+				
+					}
+					else{
+					button = "<button type='button'  name='enter' class='btn btn-success ' style='width:100px' onclick='submit("+i+",3)'>上送监控</button>";	
+					}
+					if(remark == '已处理'){
+						button = "";
+					}
+					
+					
+					
+				tablebody.append(
+	                	$('<tr  style="'+display+'">').append(
+	                		$('<td align="center" width="7%" style="padding-top:18px">').html(checkbox),
+	                		$('<td align="center" width="8%" style="padding-top:18px">').text(Sendlist[i].date),
+	                		$('<td align="center" width="6%" style="padding-top:18px">').text(Sendlist[i].time),
+	                		$('<td align="center" width="7%" style="padding-top:18px">').text(Sendlist[i].serial),
+	                    	$('<td align="center" width="" style="padding-top:18px;display:none">').text(Sendlist[i].transtypeEn),
+	                    	$('<td align="center" width="" style="padding-top:18px;display:none">').text(Sendlist[i].processSerial),
+	                		$('<td align="center" width="10%" style="padding-top:18px">').text(Sendlist[i].transtype),
+	                		$('<td align="center" width="15%" style="padding-top:18px">').text(Sendlist[i].cardno),
+							$('<td align="center" width="6%" style="padding-top:18px;display:none">').text(Sendlist[i].localhost),
+	                        $('<td align="center" width="8%" style="padding-top:18px">').text(Sendlist[i].localhostname),
+	                        $('<td align="center" width="6%" style="padding-top:18px">').text(Sendlist[i].tamount),
+	                        $('<td align="center" width="6%" style="padding-top:18px">').text(Sendlist[i].vamount),
+	                        $('<td align="center" width="6%" style="padding-top:18px">').text(Sendlist[i].ramount/100),
+	                     	$('<td align="center" width="8%" style="">').html(feild),
+	                        $('<td align="center" width="7.4%" style="">').html(button)
+	                ));
+	                $('#comment').html("");
+		    	}
+		    		  var rows = document.getElementById("crowntable").rows.length - 1;
+		    		//alert( $("#crowntable>tbody").html())
+    				fillTable(50 - rows);
+		   
+    		if(sign){//保持页面的显示
+    			//dispaly();
+    		}
+    		//$('.dropdown-toggle2').dropdown();//激活下拉框
+    		//$("#myModalLabel1").html("正在处理<br>请稍后...")
+    		$("#wait1").css("display","none");
+    		$("#button1").attr("onclick","");
+    		$("#button1").css("display","block");
+    		$('#myModal1').modal('hide');
+		}
+	});
+
+	  isRunning = false;
+}
+
+function select(value){
+
+  $('#btnname').html(value);
+	var table = document.getElementById("crowntable");
+	var rows = table.rows.length;
+	var sum = 0;
+	var esum =0;
+		for(i=0;i<rows;i++){
+		
+			if(!isNaN(table.rows[i].cells[2].innerHTML)){
+				esum ++;
+			
+			}
+		}
+	
+	for(r=0;r<esum;r++){
+		var  localhost = table.rows[r].cells[7].innerHTML;
+		if((localhost=='VF'||localhost=='JF' )&& value=='应退客户交易') {		
+			table.rows[r].style.display ="";	
+			sum ++;		
+     	}else if((localhost=='DF'||localhost=='SF'||localhost=='PF'||localhost=='RT'||localhost=='PT' ) && value=='不退客户交易') {		
+			table.rows[r].style.display ="";	
+			sum ++;		
+     	}else if((localhost=='TF'||localhost=='AT'||localhost=='AE'||localhost=='AR' )&& value=='通讯异常交易') {		
+			table.rows[r].style.display ="";	
+			sum ++;		
+     	}else if( value=='所有异常交易') 	{	
+			table.rows[r].style.display ="";
+			sum = esum
+ 		}else{
+     		table.rows[r].style.display ="none";
+ 		}		    	
+	}
+	$('#sum').html(sum+"笔");
+}
+
+
+function submit(id,type){
+	
+	var list="";
+	var table = document.getElementById("crowntable");
+	var rows = table.rows.length;
+	//交易日期
+	var transDate = table.rows[id].cells[1].innerHTML;
+
+	//交易时间
+	var transTime = table.rows[id].cells[2].innerHTML;
+	//交易流水号
+	var transSerialNo = table.rows[id].cells[3].innerHTML;
+	
+	//交易类型
+	var transTypeEn = table.rows[id].cells[4].innerHTML;
+	//本机流水号
+	var processSerial = table.rows[id].cells[5].innerHTML;
+	
+	//交易类型
+	var transType = table.rows[id].cells[6].innerHTML;
+	//卡号
+	var account = table.rows[id].cells[7].innerHTML;
+	//返回码
+	var localCode = table.rows[id].cells[8].innerHTML;
+	//交易金额
+	var transAmount = table.rows[id].cells[10].innerHTML*100;
+	//回收张数
+	var retractAmount = table.rows[id].cells[11].innerHTML*100;
+	
+	list= transDate+","+transSerialNo+","+account+","+transTypeEn+","+localCode+","+transAmount+","+retractAmount+","+processSerial+","+type+","+transType+","+id+","+transTime			
+	if(type==3){
+		//dispose(list,2);
+		sendUp2(id,2);
+	}else{
+	$("#myModalLabel1").html("正在进行账务处理<br>请稍后...")
+	$("#wait1").css("display","block");
+	$('#myModal1').modal('show');
+	$("#button1").attr("onclick","");
+	$("#button1").css("display","none");
+	$.ajax({
+		url: data,
+		cache: false,
+		type: "post",		
+		data: "commandID=data-accounts-flat-submit&list="+list,
+		dataType: 'json',
+		success: function(data) {
+		if(data.message=="交易成功1"){
+			$("#myModalLabel1").html("交易处理成功")
+			$("#wait1").css("display","none");
+			$("#cancelbutton1").css("display","none");
+			$("#cancelbutton").css("display","block");
+			$("#button1").attr("onclick","changeMark('已处理','"+id+"')");
+			$("#button1").css("display","block");
+			//changeMark("已处理",id);
+			//交易成功信息 不做上送			
+			//getLog();
+			
+		}else{
+			$("#myModalLabel1").html(data.message)
+			$("#wait1").css("display","none");
+			$("#cancelbutton").css("display","none");
+			$("#cancelbutton1").css("display","block");
+			$("#button3").attr("onclick","sendUp2('"+id+"',1)");
+			
+		}
+				// alert(data.message)
+				
+		    
+		}
+	});
+	 
+}
+}
+
+function dispaly(){
+
+
+	var table = document.getElementById("crowntable");
+	var rows = table.rows.length;
+	var esum =0;
+		for(i=0;i<rows;i++){
+			if(!isNaN(table.rows[i].cells[3].innerHTML)){
+				esum ++;
+			}
+		}
+		//alert(esum)
+		for(r=0;r<esum;r++){
+		if((table.rows[r].cells[13].innerHTML==""||table.rows[r].cells[13].innerHTML.indexOf("已处理")>0)&&table.rows[r].style.display==""){
+			//alert(table.rows[r].cells[2].innerHTML)
+			table.rows[r].style.display ="none";
+			sign = true;
+		}else if(table.rows[r].style.display =="none"){
+			table.rows[r].style.display ="";
+			sign = false;
+		}
+		}
+}
+function changeMark(value,id){
+	
+	$("#myModalLabel1").html("正在处理<br>请稍后...")
+	$("#wait1").css("display","block");
+	$("#button1").attr("onclick","");
+	$("#button1").css("display","none");
+	$('#myModal1').modal('show');
+		var table = document.getElementById("crowntable");
+		var rows = table.rows.length;
+		//原交易流水号
+		var transSerialNo = table.rows[id].cells[3].innerHTML;
+		//本机流水号
+		var processSerial = table.rows[id].cells[5].innerHTML;
+		$.ajax({
+			url: data,
+			cache: false,
+			type: "post",		
+			data: "commandID=data-change-remark&processSerial="+processSerial+"&value="+value,
+			dataType: 'json',
+			success: function(data) {
+			if(data.message!='ok'){
+				$("#myModalLabel1").html("数据修改失败</br>请与管理员联系")
+				$("#wait1").css("display","none");
+				$("#button1").attr("onclick","");
+				$("#button1").css("display","block");
+			}else{
+				 $('#remark'+id).html(""+value+"");
+				 if(value=="已处理"){
+					 $("#btn"+id).attr("class","dropdown-toggle2 btn btn-info")
+				 }else{
+					 $("#btn"+id).attr("class","dropdown-toggle2 btn btn-danger")
+				 }
+				  fillTable(50);
+				  getLog();
+			}
+			
+			
+			}
+
+		});
+}
+
+function dispose(list,statue){
+if(statue == 1){//待完善
+$("#comment2").html("注意：该条信息需要在监控端进行信息确认")
+}else{
+$("#comment2").html("注意：请核实输入的信息，提交后将不能进行修改！")
+}
+//清除信息
+	$('#mark0').html("请选择处理结果");							//手工选择处理结果
+	//document.getElementById("date").value="";		//手工输入日期
+	document.getElementById("serialNo").value="";//手工输入处理流水
+	document.getElementById("other").value="";		//手工输入处理结果   其他
+	document.getElementById("amount").value="";	//手工输入处理金额
+	document.getElementById("admin").value="";		//手工输入经办人
+	document.getElementById("review").value="";	//手工输入复核人
+	document.getElementById("other").value="";	//手工输入复核人
+	$("#other").css("display","none");
+
+
+	$("#myModalLabel2").html("智能自助柜台(STM)异常交易处理登记薄")
+	$("#cancelbutton2").css("display","block");
+	$('#myModal2').modal('show');
+	var tmp = list.split(",");
+	
+	$('#transDate').html(tmp[0]);
+	$('#transSerialNo').html(tmp[1]);
+	$('#account').html(tmp[2]);
+	$('#transAmount').html(tmp[5]/100);
+	$('#transType').html(tmp[9]);
+	$("#button5").attr("onclick","sendUp('"+tmp[10]+"','"+statue+"')");
+	
+	//list= transDate+","+transSerialNo+","+account+","+transTypeEn+","+localCode+","+transAmount+","+retractAmount+","+processSerial+","+type
+
+}
+
+function change(value){
+	$('#mark0').html(value);
+	if(value=="其他"){
+	$("#other").css("display","block");
+	}else{
+	$("#other").css("display","none");
+	}
+
+}
+
+function sendUp(id,statue){
+
+	var table = document.getElementById("crowntable");
+	var rows = table.rows.length;
+	var date = table.rows[id].cells[1].innerHTML; //原交易流水号
+	var time = table.rows[id].cells[2].innerHTML; 	//本机流水号
+	var transSerialNo = table.rows[id].cells[3].innerHTML; //原交易流水号
+	var processSerial = table.rows[id].cells[5].innerHTML; 	//本机流水号
+	var localhost = table.rows[id].cells[8].innerHTML; 	//原交易本机完成码
+	var localhostname = table.rows[id].cells[9].innerHTML; 	//原交易本机完成码名称
+	var vamount	= table.rows[id].cells[11].innerHTML; 	//原交易点钞金额
+	var ramount	= table.rows[id].cells[12].innerHTML; 	//回收张数
+	
+ 	var transDate = $('#transDate').text()//原交易时间
+    var transType =  $('#transType').text()//原交易类型
+    var account =  $('#account').text()//原交易账号
+    var transAmount =  $('#transAmount').text()//原交易金额
+    
+    
+    var terminalID =  $('#terminalID').text()  //原交易设备号
+    
+	var mark = $('#mark0').html();							//手工选择处理结果
+	var date = document.getElementById("date").value;		//手工输入日期
+	var serialNo = document.getElementById("serialNo").value;//手工输入处理流水
+	var other = document.getElementById("other").value;		//手工输入处理结果   其他
+	var amount = document.getElementById("amount").value;	//手工输入处理金额
+	var admin = document.getElementById("admin").value;		//手工输入经办人
+	var review = document.getElementById("review").value;	//手工输入复核人
+	var sendUpList = "";//上送V端数据
+		
+	
+	if(mark == "请选择处理结果"){
+	$("#markbutton").attr("data-content","请选择处理结果");
+  	$("#markbutton").popover('show');
+  	isRunning = false;
+	return;
+	}
+	if(mark == "其他"&&other==""){
+	$("#other").attr("data-content","请输入处理结果");
+  	$("#other").popover('show');
+  	isRunning = false;
+	return;
+	}
+	
+	if (date.length ==0) {
+ 	$("#date").attr("data-content","处理日期不能为空");
+  	$("#date").popover('show')
+		document.getElementById("date").value = "";
+		document.getElementById("date").focus();
+		isRunning = false;
+		return;
+	}
+	if (date.length < 8) {
+	$("#date").attr("data-content","日期输入长度为8位");
+  	$("#date").popover('show')
+		document.getElementById("date").value = "";
+		document.getElementById("date").focus();
+		isRunning = false;
+		return;
+	}
+	if (parseInt(date.substring(0, 4)) < validateYear) {
+		$("#date").attr("data-content","输入的日期过早");
+  		$("#date").popover('show')
+		document.getElementById("date").value = "";
+		document.getElementById("date").focus();
+		isRunning = false;
+		return;
+	}
+	if (parseInt(date) > parseInt(formatdate(new Date()))) {
+		$("#date").attr("data-content","日期不能大于今天");
+  		$("#date").popover('show');
+		document.getElementById("date").value = "";
+		document.getElementById("date").focus();
+		isRunning = false;
+		return;
+	}
+	if (serialNo.length < 1) {
+ 	$("#serialNo").attr("data-content","处理流水号不能为空");
+  	$("#serialNo").popover('show')
+		document.getElementById("serialNo").value = "";
+		document.getElementById("serialNo").focus();
+		isRunning = false;
+		return;
+	}
+	if (serialNo.length !=19 ) {
+ 	$("#serialNo").attr("data-content","处理流水号必须为19位");
+  	$("#serialNo").popover('show')
+		document.getElementById("serialNo").focus();
+		isRunning = false;
+		return;
+	}
+	if (amount.length <=0 ) {
+ 	$("#amount").attr("data-content","请输入处理金额");
+  	$("#amount").popover('show')
+		document.getElementById("serialNo").focus();
+		isRunning = false;
+		return;
+	}
+	if (admin.length <=0 ) {
+ 	$("#admin").attr("data-content","请输入处理经办人");
+  	$("#admin").popover('show')
+		document.getElementById("serialNo").focus();
+		isRunning = false;
+		return;
+	}
+	if (review.length <=0 ) {
+ 	$("#review").attr("data-content","请输入复合人");
+  	$("#review").popover('show')
+		document.getElementById("serialNo").focus();
+		isRunning = false;
+		return;
+	
+	}
+	
+		if(mark == "其他"){
+		mark = other;
+		}
+	
+	sendUpList = transSerialNo+","+processSerial+","+localhost+","+localhostname+","+date+","+transType+","+account+","+transAmount+","+vamount+","+ramount+","+terminalID+","+mark+","+date+","+serialNo+","+amount+","+admin+","+review+","+statue+","+time
+	Hide();
+	$('#myModal2').modal('hide');
+	$("#myModalLabel1").html("正在上送监控端<br>请稍后...")
+	$("#wait1").css("display","block");
+	$("#button1").attr("onclick","");
+	$("#button1").css("display","none");
+	$('#myModal1').modal('show');
+	$("#cancelbutton1").css("display","none");
+	 
+	
+	$.ajax({
+			url: data,
+			cache: false,
+			type: "post",		
+			data: "commandID=data-change-remark-sendUp&processSerial="+processSerial+"&value=已处理"+"&sendUpList="+sendUpList,
+			dataType: 'json',
+			success: function(data) {
+				if(data.message!='ok'){
+				$("#myModalLabel1").html("数据修改失败，上送监控失败</br>请与管理员联系")
+				$("#wait1").css("display","none");
+				$("#cancelbutton").css("display","block");
+				$("#button1").attr("onclick","");
+				$("#button1").css("display","block");
+			}else{
+				$("#myModalLabel1").html("上送监控成功")
+				$("#wait1").css("display","none");
+				$("#button1").attr("onclick","");
+				$("#cancelbutton1").css("display","none");
+				$("#cancelbutton").css("display","block");
+				$("#button1").attr("onclick","getLog()");
+				$("#button1").css("display","block");
+				 $('#remark'+id).html("已处理");
+				 $("#btn"+id).attr("class","dropdown-toggle2 btn btn-info")
+				
+				 // fillTable(50);
+				//  getLog();
+			}
+			 
+			 
+			}
+
+		});	
+	 
+}
+
+function sendUp2(id,statue){
+	statue = 1;//0未处理(不可修改,等待STM上报),1待处理(监控系统可修改，修改后变为已处理),2已处理(监控系统不可修改)
+	var table = document.getElementById("crowntable");
+	var rows = table.rows.length;
+	var date = table.rows[id].cells[1].innerHTML; //原交易日期
+	var time = table.rows[id].cells[2].innerHTML; 	//本机流水号
+	var transSerialNo = table.rows[id].cells[3].innerHTML; //原交易流水号
+	var transType =  table.rows[id].cells[4].innerHTML;//原交易类型
+
+	var processSerial = table.rows[id].cells[5].innerHTML; 	//本机流水号
+    var account =  table.rows[id].cells[7].innerHTML;//原交易账号
+	var localhost = table.rows[id].cells[8].innerHTML; 	//原交易本机完成码
+	var localhostname = table.rows[id].cells[9].innerHTML; 	//原交易本机完成码名称
+    var transAmount =  table.rows[id].cells[10].innerHTML;//原交易金额
+	var vamount	= table.rows[id].cells[11].innerHTML; 	//原交易点钞金额
+	var ramount	= table.rows[id].cells[12].innerHTML; 	//回收张数
+ 	var transDate = table.rows[id].cells[1].innerHTML//原交易时间
+		transDate = transDate.replace(/-/g,"");
+    var terminalID =  $('#terminalID').text()  //原交易设备号
+    
+    
+	var mark = $('#mark0').html();							//手工选择处理结果
+	mark = "";
+	var date = document.getElementById("date").value;		//手工输入日期
+	date	= "";
+	var serialNo = document.getElementById("serialNo").value;//手工输入处理流水
+	var other = document.getElementById("other").value;		//手工输入处理结果   其他
+	var amount = document.getElementById("amount").value;	//手工输入处理金额
+	var admin = document.getElementById("admin").value;		//手工输入经办人
+	var review = document.getElementById("review").value;	//手工输入复核人
+	var sendUpList = "";//上送V端数据
+		
+	
+	sendUpList = transSerialNo+","+processSerial+","+localhost+","+localhostname+","+transDate+","+transType+","+account+","+transAmount+","+vamount+","+ramount+","+terminalID+","+mark+","+date+","+serialNo+","+amount+","+admin+","+review+","+statue+","+time
+	
+	Hide();
+	$('#myModal2').modal('hide');
+	$("#myModalLabel1").html("正在上送监控端<br>请稍后...")
+	$("#wait1").css("display","block");
+	$("#button1").attr("onclick","");
+	$("#button1").css("display","none");
+	$('#myModal1').modal('show');
+	$("#cancelbutton1").css("display","none");
+	 
+	
+	$.ajax({
+			url: data,
+			cache: false,
+			type: "post",		
+			data: "commandID=data-change-remark-sendUp&processSerial="+processSerial+"&value=已处理"+"&sendUpList="+sendUpList,
+			dataType: 'json',
+			success: function(data) {
+				if(data.message!='ok'){
+				$("#myModalLabel1").html("数据修改失败，上送监控失败</br>请与管理员联系")
+				$("#wait1").css("display","none");
+				$("#cancelbutton").css("display","block");
+				$("#button1").attr("onclick","");
+				$("#button1").css("display","block");
+			}else{
+			
+				 //$("#myModalLabel1").html("上送监控成功")
+				 //$("#wait1").css("display","none");
+				 //$("#button1").attr("onclick","");
+				 //$("#cancelbutton1").css("display","none");
+				 //$("#cancelbutton").css("display","block");
+				 //$("#button1").attr("onclick","getLog()");
+				 //$("#button1").css("display","block");
+				  $('#remark'+id).html("已处理");
+				  $("#btn"+id).attr("class","dropdown-toggle2 btn btn-info")
+				  getLog();
+				 // fillTable(50);
+				//  getLog();
+			}
+			 
+			 
+			}
+
+		});	
+	 
+}
+
+//批量上送监控
+function batchSendUp(){
+	var checkboxs = document.getElementsByName('checkbox');
+	var sendUpList = "";//上送V端数据
+
+	
+for(var i=0;i<checkboxs.length;i++){
+	if(checkboxs[i].checked == true&&$("#"+checkboxs[i].id).css("display")!="none"){
+	var id = checkboxs[i].id.substring(8)
+	statue = 1;//0未处理(不可修改,等待STM上报),1待处理(监控系统可修改，修改后变为已处理),2已处理(监控系统不可修改)
+	var table = document.getElementById("crowntable");
+	var rows = table.rows.length;
+	var date = table.rows[id].cells[1].innerHTML; //原交易日期
+	var time = table.rows[id].cells[2].innerHTML; 	//本机流水号
+	var transSerialNo = table.rows[id].cells[3].innerHTML; //原交易流水号
+	var transType =  table.rows[id].cells[4].innerHTML;//原交易类型
+	var processSerial = table.rows[id].cells[5].innerHTML; 	//本机流水号
+    var account =  table.rows[id].cells[7].innerHTML;//原交易账号
+	var localhost = table.rows[id].cells[8].innerHTML; 	//原交易本机完成码
+	var localhostname = table.rows[id].cells[9].innerHTML; 	//原交易本机完成码名称
+    var transAmount =  table.rows[id].cells[10].innerHTML;//原交易金额
+	var vamount	= table.rows[id].cells[11].innerHTML; 	//原交易点钞金额
+	var ramount	= table.rows[id].cells[12].innerHTML; 	//回收张数
+ 	var transDate = table.rows[id].cells[1].innerHTML;//原交易时间
+ 		transDate = transDate.replace(/-/g,"");
+    var terminalID =  $('#terminalID').text()  //原交易设备号
+	var mark = $('#mark0').html();							//手工选择处理结果
+	mark = "";
+	var date = document.getElementById("date").value;		//手工输入日期
+	date	= "";
+	var serialNo = document.getElementById("serialNo").value;//手工输入处理流水
+	var other = document.getElementById("other").value;		//手工输入处理结果   其他
+	var amount = document.getElementById("amount").value;	//手工输入处理金额
+	var admin = document.getElementById("admin").value;		//手工输入经办人
+	var review = document.getElementById("review").value;	//手工输入复核人
+	
+	
+	sendUpList += transSerialNo+","+processSerial+","+localhost+","+localhostname+","+transDate+","+transType+","+account+","+transAmount+","+vamount+","+ramount+","+terminalID+","+mark+","+date+","+serialNo+","+amount+","+admin+","+review+","+statue+","+time+",|"
+	
+		}
+	}
+	if(sendUpList.length>0){
+		$('#myModal2').modal('hide');
+		$("#myModalLabel1").html("正在上送监控端<br>请稍后...")
+		$("#wait1").css("display","block");
+		$("#button1").attr("onclick","");
+		$("#button1").css("display","none");
+		$('#myModal1').modal('show');
+		$("#cancelbutton1").css("display","none");
+	$.ajax({
+			url: data,
+			cache: false,
+			type: "post",		
+			data: "commandID=data-change-remark-batchSendUp&value=已处理"+"&sendUpList="+sendUpList,
+			dataType: 'json',
+			success: function(data) {
+				if(data.message!='ok'){
+				$("#myModalLabel1").html("数据修改失败，上送监控失败</br>请与管理员联系")
+				$("#wait1").css("display","none");
+				$("#cancelbutton").css("display","block");
+				$("#button1").attr("onclick","");
+				$("#button1").css("display","block");
+			}else{
+			
+				 //$("#myModalLabel1").html("上送监控成功")
+				 //$("#wait1").css("display","none");
+				 //$("#button1").attr("onclick","");
+				 //$("#cancelbutton1").css("display","none");
+				 //$("#cancelbutton").css("display","block");
+				 //$("#button1").attr("onclick","getLog()");
+				 //$("#button1").css("display","block");
+				  $('#remark'+id).html("已处理");
+				  $("#btn"+id).attr("class","dropdown-toggle2 btn btn-info")
+					getLog();
+				 // fillTable(50);
+			}
+			 
+			 
+			}
+
+		});	
+	}
+}
+function checkInput(id) { //清除提示框
+var ev = window.event;
+
+	if(ev.keyCode==65){
+		//document.getElementById(id).value = "";
+	}
+	if(ev.keyCode!= 13){
+	$("#date").popover('destroy');
+	$("#serialNo").popover('destroy');
+	$("#markbutton").popover('destroy');
+	$("#other").popover('destroy');
+	$("#amount").popover('destroy');
+	$("#admin").popover('destroy');
+	$("#review").popover('destroy');
+		
+	}
+
+}
+
+
+function checkAll(){
+	var checkAll = $("#checkAll").html();
+	var checkboxs = document.getElementsByName('checkbox');
+	if(checkAll=="全选"){
+	$("#checkAll").html('反选');
+	for(var i=0;i<checkboxs.length;i++){
+	checkboxs[i].checked = true;
+	}
+	}else{ 
+	$("#checkAll").html('全选');
+	
+	for(var i=0;i<checkboxs.length;i++){
+	checkboxs[i].checked = false;
+	}
+	
+	}
+}
+    </script>
+</head>
+<h2 id="head" class="text-center">账务管理</h2>
+<div id="content">
+  <div class="col-xs-offset-0 col-xs-12"style="border:0px #FFFFFF solid;">
+    <div class="row ">
+
+    </br>
+      <div class="col-xs-offset- col-xs-3" >
+        <div class="input-group input-group"> <span class="input-group-addon fg-black">核心尾箱余额</span>
+          <input type="text"  id="stockAmount"  class="form-control" data-container="body"  data-placement="bottom" 
+       readonly class="form-control" data-html="true" value="">
+        </div>
+      </div>
+      
+       <div class="col-xs-offset-0 col-xs-3">
+        <div class="input-group input-group"> <span class="input-group-addon fg-black">钞箱总金额</span>
+          <input type="text"  id="boxesAmount" value="" class="form-control" data-container="body"  data-placement="bottom" 
+      readonly class="form-control" data-html="true" value="">
+        </div>
+      </div>
+      
+      <div class="col-xs-offset-0 col-xs-3">
+      <div class="input-group input-group"> <span class="input-group-addon fg-black">回收箱张数</span>
+        <input type="text"  id="rAmount" value="" class="form-control" data-container="body"  data-placement="bottom" 
+    readonly class="form-control" data-html="true" value="">
+      </div>
+    </div>
+    
+       <div class="col-xs-offset-0 col-xs-3">
+      <div class="input-group input-group"> <span class="input-group-addon fg-black">废钞箱张数</span>
+        <input type="text"  id="jAmount" value="" class="form-control" data-container="body"  data-placement="bottom" 
+    readonly class="form-control" data-html="true" value="">
+      </div>
+    </div>
+    <!--   
+      //Split button 
+<div class="btn-group col-xs-offset-0 col-xs-2 ">
+ <div class="input-group input-group"> 
+ <span class="input-group-addon fg-black" style="width:40px"id="sum">0笔</span>
+  <button type="button" class="btn fg-black" style="width:110px;border-radius:0px 4px 4px 0px;" id="btnname" >所有异常交易</button>
+  <button type="button" class="btn  dropdown-toggle1" data-toggle="dropdown" style="border-radius:4px 4px 4px 4px">
+    <span class="caret fg-black"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+  
+    <li ><a onclick=select("应退客户交易") id="type1" style="text-align:center">应退客户交易</a></li>
+     <li class="divider"></li>
+    <li><a onclick=select("不退客户交易") id="type2" style="text-align:center">不退客户交易</a></li>
+    <li class="divider"></li>
+    <li><a onclick=select("通讯异常交易") id="type3" style="text-align:center">通讯异常交易</a></li>
+    <li class="divider"></li>
+    <li><a onclick=select("所有异常交易") id="type3" style="text-align:center">所有异常交易</a></li>
+  </ul>
+</div>
+  </div>
+  -->
+  
+  
+    </div>
+     </br>
+
+    <div>
+  <div  class="" style="height:60px;overflow-x: hidden; overflow-y: hidden;">
+      <table id=""  class="table table-bordered " >
+          <tr style='background:#afcdff;color:#000'>
+           <td width="7%" align="center" style='' class="fg-black"><button type='button'  style='padding-bottom:5px'  class='btn btn-success' id='checkAll' onclick='checkAll()'>全选</button></td>
+            <td width="8%"  align="center" style='padding-top:15px' class="fg-black">日期</td>
+            <td width="6%"  align="center" style='padding-top:15px' class="fg-black">时间</td>
+          	<td width="7%"  align="center" style='padding-top:15px' class="fg-black">流水</td>
+            <td width="10%" align="center" style='padding-top:15px' class="fg-black">交易类型</td>
+            <td width="15%" align="center" style='padding-top:15px' class="fg-black">账号</td>
+           <!-- <td width="6%" align="center" style='padding-top:15px' class="fg-black">完成码</td>-->
+            <td width="8%" align="center" style='padding-top:15px' class="fg-black">完成码名称</td>
+            <td width="6%" align="center" style='padding-top:15px' class="fg-black">交易金额</td>
+            <td width="6%" align="center" style='padding-top:15px' class="fg-black">点钞金额</td>
+            <td width="6%" align="center" style='padding-top:15px' class="fg-black">回收张数</td>
+            <td width="8%" align="center" style='' class="fg-black"><button type='button'  style='padding-bottom:5px'  class='btn btn-success ' id='dispalyBtn' onclick='dispaly()'>处理标志</button></td>
+        <!--<td width="12%" align="center"  ><button type='button'  style='padding-bottom:5px'  class='btn btn-success ' id='dispalyBtn' onclick='dispaly()'>操作/筛选</button></td>-->
+            <td width="13%" align="center" style='padding-top:15px' class="fg-black">操作</td>
+            </tr> 
+    
+      </table>
+	</div>
+
+	
+  <div  class="tab-content" id="tab" style="height:365px;overflow-x: hidden; overflow-y: auto;">
+      <table id="crowntable"  class="table table-bordered " >
+
+        <tbody>
+        </tbody>
+      </table>
+	</div></br>
+	   <div  class="col-xs-offset-3 col-xs-6" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+      <label  class="fg-red"  style="color:black" id="comment">正在获取信息，请稍后。。。</label>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div id="foot" class="col-xs-offset-4 col-xs-4">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button" id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" id="confirm" name="enter" class="btn btn-success btn-lg" onclick="batchSendUp()" >批量上送</button>
+    </div>
+  </div>
+</div>
+<!-- Modal1 -->
+<div class="modal fade" id="myModal1"  data-backdrop="static"  data-keyboard="false"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class=" col-xs-offset-3 col-xs-6 alert alert-danger fade in" style="top:300px">
+      
+      <div class="modal-header text-center">
+        <h4 class="modal-title" id="myModalLabel1"></h4>
+        <i  id="wait1" style="color:blue;display:block"  class="fa fa-spinner fa-spin fa-5x text-primary " ></i>
+      </div>
+        <div class=" text-center" id="cancelbutton" style="display:none"> 
+             <button id="button1" style="disply:none" type="button" class="btn btn-primary col-xs-offset-4 col-xs-4" >确认</button>
+     	</div>
+     	<div class=" text-center" id="cancelbutton1" style="display:none"> 
+             <button id="button2" type="button" class="btn btn-danger col-xs-offset-1 col-xs-4" data-dismiss="modal"  onclick="Hide()">取消</button>
+             <button id="button3" type="button" class="btn btn-primary col-xs-offset-2 col-xs-4"  onclick="dispose()" >上送监控</button>
+     	</div>
+  </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<div class="modal fade" id="myModal2"  style="width:100%;border:0px #FFFFFF solid;" data-backdrop="static"  data-keyboard="false"   tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog " style="width:80%;">
+    <div class=" col-xs-offset-0 col-xs-12 alert alert-danger fade in" style="top:100px;">
+      
+      <div class="modal-header text-center">
+        <h4 class="modal-title" id="myModalLabel2"></h4>
+      </div>
+           
+      <table id=""  class="table table-bordered " style="padding-:500px;">
+          <tr style='background:#afcdff;'>
+            <td width="25%" align="center" class="fg-white">交易时间</td>
+            <td width="15%" align="center" class="fg-white">交易类型</td>
+          	<td width="20%" align="center" class="fg-white">账号</td>
+            <td width="10%" align="center" class="fg-white">交易金额</td>
+            <td width="10%" align="center" class="fg-white">设备编号</td>
+            <td width="10%" align="center" class="fg-white">流水号</td>
+          </tr>
+          <tr style='background;'>
+            <td  align="center" id="transDate" class="fg-black"></td>
+            <td  align="center" id="transType"	class="fg-black"></td>
+          	<td align="center"  id="account" class="fg-black"></td>
+            <td align="center" id="transAmount" class="fg-black"></td>
+            <td  align="center" id="terminalID" class="fg-black"></td>
+            <td  align="center" id="transSerialNo" class="fg-black"></td>
+          </tr>
+         <tr style='background:#afcdff;'>
+          <td align="center" class="fg-white">处理情况</td>
+            <td  align="center" class="fg-white">处理日期</td>
+          	<td align="center" class="fg-white">处理流水号</td>
+      	   <td  align="center" class="fg-white">处理金额</td>
+            <td  align="center" class="fg-white">处理经办人</td>
+            <td align="center" class="fg-white">复核人</td>
+          </tr>
+               <tr style='background;'>
+            <td  align="center"  id="" class="fg-black">
+            	<div class='btn-group' >
+			<button type='button' id='markbutton'  data-container="body"    data-placement="bottom"  data-html="true" style='border-radius:4px 4px 4px 4px' class='dropdown-toggle2 btn  btn-info' data-toggle='dropdown' onclick="checkInput(id)">
+			<sp id='mark0' >请选择处理结果</sp> <span class='caret'></span>
+			</button>
+			<ul class='dropdown-menu' role='menu'>
+			<li><a onclick=change('转入客户账') id='mark1' style='text-align:center'>转入客户账</a></li>
+			<li class='divider'></li>
+			<li><a onclick=change('转营业外支出')  id='mark2' style='text-align:center'>转营业外支出</a></li>
+			<li class='divider'></li>
+			<li><a onclick=change('转营业外收入')  id='mark3' style='text-align:center'>转营业外收入</a></li>
+			<li class='divider'></li>
+			<li><a onclick=change('其他')  id='mark4' style='text-align:center'>其他</a></li>
+			</ul>
+			     <input type="text"   style="width:190px;display:none;text-align:center" id="other"  maxlength="20" onclick="openkeysetAdmin(2,1100,500)" onkeyup="checkInput(id)" class="form-control" data-container="body"  data-placement="bottom" class="form-control" data-html="true" value="">
+       
+			</div>
+            </td>
+            <td  align="center"  class="fg-black">
+            <input type="text"   data-content="" id="date"      style='text-align:center'  maxlength="8" onclick="openkeysetAdmin(1,1100,500)" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-toggle="popover"  data-placement="bottom" class="form-control" data-html="true" value=""></td>
+          	<td  align="center"   class="fg-black">
+          	<input type="text"   data-content="" id="serialNo"  style='text-align:center' maxlength="19" onclick="openkeysetAdmin(1,1100,500)"onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-toggle="popover" data-placement="bottom" class="form-control" data-html="true" value=""></td>
+            <td align="center"  class="fg-black">
+            <input type="text"  id="amount"   style='text-align:center' maxlength="16" onclick="openkeysetAdmin(1,1100,500)" class="form-control" data-container="body"  data-placement="bottom" class="form-control" data-html="true" value=""></td>
+            <td  align="center"  class="fg-black">
+            <input type="text"  id="admin"  style='text-align:center'  maxlength="8" onclick="openkeysetAdmin(2,1100,500)" class="form-control" data-container="body"  data-placement="bottom" class="form-control" data-html="true" value=""></td>
+            <td  align="center"  class="fg-black">
+            <input type="text"  id="review"   style='text-align:center' maxlength="8" onclick="openkeysetAdmin(2,1100,500)" class="form-control" data-container="body"  data-placement="bottom" class="form-control" data-html="true" value=""></td>
+          </tr>
+      </table>
+      
+        <div class=" text-center" id="cancelbutton2" style="display:none"> 
+         <h4 class="modal-title" id="comment2" >注意：请核实输入的信息，提交后将不能进行修改！</h4>
+         </br>
+       		 <button id="button4" type="button" class="btn btn-danger col-xs-offset-4 col-xs-1" data-dismiss="modal"	onclick="checkInput(),Hide()" >取消</button>
+             <button id="button5" type="button" class="btn btn-primary col-xs-offset-2 col-xs-1" 	onclick="sendUp(id)">确认</button>
+     	</div>
+  </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>
+</body></html>

@@ -1,0 +1,174 @@
+<script language="JavaScript" type="text/JavaScript"> 
+document.getElementById("MUSIC1").src = "wav/请按指纹.wav";
+creatTree(0,"指纹授权");
+
+$.ajax({
+ 	     url: "/custom/document",
+ 	    cache: false,
+ 	    type: "get",
+ 	    data: "commandID=haveSignImg",
+ 	    dataType: 'json',
+ 	    success: function(data) {
+			if((data.messageText).length >= 1){
+				document.getElementById("img").src ="d:/sign.png"+"?"+Math.random();
+			}
+ 	    }
+ 	});
+self.setTimeout("formatAddress(80)", 10);
+
+//参数为 每隔多少字符插入进行一次断行
+function formatAddress(flag){
+	var address = $("#address").html();
+    var newstr = "";
+    for(var i=0;i<address.length;i+=flag){
+        var tmp=address.substring(i, i+flag);
+        newstr+=tmp+"</br>";
+    }
+     $("#useraddress").html(newstr);
+	 
+	 var SNotice = $("#SNotice").html();
+    var newstrtwo = "";
+    for(var j=0;j<SNotice.length;j+=flag){
+        var tmptwo=SNotice.substring(j, j+flag);
+        newstrtwo+=tmptwo+"</br>";
+    }
+     $("#userSNotice").html(newstrtwo);
+}
+</script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+</style>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49
+id="HandWrite">
+</object>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+ <h1 class="text-center">江苏农村商业银行手机银行签约申请单</h1>
+ </div>
+ </br>
+<div class="cook-content">
+ 
+
+<table class="col-xs-12 balance " border="1" style="height:200px">
+        <tr>
+            <td ><th class="col-xs-3" style="font-size:18px">客户姓名:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.PBankSignDetail.split('@')[2]}}</td>
+			<td><th class="col-xs-3"style="font-size:18px">交易类型:</th></td>
+            <td class="col-xs-3"style="font-size:18px">手机银行签约</td>
+        </tr>
+		<tr>
+			<td><th class="col-xs-3"style="font-size:18px">帐号:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.cardNo}}</td>
+            <td><th class="col-xs-3"style="font-size:18px">签约手机号:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.mobile}}</td>
+        </tr>
+        <tr>
+            <td><th class="col-xs-3"style="font-size:18px">证件号码:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.pid}}</td>
+            <td><th class="col-xs-3"style="font-size:18px">证件类型:</th></td>
+            <td class="col-xs-3"style="font-size:18px">身份证</td>
+        </tr>
+
+        <tr>
+			<td><th class="col-xs-3"style="font-size:18px">手机银行客户号:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.PBankSignDetail.split('@')[0]}}</td>
+            <td><th class="col-xs-3"style="font-size:18px">核心客户号:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.PBankSignDetail.split('@')[13]}}</td>
+        </tr>
+        
+		<tr ng-if="pool.PIsEBank=='开通'">
+            <td><span style="font-size:15px;color:#000000">网上银行是否开通:</span></td>
+            <td style=""><span style="font-size:15px;color:#000000;">开通</span></td>
+            <td ><span style="font-size:15px;color:#000000;">网上银行认证方式:</span></td>
+            <td ng-if="pool.PIsUkeyType=='1'"><span style="font-size:15px;color:#000000;">一代令</span></td>
+</tr>
+		
+<tr ng-if="pool.PIsMobileBank=='开通'">
+            <td><span style="font-size:15px;color:#000000">手机银行是否开通:</span></td>
+            <td style=""><span style="font-size:15px;color:#000000;">开通</span></td>
+            <td><span style="font-size:15px;color:#000000;">手机银行认证方式:</span></td>
+            <td  ng-if="pool.PIsMessType!='1' && pool.PMoUkeyType=='1'"><span style="font-size:15px;color:#000000;">一代令</span></td>
+			<td  ng-if="pool.PIsMessType=='1' && pool.PMoUkeyType!='1'"><span style="font-size:15px;color:#000000;">短信认证</span></td>
+			<td ng-if="pool.PIsMessType=='1' && pool.PMoUkeyType=='1'"><span style="font-size:15px;color:#000000;">一代令、短信认证</span></td>
+ </tr>
+		<!-- <tr>
+            <td><th class="col-xs-3"style="font-size:18px">转账单笔限额:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.ST_TRFOneLimitAmount}}</td>
+            <td><th class="col-xs-3"style="font-size:18px">转账日累计限额:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.ST_TRFDayLimitAmount}}</td>
+        </tr> -->
+		<tr ng-if="'1' == pool.PIsMessType">
+            <td><th class="col-xs-3"style="font-size:18px">短信单笔限额:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.ST_MessOneLimitAmount}}</td>
+            <td><th class="col-xs-3"style="font-size:18px">短信单日限额:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.ST_MessDayLimitAmount}}</td>
+        </tr>
+		<tr>
+            <td><th class="col-xs-3"style="font-size:18px">是否开通行内转账:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.ST_BankInnerTransfer}}</td>
+            <td><th class="col-xs-3"style="font-size:18px">是否开通跨行转账:</th></td>
+            <td class="col-xs-3"style="font-size:18px">{{pool.ST_CrossBankTransfer}}</td>
+        </tr>
+		<tr ng-if="null != pool.ST_SecretNotice">
+			<td ><th class="col-xs-3"style="font-size:18px;">预留信息:</th></td>
+			<td colspan = 4 class="col-xs-3"><span style="font-size:18px;" id="userSNotice"></span></td>
+		</tr>
+        <tr style="display:none">
+			<td colspan = 4 class="col-xs-3"><span id="SNotice">{{pool.ST_SecretNotice}}</span></td>
+		</tr>
+		<tr>
+			<td ><th class="col-xs-3"style="font-size:18px;">联系地址:</th></td>
+			<td colspan = 4 class="col-xs-3"><span style="font-size:18px;" id="useraddress"></span></td>
+		</tr>
+        <tr style="display:none">
+			<td colspan = 4 class="col-xs-3"><span id="address">{{pool.address}}</span></td>
+		</tr>
+    </table>
+
+<table style="margin-left:11.5%" >
+    <tr>
+		<td width="10%">
+			<span style="font-size:20px;font-weight:bold;color:#000000;">联网核查照片:</span>
+        </td>
+        <td width="7%">
+		 <span style="font-size:20px;font-weight:bold;color:#000000;">现场审核照片:</span>
+        </td>
+   </tr>
+  <tr>
+		<td>
+			<img src="D:/ID_Photos/Card.jpg" style="width:18%; border:1px red solid">
+       </td>
+       <td>
+		   <img src="D:/FaceImg.jpg" style="width:40%;border:1px red solid">
+       </td>
+ </tr>
+<table>
+
+<div style="margin-top:7%;margin-left:12%;">
+<!-- <span style="color:#000000">
+银行盖章:
+</span> -->
+<span style="margin-left:50%;color:#000000" onclick="Show(5,1,280,300)">
+客户签名:_______________<span id="span"></span>
+</span>
+<span id="notice"  style="position:fixed;width:9%; height:9%;top:68%;left:65%;color:red;"></span>
+<img id="img" src=""  style="position:fixed;width:8%; height:8%;top:65%;left:65%;"></span>
+</div>
+
+<div id="saveS" style="display:none;position:fixed;top:55%;left:85%"><button type="button" class="button-confirm button-lg1 pull-right"  onclick="SaveSignal()">保存</button></div>
+<div id="clearS" style="display:none;position:fixed;top:65%;left:85%"><button type="button" class="button-confirm button-lg1 pull-right"  onclick="ClearSignal()">清除</button></div>
+<div style="margin-top:14%;">
+	    <h1 class="text-center" style="display:block;color:#000000">请银行工作人员授权</h1>
+	    </br>
+	    <h3 class="text-center" style="display:block;color:#000000">请将手指在指纹仪上长按&nbsp;<label id="time" style="width:50px;color:red;">5</label>&nbsp;秒后抬起!</h3>
+	</div>
+ </div>
+ 

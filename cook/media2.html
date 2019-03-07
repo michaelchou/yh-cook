@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Media2</title>
+<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link href="css/media2.css" rel="stylesheet" type="text/css" />
+<!-- 加载AnyChat for Web SDK库  -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="javascript/anychatsdk.js"></script>
+<script language="javascript" type="text/javascript" src="javascript/anychatobject.js"></script>
+<script language="javascript" type="text/javascript" src="js/media2.js"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-default" role="navigation" style="display:none">
+        <ul class="nav navbar-nav navbar-left">
+            <li><a href="#" onclick="MediaInit()">连接视频</a></li>
+            <li><a href="#">数据传送</a></li>
+            <li><a href="#">文件传送</a></li>
+        </ul>
+        <ul id="callLayer" class="nav navbar-nav navbar-left">
+            <li><p id="queueMsg1" class="navbar-text">当前排队共：<strong></strong> 人，您现在排在第 <strong></strong> 位，已等待时长：<strong></strong> </p></li>
+            <li><button type="button" class="btn btn-default navbar-btn" onclick="MediaLeaveQueue()">取消排队</button></li>
+        </ul>
+        <ul id="mediaHangUp" class="nav navbar-nav navbar-left">
+            <li><button type="button" class="btn btn-danger navbar-btn" onclick="MediaHangUp()">挂断</button></li>
+        </ul>
+    </nav>
+
+
+        <div id="remoteVideoPos" class="videoRemote"></div>
+        <div id="localVideoPos" class="videoLocal"></div>
+    <!--
+    <center>
+    <div class="callBox">
+
+    <div id="videoCall">
+        <div style="padding:15px;">
+            <div id="videoCallContent">
+                <div id="VideoShowDiv" style="display:block;margin-left:-80px;">
+                    <div id="remoteVideoPos" class="videoshow0"></div>
+                    <div id="localVideoPos" class="videoshow1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </center>
+-->
+
+	<!-- 信息提示层 -->
+	<div id="SessionPrompt_Div"></div>
+	<!-- 日志输出层 -->
+	<div id="LOG_DIV_BODY">
+		<div id="LOG_DIV_TITLE">系统日志<b title="最小化">—</b></div>
+		<div id="LOG_DIV_CONTENT"></div>
+		<iframe frameborder=0 scrolling=no allowtransparency=true></iframe>
+	</div>
+	<div class="showBox">
+		<span id="icon"></span>
+		<span class="log_btn" id="showLog">显示日志</span>
+	</div>
+
+</body>
+</html>

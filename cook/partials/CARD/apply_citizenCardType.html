@@ -1,0 +1,90 @@
+<script>
+creatTree(0,"选卡类型");
+
+var scope = angular.element(main).scope();
+scope.$watch('pool.detail', function(){
+if(undefined!=scope.pool["detail"]){
+	var details = scope.pool["detail"].split('#')
+	var ST_Count = scope.pool["ST_Count"]
+	var flag = 0
+	for(var i = 0; i < details.length; i ++){
+		var _detail = details[i].split('@')
+		if(_detail[0]!='0605'){
+			
+		}else if(_detail[0]=='0605' && ST_Count=='00000' && scope.pool["Trans_CitizenCardBusi"] =='1'){
+			flag += 1
+		}else if(_detail[0]=='0605' && scope.pool["Trans_CitizenCardBusi"] =='2'){
+			flag += 1
+		}else if(_detail[0]=='0605' && scope.pool["Trans_CitizenCardBusi"] =='3'){
+			flag += 1
+		}
+	}
+	if(flag < 1){
+		document.getElementById("showMsg").innerHTML ="提示：无可选的发卡类型";
+		ramreturn.style.display = "block";
+	}else{
+		ramconfirm.style.display = "block";
+	}
+}
+});
+
+function Select(isChecked){
+	if(isChecked){
+		document.getElementById("showMsg").innerHTML ="";
+	}
+}
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10 " style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">选择开卡类型</h1>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    <form class="form-horizontal">
+	  <div class="input-group" style="width:30%; margin-left:35%; ">
+            <label  ng-repeat="x in detail" class="input-group-addon">
+            	<input type="radio" name="radio1" ng-value="x.key0" style="width:20px;height:20px;" onclick="Select(this.checked)">
+					<span ng-if="x.key0 == '0605'">&nbsp; 圆鼎市民卡&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				</input>
+            </label>
+	  </div>
+     
+	</form>
+</div>
+<div  id = "showMsg" style ="text-align:center;margin-top :10%; height :20px; font-size :25px;color:red" >
+</div>
+</div>
+<div id="ramconfirm" style="display:none" class="cook-foot col-xs-offset-0 col-xs-12">
+	<button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="_confirm()">确定</button>		
+</div>
+<div id="ramreturn" style="display:none" class="cook-foot col-xs-offset-0 col-xs-12">
+	<button id="cancel" type="button" class="col-xs-offset-5 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+</div>
+<script type="text/javascript" language="javascript">
+	
+	function _confirm() {
+		var scope = angular.element(main).scope();
+		var radios = document.getElementsByTagName("input");
+		var flag = 0;
+		for (var i = 0; i < radios.length; i ++) {
+			if (radios.item(i).checked && radios.item(i).type == "radio") {
+				scope.pool["chosedCardType"] = radios.item(i).value;
+				flag = 1;
+				break;
+			}
+		}
+		if(flag == 1){
+			scope.action("confirm");
+		}else{
+			document.getElementById("showMsg").innerHTML ="提示：请选择一种发卡类型";
+		}
+	}
+</script>

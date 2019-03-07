@@ -1,0 +1,711 @@
+<link rel="stylesheet" href="css/swiper.admin.css">
+<script type="text/javascript" src="javascript/swiper.min.js"></script>
+<script src="../../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <script src="js/admin/media_admin.js"></script>
+            <div  class="col-xs-offset-9 col-lg-3"  style="left:20px;top:-50px;border:0px red solid;">
+          	  当前签到员工编号：
+       		<span id="adminid" style="border:0px red solid;font-size:30px;font-family:方正粗倩简体;"></span> &nbsp;&nbsp; &nbsp;&nbsp;
+    		</div>
+              </div>
+<div class="swiper-container">
+  <div class="swiper-wrapper" id="viewTabs">
+    <div class='swiper-slide' >
+      <div class="tile-group double" style="margin-left:0px;" > <span class="tile-group-title">设备管理</span>
+        <div class="tile-container">
+          <div style="text-align:center;" class="tile bg-darkOrange fg-white" data-role="tile" ng-click="action('deviceCheck')">
+            <div class="tile-content iconic "> <img src="image/shebeijiance.png" > </div>
+           <span class=" adminspan  " >设备检测</span> </div> 
+          <div style="text-align:center;" class="tile bg-darkViolet fg-white" data-role="tile" ng-click="action('cycleCardNumber')">
+            <div class="tile-content iconic"> <img src="image/qingtunkashu.png" > </div>
+            <span class="adminspan">清吞卡数</span> </div>
+          <div style="text-align:center;" class="tile-wide bg-green fg-white" data-role="tile"	ng-click="action('deviceResetAll')">
+            <div  class="tile-content iconic "> <img src="image/shebeifuwei.png" > </div>
+            <span class="adminspan ">设备总复位</span> </div>
+            
+              <div style="text-align:center;" class="tile bg-cobalt fg-white" data-role="tile" ng-click="action('cycleCashBox')">
+            <div class="tile-content iconic"> <img src="image/shuazhechaxun.png" > </div>
+            <span class="adminspan">设备信息查询</span> </div>
+            <div style="text-align:center;" class="tile bg-indigo fg-white" data-role="tile" ng-click="action('dataCardDetailQuery')">
+            <div class="tile-content iconic"> <img src="image/xinxichaxun.png" > </div>
+            <span class="adminspan">明细查询</span> </div>
+            
+            <!--
+            <div style="text-align:center;" class="tile bg-darkIndigo fg-white" data-role="tile" ng-click="action('dataPasswordChange')">
+            <div class="tile-content iconic"> <img src="image/xiugaimima.png" > </div>
+            <span class="adminspan">修改密码</span> </div>
+          <div style="text-align:center;" class="tile bg-darkBlue fg-white" data-role="tile" onclick="rootCheck('dataPasswordReset')">
+            <div class="tile-content iconic"> <img src="image/mimachongzhi.png" > </div>
+            <span class="adminspan">密码重置</span> </div>
+            -->
+            
+        </div>
+      </div>
+      
+      <div class="tile-group double" name="double" style=""> <span class="tile-group-title">清机管理</span>
+        <div class="tile-container">
+           <!--
+	  <div style="text-align:center;" class="tile bg-cobalt fg-white" data-role="tile" ng-click="action('cycleCashBox')">
+            <div class="tile-content iconic"> <img src="image/shuazhechaxun.png" > </div>
+            <span class="adminspan">设备信息查询</span> </div>
+            <div style="text-align:center;" class="tile bg-indigo fg-white" data-role="tile" ng-click="action('dataCardDetailQuery')">
+            <div class="tile-content iconic"> <img src="image/xinxichaxun.png" > </div>
+            <span class="adminspan">明细查询</span> </div>
+    	
+          <div style="text-align:center;" class="tile bg-green fg-white" data-role="tile" onclick="cycleVoucherLoadIn('cycleVoucherLoadIn')">
+            <div class="tile-content iconic"> <img src="image/shebeijiaka.png" > </div>
+            <span class="adminspan">设备加卡/U盾</span> </div>
+              -->
+         
+            <div style="text-align:center;" class="tile-wide bg-darkBlue fg-white" data-role="tile" onclick="rootCheck('cycleVoucherLoadOut')">
+            <div class="tile-content iconic"> <img src="image/shebeiqingji.png" > </div>
+            <span class="adminspan">设备清机</span> </div>
+            
+          <div style="text-align:center;" class="tile-wide bg-lightRed  fg-white" data-role="tile" onclick="rootCheck('accountsCredenceIn')" >
+            <div class="tile-content iconic"> <img src="image/canshushezhi.png" > </div>
+            <span class="adminspan">现金、凭证调入</span> </div>
+            
+          <div style="text-align:center;" class="tile bg-darkBlue fg-white" data-role="tile" ng-click="action('cycleCardDinspect')">
+            <div class="tile-content iconic"> <img src="image/hechadan.png" > </div>
+            <span class="adminspan">列清机核查单</span> </div>
+            
+           <div style="text-align:center;" class="tile bg-lightGreen fg-white" data-role="tile" onclick="rootCheck('accountsFlat')">
+            <div class="tile-content iconic"> <img src="image/jiaoyishezhi.png" > </div>
+            <span class="adminspan">账务管理</span> </div>   
+            
+        </div>
+      </div>
+      
+      
+      <div class="tile-group double" name="double" style=""> <span class="tile-group-title">用户管理</span>
+        <div class="tile-container">
+     
+     
+          <div style="text-align:center;" class="tile bg-lightBlue fg-white" data-role="tile" onclick="rootCheck('dataUserAdd')">
+            <div class="tile-content iconic"> <img src="image/xinzengyonghu.png"  > </div>
+            <div class="adminspan">新增用户</div>
+          </div>
+          <div style="text-align:center;" class="tile bg-darkOrange fg-white" data-role="tile" onclick="rootCheck('dataUserDelete')">
+            <div class="tile-content iconic"> <img src="image/yonghushanchu.png" > </div>
+            <span class="adminspan">用户删除</span> </div>
+    
+            
+            <div style="text-align:center;" class="tile bg-darkIndigo fg-white" data-role="tile" ng-click="action('dataPasswordChange')">
+            <div class="tile-content iconic"> <img src="image/xiugaimima.png" > </div>
+            <span class="adminspan">修改密码</span> </div>
+          <div style="text-align:center;" class="tile bg-darkBlue fg-white" data-role="tile" onclick="rootCheck('dataPasswordReset')">
+            <div class="tile-content iconic"> <img src="image/mimachongzhi.png" > </div>
+            <span class="adminspan">密码重置</span> </div>
+            
+        
+             <div style="text-align:center;" class="tile bg-lightRed fg-white" data-role="tile" onclick="fingerCheck()" >
+            <div class="tile-content iconic"> <img src="image/zhiwenqiandao.png" > </div>
+            <div class="adminspan">管机员签到</span></div>
+          </div>
+          
+           <div style="text-align:center;" class="tile bg-green  fg-white" data-role="tile" onclick="loginOut()" >
+            <div class="tile-content iconic"> <img src="image/zhiwenluru.png"  > </div>
+            <span class="adminspan">管机员签退</span> </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class='swiper-slide'>
+    
+      <div class="tile-group double" style="margin-left: 0px;"> <span class="tile-group-title">系统管理</span>
+        <div class="tile-container">
+        
+         <div style="text-align:center;" class="tile-wide bg-darkOrange fg-white" data-role="tile" ng-click="action('system_restart_app')">
+	        <div class="tile-content iconic"> <img src="image/shebeichongqi.png"  > </div>
+	        <div class="adminspan">重启设备</div>
+	      </div>
+          <div style="text-align:center;" class="tile bg-green fg-white" data-role="tile" ng-click="action('systemCloseApp')">
+            <div class="tile-content iconic"> <img src="image/guanbiyingyong.png" > </div>
+            <span class="adminspan">关闭应用</span> </div>
+          <div style="text-align:center;" class="tile bg-darkMagenta fg-white" data-role="tile" ng-click="action('system_shutdown')">
+            <div class="tile-content iconic"> <img src="image/guanbixitong.png" > </div>
+            <span class="adminspan">关闭系统</span> </div>
+          <div style="text-align:center;" class="tile-wide bg-lightBlue fg-white" data-role="tile" ng-click="action('systemVersion')">
+            <div class="tile-content iconic"> <img src="image/banbenxinxi.png"  > </div>
+            <div class="adminspan">版本信息</div>
+            </div>
+            
+        </div>
+        
+      </div>
+      
+     <div class="tile-group double" name="double" style=""> <span class="tile-group-title">数据管理</span>
+        <div class="tile-container">
+          <div style="text-align:center;" class="tile-wide bg-lightRed  fg-white" data-role="tile" ng-click="action('dataSetParameter')">
+            <div class="tile-content iconic"> <img src="image/canshushezhi.png" > </div>
+            <span class="adminspan">参数设置</span> </div>
+          <div style="text-align:center;" class="tile bg-lightGreen fg-white" data-role="tile" ng-click="action('dataSetTransaction')">
+            <div class="tile-content iconic"> <img src="image/jiaoyishezhi.png" > </div>
+            <span class="adminspan">交易设置</span> </div>
+            
+           <div style="text-align:center;" class="tile bg-green  fg-white" data-role="tile" onclick="rootCheck('dataAdminLog')" >
+            <div class="tile-content iconic"> <img src="image/mingxichaxun.png"  > </div>
+            <div class="adminspan">用户日志查询</span></div>
+          </div>
+            
+          <div style="text-align:center;" class="tile bg-lightBlue fg-white" data-role="tile" ng-click="action('dataLogQuery')">
+            <div class="tile-content iconic"> <img src="image/rizhichaxun.png" > </div>
+            <div class="adminspan">日志查询</div>
+          </div>
+          <div style="text-align:center;" class="tile bg-lightBlue fg-white" data-role="tile" ng-click="action('dataLogBackup')">
+            <div class="tile-content iconic"> <img src="image/rizhibeifen.png" > </div>
+            <div class="adminspan">日志备份</div>
+          </div>
+              <!--
+          <div style="text-align:center;" class="tile bg-darkIndigo fg-white" data-role="tile" ng-click="action('keySetKey')">
+          <div class="tile-content iconic"> <img src="image/shezhizhumiyao.png"  > </div>
+          <span class="adminspan">设置主密钥</span> </div>
+             <div style="text-align:center;" class="tile bg-darkMagenta fg-white" data-role="tile" ng-click="action('keyGetWorkKey')">
+          <div class="tile-content iconic"> <img src="image/shezhizhumiyao.png"  > </div>
+          <span class="adminspan">获取工作密钥</span> </div>
+        
+          <div style="text-align:center;" class="tile bg-darkBlue fg-white" data-role="tile" ng-click="action('dataLogPrint')">
+            <div class="tile-content iconic"> <img src="image/budaliushui.png" > </div>
+            <span class="adminspan">补打流水</span> </div>-->
+        </div>
+      </div> 
+      <div class="tile-group double" name="double" style=""> <span class="tile-group-title">密钥管理</span>
+        <div class="tile-container">
+          
+          <div style="text-align:center;" class="tile-wide bg-lighterBlue fg-white" data-role="tile" ng-click="action('keySetKDM')">
+            <div class="tile-content iconic"> <img src="image/miyaofenfaqi.png" > </div>
+            <div class="adminspan">密钥分发器</div>
+          </div>
+          
+              <div style="text-align:center;" class="tile bg-darkIndigo fg-white" data-role="tile" ng-click="action('keySetKey')">
+          <div class="tile-content iconic"> <img src="image/shezhizhumiyao.png"  > </div>
+          <span class="adminspan">设置主密钥</span> </div>
+             <div style="text-align:center;" class="tile bg-darkMagenta fg-white" data-role="tile" ng-click="action('keyGetWorkKey')">
+          <div class="tile-content iconic"> <img src="image/shezhizhumiyao.png"  > </div>
+          <span class="adminspan">获取工作密钥</span> </div>
+          
+          <div style="text-align:center;" class="tile bg-darkGreen fg-white" data-role="tile" ng-click="action('return')">
+            <div class="tile-content iconic"> <img src="image/admin/fanhuidenglu.png" > </div>
+            <span class="adminspan">返回登录</span> </div>
+            <div style="text-align:center;" class="tile bg-darkIndigo fg-white" data-role="tile" onclick="userexit()">
+            <div class="tile-content iconic"> <img src="image/admin/tuichuxitong.png" > </div>
+            <span class="adminspan">退出</span> </div>
+ 
+        </div>
+      </div>
+    </div>
+    <!--
+      <div class='swiper-slide'>
+        <div class="tile-group double" name="double" style=""> <span class="tile-group-title">系统管理</span>
+        <div class="tile-container">
+        <div style="text-align:center;" class="tile-wide bg-darkOrange fg-white" data-role="tile" ng-click="action('system_restart_app')">
+	        <div class="tile-content iconic"> <img src="image/shebeichongqi.png"  > </div>
+	        <div class="adminspan">重启设备</div>
+	      </div>
+          <div style="text-align:center;" class="tile bg-green fg-white" data-role="tile" ng-click="action('systemCloseApp')">
+            <div class="tile-content iconic"> <img src="image/guanbiyingyong.png" > </div>
+            <span class="adminspan">关闭应用</span> </div>
+          <div style="text-align:center;" class="tile bg-darkMagenta fg-white" data-role="tile" ng-click="action('system_shutdown')">
+            <div class="tile-content iconic"> <img src="image/guanbixitong.png" > </div>
+            <span class="adminspan">关闭系统</span> </div>
+          <div style="text-align:center;" class="tile-wide bg-lightBlue fg-white" data-role="tile" ng-click="action('systemVersion')">
+            <div class="tile-content iconic"> <img src="image/banbenxinxi.png"  > </div>
+            <div class="adminspan">版本信息</div>
+            
+            
+          </div>
+        </div>
+      </div>
+     
+       </div>
+          -->
+  </div>
+
+ 	 <button style="display:none" id="quit"  ng-click="action('quit')"></button>
+ 	 <button style="display:none" id="fingerScanner"  ng-click="action('dataFingerScanner')"></button>
+  	 <button style="display:none" id="dataFingerCheck"  ng-click="action('dataFingerCheck')"></button>
+   	 <button style="display:none" id="dataUserAdd"  ng-click="action('dataUserAdd')"></button>
+   	  <button style="display:none" id="dataUserAddCheck"  ng-click="action('dataUserAddCheck')"></button>
+     <button style="display:none" id="dataUserDelete"  ng-click="action('dataUserDelete')"></button>
+      <button style="display:none" id="dataPasswordReset"  ng-click="action('dataPasswordReset')"></button>
+      <button style="display:none" id="dataFingerLog"  ng-click="action('dataFingerLog')"></button>
+      <button style="display:none" id="dataAdminLog"  ng-click="action('dataAdminLog')"></button>
+       <button style="display:none" id="cycleVoucherLoadIn"  ng-click="action('cycleVoucherLoadIn')"></button>
+      <button style="display:none" id="accountsCredenceIn"  ng-click="action('accountsCredenceIn')"></button>
+      
+       <button style="display:none" id="system_restart_app"  ng-click="action('system_restart_app')"></button>
+       <button style="display:none" id="systemCloseApp"  ng-click="action('systemCloseApp')"></button>
+       <button style="display:none" id="system_shutdown"  ng-click="action('system_shutdown')"></button>
+       <button style="display:none" id="cycleVoucherLoadOut"  ng-click="action('cycleVoucherLoadOut')"></button>
+       <button style="display:none" id="accountsFlat"  ng-click="action('accountsFlat')"></button>
+       
+       
+       
+  <!-- Add Pagination -->
+  <div class="swiper-pagination"></div>
+  <!-- Add Arrows -->
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal"  data-backdrop="static"  data-keyboard="false"  onkeyup="checkInput(this)" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class=" col-xs-offset-3 col-xs-6 alert alert-danger fade in" style="top:300px">
+      <div class="modal-header text-center">
+        <h4 class="modal-title" id="myModalLabel">正在退出请稍后...</h4>
+      </div>
+        <div class=" text-center" id="cancelbutton" style="display:none"> 
+       <i  id="wait1" style="color:blue;display:block"  class="fa fa-spinner fa-spin fa-5x text-primary " ></i>
+             <button id="button1" type="button" class="btn btn-danger col-xs-offset-4 col-xs-4" data-dismiss="modal"   >取消</button>
+     </div>
+     
+        <div class=" text-center" id="rootbutton" style="display:none"> 
+       <i  id="wait2" style="color:blue;display:none"  class="fa fa-spinner fa-spin fa-5x text-primary " ></i>
+             <button id="button2" type="button" class="btn btn-danger col-xs-offset-4 col-xs-4"   data-dismiss="modal"  >确认</button>
+     </div>
+     
+      <div class=" text-center" id="fingerbutton" style="display:none">
+         <button id="button" type="button" class="btn btn-danger col-xs-offset-1 col-xs-3"   ata-dismiss="modal" >取消</button>
+         <button id="confirm" type="button" class="btn btn-primary col-xs-offset-4 col-xs-3"  data-dismiss="modal" onclick="finger()">授权</button>
+    </div>
+    
+          <div class=" text-center" id="fingerlog" style="display:none">
+         <button id="button" type="button" class="btn btn-danger col-xs-offset-1 col-xs-3"   data-dismiss="modal" >确认</button>
+         <button id="confirm2" type="button" class="btn btn-primary col-xs-offset-4 col-xs-3"  data-dismiss="modal" onclick="dataFingerLog()">查看</button>
+    </div>
+     <div class=" text-center" id="cycle" style="display:none">
+        <button id="button" type="button" class="btn btn-danger col-xs-offset-1 col-xs-3"   data-dismiss="modal">取消</button>
+        <button id="cycle" type="button" class="btn btn-primary col-xs-offset-4 col-xs-3"  data-dismiss="modal" onclick="cycle()">清机</button>
+     </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+ <div id="c">
+  <OBJECT WIDTH="0" HEIGHT="0" ID="EBCommonCtrl" CLASSID="CLSID:0232DBFE-F2D4-467C-BAAA-F4F46690306C"></OBJECT>
+  </div>
+<script>
+
+
+//alert(screen.availWidth)..
+gitAdminSize()
+$(function(){
+	$("div[name='double']").each(function(){
+	//$(this).attr("style","margin-left:30px")
+	})
+})
+
+function gitAdminSize(){//获取副屏分辨率
+var common = "/admin/NewAdminCommonServlet";
+$.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=common-get-admin-size",
+	    dataType: 'json',
+	    success: function(data) {
+	  if(data.Result==1){
+	  if(data.Size=="1024*768"){
+			 $("div[name='double']").each(function(){
+			 $(this).attr("style","margin-left:30px")
+			})
+	  	}
+	  	}
+	    }
+	});
+	isRunning = false;
+}
+
+	$(document).ready(function() {
+	getAdminState();
+		startMenu();
+		 ;
+	});
+
+	function finger(){
+		
+		 location.reload();
+		 $('#dataFingerCheck').click();
+	
+	}
+		
+   function startMenu(){
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+      
+        spaceBetween: 30
+    });
+  }
+    (function($) {
+        $.StartScreen = function(){
+            var plugin = this;
+            var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+            plugin.init = function(){
+                setTilesAreaSize();
+                if (width > 640) addMouseWheel();
+            };
+
+            var setTilesAreaSize = function(){
+                var groups = $(".tile-group1");//取消排版效果 tile-group
+                var tileAreaWidth = 80;
+                $.each(groups, function(i, t){
+                    if (width <= 640) {
+                        tileAreaWidth = width;
+                    } else {
+                        tileAreaWidth += $(t).outerWidth() + 80;
+                    }
+                  
+                });
+                $(".tile-area").css({
+                    width: tileAreaWidth
+                });
+            };
+
+            var addMouseWheel = function (){
+                $("body").mousewheel(function(event, delta, deltaX, deltaY){
+                    var page = $(document);
+                   
+                    var scroll_value = delta * 50;
+                
+                    page.scrollLeft(page.scrollLeft() - scroll_value);
+                    return false;
+                });
+                 $("#jiantou_prev").click(function(event, delta, deltaX, deltaY){
+                    var page = $(document);
+                   
+                  
+                    page.scrollLeft(page.scrollLeft() - 400);
+                    return false;
+                });
+                  $("#jiantou_next").click(function(event, delta, deltaX, deltaY){
+                    var page = $(document);
+                   
+                   
+                    page.scrollLeft(page.scrollLeft() + 400);
+                    return false;
+                });
+            };
+
+            plugin.init();
+        }
+    })(jQuery);
+
+    $(function(){
+        $.StartScreen();
+
+        var tiles = $(".tile, .tile-small, .tile-sqaure, .tile-wide, .tile-large, .tile-big, .tile-super");
+
+        $.each(tiles, function(){
+            var tile = $(this);
+            setTimeout(function(){
+                tile.css({
+                    opacity: 1,
+                    "-webkit-transform": "scale(1)",
+                    "transform": "scale(1)",
+                    "-webkit-transition": ".3s",
+                    "transition": ".3s"
+                });
+            }, Math.floor(Math.random()*1000));
+        });
+
+        $(".tile-group").animate({
+            left: 0
+        });
+    });
+var common = "/admin/NewAdminCommonServlet";
+
+
+function fingerScanner(){//指纹录入权限判读
+var common = "/admin/NewAdminCommonServlet";
+$.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=common-get-user-role",
+	    dataType: 'json',
+	    success: function(data) {
+	    if("11111111"==data.UserID){
+		 fingerScannerInit()
+	    }else{
+	  
+	    $('#myModalLabel').html("请使用“11111111”用户指纹授权后<br>才能使用该功能")
+ 		$('#myModal').modal('show');
+ 		$("#cancelbutton").css("display","none");
+ 		$("#rootbutton").css("display","none");
+ 		$("#fingerlog").css("display","none");
+ 		 $("#fingerbutton").css("display","block");
+	    	}
+	        isRunning = false;
+	    }
+	});
+}
+function fingerScannerInit(){//指纹录初始化
+var common = "/admin/NewAdminDeviceServlet";
+$.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-fingerScanner-init",
+	    dataType: 'json',
+	    success: function(data) {
+	    if("OK"==data.result){
+	 
+	 $('#fingerScanner').click();
+	    }else{
+	    $('#myModalLabel').html("指纹仪初始化失败<br>请检查硬件后重新录入")
+ 		$('#myModal').modal('show');
+ 		 $("#wait").css("display","none");
+		 $("#fingerbutton").css("display","none");
+ 		$("#rootbutton").css("display","block");
+ 		$("#fingerlog").css("display","none");
+	    	}
+	        isRunning = false;
+	    }
+	});
+}
+
+function rootCheck(value){
+
+var common = "/admin/NewAdminCommonServlet";
+$.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=common-get-user-role",
+	    dataType: 'json',
+	    success: function(data) {
+	   // dataUserAdd
+	    if("11111111"==data.UserID){
+			if(value=="cycleVoucherLoadOut" || value=="accountsCredenceIn" || value=="accountsFlat"){
+		 		   	$('#myModalLabel').html("对不起您没有权限使用该功能</br>当前登录用户ID:"+data.UserID)
+					$('#myModal').modal('show');
+					$("#wait1").css("display","none");
+					$("#wait2").css("display","none");
+				    $("#fingerbutton").css("display","none");
+			        $("#cancelbutton").css("display","none");
+				    $("#fingerlog").css("display","none");
+					$("#rootbutton").css("display","block");
+		    }else{
+		    		  if(data.Fun_admin==1&&value=="dataUserAdd"){
+		    			 $('#dataUserAddCheck').click();
+		    			 }
+		    			 else{
+	    			 	$('#'+value).click();
+		    			 }
+		    	
+		    }
+			
+	    }else{
+	    	if(value=="dataUserAdd" || value=="dataUserDelete" || value=="dataPasswordReset"){
+		 		   	$('#myModalLabel').html("对不起您没有权限使用该功能</br>当前登录用户ID:"+data.UserID)
+					$('#myModal').modal('show');
+					$("#wait1").css("display","none");
+					$("#wait2").css("display","none");
+					 $("#cancelbutton").css("display","none");
+				    $("#fingerbutton").css("display","none");
+				    $("#fingerlog").css("display","none");
+					$("#rootbutton").css("display","block");
+		    }else{
+		   			$('#'+value).click();
+		    }
+	    
+	    }
+	    }
+	});
+}
+
+function fingerLogin(){
+var common = "/admin/NewAdminDeviceServlet";
+$.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-fingerScanner-init",
+	    dataType: 'json',
+	    success: function(data) {
+    if("OK"==data.result){
+	 	$('#myModalLabel').html("请进行指纹签到")
+ 		$('#myModal').modal('show');
+	    $("#fingerbutton").css("display","none");
+	    $("#fingerlog").css("display","none");
+ 		$("#rootbutton").css("display","none");
+ 		$("#cancelbutton").css("display","block");
+ 		fingerCheck();
+    }else{
+	    $('#myModalLabel').html("指纹仪初始化失败<br>请检查硬件后重新签到")
+ 		$('#myModal').modal('show');
+	    $("#fingerbutton").css("display","none");
+	    $("#fingerlog").css("display","none");	
+ 		$("#cancelbutton").css("display","none");
+ 		$("#rootbutton").css("display","block");
+ 		
+	    	}
+	        isRunning = false;
+	    }
+	});
+}
+
+function fingerCheck() {//签到
+
+var data = "/admin/NewAdminDataServlet";
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-user-finger-signin",
+	    dataType: 'json',
+	    success: function(data) {
+	   if(data.result=="succ"){
+	   //签到成功把当前用户存入参数
+	 
+	   $('#myModalLabel').html(data.message)
+ 		
+ 		$("#fingerbutton").css("display","none");
+ 		$("#cancelbutton").css("display","none");
+ 		$("#rootbutton").css("display","none");
+ 		$("#fingerlog").css("display","block");
+		$('#myModal').modal('show');
+		$('#adminid').html(data.userCode);
+ 		
+	   }else{
+	 		$('#myModalLabel').html(data.message)
+	 		$("#cancelbutton").css("display","none");
+	  		$("#fingerbutton").css("display","none");
+ 			$("#rootbutton").css("display","block");
+ 			$("#fingerlog").css("display","none");
+ 			$('#myModal').modal('show');
+	   }
+	  // fingerScannercloss();
+        	}
+	   
+	});
+}
+
+function loginOut() {//签退
+			$('#myModalLabel').html("正在签退</br>请稍后")
+			$("#cancelbutton").css("display","block");
+			$("#wait1").css("display","block");
+	  		$("#fingerbutton").css("display","none");
+ 			$("#rootbutton").css("display","none");
+ 			$("#fingerlog").css("display","none");
+ 			$('#myModal').modal('show');
+
+var data = "/admin/NewAdminDataServlet";
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-user-finger-out",
+	    dataType: 'json',
+	    success: function(data) {
+	   if(data.result=="succ"){
+	   //签到成功把当前用户存入参数
+	 
+	   $('#myModalLabel').html(data.message)
+ 		$("#wait1").css("display","none");
+
+		$('#adminid').html("未签到");
+ 		
+	   }else{
+	 		$('#myModalLabel').html(data.message)
+	  	
+ 			$("#wait1").css("display","none");
+ 		
+ 		
+	   }
+        	}
+	   
+	});
+}
+
+
+function fingerScannercloss(value) { //关闭指纹仪
+
+		$('#myModalLabel').html("正在关闭指纹仪</br>请稍后...")
+ 		$("#cancelbutton").css("display","none");
+ 		$("#rootbutton").css("display","none");
+ 		$("#fingerbutton").css("display","none");
+ 		$("#fingerlog").css("display","none");
+		//alert("关闭指纹仪")
+var data = "/admin/NewAdminDataServlet";
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-fingerScanner-close",
+	    dataType: 'json',
+	    success: function(data) {
+	 		 if(value==1){
+			location.reload();
+		 	$('#dataFingerLog').click();
+			}else{
+			$('#myModal').modal('hide');
+			}
+    	}
+	});
+}
+function checkInput(obj) {
+
+		if(event.keyCode==27&&obj.id=="myModal"){
+		fingerScannercloss();
+		return;
+	}
+}
+function dataFingerLog(){
+	fingerScannercloss(1)
+ 	
+}
+
+ function cycleVoucherLoadIn(id){
+var common = "/admin/NewAdminCycleServlet";
+$.ajax({
+	    url: common,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-cycleVoucher-LoadIn",
+	    dataType: 'json',
+	    success: function(data) {
+	  
+	    if(1==1){
+	 $('#'+id).click();
+	    }else{
+	    $('#myModalLabel').html("清机后才能使用该功能")
+ 		$('#myModal').modal('show');
+ 			$("#cancelbutton").css("display","none");
+ 		$("#rootbutton").css("display","none");
+ 		$("#fingerbutton").css("display","none");
+ 		$("#fingerlog").css("display","none");
+ 		 	$("#cycle").css("display","block");
+	    	}
+	        isRunning = false;
+	    }
+	});
+}
+
+function cycle(){
+		 location.reload();
+		 $('#cycleVoucherLoadOut').click();
+	
+	}
+	
+function getAdminState() {//获取当前签到信息
+
+var data = "/admin/NewAdminDataServlet";
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-user-state",
+	    dataType: 'json',
+	    success: function(data) {
+	    $("#adminid").html(data.loginUserCode);
+	    
+        	}
+	   
+	});
+}
+</script>

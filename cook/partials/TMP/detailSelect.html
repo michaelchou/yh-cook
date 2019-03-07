@@ -1,0 +1,21 @@
+<div class="container indicates">
+	<span class="timeout pull-right">{{timeout}}</span>
+</div>
+<div class="container step">
+    <h1 class="text-center">选择查询日期</h1>
+</div>
+ <div class="step">
+    <form class="form-horizontal">
+      <div class="form-group">
+		<div class="col-sm-offset-4 col-sm-3">
+		  <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-left:55px;" ng-click="action('lastMounthDetail')">近1个月</button>
+		</div>
+		<div class="col-sm-offset-4 col-sm-3">
+		  <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-left:55px;" ng-click="action('lastThreeMounthDetail')">近3个月</button>
+		</div>
+		<div class="col-sm-offset-4 col-sm-3">
+		  <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-left:55px;" ng-click="action('otherDetail')">其它日期</button>
+		</div>
+	  </div>
+	</form>
+</div>

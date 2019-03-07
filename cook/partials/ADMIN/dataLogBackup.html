@@ -1,0 +1,245 @@
+<script src="js/admin/base.js"></script>
+<script>
+var data = "/admin/NewAdminDataServlet";
+var isRunning = false;
+var check;    
+var validateYear ="";
+
+var si = setInterval("checkUDic()",5000);//检测U盘 每5秒调用一次
+
+$(document).ready(function() {
+	var date = new Date();
+	document.getElementById("enddate").value = formatdate(date);
+	validateYear = parseInt(formatdate(date).substring(0, 4)-1);
+	date.setDate(date.getDate() - 6);
+	document.getElementById("begindate").value = formatdate(date);
+	check = document.all("log");
+    });
+        
+function checkInput(id) { //清除提示框
+	$("#comment").text("");
+	$("#"+id).popover('destroy');
+}
+    
+function backup() {
+
+	// 控制其它按钮
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+	//$('#comment').text("");
+	var begindate = document.getElementById("begindate").value;
+	var enddate = document.getElementById("enddate").value;
+
+	var log=0;
+	if (0== begindate.length) {
+		$("#begindate").attr("data-content","请输入起始日期");
+		$("#begindate").popover('show');
+		document.getElementById("begindate").value = "";
+		document.getElementById("begindate").focus();
+
+		isRunning = false;
+		return;
+	}
+	if (8 != begindate.length) {
+			$("#begindate").attr("data-content","起始日期必须为8位");
+		$("#begindate").popover('show');
+		//document.getElementById("begindate").value = "";
+		//document.getElementById("begindate").focus();
+		var begindate = document.getElementById("begindate").createTextRange();
+		begindate.collapse(false);
+		begindate.select();
+		isRunning = false;
+		return;
+	}
+	if(begindate.substring(4,6)=="00"||begindate.substring(6,8)=="00"||begindate.substring(6,8)>31||begindate.substring(4,6)>12){
+   		document.getElementById("begindate").value = "";
+   		document.getElementById("begindate").focus();
+   			$("#begindate").attr("data-content","起始日期格式输入不合法");
+		$("#begindate").popover('show');
+		isRunning = false;
+		return;
+	}
+	if (parseInt(begindate.substring(0, 4)) < validateYear) {
+		$("#begindate").attr("data-content","起始日期过早");
+		$("#begindate").popover('show');
+		document.getElementById("begindate").value = "";
+		document.getElementById("begindate").focus();
+		isRunning = false;
+		return;
+	}
+	if (0== enddate.length) {
+		$("#enddate").attr("data-content","请输入结束日期");
+		$("#enddate").popover('show');
+		document.getElementById("enddate").value = "";
+		document.getElementById("enddate").focus();
+		isRunning = false;
+		return;
+	}
+
+	if (8 != enddate.length) {
+		$("#enddate").attr("data-content","结束日期输入不全");
+		$("#enddate").popover('show');
+		//document.getElementById("enddate").value = "";
+		//document.getElementById("enddate").focus();
+		var enddate = document.getElementById("enddate").createTextRange();
+		enddate.collapse(false);
+		enddate.select();
+		isRunning = false;
+		return;
+	}
+
+	if(enddate.substring(4,6)<1||enddate.substring(6,8)<1||enddate.substring(6,8)>31||enddate.substring(4,6)>12){
+   		document.getElementById("enddate").value = "";
+   		document.getElementById("enddate").focus();
+   		$("#enddate").attr("data-content","结束日期格式输入不合法");
+		$("#enddate").popover('show');
+		isRunning = false;
+		return;
+	}
+	if (parseInt(begindate) > parseInt(enddate)) {
+		$("#enddate").attr("data-content","起始日期不能大于结束日期");
+		$("#enddate").popover('show');
+	    document.getElementById("enddate").value = "";
+		document.getElementById("enddate").focus();
+		isRunning = false;
+		return;
+	}
+	if (parseInt(enddate) > parseInt(formatdate(new Date()))) {
+		$("#enddate").attr("data-content","结束日期不能大于今天");
+		$("#enddate").popover('show');
+	    document.getElementById("enddate").value = "";
+		document.getElementById("enddate").focus();
+		isRunning = false;
+		return;
+	}
+	// 获取日志类型
+	
+	log = 1;//应用
+	
+
+	if(log<=0){
+		$('#comment').text("请选择拷贝类型");
+		isRunning = false;
+        return;
+	}
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=data-backup-log&begindate=" + begindate + "&enddate=" + enddate + "&log=" + log,
+	    dataType: 'json',
+	    success: function(data) {
+	    	if (data.Result == 0) {
+	        	$('#comment').text("外部设备已被屏蔽，请先激活");
+	    	}
+	    	else if (data.Result == 1) {
+	    		isRunning = false;
+	    		$("#begindate").attr("data-content","起始日期格式不符合 yyyymmdd");
+				$("#begindate").popover('show');
+	        	document.getElementById("begindate").value = "";
+	        	document.getElementById("begindate").focus();
+	    	}
+	    	else if (data.Result == 2) {
+	    		isRunning = false;
+	    		$("#enddate").attr("data-content","结束日期格式不符合 yyyymmdd");
+				$("#enddate").popover('show');
+	        	document.getElementById("enddate").value = "";
+	        	document.getElementById("enddate").focus();
+	        }
+	        else if (data.Result == 3) {
+	        	$('#comment').text("系统未检测到U盘");
+	        }
+	        else if (data.Result == 4) {
+	        	$('#comment').text("U盘已经没有可用空间");
+	        }
+	        else {
+	        	$('#comment').text("正在备份日志，请勿拔出U盘");
+	        	$('#comment').html(data.Comment);
+	        }
+	        isRunning = false;
+	    }
+	});
+	isRunning = false;
+}
+
+function checkUDic() {
+	if (isRunning) {
+		return;
+	}
+
+
+	var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+	    //防止缓存加入简单的随机数
+	  $.ajax({
+		    url: data,
+		    cache: false,
+		    type: "post",
+		    data: "commandID=data-check-udic&time="+time,
+		    dataType: 'json',
+		    success: function(data) {
+                      if(data.udicmsg.length>=1){
+                    	  $('#comment2').html(data.udicmsg);
+                      }
+
+
+		    }
+		});
+	  isRunning = false;
+	}
+        
+function exit(){
+clearInterval(si);
+$('#return2').click();
+}
+
+    </script>
+</head>
+
+<h2 id="head" class="text-center">日志拷贝</h2>
+<div id="content">
+  <div class="col-xs-offset-1 col-xs-10"style="border:0px #FFFFFF solid;"> <br>
+    <div class="row ">
+      <div class="col-xs-4 col-xs-offset-2">
+        <div class="input-group input-group-lg"> <span class="input-group-addon">起始日期</span>
+          <input type="date" id="begindate" onclick="openkeysetAdmin(1,1100,500)" maxlength="8" onkeyup="if(event.keyCode == 13)return;checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""  class="form-control"  data-html="true" />
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="input-group input-group-lg"> <span class="input-group-addon ">结束日期</span>
+          <input type="date" id="enddate" onclick="openkeysetAdmin(1,1100,500)" maxlength="8" onkeyup="if(event.keyCode == 13)return;checkInput(id),this.value=this.value.replace(/\D/g,'')" class="form-control" data-container="body"  data-placement="bottom" 
+      title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""  class="form-control"  data-html="true" />
+        </div>
+      </div>
+    </div>
+    
+    <div  class="col-xs-offset-2 col-xs-8" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+      <label  class="fg-red"  style="color:black" id="comment"></label>
+    </div>
+    <br>
+    <div  class="col-xs-offset-2 col-xs-8" id="title_text" style="border:0px red solid;font-size:26px; text-align:center;font-family:方正粗倩简体;">
+      <label  class="fg-red"  style="color:black" id="comment2">请插入U盘</label>
+    </div>
+  </div>
+</div>
+<div id="foot" class="col-xs-offset-4 col-xs-4" >
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button" id="return" class="btn btn-primary btn-lg" onclick="exit()">返回主页面</button>
+      <button  style="display:none" id="return2" type="button" class="btn btn-primary btn-lg" ng-click="action('return')"></button>
+    </div>
+    <div class="btn-group">
+      <button id="confirm" type="button" name="enter" class="btn btn-success btn-lg" onclick="backup()">确认</button>
+    </div>
+  </div>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49
+ id="HandWrite">
+</object>
+</body></html>

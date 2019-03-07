@@ -1,0 +1,56 @@
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+  <div class="cook-head">
+        
+		<h1 class="text-center">子账户明细</h1>
+		<h3 class="text-center">Account detail</h3>
+  </div>
+  <table class=" table-striped  table-bordered" width="100%" style="text-align:center;">
+      <tr style="font-weight:bold;font-size:16px;">
+         <td height="33px">编号</td>
+         <td height="33px">记账日期</td>
+         <td height="33px">账户状态</td>
+         <td height="33px">存期</td>
+         <td height="33px">余额</td>
+      </tr>
+      <tr ng-repeat="x in detail" >
+	      <td height="33px">{{ x.key0}}</td>
+	      <td height="33px">{{ x.key3}}</td>
+	      <td height="33px">{{ x.key6}}</td>
+	      <td height="33px">{{ x.key4}}</td>
+	      <td height="33px">{{ x.key1}}</td>
+      </tr>
+ </table>
+ </div>
+
+
+ <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px red solid;">
+    <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+       <h1 class="text-center" style="font-size: 140%;color:#000000;">第{{pageNo}}页,共{{pageSize}}页</h1>
+    </div>
+ <div ng-if="pageSize > 1">
+    <div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<button  type="button" class="col-xs-offset-2 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button  type="button" class="col-xs-offset-3 col-xs-2 image-bt"      ng-click="action('eject')">退卡</button>
+    </div>
+
+ 	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;">
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-hide="Prev" ng-click="next(-1)">上一页</button>
+    	   </div>
+           <div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+    	    <button  type="button"  class="col-xs-offset-1 col-xs-2 image-btgr"   ng-hide="Next"    ng-click="next(1)">下一页</button>
+    	   </div>
+    </div>
+ </div>
+    <div ng-if="pageSize <= 1">	
+    <div class=" col-xs-offset-0 col-xs-12 "style="border:0px blue solid;">
+ 			<button  type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-bt"      ng-click="action('eject')">退卡</button>
+    </div>   
+    </div> 
+ </div>

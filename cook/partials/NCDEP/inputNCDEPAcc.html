@@ -1,0 +1,38 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	document.getElementById("account").focus();
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite"></object>
+<div class="container step col-xs-offset-o col-xs-12">
+    <h1 class="text-center">请输入存入账号,并按[确认]键</h1>
+    <h3 class="text-center">Please enter the account number and press enter</h3>
+   
+</div>
+
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12" style="margin-left:50px">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" class="form-control" style="width:330px;" onclick="openkeyset(1,490,350)"  onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" 
+                    id="account" value="" onblur="this.focus()" ng-model="pool.input_info" maxlength="19"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>存入账号输入有误</sp>" data-content="" data-html="true">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="_delete()">更  正</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+
+	
+<br>
+<br>
+ <div  style="margin-top:25%;margin-left:5%">
+    <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt" ng-click="action('cancel')">取消</button>
+    <button id="confirm" type="button" class="col-xs-offset-2 col-xs-2 image-btgr" onclick="resetModel('account','input_info');checkACC();">确认</button>
+ </div>

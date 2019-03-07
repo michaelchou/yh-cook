@@ -1,0 +1,86 @@
+
+<div class="container indicates bg-card">
+	<span class="timeout pull-right">{{timeout}}</span>
+	<h2>已有账户</h2>
+	<h3 class="center">请点击需要操作的银行卡</h3>
+	<div class="div_center">
+
+		<div class="jiantou" id="jiantou_prev" style="margin-left:5px;display:block"> < </div>
+
+		<div class="v_content">
+			<div class="v_content_list">
+				<ul>
+					<li id="ICcard0" style="display:block" value="0"><a id="bg0" class="active_card" ng-click="action('sign')"><img id="img0" src="image/0104.png" alt="9999 **** **** 8888" /><h4 style="font-family:微软雅黑;"><label id="card0"></label>9876543210*****321</h4></a></li>
+					<li id="ICcard1" style="display:block" value="1"><a id="bg1" class="noactive_card" ng-click="action('active')"><img id="img1" src="image/0108.png"  alt="8888 **** **** 8888" /><h4 style="font-family:微软雅黑;"><label id="card1">9998887770*****333</label></h4></a></li>
+					<li id="ICcard2" style="display:block" value="2"><a id="bg2" class="active_card" ng-click="action('exchange')"><img id="img2"  src="image/0112.png" alt="8888 **** **** 8888" /><h4 style="font-family:微软雅黑;"><label id="card2">6665554440*****222</label></h4></a></li>
+					<li id="ICcard3" style="display:block" value="3"><a id="bg0" class="active_card" ng-click="action('sign')"><img id="img0" src="image/2101.png" alt="9999 **** **** 8888" /><h4 style="font-family:微软雅黑;"><label id="card0"></label>9876543210*****321</h4></a></li>
+					<li id="ICcard4" style="display:block" value="4"><a id="bg1" class="noactive_card" ng-click="action('active')"><img id="img1" src="image/2103.png"  alt="8888 **** **** 8888" /><h4 style="font-family:微软雅黑;"><label id="card1">9998887770*****333</label></h4></a></li>
+					<li id="ICcard5" style="display:block" value="5"><a id="bg2" class="active_card" ng-click="action('exchange')"><img id="img2"  src="image/0118.png" alt="8888 **** **** 8888" /><h4 style="font-family:微软雅黑;"><label id="card2">6665554440*****222</label></h4></a></li>
+					<li id="ICcard6" style="display:block" value="6"><a id="bg2" class="active_card" ng-click="action('exchange')"><img id="img2"  src="image/0119.png" alt="8888 **** **** 8888" /><h4 style="font-family:微软雅黑;"><label id="card2">6665554440*****222</label></h4></a></li>
+				</ul>
+			</div>
+		</div>
+
+	 	<div class="jiantou" id="jiantou_next" style="display:block" > > </div>
+
+	</div>
+</div>
+
+<div class="container">
+	<h2>推荐服务</h2>
+	<a ng-click="action('apply')"> <img src="image/kaika.png"> </a>
+	<a ng-click="action('quit')"> <img class="pull-right" src="image/quit.png"> </a>
+</div>
+
+
+   <script type="text/javascript">
+   
+       $(function(){
+        var page = 1;
+			var i = 3; //每版放3个图片
+			
+			var len=$("div.v_content_list").find("li").length;
+			var page_count = Math.ceil(len / i) ;
+			$("div.v_content_list").width(page_count*1100);
+			//向后 按钮
+			$("#jiantou_next").click(function(){    //绑定click事件
+				 var $parent = $(this).parents("div.div_center");//根据当前点击元素获取到父元素
+				 var $v_show = $parent.find("div.v_content_list"); //寻找到“图片内容展示区域”
+				 var $v_content = $parent.find("div.v_content"); //寻找到“图片内容展示区域”外围的DIV元素
+				 var v_width = $v_content.width()-23 ;
+				 //var len = $v_show.find("li").length;
+				 //var page_count = Math.ceil(len / i) ;   //只要不是整数，就往大的方向取最小的整数
+				 if( !$v_show.is(":animated") ){    //判断“图片内容展示区域”是否正在处于动画
+					  if( page == page_count ){  //已经到最后一个版面了,如果再向后，必须跳转到第一个版面。
+						$v_show.animate({ left : '0px'}, "slow"); //通过改变left值，跳转到第一个版面
+						page = 1;
+						}else{
+						$v_show.animate({ left : '-='+v_width }, "slow");  //通过改变left值，达到每次换一个版面
+						page++;
+					 }
+				 }
+				 //$parent.find("span").eq((page-1)).addClass("current").siblings().removeClass("current");
+		   });
+			//往前 按钮
+			$("#jiantou_prev").click(function(){
+			
+				 var $parent = $(this).parents("div.div_center");//根据当前点击元素获取到父元素
+				 var $v_show = $parent.find("div.v_content_list"); //寻找到“图片内容展示区域”
+				 var $v_content = $parent.find("div.v_content"); //寻找到“图片内容展示区域”外围的DIV元素
+				 var v_width = $v_content.width()-23;
+				 //var len = $v_show.find("li").length;
+				 //var page_count = Math.ceil(len / i) ;   //只要不是整数，就往大的方向取最小的整数
+				 if( !$v_show.is(":animated") ){    //判断“图片内容展示区域”是否正在处于动画
+					 if( page == 1 ){  //已经到第一个版面了,如果再向前，必须跳转到最后一个版面。
+						$v_show.animate({ left : '-='+v_width*(page_count-1) }, "slow");
+						page = page_count;
+					}else{
+						$v_show.animate({ left : '+='+v_width }, "slow");
+						page--;
+					}
+				}
+				//$parent.find("span").eq((page-1)).addClass("current").siblings().removeClass("current");
+			});
+			
+		});
+	   </script>			

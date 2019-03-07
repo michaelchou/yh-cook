@@ -1,0 +1,26 @@
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">市民卡圈存信息</h1>
+</div>
+<div class="cook-content">
+	<table class="col-xs-12 balance">
+		<tr> <th class="col-xs-6"><h2>市民卡号：</h2></th><td> <h2>{{pool.ST_CitizenCardNo}} &nbsp;</h2></td> </tr>
+		<tr> <th class="col-xs-6"><h2>市民卡余额：</h2></th><td> <h2>{{pool.ST_CitizenAmount}} &nbsp;</h2></td> </tr>
+		<tr> <th class="col-xs-6"><h2>圈存金额：</h2></th><td> <h2>{{pool.transAmount}} &nbsp;</h2></td> </tr>
+	</table>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+	<button type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+	<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+</div>
+
+
+
+

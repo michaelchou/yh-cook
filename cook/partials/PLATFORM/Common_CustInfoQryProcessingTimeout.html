@@ -1,0 +1,20 @@
+<script language="JavaScript" type="text/JavaScript"> 
+    document.getElementById("MUSIC1").src = "wav/SystemProcessing.wav";
+	var scope = angular.element(main).scope();
+	$.ajax({
+ 	     url: "/custom/document",
+ 	    cache: false,
+ 	    type: "get",
+ 	    data: "commandID=CustInfoQuery",
+ 	    dataType: 'json',
+ 	    success: function(data) {
+			scope.action("confirm");
+ 	    }
+ 	});
+</script>
+<div class="container step col-xs-offset-o col-xs-12 head-positiony">
+	<h1 class="text-center">正在处理,请稍候.....</h1>
+	
+          <i style="color:#000000" class="fa fa-spinner fa-spin fa-5x text-primary" ></i>
+   
+</div>

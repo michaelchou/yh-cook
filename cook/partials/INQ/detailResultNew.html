@@ -1,0 +1,82 @@
+<script language="javascript" type="text/javascript">
+	function commit(){
+		var scope = angular.element(main).scope();
+		scope.pool["pageNo"] = (parseInt(document.getElementById("pageNo").value)+1)+"";
+			scope.action("confirm");
+	}
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+  <div class="cook-head">
+        
+		<h1 class="text-center">账户明细</h1>
+		<h3 class="text-center">Account detail</h3>
+  </div>
+   <table class="table-striped  table-bordered" width="100%" style="text-align:center;">
+      <tr style="font-weight:bold;font-size:16px;">
+		 <td height="33px">交易日期</td>
+         <td height="33px">卡号</td>
+         <td height="33px">交易描述</td>
+         
+		 
+		 <td height="33px">借方发生额</td>
+		 <td height="33px">贷方发生额</td>
+		 <td height="33px">余额</td>
+         <td height="33px">对方账户</td>
+         <td height="33px">对方户名</td>
+      </tr>
+	  
+      <tr ng-repeat="x in detail" >
+		  <td height="33px" ng-if="x.key3 !='XXXXXXXX'">{{ x.key3}}</td>
+		  <td height="33px" ng-if="x.key3 =='XXXXXXXX'"></td>
+	      <td height="33px" ng-if="x.key3 !='XXXXXXXX'">{{pool.cardNo}}</td>
+	      <td height="33px" ng-if="x.key3 =='XXXXXXXX'"></td>
+	      <td height="33px">{{ x.key1}}</td>
+	      
+		  
+		  <td height="33px">{{ x.key5}}</td>
+	      <td height="33px">{{ x.key6}}</td>
+		  <td height="33px">{{ x.key2}}</td>
+	      <td height="33px">{{ x.key7}}</td>
+		  <td height="33px">{{ x.key8}}</td>
+      </tr>
+ </table>
+ </div>
+ </br>
+  </br>
+ <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px red solid;">
+    <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+       <h1 ng-if="Next2 == '0' && Next == '0'"  class="text-center" style="font-size: 140%;color:#000000;">第{{pageNo}}页,共{{pageSize}}页</h1>
+       <h1 ng-if="Next2 == '1' || Next == '1'" class="text-center" style="font-size: 140%;color:#000000;">第{{pageNo}}页</h1>
+       <input type="hidden" value="{{pageNo}}" id="pageNo" style="display:none" />
+    </div>
+    <div>
+    <div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<button  type="button" class="col-xs-offset-2 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    	    <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt"      ng-click="action('eject')">退卡</button>
+    </div>
+
+ 	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+ 			<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;" ng-if="Prev == '1'">
+    	    <button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"   ng-click="next(-1)">上一页</button>
+    	   </div>
+    	   
+           <div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;" ng-if="Next == '1'">
+    	    <button  type="button"  class="col-xs-offset-1 col-xs-2 image-btgr"       onclick="commit()">下一页</button>
+    	   </div>
+    	   <div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;" ng-if="Next2 == '1'">
+	   	    <button  type="button"  class="col-xs-offset-1 col-xs-2 image-btgr"       ng-click="next(1)">下一页</button>
+	   	   </div>
+    </div>
+    </div>
+ </div>
+ 
+ 
+ 
+ 
+ 
+ 

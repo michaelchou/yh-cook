@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Media</title>
+<link href="css/media.css" rel="stylesheet" type="text/css" />
+<!-- 加载AnyChat for Web SDK库  -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="javascript/anychatsdk.js"></script>
+<script language="javascript" type="text/javascript" src="javascript/anychatobject.js"></script>
+<script language="javascript" type="text/javascript" src="js/media.js"></script>
+</head>
+<body>
+
+    <!--功能测试-->
+    <div style="width:100%; height:auto;background-color:#FFFFCC;float:left;text-align:center;line-height:5px;">
+        <div id="record_server" class="Btn" onclick="MediaInit()" style="float:left;">连接视频</div>
+        <div id="filetrans"  class="Btn"  onclick="filetrans()" onmouseout="Mouseout('filetrans')" onmousemove="Mouseover('filetrans')" style="float:left;">文件传送</div>
+        <div id="transbuffer"  class="Btn"  onclick="transbuffer()" onmouseout="Mouseout('transbuffer')" onmousemove="Mouseover('transbuffer')" style="float:left;">透明通道传输</div>
+    </div>
+
+    <!--灰色背景透明层 -->
+	<div id="LOADING_GREY_DIV">
+		<h2>
+			<img title="请等待..." alt="请等待..." src="image/loading.gif"><span></span>
+		</h2>
+	</div>
+
+    <center>
+    <div class="callBox">
+        
+    <div id="callLayer">
+        <h4>服务等待中</h4>
+        <br />
+        <div id="queueMsg1">
+            <div class="queueBox">
+                当前排队人数共：<strong></strong> 人，您现在排在第 <strong></strong> 位 <br />
+                已等待时长：<strong></strong>
+                <br />
+                <button class="confirmMsg" onclick="MediaLeaveQueue()">取消排队</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="videoCall">
+        <div style="padding:15px;">
+            <!-- 视频层 -->
+            <div id="videoCallContent">videoCallContent
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </center>
+
+    <!-- 主动呼叫等待框 -->
+    <div id="Initiative_Call_Div">
+        <div class="Div_HeadPart">
+            <img alt="取消呼叫" src="image/close.png" onclick="CancelCall()" />
+        </div>
+        <div id="Initiative_Call_Div_Content" class="Call_Div_Content"></div>
+        <div class="Call_Div_Button">
+            <div id="Initiative_Cancel_Button" onclick="CancelCall()" style="">取消呼叫</div>
+        </div>
+    </div>
+	<!-- 信息提示层 -->
+	<div id="SessionPrompt_Div"></div>
+	<!-- 日志输出层 -->
+	<div id="LOG_DIV_BODY">
+		<div id="LOG_DIV_TITLE">系统日志<b title="最小化">—</b></div>
+		<div id="LOG_DIV_CONTENT"></div>
+		<iframe frameborder=0 scrolling=no allowtransparency=true></iframe>
+	</div>
+	<div class="showBox">
+		<span id="icon"></span>
+		<span class="btn" id="showLog">显示日志</span>
+	</div>
+
+</body>
+</html>

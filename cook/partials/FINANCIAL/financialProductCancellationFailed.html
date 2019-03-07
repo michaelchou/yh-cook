@@ -1,0 +1,33 @@
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+	</div>
+ <div class="container step col-xs-offset-0 col-xs-12 head-positiony">
+		<h1 class="text-center">理财撤单失败</h1><br>
+		<h3 class="text-center">Failed to cancel the finance Product</h3>
+</div>
+<div class="col-xs-offset-3 col-xs-6" style="font-size:18px;margin-top:15px; color:#000000;font-weight:600;">维护信息</div>	           
+	        <div class="col-xs-offset-3 col-xs-6"  style="margin-top:10px; height:160px; border:1px solid #cccccc;">
+	            <div class="input_div col-xs-offset-0 col-xs-12" style="margin-top:10px;">	 
+					<font class="input_div col-xs-offset-0 col-xs-12"  style="margin-left:-15px;margin-top:6px;font-size:16px;margin-right:22px;color:#000000;">理财撤单失败原因：</font>
+					<font style="font-weight:600;font-size:14px;color:#f39b06;" >&nbsp;{{pool.Financial_ProductCancellation_ErrorMessage}}</font>
+					
+				</div>
+				
+	        </div>		
+  </div> 
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+	<div ng-if="pool.receipt == 'active'">
+		<button type="button" class="col-xs-offset-3 col-xs-2 image-btgr active {{pool.receipt}}" ng-click="action('receipt')">
+			打印凭条
+		</button>
+		<button type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+		<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+	</div>
+	<div ng-if="pool.receipt != 'active'">
+		<button type="button" class="col-xs-offset-4 col-xs-2 image-btor"  ng-click="action('return')" >返回</button>
+    	<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt"  ng-click="action('eject')" >退卡</button>
+	</div>
+</div>
+

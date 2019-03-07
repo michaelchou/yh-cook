@@ -1,0 +1,123 @@
+    <div class="container indicates">
+	    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	    <span class="" id="timeoutSelf"><span>
+    </div>
+    <div class="container step" style="margin-top:-5%">
+    	<h1 class="text-center">认证失败,请重新拍照</h1>
+    </div>
+    <div class="step">
+        <h3 class="text-center" style="margin-left:5%">请您去除帽子、墨镜等遮挡物，对准上方摄像头</h3>
+        <label    style="margin-left:4%;font-size:24px;color: #ce352c" id="comment">&nbsp;</label>
+        
+	 <div id="FaceImage" style="left:37%;visibility:visible;position:absolute;top:24%;border:0px blue solid;">
+	   <img id="FaceImage1" style="width:400px;height:400px;" src=""/>
+	 </div>
+   <div>
+	 <text id="parm" ></text>
+     <text id="reta" ></text>
+     <text id="data" ></text>
+     <text id="datr" ></text>
+   </div>
+   <div>
+   </div>   
+            
+   <div style="margin-top:37%;margin-left:300px;display:none" id="Fun_button1">
+	    <button type="button" id="btn_restart" class=" col-xs-2 image-bt"  onclick = "ExampleInit()" >重 拍</button>
+		<button type="button" id="btn_end" class="normal col-xs-offset-1 col-xs-2 image-btgr"  onclick="ExampleEnd()" >退 出</button>
+		<button type="button" id="btn_confirm" class="normal col-xs-offset-1 col-xs-2 image-btgr"  onclick="getImage()" >确 定</button>
+   </div>
+   <div style="margin-top:37%;margin-left:410px;display:none" id="Fun_button2">
+        <button type="button" id="btn_restart" class=" col-xs-2 image-bt"  onclick = "ExampleInit()" >重 拍</button>
+	    <button type="button" id="btn_end" class="normal col-xs-offset-1 col-xs-2 image-btgr"  onclick="ExampleEnd()" >退 出</button>
+   </div>
+    	
+
+  <SCRIPT LANGUAGE="JavaScript">
+    var nRet = 10;
+    var sImg = "";
+    var strBase64 = "";  
+    var szIdCard = "000000000000000000";
+    var szSerise = "000000000000000000000000000000";
+ExampleInit();
+function getImage()
+{
+	$("#Layer_HY").css("display","none");
+	clearInterval(n_interval);
+	camera.stStopCamera();
+	BrowserCallback("getImageHY");//判断呼叫按钮是否隐藏
+}
+
+var camera;
+
+var timeoutSelf = 90;
+$("#timeoutSelf").html(90+"");
+var n_interval = setInterval(function () {
+	  timeoutSelf = timeoutSelf -1;
+	  if(timeoutSelf == 0)
+	  {
+		  $("#timeoutSelf").html(timeoutSelf+"");
+		  $("#Layer_HY").css("display","none");
+		  clearInterval(n_interval);
+		  camera.stStopCamera();
+		  var scope = angular.element(main).scope();
+		  scope.action('timeout');
+	  }else{
+		  $("#timeoutSelf").html(timeoutSelf+"");
+	  }
+	  
+	},1000);
+
+function ExampleInit()
+{
+	timeoutSelf = 90;
+	camera = document.getElementById("cap1");
+	$("#comment").html("");
+	$("#Layer_HY").css("display","block");
+	$("#FaceImage").css("display","none");
+	$("#Fun_button1").css("display","none");
+    $("#Fun_button2").css("display","none");
+    var result = camera.stAsyInit();
+//	if (result == 0)
+//		ExampleOpenCamera();
+}
+
+
+function ExampleOpenCamera()
+{
+    camera.FrameInterval = 30;
+    // open camera
+    var result = camera.stAsyStartCamera();
+//    if (result == 0)
+//    	ExampleStartLiveDetect();
+}
+
+
+function ExampleStartLiveDetect()
+{
+	var image_path = "D:/FaceImg.jpg";
+	var timeout_ms = 90000;
+    var result = camera.stStartLiveDetect(image_path, timeout_ms);
+    //alert(result)
+	//if (result == 0)
+		//ExampleCloseCamera();
+}
+
+function ExampleEnd() {
+	$("#Layer_HY").css("display","none");
+	clearInterval(n_interval);
+    camera.stStopCamera();
+    var scope = angular.element(main).scope();
+	scope.action('end');
+}
+
+function ExampleCloseCamera() {
+    camera.stStopCamera();
+    $("#FaceImage").css("display","block");
+    document.getElementById("FaceImage1").src ="D:/FaceImg.jpg"+"?"+Math.random();
+    $("#Layer_HY").css("display","none");
+    $("#Fun_button1").css("display","block");
+    $("#Fun_button2").css("display","none");
+}
+
+
+</SCRIPT>

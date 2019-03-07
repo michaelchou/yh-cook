@@ -1,0 +1,186 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#jobselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+creatTree(0,"填写表单");
+	document.getElementById("idcard").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+
+
+
+function commit(){
+ Hide();
+ var scope = angular.element(main).scope();
+ var mobile = document.getElementById("mobile").value;
+ var address = document.getElementById("address").value;
+ var reg = /^[1-9]\d{10}$/; //11位号码必须非0开头
+  if(mobile.length<11){
+   	$("#mobile").attr("data-content","请输入11位手机号");
+   $("#mobile").popover('show');
+  }else if(!reg.test(mobile)){
+  	$("#mobile").attr("data-content","请输入正确的手机号");
+   $("#mobile").popover('show');
+  }else if(address.length<=0){
+   $("#address").popover('show');
+  }else if(address.indexOf(",") > -1)
+  {
+	$("#address").attr("data-content", "非法字符，请重新输入");
+	$("#address").popover('show');
+  }else if(document.getElementById("job").value.indexOf(",") > -1)
+  {
+	$("#jobselect").attr("data-content", "非法字符，请重新输入");
+	$("#jobselect").popover('show');
+  }else{
+    if(document.getElementById("jobselect").value != "--可选择职业类型--"){
+		scope.pool["job"] = document.getElementById("job").value;
+	}else{
+		scope.pool["job"] = '';
+	}
+	scope.pool["mobile"] = document.getElementById("mobile").value;
+	scope.action("submit");
+  }
+
+}
+
+function select()
+{
+ if(document.getElementById("jobselect").value != "--可选择职业类型--")
+ {
+	 document.getElementById("job").value = document.getElementById("jobselect").value;
+ }
+ 
+
+}
+
+</script>
+<div class="container indicates"> 
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px red solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px red">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写短信签约表单</h3>
+
+  <form class="form-horizontal" style="margin-top:0%;margin-left:15%">
+    <div class="form-group">
+      <label for="name" class="col-sm-2 control-label" style="margin-top:18px;margin-left:-18px;color:#000000">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="text" class='form-control' style='background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  id="name" value="{{pool.name}}" disabled="disabled" readonly>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="pid" class="col-sm-2 control-label" style="margin-top:20px;margin-left:-18px;color:#000000;">身份证号</label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text" style='background:#C0C0C0;border:1px red solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="pid"  value="{{pool.pid}}" disabled="disabled" readonly>
+      </div>
+    </div>
+    <div class="form-group" style="border:0px red solid;">
+      <label for="mobile" class="col-sm-2 control-label" style="margin-top:20px;color:#000000;margin-left:-18px;">手机号码
+   
+      </label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="tel"  style="border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="mobile" value="{{pool.mobileNumber}}" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>手机号输入有误 </sp>" data-content=""  data-html="true" maxlength="11" >
+        
+      </div>
+         <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>
+    <div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-18px;color:#000000">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业
+      </label>
+      
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" placeholder="请选择或输入职业"  class="form-control" data-container="body" value="{{pool.job}}"  data-placement="right" ng-model="pool.job"
+    			  title="<sp class='fg-red'>职业输入有误 </sp>" data-content=""    data-html="true" id="job"   >
+        <select class="form-control selectpicker" onchange="select()"  id="jobselect" style="margin-top:8px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option disabled selected>--可选择职业类型--</option>
+          <option>各类专业，技术人员</option>
+          <option>国家机关，党组织，企事业单位负责人</option>
+          <option>办事人员和有关人员</option>
+          <option>商业工作人员</option>
+          <option>服务性工作人员</option>
+          <option>农林牧渔劳动者</option>
+          <option>生产工人，运输工人和有关人员</option>
+          <option>不便分类的其他劳动者</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" >
+      <label for="address" class="col-sm-2 control-label" style="color:#000000;margin-left:-18px;">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址
+      </label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <textarea style="border:1px red solid;box-shadow:0 0px 0px #000 inset" class="form-control" rows="2" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" id="address" value="{{pool.address}}" ng-model="pool.address" class="form-control" data-container="body"  data-placement="right" 
+    			  title="<sp class='fg-red'>地址输入有误 </sp>" data-content="请输入您的地址"    data-html="true"  maxlength="80"/>
+        </textarea>
+      </div>
+      <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:8px"></sp>
+    </div>
+   
+    <div style="top:8%;left:68%;width:102px; height:126px;outline:none;visibility:visible;position:absolute;">
+      <label >身份证照片</label >
+      <img id="idcard" align="left" style="width:100%; height:100%;margin-top:20px;border:1px red solid;border-radius:10px 10px 10px 10px;" /> 
+    </div>
+  </form>
+  
+</div>
+</br>
+</br>
+
+      <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+      <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('return')">退出</button>
+      
+          <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>
+		 
+    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>

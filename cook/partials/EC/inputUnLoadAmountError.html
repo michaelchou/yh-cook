@@ -1,0 +1,53 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	document.getElementById("amount").focus();
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请输入圈提金额</h1>
+    <h3 class="text-center">Please enter unload amount</h3>
+</div>
+
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" class="form-control" onclick="openkeyset(1,900,680)"
+                onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')" 
+                    id="amount" value="" onblur="this.focus()" ng-model="pool.transAmount" maxlength="22"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>圈提金额输入有误</sp>" data-content="" data-html="true">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="clear()">清  除</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="step">
+    <div>
+        <h1 class="text-center" style="font-size: 140%;color:#F90;">
+        	提示：您可输入的最大圈提金额为 {{pool.input_maxECVal}} 元</br>如果产生交易手续费,将从转入账户中扣收
+        </h1>
+    </div>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+	<button type="button" class="col-xs-offset-3 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+	<button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="checkUnLoadAmount('input_maxVal');">确认</button>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

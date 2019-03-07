@@ -1,0 +1,168 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#jobselect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+  creatTree(0,"填写表单");
+  document.getElementById("idcard").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+	 return;
+	
+	 }
+}
+function Hide(){
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y){
+	Show(type,x,y)
+}
+
+
+
+function commit(){
+ Hide();
+ var scope = angular.element(main).scope();
+ var idno = document.getElementById("idno").value;
+ var peopid = document.getElementById("peopid").value;
+ var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/; //11位号码必须 13 14 15 17 18 开头
+  if(idno.length<18){
+   $("#idno").attr("data-content","请输入18位身份证号");
+   $("#idno").popover('show');
+  }else if(peopid.length <=0){
+   	$("#peopid").attr("data-content","请输入社保个人编号");
+   $("#peopid").popover('show');
+  }else if(document.getElementById("peoptype").value.indexOf(",") > -1)
+  {
+	$("#peoptype").attr("data-content", "非法字符，请重新输入");
+	$("#peoptype").popover('show');
+  }else if(document.getElementById("jobselect").value == "--可选择参保对象--")
+  {
+		$("#jobselect").attr("data-content", "请选择参保对象");
+		$("#jobselect").popover('show');
+  }else {
+	if(null != document.getElementById("jobselect").value){
+		scope.pool["peoptype"] = document.getElementById("peoptype").value.split("-")[0];
+		
+	}
+		scope.action("submit");
+	}
+
+}
+
+function select()
+{
+ if(document.getElementById("jobselect").value != "--可选择参保对象--")
+ {
+     $("#peoptype").popover('destroy');
+	 document.getElementById("peoptype").value = document.getElementById("jobselect").value;
+ }
+ 
+
+}
+
+</script>
+<div class="container indicates"> <span class="timeout pull-right">{{timeout}}</span> </div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px red solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px red">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请根据提示填写表单</h3>
+  <form class="form-horizontal" style="margin-top:2%;margin-left:30%">
+    
+    <div class="form-group">
+      <label for="idno" class="col-sm-2 control-label" style="margin-top:15px;margin-left:-18px;color:#000000;">身份证号</label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text" style='border:1px red solid;box-shadow:0 0px 0px #000 inset' onkeyup="checkInput(id),this.value=this.value.replace(/[^\d|chun]/g,'')" onclick="openkeyset(4,900,500)" class="form-control" id="idno"  value="{{pool.idno}}"  ng-model="pool.idno"
+        data-container="body"  data-placement="right"  title="<sp class='fg-red'>身份证号输入有误 </sp>" data-content=""  data-html="true" maxlength="18">
+      </div>
+       <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>
+    
+    
+    <!--<div class="form-group" style="border:0px red solid;">
+      <label for="mobile" class="col-sm-2 control-label" style="margin-top:20px;color:#000000;margin-left:-18px;">手机号码
+   
+      </label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="tel"  style="border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="mobile" value="{{pool.mobile}}" ng-model="pool.mobile" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>手机号输入有误 </sp>" data-content=""  data-html="true" maxlength="11" >
+        
+      </div>
+         <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>-->
+    <div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-18px;color:#000000">参保对象类型
+      </label>
+      
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" onclick="openkeyset(2,900,350)" placeholder="请选择参保对象"  class="form-control" data-container="body" value="{{pool.peoptype}}"  data-placement="right" ng-model="pool.peoptype"
+    			  title="<sp class='fg-red'>参保对象输入有误 </sp>" data-content=""    data-html="true" id="peoptype"   >
+        <select class="form-control selectpicker" onchange="select()"  id="jobselect" style="margin-top:8px;border:1px red solid;box-shadow:0 0px 0px #000 inset">
+          <option  disabled selected >--可选择参保对象--</option>
+          <option>1-个人</option>
+          <option>2-单位</option>
+        </select>
+      </div>
+		<sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>
+    
+   <div class="form-group">
+      <label for="peopid" class="col-sm-2 control-label" style="margin-top:15px;color:#000000;margin-left:-18px;">个人编号
+   
+      </label>
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text"  style="border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')" onclick="openkeyset(1,900,500)" class="form-control" id="peopid" value="{{pool.peopid}}" ng-model="pool.peopid" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>个人编号输入有误 </sp>" data-content=""  data-html="true" maxlength="30" >
+        
+      </div>
+         <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>
+     <div class="form-group">
+         <tr> <th class="col-xs-6"><h2 style="margin-left:-2px;font-size:15px;line-height:1px;font-weight:bold">注意:个人编号若有字母可不输字母,例：编号为JSJ12345  则只输入 12345</h2></th></tr>
+     </div> 
+    <div style="top:8%;left:98%;width:1px; height:1px;outline:none;visibility:visible;position:absolute;display:none">
+      
+      <img id="idcard" align="left" style="width:100%; height:100%;margin-top:20px;border:1px red solid;border-radius:10px 10px 10px 10px;" />
+    </div>
+  </form>
+</div>
+</br>
+</br>
+
+   <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+           <button type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('return')">返回</button>
+          <button type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="resetModel('peopid','peopid');resetModel('idno','idno');commit()">确认</button>
+		 
+    </div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

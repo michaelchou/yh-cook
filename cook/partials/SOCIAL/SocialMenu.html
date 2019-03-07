@@ -1,0 +1,60 @@
+<!-- 社保业务二级菜单 -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<div class="container indicates">
+	<span class="timeout pull-right">{{timeout}}</span>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请选择服务项目</h1>
+    <h3 class="text-center">Please select services</h3>
+</div>
+
+	<div>
+	<div class="col-xs-offset-2 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="waterPay" src="image/agent/waterPay.png" class="center" onmousedown="Mousedown(this)" tag=" {{pool.AWF}}" ng-click="action('AWF')"/>
+	</div>
+	<div class="col-xs-offset-1 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="electricPay" src="image/agent/electricPay.png" class="center" onmousedown="Mousedown(this)"tag=" {{pool.AEF}}" ng-click="action('AEF')"/>
+	</div>
+	<div class="col-xs-offset-1 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="gasPay" src="image/agent/gasPay.png" class="center" onmousedown="Mousedown(this)" tag=" {{pool.AGF}}"ng-click="action('AGF')"/>
+	</div>
+	</div>
+	
+	
+	<div>
+	<div class="col-xs-offset-2 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="tvPay" src="image/agent/tvPay.png" class="center" onmousedown="Mousedown(this)" tag=" {{pool.TVF}}"ng-click="action('TVF')"/>
+	</div>
+	<div class="col-xs-offset-1 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="telecomPay" src="image/agent/telecomPay.png" class="center" onmousedown="Mousedown(this)"tag=" {{pool.ADF}}" ng-click="action('ADF')"/>
+	</div>
+	<div class="col-xs-offset-1 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="phonePay" src="image/agent/phonePay.png" class="center" onmousedown="Mousedown(this)" tag=" {{pool.AYF}}"ng-click="action('AYF')"/>
+	</div>
+	</div>
+	
+	</div>
+</br>	
+	 <div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+        <button type="button" class="image-btor" ng-click="action('return')">返回</button>
+    </div>
+
+        <!-- Modal -->
+   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class=" col-xs-offset-3 col-lg-6 alert alert-danger fade in" style="top:300px">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel"  style="text-align: center;">对不起，暂不支持该交易！</h4>
+        </div>
+        <p>
+          <button type="button" class="btn btn-danger col-xs-offset-4 col-lg-4" data-dismiss="modal">确认</button>
+        </p>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->

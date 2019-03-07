@@ -1,0 +1,51 @@
+<script>
+document.getElementById("startDate").focus();
+</script>
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+<div class="cook-head">
+    <h1 class="text-center">开始日期输入有误,请重新输入开始日期,例如:20160101</h1>
+</div>
+
+
+ <div class="step1">
+	<form class="navbar-form" role="search" >
+	<div class="col-xs-offset-0 col-xs-12">
+	<div class="input-group input-group-lg button-navbor1">
+		  <input type="text" class="form-control" id="startDate" name="startDate" value="" ng-model="pool.startDate" >
+		 <span class="input-group-btn">
+			<button class="btn btn-primary" type="button" onclick="Delete()">清  除</button>
+		  </span>
+		
+	</div><!-- /input-group -->
+	</div>
+</form>
+</div>
+</div>	
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+		<button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+		<button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+	 	
+		 <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" ng-click="action('confirm')">确认</button>
+	   	
+	  </div>
+	  
+	  
+
+	  
+	  
+<script>
+function Delete()
+{
+	document.getElementById("startDate").value="";
+	document.getElementById("startDate").focus();
+}
+var tip_keyActionTable = {
+CANCEL: 'cancel',
+CONFIRM: 'confirm'
+};

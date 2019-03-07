@@ -1,0 +1,262 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#referNoSelect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#innerBankSelect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#crossBankSelect{
+	border:solid 1px red;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+	creatTree(0,"填写表单");
+	document.getElementById("idcard").src ="D:/ID_Photos/Card.jpg"+"?"+Math.random();
+	function Show(type,x,y){
+		try {
+				HandWrite.Show(type,1,x,y);
+		} catch (e) {
+	 	//alert(e);
+		scope.closeHandWriter();
+		location.reload();
+		return;
+		}
+	}
+	
+	function Hide(){
+		try {
+				HandWrite.Hide();
+		} catch (e) {
+			//	alert(e);
+			return;
+		}
+	}	
+	
+	function openkeyset(type,x,y)
+	{
+		Show(type,x,y)
+	}
+
+		function commit(){
+			Hide();
+			var scope = angular.element(main).scope();
+			var MessOneLimit = document.getElementById("MessOneLimit").value;
+			var MessDayLimit = document.getElementById("MessDayLimit").value;
+			var innerBankSelect = document.getElementById("innerBankSelect").value;
+			var crossBankSelect = document.getElementById("crossBankSelect").value;
+			var referNo = document.getElementById("referNo").value;
+			if(MessOneLimit.length <= 0 || MessOneLimit*1 < 0.01){
+				$("#MessOneLimit").attr("data-content","金额不能为空或为零");
+			    $("#MessOneLimit").popover('show');
+			}else if(MessDayLimit.length <= 0 || MessDayLimit*1 < 0.01){
+				$("#MessDayLimit").attr("data-content","金额不能为空或为零");
+			    $("#MessDayLimit").popover('show');
+			}else if(innerBankSelect.length <= 0){
+				$("#innerBankSelect").attr("data-content", "非法字符，请重新输入");
+				$("#innerBankSelect").popover('show');
+			}else if(crossBankSelect.length <= 0){
+				$("#crossBankSelect").attr("data-content", "非法字符，请重新输入");
+				$("#crossBankSelect").popover('show');
+			}
+			else{
+				if(referNo == "非行员"){
+					scope.pool["ST_ReferrerType"] = 0;
+				}else if(referNo == "行员"){
+					scope.pool["ST_ReferrerType"] = 1;
+				}
+				scope.pool["ST_MessOneLimitAmount"] = MessOneLimit;
+				scope.pool["ST_MessDayLimitAmount"] = MessDayLimit;
+				scope.pool["ST_BankInnerTransfer"] = innerBankSelect;
+				scope.pool["ST_CrossBankTransfer"] = crossBankSelect;
+				scope.pool["PIsMobileBank"] = "开通";
+				scope.pool["PIsMessType"] = "1";
+				scope.action("submit");
+			}
+		}
+
+
+
+function selectThree()
+{
+ if(document.getElementById("referNoSelect").value != "--可选择推荐人类型--")
+ {
+	 document.getElementById("referNo").value = document.getElementById("referNoSelect").value;
+ }
+}
+
+function selectOne()
+{
+ if(document.getElementById("innerBankSelect").value != "--可选择行内转账类型--")
+ {
+	 document.getElementById("innerBank").value = document.getElementById("innerBankSelect").value;
+ }
+}
+
+function selectTwo()
+{
+ if(document.getElementById("crossBankSelect").value != "--可选择跨行转账类型--")
+ {
+	 document.getElementById("crossBank").value = document.getElementById("crossBankSelect").value;
+ }
+}
+</script>
+<div class="container indicates"> 
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请填写手机银行签约表单</h3>
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px red solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px red">
+  <form class="form-horizontal" style="margin-top:0%;margin-left:0%">
+	<div id="messSign" class="form-group" style="border:0px red solid;">
+	  <label for="mobile" class="col-sm-2 control-label" style="margin-top:0px;color:#000000;margin-left:-18px;">短信单笔限额<br/>最大限额:{{pool.ST_MessOneLimitAmount}}
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="margin-top:5px;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="MessOneLimit" value="{{pool.ST_MessOneLimitAmount}}"
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>金额输入有误 </sp>" data-content=""  data-html="true" maxlength="9" >       
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+      <label for="mobile" class="col-sm-2 control-label" style="margin-top:0px;color:#000000;margin-left:-32px;">短信单日限额<br/>最大限额:{{pool.ST_MessDayLimitAmount}}
+   
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="margin-top:5px;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="MessDayLimit" value="{{pool.ST_MessDayLimitAmount}}"
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>金额输入有误 </sp>" data-content=""  data-html="true" maxlength="9" >
+        
+      </div>
+         <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:28px"></sp>
+    </div>
+	<div class="form-group">
+      <label for="telephone" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-18px;color:#000000">行内转账
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入转账类型"  class="form-control"
+    			  title="<sp class='fg-red'>转账类型输入有误 </sp>" data-content=""    data-html="true" id="innerBank"   >
+        <select class="form-control selectpicker" onchange="selectOne()"  id="innerBankSelect" style="margin-top:8px;border:1px red solid;box-shadow:0 0px 0px #000 inset" title="<sp class='fg-red'>行内转账类型输入有误 </sp>" 
+			data-content="" data-html="true" data-container="body" data-placement="right">
+          <!-- <option disabled selected>--可选择行内转账类型--</option> --> 
+		  <option>开通</option>
+          <option>不开通</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:16px"></sp>
+	  <label for="telephone" class="col-sm-2 control-label" style="margin-top:10px;margin-left:-30px;color:#000000">跨行转账
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入转账类型"  class="form-control" data-container="body" data-placement="right"
+    			  title="<sp class='fg-red'>转账类型输入有误 </sp>" data-content=""    data-html="true" id="crossBank"   >
+        <select class="form-control selectpicker" onchange="selectTwo()"  id="crossBankSelect" style="margin-top:8px;border:1px red solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>跨行转账类型输入有误 </sp>" data-content="" data-html="true" data-container="body" data-placement="right">
+          <!-- <option disabled selected>--可选择跨行转账类型--</option> -->
+		  <option>开通</option>
+          <option>不开通</option>
+        </select>
+      </div>
+	  <sp class='fg-red glyphicon glyphicon-star' style="float:left;margin-top:16px"></sp>
+    </div>
+	<div class="form-group">
+		<label for="telephone" class="col-sm-2 control-label" style="margin-top:0px;margin-left:-18px;color:#000000">推荐人类型
+      </label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择或输入推荐人类型"  class="form-control" data-container="body" data-placement="right" 
+    			  title="<sp class='fg-red'>推荐人类型输入有误 </sp>" data-content=""    data-html="true" id="referNo">
+        <select class="form-control selectpicker" onchange="selectThree()"  id="referNoSelect" style="margin-top:5px;border:1px red solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-red'>推荐人类型输入有误 </sp>" data-content="" data-html="true" data-container="body" data-placement="right">
+          <option disabled selected>--可选择推荐人类型--</option>
+		  <option>非行员</option>
+          <option>行员</option>
+        </select>
+      </div>
+	  <label for="pid" class="col-sm-2 control-label" style="margin-top:0px;margin-left:-18px;color:#000000;">推荐人工号/客户号</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='margin-top:5px;border:1px red solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="custNo" ng-model="pool.ST_ReferrerNo"
+			onkeyup="checkInput(id),this.value=this.value.replace(/[\W]/g,'')" onclick="openkeyset(2,900,500)" maxlength="12">
+      </div>
+    </div>
+	<div class="form-group">
+		<label for="pid" class="col-sm-2 control-label" style="margin-top:0px;margin-left:-18px;color:#000000;">推荐人姓名</label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="text" style='margin-top:5px;border:1px red solid;box-shadow:0 0px 0px #000 inset'  class="form-control" id="custName" ng-model="pool.ST_ReferrerName"
+			onkeyup="checkInput(id),this.value=this.value.replace(/[^\u4E00-\u9FA5]/g,'')" onclick="openkeyset(2,900,500)" maxlength="6">
+      </div>
+	  <label for="mobile" class="col-sm-2 control-label" style="margin-top:0px;color:#000000;margin-left:-18px;">联系邮编
+      </label>
+      <div class="col-sm-3" style="margin-left:18px">
+        <input type="tel"  style="margin-top:5px;border:1px red solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'')"  onclick="openkeyset(1,900,500)" class="form-control" id="Postcode" ng-model="pool.ST_StayPostcode" 
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-red'>邮编输入有误 </sp>" data-content=""  data-html="true" maxlength="6" >       
+      </div>
+    </div>
+	
+	<div class="form-group" style="margin-top:0%;">
+      <label for="address" class="col-sm-2 control-label" style="color:#000000;margin-left:-18px;">预留信息
+      </label>
+      <div class="col-sm-4" style="margin-left:18px;">
+        <textarea style="border:1px red solid;box-shadow:0 0px 0px #000 inset" class="form-control" rows="2" onkeyup="checkInput(id)" onclick="openkeyset(2,900,500)" id="SecretNotice" ng-model="pool.ST_SecretNotice" class="form-control" data-container="body"  data-placement="right" 
+    			  title="<sp class='fg-red'>信息输入有误 </sp>" data-content=""    data-html="true"  maxlength="60"/>
+        </textarea>
+      </div>
+    </div>
+	<div style="top:8%;left:86%;width:102px; height:126px;outline:none;visibility:visible;position:absolute;">
+      <label >身份证照片</label >
+      <img id="idcard" align="left" style="width:100%; height:100%;margin-top:20px;border:1px red solid;border-radius:10px 10px 10px 10px;" />
+    </div>
+  </form>
+</div>
+<div ng-if="pool.ST_CardSmsSign != 1 && pool.ST_CardAtmSign != 1" class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+    <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-bt" ng-click="action('eject')">退出</button>      
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>		 
+</div>
+<div ng-if="pool.ST_CardAtmSign == 1" class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+    <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt" ng-click="action('eject')">退出</button>      
+    <button type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('returnATM')">上一页</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>		 
+</div>
+<div ng-if="pool.ST_CardSmsSign == 1 && pool.ST_CardAtmSign != 1" class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+    <button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-bt" ng-click="action('eject')">退出</button>      
+    <button type="button" class="col-xs-offset-1 col-xs-2 image-btor" ng-click="action('returnSMS')">上一页</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">提交审核</button>		 
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

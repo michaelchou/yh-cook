@@ -1,0 +1,165 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#LoansRevertWayselect{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+	 select::-ms-expand{
+	 display:none;
+ }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+
+function clearInfo(){
+
+document.getElementById("rate").value = "";//利率
+document.getElementById("loansAmount").value = "";//贷款金额
+document.getElementById("dueTime").value = "";//贷款时间
+document.getElementById("LoansRevertWayselect").value = "--请选择偿还方式--";//贷款方式选择
+$("#rate").popover('destroy');
+$("#loansAmount").popover('destroy');
+$("#dueTime").popover('destroy');
+$("#LoansRevertWayselect").popover('destroy');
+document.getElementById("LoansRevertWay").value = "";//贷款方式
+document.getElementById("RevertAmount").value = "";//每期还款金额
+document.getElementById("rateAmount").value = "";//利息总额
+document.getElementById("AmountSum").value = "";//本息合计
+}
+		
+function commit(){
+var rate = document.getElementById("rate").value;//利率
+var loansAmount = document.getElementById("loansAmount").value;//贷款金额
+var dueTime = document.getElementById("dueTime").value;//贷款时间
+var LoansRevertWayselect = document.getElementById("LoansRevertWayselect").value;//贷款方式选择
+var scope = angular.element(main).scope();
+if(rate.length<=0 || rate==0){
+   	$("#rate").attr("data-content","填写错误");
+	$("#rate").popover('show');
+  }else if(loansAmount.length<=0){
+	$("#loansAmount").attr("data-content","不能为空");
+	$("#loansAmount").popover('show');
+  }else if(dueTime.length<=0)
+  {
+	$("#dueTime").attr("data-content", "不能为空");
+	$("#dueTime").popover('show');
+  }else if(LoansRevertWayselect=="--请选择偿还方式--")
+  {
+	$("#LoansRevertWayselect").attr("data-content", "请选择偿还方式");
+	$("#LoansRevertWayselect").popover('show');
+  }
+  
+ 
+  
+  if(rate!="" && loansAmount!="" && dueTime!="" && LoansRevertWayselect!="--请选择偿还方式--"){
+ 
+   scope.pool["ST_Rate"]=rate;
+   
+  scope.pool["ST_LoansRevertWay"]=LoansRevertWayselect;
+  scope.pool["ST_LoansAmount"]=loansAmount;
+  
+  scope.pool["ST_LoansPeriods"]=dueTime;
+  
+  scope.action("confirm");
+  
+  }
+ 
+          
+
+}
+
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+</div>
+
+<div class="container step col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请根据提示填写表单</h3>
+  <form class="form-horizontal" style="margin-top:2%;margin-left:20%">
+    
+	<div class="form-group">
+      <label for="RevertWay" class="col-sm-2 control-label" style="font-size:16.5px;margin-top:15px;margin-left:60px;color:#000000;">偿还方式
+      </label>															
+      <div class="col-sm-4" style="margin-left:18px;">
+        <input type="tel" style="display:none;border:1px blue solid;box-shadow:0 0px 0px #000 inset" onkeyup="checkInput(id)" placeholder="请选择"  class="form-control" data-container="body" data-placement="right" 
+    			  title="<sp class='fg-blue'>输入有误 </sp>" data-content=""    data-html="true" id="economy"   >
+        <select class="form-control selectpicker" onchange="select2()"  id="LoansRevertWayselect" style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"
+			title="<sp class='fg-blue'>输入有误 </sp>" data-content=""    data-html="true" data-placement="right">
+          <option  disabled selected >--请选择偿还方式--</option>
+          <option>先息后本</option>
+          <option>等额本金</option>
+		  <option>利随本清</option>
+          <option>等额本息</option>
+        </select>
+      </div>
+	</div>
+	
+	<div class="form-group">
+      <label for="rate" class="col-sm-2 control-label" style="font-size:16.5px;margin-top:15px;margin-left:60px;color:#000000;">贷款利率
+      </label>															
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text"  style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"  onkeyup="checkInput(id),this.value=this.value.replace(/[^\d.]/g,'').replace(/^\./g,'').replace(/\.{2,}/g,'.').replace('.','$#$').replace(/\./g,'').replace('$#$','.').replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" 
+				  onclick="openkeyset(1,900,500)" class="form-control" id="rate"  value="{{rate}}" placeholder="请输入贷款月利率，单位：‰"
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-blue'>利率输入有误 </sp>" data-content=""  data-html="true" maxlength="5" >
+      </div>
+	 
+	</div>
+	
+	
+	
+	<div class="form-group">
+      <label for="loansAmount" class="col-sm-2 control-label" style="font-size:16.5px;margin-top:15px;margin-left:60px;color:#000000;">贷款金额
+      </label>															
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text"  style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"  onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'').replace(/^0{1,}/g,'')"  
+				onclick="openkeyset(1,900,500)" class="form-control" id="loansAmount" value="{{loansAmount}}"  placeholder="请输入贷款金额，单位：元"
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-blue'>金额输入有误 </sp>" data-content=""  data-html="true" maxlength="10" >
+      </div>
+	</div>
+	
+	<div class="form-group">
+      <label for="dueTime" class="col-sm-2 control-label" style="font-size:16.5px;margin-top:15px;margin-left:60px;color:#000000;">贷款期数
+      </label>															
+      <div class="col-sm-4" style="margin-left:18px">
+        <input type="text"  style="margin-top:18px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"   onkeyup="checkInput(id),this.value=this.value.replace(/\D/g,'').replace(/^0{1,}/g,'')"   onclick="openkeyset(1,900,500)" class="form-control" id="dueTime" placeholder="请输入贷款期数，单位：月" value="{{dueTime}}"
+    			  data-container="body"  data-placement="right"  title="<sp class='fg-blue'>输入有误 </sp>" data-content=""  data-html="true" maxlength="3" >
+      </div>
+	</div>
+	
+	
+    
+   
+    <div style="top:8%;left:98%;width:1px; height:1px;outline:none;visibility:visible;position:absolute;display:none">
+      
+      <img id="idcard" align="left" style="width:100%; height:100%;margin-top:20px;border:1px blue solid;border-radius:10px 10px 10px 10px;" />
+    </div>
+  </form>
+</div>
+</br>
+</br>
+
+
+
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px blue solid;">
+     <button id="confirm" type="button" class="col-xs-offset-2 col-xs-2 image-bt"   onclick="clearInfo()">清空重填</button>
+	 <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">开始计算</button>
+	 <button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+</div>
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>

@@ -1,0 +1,30 @@
+
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div style="height:460px">
+  <div class="cook-head">
+        <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+		<span class="">{{timeout}}</span>
+		</div>
+		<h1 class="text-center">电子现金账户明细</h1>
+		<h3 class="text-center">Account detail</h3>
+  </div>
+   <table class=" table-striped  table-bordered" width="96%" style="text-align:center;">
+      <tr style="font-weight:bold;font-size:16px;">
+         <td height="33px">序号</td>
+         <td height="33px">交易日期</td>
+         <td height="33px">交易类型</td>
+         <td height="33px">交易金额</td>
+      </tr>
+      <tr ng-repeat="x in detail" >
+	      <td height="33px">{{ x.key0}}</td>
+	      <td height="33px">{{ x.key1}}</td>
+	      <td height="33px">{{ x.key2}}</td>
+	      <td height="33px">{{ x.key3}}</td>
+      </tr>
+	</table>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+	<button id="cancel" class="col-md-offset-4 col-md-2 image-btor" ng-click="action('return')">返回</button>
+	<button class="col-md-offset-1 col-md-2 image-bt"  ng-click="action('eject')">退卡</button>
+</div>

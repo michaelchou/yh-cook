@@ -1,0 +1,114 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+document.getElementById("MUSIC1").src = "";
+	document.getElementById("amount").focus();
+	var scope = angular.element(main).scope();
+function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//	alert(e);
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+//清除提示信息
+function destory(obj){
+$("#" + obj.id).popover('destroy');
+}	
+	
+function subscription() {
+		var checkbox=document.getElementById("checkbox");
+		
+		var amount=document.getElementById("amount");
+        //var scope = angular.element(main).scope();  scope.pool["minpay"]  scope.pool["amount"]
+        var error = "";
+        if (amount.value.length <= 0) {
+            error = "还款金额不能为空";
+            $("#" + amount.id).attr("data-content", error);
+            $("#" + amount.id).popover('show');
+            scope.timeout = scope._timeout;
+        }else if (parseFloat(amount.value) <=0) {
+            error = "还款金额不能为0";
+            $("#" + amount.id).attr("data-content", error);
+            $("#" + amount.id).popover('show');
+            scope.timeout = scope._timeout;
+        }else if (parseFloat(amount.value)%100.00!=0) {
+            error = "还款金额要为100的整数倍";
+            $("#" + amount.id).attr("data-content", error);
+            $("#" + amount.id).popover('show');
+            scope.timeout = scope._timeout;
+        }else {
+			scope.closeHandWriter();
+			
+		
+			scope.pool["input_DEPAmount"]=parseInt(amount.value);
+            scope.action("confirm");
+        }
+	
+		
+    }
+	
+	
+	
+	
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+	<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请输入还款金额,并按[确认]键</h1>
+</div>
+
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" class="form-control" 
+                onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')" onclick="openkeyset(1,900,500)"
+                    id="amount" value="" onblur="this.focus()" ng-model="pool.transAmount" maxlength="22"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>交易金额输入有误</sp>" 
+					data-content="" data-html="true">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="clear()">清  除</button>
+                </span>
+            </div>
+        </div>
+		</br>
+		
+		
+	</form>
+</div>
+
+</br>
+</br>
+</br>
+</br>
+
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+	<button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    <button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+	<button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="subscription()">确认</button>
+   </div>
+   <object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

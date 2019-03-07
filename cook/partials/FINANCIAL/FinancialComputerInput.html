@@ -1,0 +1,358 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+#productCode{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+#productCode::-ms-expand{
+	 display:none;
+}
+#term{
+	border:solid 1px blue;/*边框*/
+	appearance :none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	/*清除选择框默认样式*/
+	 background:url('./image/select.png') no-repeat scroll  center transparent;
+	 background-size:cover;
+
+	 padding-right:40px;
+	 /*下拉箭头位置*/
+	 box-shadow:0 0px 0px #000 inset;
+	 /*阴影效果*/
+}
+ /*隐藏默认的下拉箭头*/
+#term::-ms-expand{
+	 display:none;
+ }
+	 
+ .ui-datepicker{
+	 width: 16em; padding: .5em .5em 0; display: none; font-size: 2em;
+}
+ .ui-datepicker-month{
+		color:blue;
+	}
+	.ui-datepicker-year{
+		color:blue;
+	}
+</style>
+<script language="JavaScript" type="text/JavaScript">
+$(function() {
+    $( "#FComputer_startDate" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+    });
+    $( "#FComputer_endDate" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+    });
+    $.datepicker.setDefaults($.datepicker.regional['zh-CN']); //中文
+    $( "#FComputer_startDate" ).datepicker( "option", "showAnim", "clip" );//日期控件出现和消失的效果
+    $( "#FComputer_endDate" ).datepicker( "option", "showAnim", "clip" );//日期控件出现和消失的效果
+  });		
+var scope = angular.element(main).scope();
+
+
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//	alert(e);
+	 return;
+	 }
+}
+  
+  
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+Show(type,x,y)
+}
+
+
+function commit(){
+	var amount=document.getElementById("amount").value.trim();
+	if(amount==""){
+			$("#amount").attr("data-content", "请输入金额");
+	        $("#amount").popover('show');
+			return false;
+		}
+	if(parseFloat(amount)<=0){
+			$("#amount").attr("data-content", "金额不能为0");
+	        $("#amount").popover('show');
+			return false;
+		}
+	
+	var temp=amount.split(".");
+	
+	if(temp.length==1){
+		amount=amount+".00";
+	}else if(temp[1].length==1){
+		amount=amount+"0";
+	}else if(temp[1].length==0){
+		amount=amount+"00";
+	}
+	scope.pool["FComputer_amount"]=amount;
+	
+	
+	var productCode=document.getElementById("productCode");
+	var term=document.getElementById("term");
+	if(productCode.value==""){
+		    $("#productCode").attr("data-content", "请选择产品类型");
+	        $("#productCode").popover('show');
+			return false;
+	     }else{
+			var index=productCode.selectedIndex;
+			scope.pool["FComputer_productCode_show"] = productCode.options[index].text;
+			scope.pool["FComputer_productCode"] = productCode.value;
+	    }
+	if	(productCode.value=="999TD000700"&&parseFloat(amount)<50000){
+		    $("#amount").attr("data-content", "个人七天通知存款试算金额不能少于5万");
+	        $("#amount").popover('show');
+			return false;
+	     }
+		
+		
+		
+	if(term.value==""){
+		    $("#term").attr("data-content", "请选择存期");
+	        $("#term").popover('show');
+			return false;
+	     }else{
+			var index=term.selectedIndex;
+			scope.pool["FComputer_term_show"] = term.options[index].text;
+			scope.pool["FComputer_term"] = term.value;
+	    }
+	if(!checkFinancialDate()){
+		return false;
+	}
+	scope.action("confirm");
+}
+
+
+
+function checkFinancialDate(){
+	 var startDateobj = document.getElementById("FComputer_startDate");
+	 var startDate = startDateobj.value;
+	 var endDateobj = document.getElementById("FComputer_endDate");
+	 var endDate = endDateobj.value;
+
+	 var reg = "yyyyMMdd";
+	 reg = reg.replace(/yyyy/, "[0-9]{4}");
+	 reg = reg.replace(/MM/, "((0[1-9])|1[0-2])");
+	 reg = reg.replace(/dd/, "((0[1-9])|([1-2][0-9])|30|31)");
+	 reg = new RegExp("^" + reg + "$");
+	 var dtVal = new Date();
+	 var strYear = dtVal.getFullYear();
+	 var strMonth = (dtVal.getMonth()+1).toString();
+	 for (var i=strMonth.length; i<2; i++)
+		 {
+			 strMonth = '0' + strMonth;
+		 }
+	var strDate = dtVal.getDate().toString();
+	for (var i=strDate.length; i<2; i++)
+		 {
+			 strDate = '0' + strDate;
+		 }
+	var currentDate=strYear + strMonth +strDate;
+	
+	if(startDate.length<=0){
+		$("#"+startDateobj.id).attr("data-content", "存入日期不能为空");
+		$("#"+startDateobj.id).popover('show');
+		return false;
+	  }
+	if(!reg.test(startDate)){
+		$("#"+startDateobj.id).attr("data-content", "存入日期格式错误");
+		$("#"+startDateobj.id).popover('show');
+		return false;
+	  }
+	if(endDate.length<=0){
+		$("#"+endDateobj.id).attr("data-content", "结清日期不能为空");
+		$("#"+endDateobj.id).popover('show');
+		return false;
+	  }
+	if(!reg.test(endDate)){
+		$("#"+endDateobj.id).attr("data-content", "结清日期格式错误");
+		$("#"+endDateobj.id).popover('show');
+		return false;
+	  }
+	if(endDate.toString() < startDate.toString()){
+		$("#"+endDateobj.id).attr("data-content", "结清日期不能小于存入日期");
+		$("#"+endDateobj.id).popover('show');
+		return false;
+	  }
+	  
+	  
+	scope.pool["FComputer_startDate"] = startDate;
+	scope.pool["FComputer_endDate"] = endDate;
+	scope.pool["FComputer_startDate_show"] =  startDateobj.value;
+	scope.pool["FComputer_endDate_show"] = endDateobj.value;	
+	return true;
+
+}
+
+
+
+var opt=document.getElementsByName("term");
+function setDisabled(){
+   		for(var i=0;i<opt.length;i++){
+   			opt[i].disabled="disabled";
+   		}
+   	}
+function changeTerm(){
+   		var productCode=document.getElementById("productCode").value;
+   		var term=document.getElementById("term");
+		
+		var amount=document.getElementById("amount").value.trim();
+	
+   		
+   		setDisabled();
+   		if(productCode=="999TD000100"){
+   			term.value="00000";
+   		}
+   		if(productCode=="999TD000700"){
+   			term.value="00007";
+			
+			if(amount==""||parseFloat(amount)<50000){
+			$("#amount").attr("data-content", "个人七天通知存款试算金额不能少于5万");
+	        $("#amount").popover('show');
+				}
+			
+   		}
+   		if(productCode=="999TD000200"){
+   			term.value="";
+   			for(var i=2;i<opt.length;i++){
+   			opt[i].disabled="";
+   			}
+   		}
+   		
+   	}
+</script>
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}<span>
+    </div>
+</div>
+<div class="container  col-xs-offset-1 col-xs-10" style="margin-top:0%;border:1px blue solid;border-radius:10px 10px 10px 10px;box-shadow:0 0 0px blue">
+<h3  style="font-size:34px;margin-top:0px;text-align: center;">请输入存款利息计算查询条件</h3>
+</br></br>
+  <form class="form-horizontal" style="margin-top:0%;margin-left:0%">
+  
+	 <div class="form-group">
+	 
+	  <label for="amount" class="col-sm-2 control-label" style="margin-top:10px;color:#000000;margin-left:-18px;">金额</label>
+      
+      <div class="col-sm-3" style="margin-left:18px;">
+        <input type="text" style="margin-top:10px;border:1px blue solid;box-shadow:0 0px 0px #000 inset" class="form-control" rows="2"  onclick="openkeyset(1,900,500)" 
+		          id="amount"   class="form-control" data-container="body"  data-placement="right" 
+				  ng-model="pool.FComputer_amount"
+				  onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')"
+    			  title="<sp class='fg-blue'>金额输入有误 </sp>" data-content="请输入金额"    data-html="true"  maxlength="15"/>
+		
+      </div>
+	  <sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:15px"></sp>
+     
+    </div>
+	 
+	<div class="form-group">
+      <label for="productCode" class="col-sm-2 control-label" style="margin-top:10px;color:#000000;margin-left:-18px;">产品类型</label>
+      <div class="col-sm-3" style="margin-left:18px;">
+        <select id="productCode"  style="margin-top:10px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"  class="form-control" 
+			ng-model="pool.FComputer_productCode" 	data-container="body"  data-placement="right" onchange="changeTerm();">
+			<option value="" disabled selected>--请选择--</option>	
+			<option value='999TD000100'>定活两便</option>
+			<option value='999TD000200'>整存整取</option>
+			<option value='999TD000700'>个人七天通知存款</option>
+		</select>
+		
+      </div>
+	  <sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:15px"></sp>
+	  <label for="term" class="col-sm-2 control-label" style="margin-top:10px;color:#000000;margin-left:-18px;">存期</label>
+      
+      <div class="col-sm-3" style="margin-left:18px;">
+        <select id="term"  style="margin-top:10px;border:1px blue solid;box-shadow:0 0px 0px #000 inset"  class="form-control" 
+			ng-model="pool.FComputer_term"	data-container="body"  data-placement="right" >
+			<option value="" disabled selected>--请选择--</option>
+			<option value='00000' name="term">无期限</option>
+			<option value='00007' name="term">七天通知存款</option>
+			<option value='00090' name="term">三个月</option>
+			<option value='00180' name="term">六个月</option>
+			<option value='00360' name="term">一年</option>
+			<option value='00720' name="term">两年</option>
+			<option value='01080' name="term">三年</option>
+			<option value='01800' name="term">五年</option>
+		</select>
+		
+      </div> 
+	   <sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:15px"></sp>
+	  
+    </div>
+	
+	
+	 <div class="form-group">
+	 <label for="date" class="col-sm-2 control-label" style="margin-top:10px;color:#000000;margin-left:-18px;">存入日期</label>
+     
+      <div class="col-sm-3" style="margin-left:18px">
+      <input type="text" style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" placeholder="请选择存入日期" class="form-control"   id="FComputer_startDate"  name="FComputer_startDate" value="" ng-model="pool.FComputer_startDate" 
+		data-container="body"  data-placement="left"  title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""   class="form-control"  data-html="true" maxlength="8">
+		
+      </div>
+	  <sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:10px"></sp>
+	  
+    </div>
+	 
+	<div class="form-group">
+	<label for="date" class="col-sm-2 control-label" style="margin-top:10px;color:#000000;margin-left:-18px;">结清日期</label>
+      
+      <div class="col-sm-3" style="margin-left:18px">
+      <input type="text" style="border:1px blue solid;box-shadow:0 0px 0px #000 inset" placeholder="请选择结清日期" class="form-control"   id="FComputer_endDate"  name="FComputer_endDate" value="" ng-model="pool.FComputer_endDate" 
+		data-container="body"  data-placement="left"  title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""   class="form-control"  data-html="true" maxlength="8">
+	   
+      </div>
+	<sp class='fg-blue glyphicon glyphicon-star' style="float:left;margin-top:10px"></sp>
+     
+    </div>
+	
+	
+  </form>
+</div>
+</br>
+</br>
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+    <button  id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor"   ng-click="action('return')">返回</button>
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="commit()">确认</button>
+</div>
+
+	
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+</object>

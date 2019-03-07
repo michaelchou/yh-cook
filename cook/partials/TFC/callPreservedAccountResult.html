@@ -1,0 +1,108 @@
+<!-- 可维护通知存款定期子账户列表 -->
+<script src="../../../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../../bower_components/icheck/icheck.min.js"></script>
+
+<link rel="stylesheet" href="../../../bower_components/icheck/skins/square/_all.css">
+<script language="javascript" type="text/javascript">
+	function inputFixedSubAccountDep() {
+		var scope = angular.element(main).scope();
+		var radio=document.getElementsByTagName("input");
+		var result = false;
+		for (var i = 0; i < scope.detail.length; i ++) {
+			if (radio.item(i).checked && radio.item(i).type == "radio") {
+				scope.pool["NP_sqno"] = scope.detail[i].key0;
+				scope.pool["NP_term"] = (scope.detail[i].key10);
+				var amount=scope.detail[i].key11;
+				scope.pool["NP_amount"] =parseInt(amount*100);
+				
+				scope.pool["NP_amount_show"] = scope.detail[i].key11;
+				scope.pool["NP_startDate"] = scope.detail[i].key5;
+				scope.pool["NP_endDate"] = scope.detail[i].key7;
+				
+				result = true;
+				break;
+			}
+		}
+		if (result) {
+			scope.action("confirm");
+		}
+	}
+</script>
+<style>
+   .cssinput{
+      height:20px;
+	  width:20px;
+   }
+</style>
+<div style="height:420px">
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+
+
+<div class="col-xs-offset-0 col-xs-12" style= "border:0px red solid;">
+
+<div class="cook-head">
+    <h1 class="text-center">可维护通知账户明细</h1>
+    <h3 class="text-center">Preservable Call Account detail</h3>
+</div>
+
+<table class="table table-striped  table-bordered" width="96%" style="text-align:center">
+  <tr style="font-weight:bold;font-size:18px">
+     <td ></td>
+     <td >理财账户笔号</td>
+	 <td >帐户状态</td>
+	 <td >存期</td>
+     <td >起息日期</td>
+	 <td >到期日期</td>
+	 <td >帐户余额</td>
+	 <td >自动转存</td>
+	</tr>
+
+	<tr ng-repeat="x in detail" >
+      <td ng-if="x.key3 =='正常'"><input type="radio" id={{$index}} name="radioed" class="cssinput"></td>
+	  <td ng-if="x.key3 !='正常'"><input type="radio" id={{$index}} name="radioed" class="cssinput" disabled></td>
+	  <td><label for={{$index}}>{{ x.key0}}</label></td>
+      <td><label for={{$index}}>{{ x.key3}}</label></td>
+      <td><label for={{$index}}>{{ x.key10}}</label></td>
+      <td><label for={{$index}}>{{ x.key5}}</label></td>
+	  <td><label for={{$index}}>{{ x.key7}}</label></td>
+      <td><label for={{$index}}>{{ x.key11}}</label></td>
+	  <td><label for={{$index}}>{{ x.key22}}</label></td>
+  </tr>
+</table>
+
+</div>
+
+<div class="cook-foot col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+ <div class="col-xs-offset-0 col-xs-12 "style="border:0px red solid;">
+ 	<h1 class="text-center" style="font-size: 140%;">第{{pageNo}}页,共{{pageSize}}页</h1>	
+ </div>
+ <div ng-if="pageSize > 1">
+	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+		<button  id="cancel" type="button" class="col-xs-offset-2 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+		<button  id="confirm" type="button" class="col-xs-offset-3 col-xs-2 image-btgr" onclick="inputFixedSubAccountDep()">确认</button>
+	</div>
+
+	<div class=" col-xs-offset-0 col-xs-6 "style="border:0px blue solid;">
+		<div class="col-xs-offset-1 col-xs-2"style="border:0px red solid;">
+			<button  type="button" class="col-xs-offset-1 col-xs-2 image-btgr"  ng-hide="Prev"ng-click="next(-1)">上一页</button>
+		</div>
+		<div class="col-xs-offset-4 col-xs-2" style="border:0px red solid;">
+			<button  type="button"  class="col-xs-offset-1 col-xs-2 image-btgr"   ng-hide="Next"    ng-click="next(1)">下一页</button>
+		</div>
+	</div>
+ </div>
+ <div ng-if="pageSize <= 1">
+	<button  id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+	<button  id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="inputFixedSubAccountDep()">确认</button>
+ </div>
+</div>
+
+
+
+
+

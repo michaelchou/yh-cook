@@ -1,0 +1,251 @@
+<style  type="text/css">
+body{
+	overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+ .ui-datepicker{
+	 width: 16em; padding: .5em .5em 0; display: none; font-size: 2em;
+}
+ .ui-datepicker-month{
+		color:blue;
+	}
+	.ui-datepicker-year{
+		color:blue;
+	}
+</style>
+
+
+
+<script language="JavaScript" type="text/JavaScript">
+$(function() {
+    $( "#startDate" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+    });
+	$( "#endDate" ).datepicker({
+    	showOtherMonths: true,//展示其他月份
+        selectOtherMonths: true,//可选其他月份
+        dateFormat: 'yymmdd',//日期格式
+        isSelMon:'true',
+        changeMonth: true,
+        changeYear: true,
+    });
+    $.datepicker.setDefaults($.datepicker.regional['zh-CN']); //中文
+    $( "#startDate" ).datepicker( "option", "showAnim", "clip" );//日期控件出现和消失的效果
+	$( "#endDate" ).datepicker( "option", "showAnim", "clip" );
+  });
+ 
+
+
+  function Show(type,x,y){
+	  try {
+  HandWrite.Show(type,1,x,y);
+	 } catch (e) {
+	 	//	alert(e);
+	 return;
+	
+	 }
+}
+function Hide(){
+
+  try {
+   HandWrite.Hide();
+ } catch (e) {
+	 //	alert(e);
+	 return;
+	 }
+}	 
+function openkeyset(type,x,y)
+{
+
+Show(type,x,y)
+  
+}
+//清除提示信息
+function destory(obj){
+$("#" + obj.id).popover('destroy');
+}
+
+
+
+function commit(){
+ Hide();
+
+ var scope = angular.element(main).scope();
+
+ 
+ var inputs = document.getElementsByTagName("input");
+ var startDateobj = inputs.item(0);
+ 
+ var endDateobj = inputs.item(1);
+
+ var startDate = startDateobj.value.replace('年','').replace('月','').replace('日','').replace(/\s+/g,'');
+ var endDate   = endDateobj.value.replace('年','').replace('月','').replace('日','').replace(/\s+/g,'');
+ 
+ var reg = "yyyyMMdd";
+ reg = reg.replace(/yyyy/, "[0-9]{4}");
+ reg = reg.replace(/MM/, "((0[1-9])|1[0-2])");
+ reg = reg.replace(/dd/, "((0[1-9])|([1-2][0-9])|30|31)");
+ reg = new RegExp("^" + reg + "$");
+ var dtVal = new Date();
+ var strYear = dtVal.getFullYear();
+ var strMonth = (dtVal.getMonth()+1).toString();
+ for (var i=strMonth.length; i<2; i++)
+     {
+    	 strMonth = '0' + strMonth;
+     }
+     var strDate = dtVal.getDate().toString();
+     for (var i=strDate.length; i<2; i++)
+     {
+    	 strDate = '0' + strDate;
+     }
+  var currentDate=strYear + strMonth +strDate;
+  
+  var strYear1 = dtVal.getFullYear()+1; 
+
+  var _Month=parseFloat(strMonth)-6
+  var strMonth1=parseFloat(strMonth)+6
+  var strYear2=parseFloat(strYear1)-1
+  
+ 
+	if(_Month>9){
+	var currentDate1=strYear.toString() + (_Month).toString() +strDate.toString();
+	}else if(0<_Month && _Month<10){
+	var currentDate1=strYear.toString() +'0'+ (_Month).toString() +strDate.toString();
+	}else if((-3)<_Month && _Month<=0){	
+	var currentDate1=strYear2.toString() + strMonth1.toString() +strDate.toString();
+	}else{
+	var currentDate1=strYear2.toString()+'0'+ strMonth1.toString() +strDate.toString();
+	}
+  
+
+  if(startDate.length<=0){
+   	$("#startDate").attr("data-content", "开始日期不能为空");
+	$("#startDate").popover('show');
+  }else if(!reg.test(startDate)){
+	$("#startDate").attr("data-content", "开始日期格式错误");
+	$("#startDate").popover('show');
+  }else if(startDate.toString() >= currentDate){
+	$("#startDate").attr("data-content", "开始日期不能大于等于当前日期");
+	$("#startDate").popover('show');
+  }else if(startDate.toString() < currentDate1.toString()){
+  	$("#startDate").attr("data-content", "开始日期不能超过最近六个月");
+	$("#startDate").popover('show');
+  }else if(endDate.length<=0){
+  	$("#endDate").attr("data-content", "结束日期不能为空");
+	$("#endDate").popover('show');
+  }else if(!reg.test(endDate)){
+	$("#endDate").attr("data-content", "结束日期格式错误");
+	$("#endDate").popover('show');
+  }else if(endDate.toString() >= currentDate){
+	$("#endDate").attr("data-content", "结束日期不能大于等于当前日期");
+	$("#endDate").popover('show');
+  }else if(endDate.toString() < currentDate1.toString()){
+	$("#endDate").attr("data-content", "结束日期不能超过最近六个月");
+	$("#endDate").popover('show');
+  }else if(endDate.toString() > startDate.toString()){
+	$("#endDate").attr("data-content", "结束日期不能超过开始日期");
+	$("#endDate").popover('show');
+  }	else{
+  
+  scope.pool["startDate"] = startDate;
+  scope.pool["endDate"] = endDate;
+
+  //scope.action("submit");
+  
+  }
+  
+  
+
+}
+
+
+</script>
+
+
+
+
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+
+
+
+
+
+ <div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">选择查询日期</h1>
+    <h3 class="text-center">Please select query date</h3>
+</div>
+  <div class="cook-head" >
+		<table  width="100%"  style="font-weight:bold;font-size:18px ;text-align:center;margin-top:2%" >
+		<td >户名：{{pool.ST_ReceiptName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账号：{{pool.ST_ReceiptAcc}}</td>
+		
+		</table>
+  </div>
+</br>
+</br>
+
+<div class="col-xs-offset-0 col-xs-12">
+	<div class="col-xs-offset-1 col-xs-2 " style="margin-top:0%;border:0px blue solid;">
+		<button id="cancel" type="button" class="  image-bt" ng-click="action('7')">近七天</button>
+	</div>
+	<div class="col-xs-offset-1 col-xs-2 " style="margin-top:0%;border:0px blue solid;">
+		<button id="cancel" type="button" class="  image-bt" ng-click="action('30')">近一个月</button>
+	</div>
+	<div class="col-xs-offset-1 col-xs-2 " style="margin-top:0%;border:0px blue solid;">
+		<button id="cancel" type="button" class="  image-bt" ng-click="action('90')">近三个月</button>
+	</div>
+	<div class="col-xs-offset-1 col-xs-2 " style="margin-top:0%;border:0px blue solid;">
+		<button id="cancel" type="button" class="  image-bt" ng-click="action('180')">近六个月</button>
+	</div>
+</div>
+<div class="col-xs-offset-0 col-xs-12">
+	
+	<div class="col-xs-offset-1 col-xs-2 " style="margin-top:4%;border:0px blue solid;" >
+		<button id="cancel" type="button" class="  image-bt" onclick="commit()">其他日期</button>
+	</div>
+	
+	
+	<div class="col-xs-offset-1 col-xs-2 " style="margin-top:6%;border:0px blue solid;">
+      <input type="text" class="form-control" placeholder="请选择开始日期" style="border:1px blue solid;box-shadow:0 0px 0px #000 inset"  id="startDate" name="startDate" value=""  
+	  data-container="body"  data-placement="right"  title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""   class="form-control"  data-html="true" maxlength="8" />
+    </div>
+	
+	<div class="col-xs-offset-1 col-xs-2 " style="margin-top:6%;border:0px blue solid;">
+      <input type="text" class="form-control" placeholder="请选择结束日期" style="border:1px blue solid;box-shadow:0 0px 0px #000 inset"  id="endDate" name="endDate" value=""  
+	  data-container="body"  data-placement="right"  title="<sp class='fg-red'>日期输入有误 </sp>" data-content=""   class="form-control"  data-html="true" maxlength="8" />
+    </div>
+	
+
+	
+</div>
+<div style="font-size: 140%;color:#F90;margin-top:20%">
+		<h1 class="text-center" style="font-size: 140%;color:#F90;">
+        	提示：本设备只支持最近六个月的回单查询及打印 ，</br>若有超过时间打印需求的，请至柜面办理
+        </h1>
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="cook-foot col-xs-offset-0 col-xs-12">
+       <button id="cancel" type="button" class="col-xs-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+   	   <button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+</div>
+
+<object classid=clsid:BB4FCD33-750A-405A-9FEE-55447EFBDB49 id="HandWrite">
+
+</object>

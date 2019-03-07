@@ -1,0 +1,72 @@
+<script src="js/admin/base.js"></script>
+<script>
+
+var data = "/admin/NewAdminCycleServlet";
+var isRunning = false;
+
+//九聚一键清卡功能
+function cmCardReader(){
+   if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+    var now = new Date();
+	var time = now.getMinutes() +now.getSeconds();
+	var month = now.getMonth()+1; month = (month)>9?month:("0"+month);
+	var day = now.getDate(); day=(day>9?day:('0'+day));
+	var hour = now.getHours(); hour=(hour>9?hour:('0'+hour));
+	var min = now.getMinutes(); min=(min>9?min:('0'+min));
+	var sec = now.getSeconds(); sec=(sec>9?sec:('0'+sec));
+	var times = now.getFullYear() + '-' + month+ '-';
+	times += day + ' ' + hour + ':';
+	times += min + ':' + sec;
+
+	$("#listview").css("display","block");
+	$("#listview").text("*******"+times+"*******\r动作：一键清理\r过程：正在执行一键清理...\r>>正在执行一键清理请稍候...\r");
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-cycle-cmcardreader-reset&time="+time,
+	    dataType: 'json',
+	    success: function(data) {
+	    	var msg= document.getElementById("listview").value;
+            if(data.retFlag ==0){//一键清卡成功
+                   $("#listview").val(msg+">>一键清卡完成"+"\n");
+            }else if(data.retFlag ==1){//一键清卡失败
+                   $("#listview").val(msg+">>一键清卡失败"+"\n");
+            }else if(data.retFlag ==2){//暂无清理的卡
+                   $("#listview").val(msg+">>暂无清理的卡"+"\n");
+            }
+            isRunning = false;
+	    }
+	});
+}
+    </script>
+</head>
+
+<h2 id="head" class="text-center">一键清卡</h2>
+<div id="content">
+  <div class="col-xs-offset-4 col-xs-4"style="border:0px #FFFFFF solid;">
+    <div  >
+      <textarea class="form-control  col-xs-12" rows="22" 
+				style="font-family: verdana; color: black; ont-size: 12px;" readonly
+				id="listview"  style="display:block">
+      </textarea>
+    </div>
+  </div>
+</div>
+<div id="foot" class="col-xs-offset-4 col-xs-4">
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button" id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button id="confirm" type="button" name="enter" class="btn btn-success btn-lg" onclick="cmCardReader()">确认</button>
+    </div>
+  </div>
+</div>
+</body></html>

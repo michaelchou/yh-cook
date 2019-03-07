@@ -1,0 +1,524 @@
+<script src="js/admin/base.js"></script>
+<script>
+var data = "/admin/NewAdminDeviceServlet";
+var isRunning = false;
+
+
+ function deviceAllRest(){
+     	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+		  $("#commit").attr("disabled",true);
+		$("#return").button('loading');
+	}
+  $("#listview").text("******* "+getTime()+" ******* ");
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-all-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText);
+	    		
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	        getAllDevice();
+	         //cardReaderRest();
+	    }
+	});
+	}
+function getAllDevice() {
+
+if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+var now = new Date();
+var time = now.getMinutes() +now.getSeconds();
+    //防止缓存加入简单的随机数
+  $.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-get-all&time="+time,
+	    dataType: 'json',
+
+	    success: function(data) {
+			var parameters = data.parameters; 
+          	var message= $("#listview").html();
+      		
+      		if(parameters.length<=0){
+      		$("#listview").append("设备出现故障，请与管理员联系");
+      		
+      		return;
+      		}else{
+      		restDervice(parameters)
+      		}
+	          
+	    }
+	});
+	isRunning = false;
+}	
+	var k = 0;
+    function restDervice(parameters){
+  
+    if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+	
+	if(k>=parameters.length||parameters[k].name=="none"){
+	  k = 0;
+	  $("#commit").attr("disabled",false);
+      $("#return").button('reset');
+      isRunning = false;
+		return;
+	} else{
+	
+	  $("#listview").append("\r\n"+"动作：设备总复位 "+(k+1)+"\r\n过程：复位"+parameters[k].name+"\r\n>>正进行"+parameters[k].name+"设备复位...\r\n");
+	 listview.scrollTop=listview.scrollHeight;
+	 $.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-check&id=" + parameters[k].id,
+	    dataType: 'json',
+
+	    success: function(data) {
+	      if((data.errorMSG).length<=0){
+    		 $("#listview").append("\r>>检测结果："+data.status+"\r\r\n");
+          }else{
+          	 $("#listview").append("\r>>检测结果："+data.status+"\r\n"+data.errorMSG.replace(/\错误/g,'\r\n错误')+"\r\n");
+                 	
+                  }
+                  
+        
+	
+     listview.scrollTop=listview.scrollHeight;
+	 isRunning = false;
+	  k++;
+	 restDervice(parameters);
+	
+	    }
+     });
+	
+	
+	
+	}
+   
+    }
+
+function cardReaderRest() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+    $("#listview").show();
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-cardreader-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText+"正在复位现金模块请稍候...");
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	        cashModelRest();
+	    }
+	});
+
+}
+
+function cashModelRest() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-cashmodel-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText+"正在复凭条打印机请稍候...");
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	       receiptPrinterRest();
+	    }
+	});
+
+}
+
+function receiptPrinterRest() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-receiptprinter-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText+"正在日志打印机请稍候...");
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	        journalPrinterRest();
+	    }
+	});
+
+}
+function journalPrinterRest() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-journalprinter-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText+"正在复位密码键盘请稍候...");
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	        pinPadRest();
+	    }
+	});
+
+}
+function pinPadRest() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-pinpad-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText+"正在复位发卡模块请稍候...");
+	  
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	       cardDispenser()
+	    }
+	});
+
+}
+//以下为新增模块
+//发卡模块
+function cardDispenser() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-cardDispenser-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    	$("#listview").html(data.messageText+"正在复位指纹仪请稍候...");
+	    	
+	    	  	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	          listview.scrollTop=listview.scrollHeight;
+	        fingerScanner();
+	       
+	    }
+	});
+
+}
+//指纹仪
+function fingerScanner() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-fingerScanner-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    	$("#listview").html(data.messageText+"正在复位条形码扫描仪请稍候...");
+	  
+	     	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	        listview.scrollTop=listview.scrollHeight;
+	    BarcodeReader();
+	    }
+	});
+
+}
+//BarcodeReader 条形码扫描仪
+function BarcodeReader() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-BarcodeReader-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText+"正在复位二代身份证读卡器请稍候...");
+	  
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	        listview.scrollTop=listview.scrollHeight;
+	         IDCardReader();
+	    }
+	});
+
+}
+
+//IDCardReader 身份证
+function IDCardReader() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-IDCardReader-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    	$("#listview").html(data.messageText+"正在复位A4打印机请稍候...");
+	  
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	        listview.scrollTop=listview.scrollHeight;
+	         DocumentPrinter();
+	    }
+	});
+
+}
+//A4打印机
+function DocumentPrinter() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-DocumentPrinter-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText+"正在复位磁条卡读卡器请稍候...");
+	  
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	        listview.scrollTop=listview.scrollHeight;
+	        TrackCardReader();
+	    }
+	});
+
+}
+//磁条读卡器
+function TrackCardReader() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-TrackCardReader-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText+"正在复位存折补登机请稍候...");
+	  
+	  
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	         listview.scrollTop=listview.scrollHeight;
+	        PassBookPrinter();
+	    }
+	});
+
+}
+//存折补登
+function PassBookPrinter() {
+	if (isRunning) {
+		return;
+	}
+	else {
+		isRunning = true;
+	}
+
+	$("#listview").show();
+
+	$.ajax({
+	    url: data,
+	    cache: false,
+	    type: "post",
+	    data: "commandID=device-PassBookPrinter-rest&time=" + getTime(),
+	    dataType: 'json',
+	    success: function(data) {
+	    	if ((data.messageText).length >= 1) {
+	    		$("#listview").html(data.messageText+">>设备总复位已完成");
+	  
+	    	}
+	    	else {
+	    		$("#listview").html(data.messageText+"\r"+new Date().toLocaleString()+"\r>>设备复位失败");
+	        }
+	        isRunning = false;
+	         listview.scrollTop=listview.scrollHeight;
+	        $("#commit").attr("disabled",false);
+	         $("#return").button('reset');
+	    }
+	});
+
+}
+    </script>
+</head>
+
+<h2 id="head" class="text-center">设备总复位</h2>
+<div id="content">
+  <div class="col-xs-offset-4 col-xs-4"style="border:0px #FFFFFF solid;">
+    <div>
+      <textarea class="form-control  col-xs-12" rows="22" 
+				style="font-family: verdana; color: black; ont-size: 12px;" readonly
+				id="listview"  style="display:block">
+      </textarea>
+    </div>
+  </div>
+</div>
+<div id="foot" class="col-xs-offset-4 col-xs-4" >
+  <div class=" btn-group btn-group-justified" >
+    <div class="btn-group" >
+      <button type="button" data-loading-text="正在复位..." id="return" class="btn btn-primary btn-lg" ng-click="action('return')">返回主页面</button>
+    </div>
+    <div class="btn-group">
+      <button  type="button" name="enter" id="commit" class="btn btn-success btn-lg" onclick="deviceAllRest()">确认</button>
+    </div>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,51 @@
+<!-- 电子银行签约业务二级菜单 -->
+<div class="container indicates">
+    <div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="col-xs-offset-1 col-xs-10 " style= "border:0px blue solid;">
+
+<div class="cook-head">
+    <h1 class="text-center">请选择服务项目</h1>
+    <h3 class="text-center">Please select services</h3>
+</div>
+</br>
+</br>
+</br>
+<div class="col-xs-offset-0 col-xs-12" style= "margin-top:0%;height:100px;border:0px red solid;">
+    <div class="col-md-3 card2" ng-if="pool.Trans_transfersign == 'active'">
+			  <img class="menu" id="AtmTransSign" src="image/sign/AtmTransSign.png" onmousedown="Mousedown(this)" ng-click="action('AtmTransSign')"/>
+	</div>
+	
+
+    <div class="col-md-3 card2" ng-if="pool.Trans_ebanksign == 'active'">
+			  <img class="menu" id="BankSign" src="image/sign/BankSign.png" onmousedown="Mousedown(this)" ng-click="action('BankSign')"/>
+	</div>
+	
+	<!-- <div class="col-md-3 card2">
+			  <img class="menu" id="MobileBankSign" src="image/sign/MobileBankSign.png" onmousedown="Mousedown(this)" ng-click="action('MobileBankSign')"/>
+	</div> -->
+
+	
+    <div class="col-md-3 card2" ng-if="pool.Ukeyflg == 'active' && pool.Trans_UBankChangeBusi == 'active'">
+			  <img class="menu" id="UBankChange" src="image/sign/UBankChange.png" onmousedown="Mousedown(this)" ng-click="action('UBankChange')"/>
+	</div>
+
+
+    <div class="col-md-3 card2" ng-if="pool.Trans_BankUBundedBusi == 'active'">
+			  <img class="menu" id="BankUBunded" src="image/sign/BankUBunded.png" onmousedown="Mousedown(this)" ng-click="action('BankUBunded')"/>
+	</div>
+
+	
+	<div class="col-md-3 card2" ng-if="pool.Ukeyflg == 'active' && pool.Trans_EBankBundBusi == 'active'">
+			  <img class="menu" id="EBankBund" src="image/sign/EBankBund.png" onmousedown="Mousedown(this)" ng-click="action('EBankBund')"/>
+	</div>
+</div>
+	
+		   <div class="cook-foot col-xs-offset-0 col-xs-12">
+    	    <button  type="button" class="col-xs-offset-4 col-xs-2 image-btor"  ng-click="action('return')">返回</button>
+    	    <button id="cancel" type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">{{pool.page_Eject}}</button>
+	       </div>		
+				
+

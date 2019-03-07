@@ -1,0 +1,339 @@
+<div class="container indicates" style="display:none">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+ 
+	<div class="div_center">
+		<div class="jiantou fg-black" id="jiantou_prev" style="margin-left:-50px;display:block"> < </div>
+		<div class="v_content">
+			<div class="v_content_list">
+				<ul>
+		<li id="" style="display:block" value="0">
+					 <div class="tile-group double">
+            <span style="color:#b5c1e2 !important;font-family:Microsoft YaHei;font-size:18px !important;"  class="tile-group-title fg-black">开卡业务</span>
+
+            <div class="tile-container">
+                <div style="background: url(image/lagre.png) !important;text-align:center;"class="tile-wide fg-white" data-role="tile" ng-click="action('apply')">
+                    <div class="tile-content iconic" style="width:150px;">
+                        <img src="image/kaika1.png" class="icon1">
+                    </div>
+                    <div style="width:150px;float:right;">
+						<span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">开卡</span>
+                    </div>
+                </div>
+
+				<div style="background: url(image/lagre.png) !important;text-align:center" class="tile-wide bg-lighterBlue fg-white" data-role="tile" ng-click="action('exchange')">
+                    <div style="width:150px;" class="tile-content iconic">
+                        <img src="image/gongyongjiaofei.png" class="icon">
+                    </div>
+					<div style="width:150px;float:right;">
+						<span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label" class="tile-label">换卡</span>
+					</div>
+				</div>		
+
+				<div style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkGreen fg-white" data-role="tile" ng-click="action('active')">
+                    <div class="tile-content iconic">
+                        <img src="image/gongyongjiaofei.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label ">账户激活</span>
+                </div>
+
+				<div style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkBlue fg-white" data-role="tile" ng-click="action('sign')">
+					<div class="tile-content iconic">
+                        <img src="image/cunzhebudeng.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">签约</span>
+                </div>
+            </div>
+        </div>
+					</li>
+								<li id="ICcard0" style="display:block" value="0">
+					 <div  class="tile-group double">
+            <span style="color:#b5c1e2 !important;font-family:Microsoft YaHei;font-size:18px !important;" class="tile-group-title fg-black">账户业务</span>
+
+               <div style="background: url(image/small.png) !important;text-align:center;" class="tile bg-lightGreen fg-white" data-role="tile" ng-click="action('INQ')">
+                    <div class="tile-content iconic">
+                        <img src="image/gongyongjiaofei.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">查询余额</span>
+                </div>
+
+				<div style="background: url(image/small.png) !important;text-align:center;" class="tile bg-lightBlue fg-white" data-role="tile" ng-click="action('dataLogQuery')">
+                    <div class="tile-content iconic">
+                        <img src="image/zhanghufuwu.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">子账号查询</span>
+                </div>		
+                	<div style="background: url(image/small.png) !important;text-align:center;" class="tile bg-lightBlue fg-white" data-role="tile" ng-click="action('INQ_DETAIL')">
+                    <div class="tile-content iconic">
+                        <img src="image/zhanghufuwu.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">明细查询</span>
+                </div>	
+
+				<div style="background: url(image/small.png) !important;text-align:center;" class="tile bg-grayLight fg-white" data-role="tile" ng-click="action('CBILL')">
+                    <div class="tile-content iconic">
+                        <img src="image/cunzhebudeng.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">账单查询</span>
+                </div>
+
+				<div style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkBlue fg-white" data-role="tile" ng-click="action('PIN')">
+					<div class="tile-content iconic">
+                        <img src="image/xinxichaxun.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">密码修改</span>
+                </div>
+
+            <div class="tile-container">
+                <div style="background: url(image/small.png) !important;text-align:center;" class="tile bg-lightRed  fg-white" data-role="tile" ng-click="action('dataSetParameter')">
+                    <div class="tile-content iconic">
+                        <img src="image/mimaxiugai.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">电子签约查询</span>
+                </div>
+            </div>
+        </div>
+					</li>
+					<li id="ICcard0" style="display:block" value="0">
+		   <div class="tile-group double">
+            <span style="color:#b5c1e2 !important;font-family:Microsoft YaHei;font-size:18px !important;" class="tile-group-title fg-black">现金及转账业务</span>
+            <div class="tile-container">
+				<div style="background: url(image/lagre.png) !important;text-align:center;" class="tile-wide bg-darkOrange fg-white" data-role="tile" ng-click="action('CWD')">
+					<div class="tile-content iconic " style="width:150px;">
+                        <img src="image/jijinyewu.png" class="icon">
+                    </div>
+					<div style="width:150px;float:right;">
+						<span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label ">取款</span>
+					</div>
+                </div>
+
+			
+
+				<div style="background: url(image/small.png) !important;text-align:center;" class="tile bg-green fg-white" data-role="tile"	ng-click="action('DEP')">
+					<div class="tile-content iconic ">
+                        <img src="image/gongyongjiaofei.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label ">存款</span>
+                </div>
+
+				<div style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkMagenta fg-white" data-role="tile" ng-click="action('TRF')">
+					<div class="tile-content iconic">
+                        <img src="image/jijinyewu.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">转账</span>
+                </div>
+				
+				<div style="background: url(image/lagre.png) !important;text-align:center;" class="tile-wide bg-cyan fg-white" data-role="tile" onclick="document.location.href=''">
+                    <div class="tile-content iconic" style="width:150px;">
+                        <img src="image/zhuanzhanghuikuan.png" class="icon">
+                    </div>
+					<div style="width:150px;float:right;">
+						<span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;"  class="tile-label">电子现金业务</span>
+					</div>
+				</div>	
+              
+
+			</div>   			
+		</div> 
+					</li>
+		
+					
+					<li id="" style="display:block" value="0">
+					 <div class="tile-group double">
+            <span style="color:#b5c1e2 !important;font-family:Microsoft YaHei;font-size:18px !important;" class="tile-group-title fg-black">无卡业务</span>
+
+            <div class="tile-container">
+              
+
+				<div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-lightBlue fg-white" data-role="tile" ng-click="action('NCDEP')">
+                    <div class="tile-content iconic">
+                        <img src="image/zhanghufuwu.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">无卡存款</span>
+                </div>		
+
+				<div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkOrange fg-white" data-role="tile" ng-click="action('NCPBKDEP')">
+                    <div class="tile-content iconic">
+                        <img src="image/cunzhebudeng.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">无折存款</span>
+                </div>
+
+				<div  style="background: url(image/lagre.png) !important;text-align:center;" class="tile-wide bg-darkBlue fg-white" data-role="tile" ng-click="action('NCCWD')">
+					<div class="tile-content iconic" style="width:150px;">
+                        <img src="image/xinxichaxun.png" class="icon">
+                    </div>
+                    <div style="width:150px;float:right;">
+                    	<span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">手机预约取款</span>
+                	</div>
+                </div>
+            </div>
+        </div>
+					</li>
+					<li id="ICcard0" style="display:block" value="0">
+		   <div class="tile-group double">
+            <span style="color:#b5c1e2 !important;font-family:Microsoft YaHei;font-size:18px !important;" class="tile-group-title fg-black">存折业务</span>
+            <div class="tile-container">
+				<div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkOrange fg-white" data-role="tile" ng-click="action('INQ_PBKTRANS')">
+                    <div class="tile-content iconic">
+                        <img src="image/dingqifuwu.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">刷折查询</span>
+                </div>	
+                <div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkOrange fg-white" data-role="tile" ng-click="action('PIN_PBKTRANS')">
+                    <div class="tile-content iconic">
+                        <img src="image/dingqifuwu.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">刷折改密</span>
+                </div>	
+
+				<div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-green fg-white" data-role="tile" ng-click="action('DEP_PBKTRANS')">
+					<div class="tile-content iconic">
+                        <img src="image/licaiyewu.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">刷折存款</span>
+                </div>
+
+				<div  style="background: url(image/small.png) !important; text-align:center;" class="tile bg-darkMagenta fg-white" data-role="tile" ng-click="action('CWD_PBKTRANS')">
+					<div class="tile-content iconic">
+                        <img src="image/jijinyewu.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">刷折取款</span>
+                </div>
+				
+				<div  style="background: url(image/lagre.png) !important;text-align:center;" class="tile-wide bg-lightBlue fg-white" data-role="tile" ng-click="action('NCPBKFILL')">
+                    <div class="tile-content iconic" style="width:150px;">
+                        <img src="image/zhuanzhanghuikuan.png" class="icon">
+                    </div>
+                    <div style="width:150px;float:right;">
+                     	<span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">补登折业务</span>
+               		</div>
+                </div>	
+
+			</div>   			
+		</div> 
+					</li>
+			<li id="ICcard0" style="display:block" value="0">
+				<div class="tile-group double">
+            <span style="color:#b5c1e2 !important;font-family:Microsoft YaHei;font-size:18px !important;" class="tile-group-title fg-black">代缴费业务</span>
+            <div class="tile-container">	
+				<div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-green fg-white" data-role="tile" ng-click="action('cycleVoucherLoadIn')">
+					<div class="tile-content iconic">
+                        <img src="image/gongjijinchaxun.png" class="icon">
+                    </div>
+						<span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">电力缴费</span>
+				</div>
+
+				<div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkBlue fg-white" data-role="tile" ng-click="action('cycleVoucherLoadOut')">
+					<div class="tile-content iconic">
+                        <img src="image/gongyongjiaofei.png" class="icon">
+                    </div>
+					<span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">燃气缴费</span>
+				</div>
+				
+  			<div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkIndigo fg-white" data-role="tile" onclick="document.location.href=''">
+                    <div class="tile-content iconic">
+                        <img src="image/mimaxiugai.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">水费缴费</span>
+                </div>
+
+               <div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkBlue fg-white" data-role="tile" onclick="document.location.href=''">
+                    <div class="tile-content iconic">
+                        <img src="image/zhanghuchaxun.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">电信缴费</span>
+                </div>
+       
+     <div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-green fg-white" data-role="tile" onclick="document.location.href=''">
+					<div class="tile-content iconic">
+                        <img src="image/licaiyewu.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">有线电视缴费</span>
+                </div>
+
+				<div  style="background: url(image/small.png) !important;text-align:center;" class="tile bg-darkMagenta fg-white" data-role="tile" onclick="document.location.href=''">
+					<div class="tile-content iconic">
+                        <img src="image/jijinyewu.png" class="icon">
+                    </div>
+                    <span style="position:relative !important;bottom:-125px;font-family:Microsoft YaHei;font-size:14px !important;left:0px !important;" class="tile-label">烟草缴费</span>
+                </div>
+     
+           </div> 
+					</li>
+
+			
+
+				</ul>
+			</div>
+		</div>
+	 	<div class="jiantou fg-black" id="jiantou_next" style="display:block" > > </div>
+	</div>
+
+ <script type="text/javascript">
+   
+       $(function(){
+        var page = 1;
+			var i = 3; //每版放3个图片
+			
+			var len=$("div.v_content_list").find("li").length;
+			var page_count = Math.ceil(len / i) ;
+			//alert(len);
+			$("div.v_content_list").width(page_count*2000);
+			//向后 按钮
+			$("#jiantou_next").click(function(){    //绑定click事件
+				 var $parent = $(this).parents("div.div_center");//根据当前点击元素获取到父元素
+				 var $v_show = $parent.find("div.v_content_list"); //寻找到“图片内容展示区域”
+				 var $v_content = $parent.find("div.v_content"); //寻找到“图片内容展示区域”外围的DIV元素
+				 var v_width = $v_content.width()+ 95 ;
+				 //var len = $v_show.find("li").length;
+				 //var page_count = Math.ceil(len / i) ;   //只要不是整数，就往大的方向取最小的整数
+				 if( !$v_show.is(":animated") ){    //判断“图片内容展示区域”是否正在处于动画
+					  if( page == page_count ){  //已经到最后一个版面了,如果再向后，必须跳转到第一个版面。
+						$v_show.animate({ left : '-95px'}, "slow"); //通过改变left值，跳转到第一个版面
+						page = 1;
+						}else{
+						$v_show.animate({ left : '-='+v_width }, "slow");  //通过改变left值，达到每次换一个版面
+						page++;
+					 }
+				 }
+				 //$parent.find("span").eq((page-1)).addClass("current").siblings().removeClass("current");
+		   });
+			//往前 按钮
+			$("#jiantou_prev").click(function(){
+			
+				 var $parent = $(this).parents("div.div_center");//根据当前点击元素获取到父元素
+				 var $v_show = $parent.find("div.v_content_list"); //寻找到“图片内容展示区域”
+				 var $v_content = $parent.find("div.v_content"); //寻找到“图片内容展示区域”外围的DIV元素
+				 var v_width = $v_content.width()+ 95;
+				 //var len = $v_show.find("li").length;
+				 //var page_count = Math.ceil(len / i) ;   //只要不是整数，就往大的方向取最小的整数
+				 if( !$v_show.is(":animated") ){    //判断“图片内容展示区域”是否正在处于动画
+					 if( page == 1 ){  //已经到第一个版面了,如果再向前，必须跳转到最后一个版面。
+						$v_show.animate({ left : '-='+v_width*(page_count-1) }, "slow");
+						page = page_count;
+					}else{
+						$v_show.animate({ left : '+='+v_width }, "slow");
+						page--;
+					}
+				}
+				//$parent.find("span").eq((page-1)).addClass("current").siblings().removeClass("current");
+			});
+			
+		});
+	   </script>	
+	       <link rel="stylesheet" href="bower_components/metro/build/css/metro.min.css">
+    <link rel="stylesheet" href="bower_components/metro/build/css/metro-icons.min.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/Buttons/css/buttons.min.css">
+    <link rel="stylesheet" href="css/bootstrap-nav-wizard.css">
+ <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/main.css"/>
+    
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/metro/build/js/metro.min.js"></script>
+	   

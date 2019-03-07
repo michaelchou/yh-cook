@@ -1,0 +1,109 @@
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+document.getElementById("MUSIC1").src = "wav/输入有误，请重新输入.wav";
+	document.getElementById("amount").focus();
+var scope = angular.element(main).scope();
+
+
+scope.$watch('pool.AccountAmount', function(){
+	if(undefined!=scope.pool["AccountAmount"]){
+		document.getElementById("amount").value=scope.pool["AccountAmount"].trim();
+	 }
+
+});	
+
+	
+function subscription() {
+		var regAmount = /0+/; //11位号码必须非0开头
+		
+		var checkbox=document.getElementById("checkbox");
+		
+		var amount=document.getElementById("amount");
+        //var scope = angular.element(main).scope();
+        var error = "";
+		var leftAmount=parseFloat(scope.pool["AccountAmount"])-parseFloat(amount.value);
+        if (amount.value.length <= 0||regAmount.test(amount.value)) {
+            error = "转出金额不能为空也不能为0";
+            $("#" + amount.id).attr("data-content", error);
+            $("#" + amount.id).popover('show');
+            scope.timeout = scope._timeout;
+        }else if (leftAmount < scope.pool["minTransAmount"]&&leftAmount>0) {
+            error = "部分提取时，账户剩余金额不能少于账户最低累计金额"+scope.pool["minTransAmount"]+"元";
+            $("#" + amount.id).attr("data-content", error);
+            $("#" + amount.id).popover('show');
+            scope.timeout = scope._timeout;
+        } else if (leftAmount<0) {
+            error = "转出金额不能超过账户现有金额";
+            $("#" + amount.id).attr("data-content", error);
+            $("#" + amount.id).popover('show');
+            scope.timeout = scope._timeout;
+        } else {
+			scope.closeHandWriter();
+			scope.pool["transAmount"]=parseFloat(amount.value);
+            scope.action("confirm");
+        }
+	
+		
+    }
+	
+	
+	
+</script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">金额输入有误,请输入转入金额</h1>
+    <h3 class="text-center">Input error, Please input transfer amount and press enter</h3>
+    
+</div>
+
+<div class="step1">
+	<form class="navbar-form" role="search" >
+        <div class="col-xs-offset-0 col-xs-12">
+            <div class="input-group input-group-lg button-navbor1">
+                <input type="text" class="form-control" 
+                onkeyup="checkInput(id, '^(?!(0[0-9]{1,2}$))[0-9]{1,7}[.]{0,1}[0-9]{0,2}$')" 
+                    id="amount" value="" onblur="this.focus()" ng-model="pool.transAmount" maxlength="22"
+                    data-container="body"  data-placement="left"  title="<sp class='fg-red'>交易金额输入有误</sp>" data-content="" data-html="true">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="clear()">清  除</button>
+                </span>
+            </div>
+        </div>
+	</form>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="step">
+    <div style="margin-top:5%; border:0px blue solid;">
+        <h1 class="text-center" style="font-size: 140%;color:#F90;">当前账户剩余金额：{{pool.AccountAmount}} 元</h1>
+    </div>
+</div>
+
+
+<div class="step">
+    <div style="margin-top:5%; border:0px blue solid;">
+        <h1 class="text-center" style="font-size: 140%;color:#F90;">{{pool.msg_TFCoutAmount}}</h1>
+    </div>
+</div>
+</div>
+<div class="cook-foot col-xs-offset-0 col-xs-12" style="text-align: center;">
+    	<button id="cancel" type="button" class="col-xs-offset-3 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+    <button type="button" class="col-xs-offset-1 col-xs-2 image-bt" ng-click="action('eject')">退卡</button>
+    <button id="confirm" type="button" class="col-xs-offset-1 col-xs-2 image-btgr" onclick="subscription()">确认</button>
+  </div>

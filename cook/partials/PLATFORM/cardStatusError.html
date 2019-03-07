@@ -1,0 +1,15 @@
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+    <span class="">{{timeout}}</span>
+    </div>
+</div>
+<div class="container step col-xs-offset-0 col-xs-12">
+	<h1 ng-if="pool.ST_CrdStatus=='0'" class="text-center">待领卡,交易取消</h1>
+	<h1 ng-if="pool.ST_CrdStatus=='1'" class="text-center">待改密,交易取消</h1>
+	<h1 ng-if="pool.ST_CrdStatus=='3'" class="text-center">销户卡,交易取消</h1>
+	<h1 ng-if="pool.ST_CrdStatus=='4'" class="text-center">没收卡,交易取消</h1>
+	<h1 ng-if="pool.ST_CrdStatus=='5'" class="text-center">冻结卡,交易取消</h1>
+	<h1 ng-if="pool.ST_CrdStatus !='0' && pool.ST_CrdStatus !='1' &&pool.ST_CrdStatus !='3' &&pool.ST_CrdStatus !='4' &&pool.ST_CrdStatus !='5' " class="text-center">卡状态异常,交易取消</h1>
+    <h3 class="text-center">Equipment failure , transaction cancelled</h3>
+</div>
+ 

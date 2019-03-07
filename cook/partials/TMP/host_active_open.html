@@ -1,0 +1,20 @@
+<script type="text/javascript">
+document.getElementById("MUSIC1").src = "wav/SystemProcessing.wav";
+</script>
+<div class="container apply">
+<div class="row">
+    <div class="div_left col-lg-3">
+        <ng-include src="'partials/card_left.html'"></ng-include>
+    </div>
+    <div class="div_right col-lg-9">
+        <div class="indicates">
+        <span class="timeout pull-right">{{timeout}}</span>
+            <h1>卡激活交易正在处理，请稍候...</h1>
+    	</div>
+
+    	<div class="step">
+             <i style="color:#000000" class="fa fa-spinner fa-spin fa-5x text-primary" ></i>
+    	</div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,63 @@
+<!-- 代缴费类型选择界面 -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<div class="container indicates">
+	<div class="timeout pull-right"  style="width:200px;height:100px;background:url(image/倒计时.png)no-repeat center; text-align:center;line-height:380%;color:f00;font-size:200%" >
+	<span class="">{{timeout}}<span>
+	</div>
+</div>
+
+<div class="col-xs-offset-1 col-xs-10" style= "border:0px blue solid;">
+<div class="cook-head">
+    <h1 class="text-center">请选择服务项目</h1>
+    <h3 class="text-center">Please select services</h3>
+</div>
+
+	<div>
+	<div class="col-xs-offset-2 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="waterPay" src="image/agent/水费.png" class="center" tag=" {{pool.AWF}}" ng-click="action('AWF')"/>
+	</div>
+	<div class="col-xs-offset-1 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="electricPay" src="image/agent/电费.png" class="center" tag=" {{pool.AEF}}" ng-click="action('AEF')"/>
+	</div>
+	<div class="col-xs-offset-1 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="gasPay" src="image/agent/燃气费.png" class="center"  tag=" {{pool.AGF}}"ng-click="action('AGF')"/>
+	</div>
+	</div>
+	
+	
+	<div>
+	<div class="col-xs-offset-2 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="tvPay" src="image/agent/有线电视费.png" class="center"  tag=" {{pool.TVF}}"ng-click="action('TVF')"/>
+	</div>
+	<div class="col-xs-offset-1 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="telecomPay" src="image/agent/固定电话费.png" class="center" tag=" {{pool.ADF}}" ng-click="action('ADF')"/>
+	</div>
+	<div class="col-xs-offset-1 col-lg-2 " style="margin-top:2%;border:0px blue solid;">
+			  <img id="phonePay" src="image/agent/移动电话费.png" class="center"  tag=" {{pool.AYF}}"ng-click="action('AYF')"/>
+	</div>
+	</div>
+	
+	</div>
+</br>	
+	 <div class="cook-foot col-xs-offset-0 col-xs-12" style="border:0px red solid;">
+        <button type="button" class="col-sm-offset-4 col-xs-2 image-btor" ng-click="action('return')">返回</button>
+        <button id="cancel" type="button" class="col-sm-offset-1  col-xs-2 image-bt" ng-click="action('eject')">退出</button>
+    </div>
+
+        <!-- Modal -->
+   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class=" col-xs-offset-3 col-lg-6 alert alert-danger fade in" style="top:300px">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel"  style="text-align: center;">对不起，暂不支持该交易！</h4>
+        </div>
+        <p>
+          <button type="button" class="btn btn-danger col-xs-offset-4 col-lg-4" data-dismiss="modal">确认</button>
+        </p>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
